@@ -1,0 +1,91 @@
+import React from 'react';
+import {AppBar, Hidden} from '@material-ui/core';
+import Icon from '@icatalyst/components/Icon';
+import PropTypes from 'prop-types';
+import FuseScrollbars from '@icatalyst/components/fuse/FuseScrollbars';
+import clsx from 'clsx';
+import Logo from '@icatalyst/components/Logo';
+import NavbarMobileToggleButton from './NavbarMobileToggleButton';
+import NavbarFoldedToggleButton from './NavbarFoldedToggleButton';
+import UserNavbarHeader from '../Headers/UserNavbarHeader';
+import NavbarFooter from '../FooterLayouts/NavbarFooter';
+import Navigation from '../Navigation/Navigation';
+import {useSelector} from 'react-redux';
+
+import {makeStyles} from '@material-ui/styles';
+
+const useStyles = makeStyles((theme)=>({
+  content: {
+    flex: 1,
+    overflowX                   : 'hidden',
+    overflowY                   : 'auto',
+    '-webkit-overflow-scrolling': 'touch',
+    background                  : 'linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)',
+    backgroundRepeat            : 'no-repeat',
+    backgroundSize              : '100% 40px, 100% 10px',
+    backgroundAttachment        : 'local, scroll',
+  },
+  mobileToggleIcon : {
+    color: theme.palette.primary.light
+  },
+  userHeader : {
+  },
+  navigation : {
+    paddingTop: theme.spacing(3)
+  }
+}));
+
+function NavbarLayout(props)
+{
+  const layout = useSelector(({app}) => app.settings.current.layout);
+  const {position} = layout.navbar;
+
+  const classes = useStyles(props);
+
+  return (
+    <div className={clsx('flex flex-col overflow-hidden h-full', props.className)}>
+
+      <AppBar
+        color="primary"
+        position="static"
+        elevation={0}
+        className="nav-header flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12"
+      >
+
+        <div className="flex flex-1 pr-8">
+          <Logo/>
+        </div>
+
+        <Hidden mdDown>
+          <NavbarFoldedToggleButton className="w-40 h-40 p-0"/>
+        </Hidden>
+
+        <Hidden lgUp>
+          <NavbarMobileToggleButton className={clsx('w-40 h-40 p-0')}>
+            <Icon className={clsx(classes.mobileToggleIcon)}>
+              {position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left'}
+            </Icon>
+          </NavbarMobileToggleButton>
+        </Hidden>
+
+      </AppBar>
+
+      <FuseScrollbars className={clsx(classes.content)} options={{
+        suppressScrollX : true
+      }}>
+        <UserNavbarHeader className={clsx(classes.userHeader)}/>
+
+        <Navigation layout="vertical" className={clsx(classes.navigation)}/>
+
+      </FuseScrollbars>
+
+      <NavbarFooter/>
+    </div>
+  );
+}
+
+NavbarLayout.propTypes = {
+  className : PropTypes.string
+};
+
+export default NavbarLayout;
