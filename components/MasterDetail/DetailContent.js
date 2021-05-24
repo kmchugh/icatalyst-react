@@ -12,6 +12,8 @@ import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import MasterDetailPage from './index';
 import {FuseAnimateGroup} from '../fuse';
+import PageBase from '../../pages/PageBase';
+import IconButton from '../IconButton';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -26,6 +28,12 @@ const useStyles = makeStyles((theme) => {
       height: theme.spacing(9),
       flexShrink: 0,
       background: theme.palette.secondary.main,
+      display: 'flex',
+      alignItems: 'center'
+    },
+    backButton: {
+      marginLeft : theme.spacing(1),
+      marginRight : theme.spacing(1),
     },
     tabBar : {
       height: theme.spacing(9),
@@ -78,7 +86,9 @@ const DetailContent = ({
   onChange,
   match,
   history,
-  auth
+  auth,
+  config,
+  backUrl
 })=>{
   const classes = useStyles();
 
@@ -136,6 +146,18 @@ const DetailContent = ({
   return (
     <div className={clsx(classes.root)}>
       <div className={clsx(classes.toolbarWrapper)}>
+        {
+          // If the mode is chromeless then we need a way to get back
+          config.mode === 'chromeless' && (
+            <IconButton className={clsx(classes.backButton)}
+              onClick={()=>{
+                history.push(backUrl);
+              }}
+              icon={theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
+              title="back"
+            />
+          )
+        }
         {
           tabs && (
             <Tabs
@@ -295,6 +317,7 @@ DetailContent.propTypes = {
   match : PropTypes.object,
   location : PropTypes.object,
   history : PropTypes.object,
+  backUrl :PropTypes.string,
   auth : PropTypes.shape({
     create : PropTypes.bool,
     retrieve : PropTypes.bool,
@@ -302,7 +325,8 @@ DetailContent.propTypes = {
     delete : PropTypes.bool,
     retrieveAll : PropTypes.bool,
     route : PropTypes.bool,
-  })
+  }),
+  config : PageBase.propTypes.config
 };
 
 

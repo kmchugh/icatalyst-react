@@ -124,6 +124,12 @@ const MasterDetailPage = ({
     location.pathname.replace(match.path, '').split('/')[1]
   ])();
 
+  const config = {
+    mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
+    headerHeight: headerHeight,
+    footerHeight: 64
+  };
+
   const content = useCallback(()=>{
     return (
       <Switch key={location.pathname} location={location}>
@@ -136,6 +142,8 @@ const MasterDetailPage = ({
               definition={definition}
               contained={contained}
               auth={auth}
+              config={config}
+              backUrl={match.path}
               entity={reducer.entity_map[detailMatch.params.id]}/>
           ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
         }}/>
@@ -149,6 +157,7 @@ const MasterDetailPage = ({
               definition={definition}
               data={data}
               auth={auth}
+              config={config}
               updating={updating}
               onRefresh={()=>{
                 loadEntities();
@@ -170,11 +179,7 @@ const MasterDetailPage = ({
   return (
     <SearchFilterProvider>
       <PageBase
-        config={{
-          mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
-          headerHeight: headerHeight,
-          footerHeight: 64
-        }}
+        config={config}
         header={header}
       >
 

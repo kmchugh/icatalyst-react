@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import {DataTable} from '../Tables';
 import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
+import PageBase from '../../pages/PageBase';
 
 const MasterContent = ({
   definition,
@@ -47,7 +48,8 @@ MasterContent.propTypes = {
     retrieveAll : PropTypes.bool,
     update : PropTypes.bool,
     delete : PropTypes.bool
-  })
+  }),
+  config : PageBase.propTypes.config
 };
 
 export default React.memo(withRouter(MasterContent));
