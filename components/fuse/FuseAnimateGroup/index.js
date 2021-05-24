@@ -21,12 +21,15 @@ const leaveAnimationDefaults = {
 };
 
 function FuseAnimateGroup(props) {
+  const {children, ...rest} = props;
   return (
     <VelocityTransitionGroup
-      {...props}
+      {...rest}
       enter={{ ...enterAnimationDefaults, ...props.enter }}
       leave={{ ...leaveAnimationDefaults, ...props.leave }}
-    />
+    >
+      {children}
+    </VelocityTransitionGroup>
   );
 }
 

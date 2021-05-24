@@ -161,7 +161,7 @@ const MasterDetailPage = ({
     detailID,
     reducer,
     updating
-  ])();
+  ]);
 
   return (
     <SearchFilterProvider>
@@ -197,7 +197,7 @@ const MasterDetailPage = ({
 
           {
             // Only show the content if there are no errors
-            (!errors || errors.length === 0) && content
+            (!errors || errors.length === 0) && content()
           }
 
         </FuseAnimateGroup>
