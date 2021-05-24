@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
       '& $centerColumn' : {
         margin: 0,
         padding: 0,
+      },
+      '& $rowBg' : {
+        display: 'none'
       }
     },
 

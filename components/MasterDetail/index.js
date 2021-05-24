@@ -18,6 +18,8 @@ import DetailContent from './DetailContent';
 import MasterContent from './MasterContent';
 import SearchFilterProvider from '../Tables/SearchFilterProvider';
 
+const pageConfigKey = 'masterdetail';
+
 const MasterDetailPage = ({
   match,
   location,
@@ -44,6 +46,8 @@ const MasterDetailPage = ({
   } } = definition;
 
   const reducer = useSelector(getReducerRoot);
+  const {pages} = useSelector(({app}) => app.settings.current.layout);
+
   const data = (reducer && reducer.entities) || [];
   const auth = useCallback(()=>{
     return Object.keys(definition.auth).reduce((acc, key)=>{
@@ -167,7 +171,7 @@ const MasterDetailPage = ({
     <SearchFilterProvider>
       <PageBase
         config={{
-          mode : contained ? 'chromeless' : 'cardedInside',
+          mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
           headerHeight: headerHeight,
           footerHeight: 64
         }}

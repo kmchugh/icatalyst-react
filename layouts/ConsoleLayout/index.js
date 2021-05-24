@@ -318,6 +318,12 @@ export const layoutDefaults = {
   shortcuts : {
     display : false
   },
+  pages : {
+    defaults : {
+      mode : 'cardedInside',
+    },
+    // Override individual page styles here using the configKey defined for each page
+  },
   // Entity View definition for generating edit layout
   definition : {
     mode: {
