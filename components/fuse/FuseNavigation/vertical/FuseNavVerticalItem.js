@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   item: {
     '&.active'                 : {
       backgroundColor            : theme.palette.secondary.main,
-      color                      : theme.palette.secondary.contrastText + '!important',
+      color                      : `${theme.palette.primary.main}!important`,
       pointerEvents              : 'none',
       transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
       '& .list-item-text-primary': {

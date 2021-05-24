@@ -11,6 +11,7 @@ import UserNavbarHeader from '../Headers/UserNavbarHeader';
 import NavbarFooter from '../FooterLayouts/NavbarFooter';
 import Navigation from '../Navigation/Navigation';
 import {useSelector} from 'react-redux';
+import {useTheme} from '@material-ui/styles';
 
 import {makeStyles} from '@material-ui/styles';
 
@@ -39,6 +40,7 @@ function NavbarLayout(props)
 {
   const layout = useSelector(({app}) => app.settings.current.layout);
   const {position} = layout.navbar;
+  const theme = useTheme();
 
   const classes = useStyles(props);
 
@@ -62,7 +64,9 @@ function NavbarLayout(props)
 
         <Hidden lgUp>
           <NavbarMobileToggleButton className={clsx('w-40 h-40 p-0')}>
-            <Icon className={clsx(classes.mobileToggleIcon)}>
+            <Icon className={clsx(classes.mobileToggleIcon)} style={{
+              color : theme.palette.primary.contrastText
+            }}>
               {position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left'}
             </Icon>
           </NavbarMobileToggleButton>

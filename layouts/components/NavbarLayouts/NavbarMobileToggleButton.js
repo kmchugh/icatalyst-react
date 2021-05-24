@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme)=>{
     root: {
     },
     icon : {
-      color: theme.palette.secondary.main
+      color: theme.palette.secondary.contrastText
     }
   };
 });

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme)=>{
     root: {
     },
     icon : {
-      color: theme.palette.primary.light
+      color: theme.palette.primary.contrastText
     }
   };
 });
