@@ -1,12 +1,12 @@
 import React from 'react';
-import {IconButton} from '@material-ui/core';
-import Icon from '@icatalyst/components/Icon';
+import IconButton from '@icatalyst/components/IconButton';
 import _ from '@lodash';
 import * as Actions from 'app/store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
+import {useTheme} from '@material-ui/styles';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -20,10 +20,12 @@ const useStyles = makeStyles((theme)=>{
 
 
 function NavbarFoldedToggleButton(props) {
-  const {children, className} = props;
+  const {className} = props;
   const dispatch = useDispatch();
   const layout = useSelector(({app}) => app.settings.current.layout);
   const {position} = layout.navbar;
+
+  const theme = useTheme();
 
   const classes = useStyles(props);
 
@@ -33,15 +35,12 @@ function NavbarFoldedToggleButton(props) {
       onClick={() => {
         dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', !layout.navbar.folded)));
       }}
-      color="inherit"
-    >
-      {
-        children || (
-          <Icon className={clsx(classes.icon, className)}>
-            {layout.navbar.folded ? 'fa thumbtack' : (position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left')}
-          </Icon>)
-      }
-    </IconButton>
+      style={{
+        color : theme.palette.primary.contrastText
+      }}
+      icon={layout.navbar.folded ? 'fa thumbtack' : (position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left')}
+      title={layout.navbar.folded ? 'Pin' : 'Collapse'}
+    />
   );
 }
 
