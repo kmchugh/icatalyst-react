@@ -15,6 +15,11 @@ const definition = createModel({
   },
   fields : [
     {
+      id: 'guid',
+      readonly : true,
+      label : 'Role Identifier'
+    },
+    {
       id: 'name',
       required: true,
       minLength: 4,
@@ -62,6 +67,7 @@ const definition = createModel({
     roleMembers
   ],
   layout : [
+    'guid',
     [
       'name',
       'code',

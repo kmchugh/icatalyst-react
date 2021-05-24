@@ -33,8 +33,9 @@ function makeReducerRequest(config, successAction, failureAction, callback){
         }
       })
       .catch((err)=>{
-        let error = (err.response && err.response.data) ||
-          (err.response || err);
+        let error = (err.response && err.response.data && err.response.data.errors) ?
+          err.response.data : (err.response || err);
+
         error = error.errors || {
           errors : [`${error.status} - ${error.statusText}`]
         };
@@ -63,7 +64,7 @@ function makeReducerRequest(config, successAction, failureAction, callback){
 
 function createURI(path, params = {}) {
   if (!path) {
-    throw new Error('invalid path configuration');
+    throw new Error(`invalid path configuration for ${path}`);
   }
   // Update the path parameters
   let uri = path.replace(/\/:(\w+)/g, function(match, paramKey) {

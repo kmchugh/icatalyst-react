@@ -1,4 +1,4 @@
-import * as Actions from '../actions/roles.actions';
+import * as Actions from '../actions/users.actions';
 import {createModel, generateReducer, generateUUID} from '../../../../utilities';
 
 const definition = createModel({

@@ -33,6 +33,8 @@ class SingularityService {
     session : 'api/session',
 
     token : 'token',
+
+    users : 'api/users',
     version : 'version',
 
   // client_refresh : 'token/refresh',
