@@ -64,7 +64,7 @@ function makeReducerRequest(config, successAction, failureAction, callback){
 
 function createURI(path, params = {}) {
   if (!path) {
-    throw new Error(`invalid path configuration for ${path}`);
+    throw new Error('invalid path configuration for uri service');
   }
   // Update the path parameters
   let uri = path.replace(/\/:(\w+)/g, function(match, paramKey) {

@@ -27,6 +27,8 @@ class SingularityService {
     authorize : 'authorize',
 
     client : 'api/client',
+
+    invites : 'api/invites',
     profile : 'api/profile',
     role_membership : 'api/roles/:roleid/members',
     roles : 'api/roles',

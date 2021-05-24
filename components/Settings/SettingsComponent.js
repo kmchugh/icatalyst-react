@@ -151,7 +151,7 @@ function SettingsComponent(){
                         </Button>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
-                          color="secondary"
+                          color="inherit"
                           disabled={!canBeSubmitted}
                           onClick={resetAll(settingsContext, name)}
                         >
@@ -160,7 +160,7 @@ function SettingsComponent(){
                         </Button>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
-                          color="secondary"
+                          color="inherit"
                           disabled={!canBeSubmitted}
                           onClick={reset(settingsContext, name)}
                         >
