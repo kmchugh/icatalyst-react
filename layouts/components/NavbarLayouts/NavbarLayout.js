@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme)=>({
     backgroundAttachment        : 'local, scroll',
   },
   mobileToggleIcon : {
-    color: theme.palette.primary.light
+    color: theme.palette.primary.contrastText
   },
   userHeader : {
   },

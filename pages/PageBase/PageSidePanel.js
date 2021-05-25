@@ -189,7 +189,10 @@ export const PageSidePanel = ({
 };
 
 PageSidePanel.propTypes={
-  className : PropTypes.string,
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   children : PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

@@ -57,7 +57,7 @@ export function createColor(color){
     main : variants['500'],
     light : variants['200'],
     dark : variants['700'],
-    compliment : tc.clone().spin(180).toHexString(),
+    compliment : tc.clone().mix(tc.clone().spin(180), 80).toHexString(),
     contrastText : mostReadable(tc, ['#fff', '#000'], {}).toHexString(),
     variants
   };
