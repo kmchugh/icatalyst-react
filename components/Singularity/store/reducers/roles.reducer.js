@@ -80,8 +80,8 @@ const definition = createModel({
       'accessrole'
     ]
   ],
-  getReducerRoot: ({app})=>{
-    return app.singularity.roles;
+  getReducerRoot: ({icatalyst})=>{
+    return icatalyst.singularity.roles;
   },
   ...Actions
 });

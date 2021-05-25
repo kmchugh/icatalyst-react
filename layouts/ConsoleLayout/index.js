@@ -106,7 +106,7 @@ ContentWrapper.propTypes = {
 
 function ScrollWrapper({children, scrollType, config, className}) {
   const {scroll} = config;
-  const themes = useSelector(({app}) => app.settings.current.themes);
+  const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
   return scroll === scrollType ? (
     <>
@@ -180,8 +180,8 @@ function Layout(props) {
   const appContext = useContext(AppContext);
   const { routes } = appContext;
 
-  const config = useSelector(({app}) => app.settings.current.layout);
-  const themes = useSelector(({app}) => app.settings.current.themes);
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+  const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
   const {
     scroll

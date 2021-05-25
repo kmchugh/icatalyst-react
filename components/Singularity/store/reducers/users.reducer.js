@@ -25,8 +25,8 @@ const definition = createModel({
     }
   ],
 
-  getReducerRoot: ({app})=>{
-    return app.singularity.users;
+  getReducerRoot: ({icatalyst})=>{
+    return icatalyst.singularity.users;
   },
   ...Actions
 });

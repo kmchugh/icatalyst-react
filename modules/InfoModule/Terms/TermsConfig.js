@@ -9,9 +9,8 @@ export default createRouteConfig({
   title: 'Terms and Conditions',
   component : VersionScreen,
   visible : ()=>{
-    const {client} = useSelector(({app})=>{
-      return app.singularity.client;
-    });
+    const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
+
     return !!(client && client.termsuri);
   }
 });

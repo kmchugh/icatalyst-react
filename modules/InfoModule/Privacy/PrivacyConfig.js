@@ -9,15 +9,13 @@ export default createRouteConfig({
   name: 'privacy',
   title: 'Privacy Policy',
   component(){
-    const {client} = useSelector(({app})=>{
-      return app.singularity.client;
-    });
+    const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
+
     return (<WebView uri={client && client.privacyuri}/>);
   },
   visible : ()=>{
-    const {client} = useSelector(({app})=>{
-      return app.singularity.client;
-    });
+    const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
+    
     return !!(client && client.privacyuri);
   }
 });

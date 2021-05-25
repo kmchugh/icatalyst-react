@@ -42,7 +42,7 @@ function Footer()
 {
   const classes = useStyles();
 
-  const config = useSelector(({app}) => app.settings.current.layout);
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   return (
     <AppBar id="nav-footer" className={clsx(classes.root, 'relative',  'z-10')} color="default">

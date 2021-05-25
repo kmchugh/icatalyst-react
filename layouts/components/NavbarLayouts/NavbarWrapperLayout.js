@@ -156,9 +156,9 @@ function NavbarWrapper()
 {
   const dispatch = useDispatch();
 
-  const config = useSelector(({app}) => app.settings.current.layout);
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
-  const navbar = useSelector(({app}) => app.navbar);
+  const navbar = useSelector(({icatalyst}) => icatalyst.navbar);
 
   const folded = config.navbar.folded;
   const foldedAndClosed = folded && !navbar.foldedOpen;

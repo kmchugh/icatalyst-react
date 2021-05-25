@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme)=>({
 
 function NavbarLayout(props)
 {
-  const layout = useSelector(({app}) => app.settings.current.layout);
+  const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
   const theme = useTheme();
 

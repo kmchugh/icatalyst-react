@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
 function ToolbarComponent(props)
 {
 
-  const config = useSelector(({app}) => app.settings.current.layout);
-  
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+
   const classes = useStyles(props);
 
   return (

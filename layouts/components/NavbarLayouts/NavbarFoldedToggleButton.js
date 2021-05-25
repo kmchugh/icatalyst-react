@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme)=>{
 function NavbarFoldedToggleButton(props) {
   const {className} = props;
   const dispatch = useDispatch();
-  const layout = useSelector(({app}) => app.settings.current.layout);
+  const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
 
   const theme = useTheme();

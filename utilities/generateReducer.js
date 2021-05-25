@@ -22,7 +22,7 @@ const baseState = {
 
 
 const parseErrors = (errors)=>{
-  console.log(errors);
+  console.error(errors);
   // TODO: complete
   return ['ERRORS'];
 };
@@ -224,6 +224,13 @@ const getReducerFn = (definition, type)=>{
  */
 export function generateReducer(definition, {actions},
   initialState={}, customActions) {
+
+  if (!definition) {
+    console.error('definition not set when generating reducer');
+  }
+  if (!actions) {
+    console.error(`actions not generated correctly for model: ${definition.name}`);
+  }
 
   // If any entities are set as the initial then assume loaded
   if (initialState.entities) {

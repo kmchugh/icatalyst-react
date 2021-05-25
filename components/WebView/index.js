@@ -32,10 +32,8 @@ const WebView = ({
   const [loaded, setLoaded] = useState(false);
 
   // Import the layout so we know if we need to pad based on the nav menu
-  const layoutConfig = useSelector(({app})=>{
-    return app.settings.current;
-  });
-
+  const layoutConfig = useSelector(({icatalyst})=>(icatalyst.settings.current));
+  
   const padding = layoutConfig.layout.navbar.folded ?
     0 :
     layoutConfig.layout.navbar.width;

@@ -58,7 +58,7 @@ function SessionPanel() {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const settings = useSelector(({app}) => app.settings.userSettingsView);
+  const settings = useSelector(({icatalyst}) => icatalyst.settings.userSettingsView);
   const {open} = settings;
 
   const handlerOptions = {

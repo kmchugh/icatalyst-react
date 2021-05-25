@@ -11,7 +11,10 @@ export function getInitialNavigation() {
 }
 
 export function setInitialNavigation(navigation){
-  initialNavigation = [...navigation];
+  if (!navigation) {
+    console.warn('Initial navigation is not set correctly');
+  }
+  initialNavigation = navigation && [...navigation];
 }
 
 export function getNavigation()
@@ -69,7 +72,7 @@ function recursiveAppendNavigationItem(navigation, item, parentID) {
 export function appendNavigationItem(item, parentID)
 {
   return (dispatch, getState) => {
-    const {navigation} = getState().app;
+    const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
       navigation: recursiveAppendNavigationItem(navigation, item, parentID)
@@ -80,7 +83,7 @@ export function appendNavigationItem(item, parentID)
 export function prependNavigationItem(item, parentId)
 {
   return (dispatch, getState) => {
-    const {navigation} = getState().app;
+    const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
       navigation: FuseUtils.prependNavItem(navigation, item, parentId)
@@ -91,7 +94,7 @@ export function prependNavigationItem(item, parentId)
 export function updateNavigationItem(id, item)
 {
   return (dispatch, getState) => {
-    const {navigation} = getState().app;
+    const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
       navigation: FuseUtils.updateNavItem(navigation, id, item)
@@ -102,7 +105,7 @@ export function updateNavigationItem(id, item)
 export function removeNavigationItem(id)
 {
   return (dispatch, getState) => {
-    const {navigation} = getState().app;
+    const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
       navigation: FuseUtils.removeNavItem(navigation, id)

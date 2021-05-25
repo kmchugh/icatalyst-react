@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 function FuseNavHorizontalCollapse(props)
 {
-  const userRole = useSelector(({app}) => app.auth.user.role);
+  const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
   const classes = useStyles(props);
   const [opened, setOpened] = useState(false);

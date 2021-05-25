@@ -46,7 +46,7 @@ const MasterDetailPage = ({
   } } = definition;
 
   const reducer = useSelector(getReducerRoot);
-  const {pages} = useSelector(({app}) => app.settings.current.layout);
+  const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   const data = (reducer && reducer.entities) || [];
   const auth = useCallback(()=>{

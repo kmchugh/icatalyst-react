@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 function Navigation(props)
 {
-  const navigation = useSelector(({app}) => app.navigation);
+  const navigation = useSelector(({icatalyst}) => icatalyst.navigation);
 
   return (
     <FuseNavigation

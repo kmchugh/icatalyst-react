@@ -41,7 +41,7 @@ const useStyles = makeStyles(styles);
 function Logo()
 {
   const classes = useStyles();
-  const config = useSelector(({app}) => app.settings.current.layout);
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const theme = useTheme();
 
   return (

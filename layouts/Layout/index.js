@@ -12,7 +12,7 @@ import { AppContext } from '../../contexts';
 function Layout(props) {
   const dispatch = useDispatch();
 
-  const {current: currentSettings, defaults :defaultSettings} = useSelector(({app})=>app.settings);
+  const {current: currentSettings, defaults :defaultSettings} = useSelector(({icatalyst})=>icatalyst.settings);
   const {routes} = useContext(AppContext);
   const {location} = props;
 

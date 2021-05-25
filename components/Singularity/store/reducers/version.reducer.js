@@ -4,7 +4,7 @@ import { createModel, generateReducer } from '../../../../utilities';
 
 const definition = createModel({
   name : 'version',
-  getReducerRoot : ({app})=>(app.singularity.version),
+  getReducerRoot : ({icatalyst})=>(icatalyst.singularity.version),
   ...Actions
 });
 

@@ -1,5 +1,6 @@
 import * as Actions from '../actions/invites.actions';
-import { createModel, generateReducer } from '../../../../utilities';
+import { createModel } from '../../../../utilities/createModel';
+import { generateReducer } from '../../../../utilities/generateReducer';
 
 
 const definition = createModel({
@@ -62,8 +63,8 @@ const definition = createModel({
     'name',
     'description'
   ],
-  getReducerRoot: ({app})=>{
-    return app.singularity.invites;
+  getReducerRoot: ({icatalyst})=>{
+    return icatalyst.singularity.invites;
   },
   ...Actions
 });

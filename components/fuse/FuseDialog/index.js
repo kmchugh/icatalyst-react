@@ -6,8 +6,8 @@ import * as Actions from 'app/store/actions';
 function FuseDialog()
 {
   const dispatch = useDispatch();
-  const open = useSelector(({app}) => app.dialog.open);
-  const options = useSelector(({app}) => app.dialog.options);
+  const open = useSelector(({icatalyst}) => icatalyst.dialog.open);
+  const options = useSelector(({icatalyst}) => icatalyst.dialog.options);
 
   return (
     <Dialog

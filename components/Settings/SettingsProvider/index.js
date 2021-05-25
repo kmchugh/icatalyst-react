@@ -30,8 +30,8 @@ export function useSettingsContext(id, instanceProps) {
       : null;
 
     // Get the settings from the reducer
-    const settings = useSelector(({app})=>{
-      return (app.settings.userSettings[id]) || settingsTemplate;
+    const settings = useSelector(({icatalyst})=>{
+      return (icatalyst.settings.userSettings[id]) || settingsTemplate;
     });
 
     // Generate the defaults from the registeredSettings

@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js';
 import layouts from 'app/settings/layouts';
 import themes from 'app/settings/themes';
 
-import { generateThemeVariants } from '@icatalyst/utilities';
+import { generateThemeVariants } from '../../utilities/generateThemeVariants';
 
 const defaultTheme = _.cloneDeep(Object.values(themes).find(t=>t.default));
 const defaultLayout = _.cloneDeep(Object.values(layouts).find(l=>l.default));

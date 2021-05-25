@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 function FuseNavHorizontalItem(props)
 {
   const dispatch = useDispatch();
-  const userRole = useSelector(({app}) => app.auth.user.role);
+  const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
   const classes = useStyles(props);
   const {item, dense} = props;

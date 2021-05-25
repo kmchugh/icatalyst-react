@@ -43,8 +43,8 @@ const definition = createModel({
   isSelectable : (entity)=>{
     return entity.hops === 0;
   },
-  getReducerRoot: ({app})=>{
-    return app.singularity.rolemembers;
+  getReducerRoot: ({icatalyst})=>{
+    return icatalyst.singularity.rolemembers;
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {

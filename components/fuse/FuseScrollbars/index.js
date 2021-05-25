@@ -129,7 +129,7 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
     },
     [destroyPs]
   );
-  
+
   return (
     <div
       id={props.id}
@@ -150,9 +150,9 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
   );
 });
 
-function mapStateToProps({app}) {
+function mapStateToProps({icatalyst}) {
   return {
-    customScrollbars: app.settings.current.layout.customScrollbars
+    customScrollbars: icatalyst.settings.current.layout.customScrollbars
   };
 }
 

@@ -30,9 +30,7 @@ const VersionScreen = ()=>{
   const classes = useStyles();
   const clientVersionModel = ModelService.getModel('client', 'version');
 
-  const {client} = useSelector(({app})=>{
-    return app.singularity.client;
-  });
+  const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
 
   const singularityVersion = useSelector(definition.getReducerRoot);
   const clientVersion = useSelector(clientVersionModel.getReducerRoot);

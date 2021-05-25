@@ -55,8 +55,8 @@ export default function createApp({
       <AppContext.Provider value={appContext}>
         <StylesProvider jss={jss} generateClassName={generateClassName}>
           <Provider store={store}>
-            <SettingsProvider getReducerRoot={({app})=>{
-              return app.settings;
+            <SettingsProvider getReducerRoot={({icatalyst})=>{
+              return icatalyst.settings;
             }}>
               <Theme>
                 <ErrorBoundary>
