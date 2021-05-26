@@ -13,7 +13,7 @@ const styles = (theme) => {
       display: 'flex'
     },
     logoWrapper : {
-      background: theme.palette.secondary.contrastText,
+      background: theme.palette.primary.contrastText,
       width     : theme.spacing(4),
       height    : theme.spacing(4),
       borderRadius : '50%',
