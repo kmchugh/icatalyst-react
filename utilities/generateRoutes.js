@@ -17,6 +17,9 @@ export function generateRoutes(routeConfig, accumulator = {
     } : null),
     // Child paths
     ...(routeConfig.paths ? routeConfig.paths
+      // This identity transform is to force creation of a new array as sort
+      // updates in place
+      .map(i=>i)
       .sort((a, b)=>b.path.length - a.path.length)
       .flatMap((p)=>generateRoutes(p, {
         depth: depth +1,

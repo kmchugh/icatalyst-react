@@ -137,7 +137,19 @@ const useStyles = makeStyles((theme)=>{
       flexShrink: 0,
     },
     tableHeader : {
-      background: theme.palette.secondary.light
+      background: theme.palette.secondary.light,
+      ['& .MuiTableCell-head'] : {
+        color: theme.palette.secondary.contrastText,
+        fontWeight: 'bold'
+      },
+      ['& .MuiTableSortLabel-active, & .MuiTableSortLabel-icon'] : {
+        color: theme.palette.secondary.dark,
+      },
+      color: theme.palette.secondary.light
+    },
+    tableHeaderCheckbox : {
+      color: theme.palette.secondary.contrastText,
+      fontWeight: 'bold'
     },
     tableBody : {
       overflowY: 'auto',
@@ -157,6 +169,10 @@ const useStyles = makeStyles((theme)=>{
       background: theme.palette.secondary.main,
     },
     paginationToolbar: {
+      color: theme.palette.secondary.contrastText,
+      ['& .Mui-disabled'] : {
+        color: theme.palette.secondary.light,
+      },
       [theme.breakpoints.down('sm')]: {
         padding: theme.spacing(1),
         display: 'flex',
@@ -188,8 +204,16 @@ const useStyles = makeStyles((theme)=>{
           padding: 0
         }
       },
+    },
+    paginationSelectIcon : {
+      color : theme.palette.secondary.contrastText
+    },
+    toggleButton : {
+      color : `${theme.palette.secondary.light}!important`,
 
-
+      ['&.Mui-selected'] : {
+        color : `${theme.palette.secondary.contrastText}!important`,
+      }
     }
   };
 });
@@ -345,7 +369,7 @@ const Table = ({
       const { getToggleAllRowsSelectedProps, rows, toggleRowSelected} = props;
       return (
         <div className="max-w-42">
-          <Checkbox color="primary" {...getToggleAllRowsSelectedProps()} onChange={(e)=>{
+          <Checkbox className={clsx(classes.tableHeaderCheckbox)} {...getToggleAllRowsSelectedProps()} onChange={(e)=>{
             rows.forEach((r)=>{
               if (isSelectable(r.original)) {
                 toggleRowSelected(r.id, e.target.checked);
@@ -474,13 +498,13 @@ const Table = ({
                 }}
                 aria-label="table size"
               >
-                <ToggleButton value="condensed" aria-label="condensed">
+                <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
                   <Icon>format_align_justify</Icon>
                 </ToggleButton>
-                <ToggleButton value="regular" aria-label="regular">
+                <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
                   <Icon>view_headline</Icon>
                 </ToggleButton>
-                <ToggleButton value="expanded" aria-label="expanded">
+                <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
                   <Icon>menu</Icon>
                 </ToggleButton>
               </ToggleButtonGroup>
@@ -517,6 +541,7 @@ const Table = ({
             classes= {{
               root : classes.paginationRoot,
               toolbar : classes.paginationToolbar,
+              selectIcon : classes.paginationSelectIcon
             }}
             component="div"
             count={data.length}

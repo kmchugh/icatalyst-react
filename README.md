@@ -16,7 +16,33 @@ The application defines a default directory structure.  While this is under the 
 
 ### <a name="app_configuration">Configuration and Settings</a>
 
-### <a name="main_modules">Main Modules</a>
+### <a name="main_modules">Modules</a>
+Modules are intended to encapsulate responsibilities within the application.
+Modules can refer to other modules and be embedded inside other modules.
+Modules created directly under the /main folder are intended to contain functionality
+that can be shared across the application, while modules created inside a module folder
+should generally only be used by the containing module.
+
+If you find yourself linking to modules that are contained within another module, you
+should consider moving the contained module to a higher level.
+
+Generally a module folder should have the name of the intent followed by module.
+e.g. DashboardModule, UserManagementModule.
+The folder should be structured as follows:
+
+* MyModule - The root of the module
+  * index.js - exports the route configuration for the module
+  * store - the module redux store
+    * actions - actions for this module
+    * reducers - reducers for this module
+  * components/ - contains any components that are specific to the module
+  * +<Contained>Module - child modules that are only used by this module
+
+If your module does have a store, it is typical to link that store in the
+/src/main/store/index.js
+
+This allows for separating modules functionally and only loading the required
+modules when the application loads in the browser
 
 ### <a name="app_store">Application State</a>
 

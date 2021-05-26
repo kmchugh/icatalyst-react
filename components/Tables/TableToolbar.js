@@ -111,7 +111,6 @@ const TableToolbar = ({
                   <IconButton
                     key={title}
                     className={clsx(classes.actionButton)}
-                    color="inherit"
                     title={title}
                     onClick={onClick}
                     icon={icon}
@@ -128,7 +127,6 @@ const TableToolbar = ({
                 <IconButton
                   key={title}
                   className={clsx(classes.switchButton, active && classes.switchButtonActive)}
-                  color="inherit"
                   title={title}
                   onClick={onClick}
                   icon={icon}

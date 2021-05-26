@@ -12,7 +12,7 @@ import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   itemFn: ({nestedLevel})=>{
     return {
       height      : theme.spacing(5),
@@ -32,8 +32,7 @@ const useStyles = makeStyles(theme => ({
       color                      : `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
-          theme.palette.text.primary,
-          theme.palette.text.secondary,
+          theme.palette.primary.main,
           theme.palette.secondary.contrastText,
           theme.palette.primary.contrastText,
         ], {}
