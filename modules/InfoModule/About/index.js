@@ -9,6 +9,7 @@ export default createRouteConfig({
   icon : 'info',
   name: 'about',
   title: 'About',
+  component : null,
   paths : [
     createRouteConfig(versionConfig),
     createRouteConfig(licenseConfig),

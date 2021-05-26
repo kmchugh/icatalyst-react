@@ -18,16 +18,10 @@ export function generateRoutes(routeConfig, accumulator = {
       routeConfig : routeConfig
     } : null),
     // Child paths
-    ...(routeConfig.paths ? routeConfig.paths.flatMap((p)=>generateRoutes(p, {
-      depth: depth +1,
-      route : resolvedPath + '/'
-    })) : [])].filter(i=>i && i.component).sort((a, b)=>{
-    if (a.path.length > b.path.length) {
-      return -1;
-    } else if (a.path.length < b.path.length) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
+    ...(routeConfig.paths ? routeConfig.paths
+      .sort((a, b)=>b.path.length - a.path.length)
+      .flatMap((p)=>generateRoutes(p, {
+        depth: depth +1,
+        route : resolvedPath + '/'
+      })) : [])].filter(i=>i && i.component);
 }

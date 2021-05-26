@@ -20,9 +20,11 @@ const Root = ()=>{
     return route.path && route.path.indexOf(':') < 0 && isInRole(route.auth);
   });
 
-  return authRoutes[0].path === '/' ?
+  const defaultRoute = authRoutes.find(r=>r.routeConfig.defaultRoute) || authRoutes[0];
+
+  return defaultRoute.path === '/' ?
     (<div></div>) :
-    (<Redirect to={authRoutes[0].path}/>);
+    (<Redirect to={defaultRoute.path}/>);
 };
 
 
