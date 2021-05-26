@@ -1,6 +1,6 @@
 import React from 'react';
-import IconButton from '@icatalyst/components/IconButton';
-import _ from '@lodash';
+import IconButton from '../../../components/IconButton';
+import _ from '../../../@lodash';
 import * as Actions from 'app/store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';

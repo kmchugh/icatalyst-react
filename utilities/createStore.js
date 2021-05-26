@@ -1,7 +1,7 @@
 import * as reduxModule from 'redux';
 import {applyMiddleware, compose, createStore as createReduxStore} from 'redux';
 import thunk from 'redux-thunk';
-import _ from '@lodash';
+import _ from '../@lodash';
 import { setInitialNavigation } from '@icatalyst/store/actions';
 
 import icatalyst from '@icatalyst/store/reducers';

@@ -1,5 +1,5 @@
 import React from 'react';
-import _ from '@lodash';
+import _ from '../../@lodash';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import {useTheme} from '@material-ui/styles';

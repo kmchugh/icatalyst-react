@@ -1,5 +1,5 @@
 import * as Actions from '../actions/settings.actions';
-import _ from '@lodash';
+import _ from '../../@lodash';
 import CryptoJS from 'crypto-js';
 
 import layouts from 'app/settings/layouts';

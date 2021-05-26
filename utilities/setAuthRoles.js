@@ -1,4 +1,4 @@
-import _ from '@lodash';
+import _ from '../@lodash';
 
 /**
  * Add the roles that are allowed to navigate to each Component

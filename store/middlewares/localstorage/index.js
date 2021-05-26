@@ -1,6 +1,6 @@
 import config from 'app/settings/config';
 import * as Actions from './constants';
-import _ from '@lodash';
+import _ from '../../../@lodash';
 
 const LOCAL_STORE_KEY = 'ls_' + config.keys.localstorage;
 

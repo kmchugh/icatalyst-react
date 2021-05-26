@@ -11,7 +11,7 @@ import infoConfig from '@icatalyst/modules/InfoModule';
 import * as NavigationActions from '@icatalyst/store/actions/navigation.actions';
 import {CssBaseline} from '@material-ui/core';
 import { Layout } from '@icatalyst/layouts';
-import history from '@history';
+import history from '../@history';
 
 import {generateNavigation, generateRoutes}  from '@icatalyst/utilities';
 import { create } from 'jss';

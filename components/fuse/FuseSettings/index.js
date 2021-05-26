@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import _ from '@lodash';
+import _ from '../../../@lodash';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
