@@ -10,6 +10,7 @@ import { useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles(theme => ({
   itemFn: ({nestedLevel})=>{
@@ -28,7 +29,15 @@ const useStyles = makeStyles(theme => ({
   item: {
     '&.active'                 : {
       backgroundColor            : theme.palette.secondary.main,
-      color                      : `${theme.palette.primary.main}!important`,
+      color                      : `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.text.primary,
+          theme.palette.text.secondary,
+          theme.palette.secondary.contrastText,
+          theme.palette.primary.contrastText,
+        ], {}
+      ).toHexString()}!important`,
       pointerEvents              : 'none',
       transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
       '& .list-item-text-primary': {

@@ -8,7 +8,7 @@ import ReloadModal from './ReloadModal';
 function Theme(props) {
 
   const theme = useSelector(({icatalyst}) => icatalyst.settings.current.themes.mainTheme );
-  
+
   return (
     <ThemeProvider theme={theme}>
       <ReloadModal />

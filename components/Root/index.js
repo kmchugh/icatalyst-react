@@ -20,7 +20,7 @@ const Root = ()=>{
     return route.path && route.path.indexOf(':') < 0 && isInRole(route.auth);
   });
 
-  const defaultRoute = authRoutes.find(r=>r.routeConfig.defaultRoute) || authRoutes[0];
+  const defaultRoute = authRoutes.find(r=>r.routeConfig && r.routeConfig.defaultRoute) || authRoutes[0];
 
   return defaultRoute.path === '/' ?
     (<div></div>) :

@@ -14,6 +14,7 @@ export {default as Logo} from './Logo';
 export {default as MasterDetail} from './MasterDetail';
 export {SessionPanel} from './Session';
 export {default as Singularity} from './Singularity';
+export { SingularityContext } from './Singularity';
 export * from './Tables';
 export {default as Theme} from './Theme';
 export {default as Toolbar} from './Toolbar';

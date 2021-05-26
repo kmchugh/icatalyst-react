@@ -13,7 +13,7 @@ const styles = (theme) => {
       display: 'flex'
     },
     logoWrapper : {
-      background: theme.palette.secondary.main,
+      background: theme.palette.secondary.contrastText,
       width     : theme.spacing(4),
       height    : theme.spacing(4),
       borderRadius : '50%',
@@ -50,7 +50,7 @@ function Logo()
         <Image className={clsx(classes.logoIcon)}
           src={config.clientLogo}
           defaultSrc={
-            mostReadable(tinycolor(theme.palette.secondary.main), ['#fff', '#000'], {}).toHexString() === '#000000' ?
+            mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
               'assets/images/placeholders/image_dark.svg' :
               'assets/images/placeholders/image_light.svg'
           }

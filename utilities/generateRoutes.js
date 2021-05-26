@@ -1,5 +1,3 @@
-// import _ from '@lodash';
-
 export function generateRoutes(routeConfig, accumulator = {
   depth : 0,
   route : ''
