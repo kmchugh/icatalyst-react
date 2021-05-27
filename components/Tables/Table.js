@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect, useLayoutEffect, useRef} from 'react';
-import {Table as MuiTable, TableContainer,
-  TablePagination, Checkbox } from '@material-ui/core';
+import {Table as MuiTable, TableContainer, Checkbox } from '@material-ui/core';
 import {
   ToggleButtonGroup, ToggleButton
 } from '@material-ui/lab';
@@ -10,20 +9,21 @@ import {useGlobalFilter, usePagination,
 } from 'react-table';
 import {FuseLoading} from '../fuse';
 import { makeStyles } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core';
 import clsx from 'clsx';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
 import TableToolbar from './TableToolbar';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
-import PaginationActions from './PaginationActions';
 import PropTypes from 'prop-types';
 import {DefaultCell, getCellComponent} from './Cells';
 import {SearchFilterContext} from './SearchFilterProvider';
 import ClearableInput from '../ClearableInput';
+import TablePagination from './TablePagination';
 import {useSettingsContext} from '../Settings/SettingsProvider';
 import {registerSettings} from '../Settings/SettingsProvider';
-
+import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 
@@ -93,7 +93,13 @@ const useStyles = makeStyles((theme)=>{
       },
       '&.density-condensed .MuiTableCell-root' : {
         paddingTop: 0,
-        paddingBottom: 0
+        paddingBottom: 0,
+
+        '& > *' : {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace : 'nowrap'
+        }
       },
       '&.density-condensed .MuiTableRow-root' : {
         height: 'auto!important'
@@ -137,18 +143,9 @@ const useStyles = makeStyles((theme)=>{
       flexShrink: 0,
     },
     tableHeader : {
-      background: theme.palette.secondary.light,
-      ['& .MuiTableCell-head'] : {
-        color: theme.palette.secondary.contrastText,
-        fontWeight: 'bold'
-      },
-      ['& .MuiTableSortLabel-active, & .MuiTableSortLabel-icon'] : {
-        color: theme.palette.secondary.dark,
-      },
-      color: theme.palette.secondary.light
+
     },
     tableHeaderCheckbox : {
-      color: theme.palette.secondary.contrastText,
       fontWeight: 'bold'
     },
     tableBody : {
@@ -162,59 +159,11 @@ const useStyles = makeStyles((theme)=>{
       overflowX: 'auto'
     },
     tableFooter : {
-      flexShrink: 0,
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
-      borderTop: `1px solid ${theme.palette.divider}`,
-      background: theme.palette.secondary.main,
     },
     paginationToolbar: {
-      color: theme.palette.secondary.contrastText,
-      ['& .Mui-disabled'] : {
-        color: theme.palette.secondary.light,
-      },
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(1),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-        textAlign: 'center',
-
-        '& > *' : {
-          margin:0,
-        },
-        '& > p:first-of-type' : {
-          display: 'none'
-        },
-        '& .MuiTablePagination-input' : {
-          alignSelf: 'center'
-        }
-      }
     },
     paginationRoot: {
-      // Fix for mui pagination root
-      '&:last-child' : {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
-      },
-
-      [theme.breakpoints.down('sm')]: {
-        overflow: 'hidden',
-        '&:last-child' : {
-          padding: 0
-        }
-      },
     },
-    paginationSelectIcon : {
-      color : theme.palette.secondary.contrastText
-    },
-    toggleButton : {
-      color : `${theme.palette.secondary.light}!important`,
-
-      ['&.Mui-selected'] : {
-        color : `${theme.palette.secondary.contrastText}!important`,
-      }
-    }
   };
 });
 
@@ -239,6 +188,8 @@ const Table = ({
 
   const skipPageReset = true;
   const updateData = ()=>{};
+
+  const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
   const tableSettings = useSettingsContext(TABLE_SETTINGS_ID, {location, match});
   const {
@@ -296,9 +247,10 @@ const Table = ({
       Header : column.label,
       accessor : column.id,
       canSort : column.sortable,
-      Cell : getCellComponent(column.type),
+      // If the cell has a render method then let it render itself
+      Cell : getCellComponent(column.render ? 'custom' : column.type),
       getValue : column.getValue,
-      // Cell: ƒ Cell(_ref3)
+      field : column,
       // Footer: ƒ emptyRenderer()
       // Header: ƒ Header(_ref2)
       // accessor: undefined
@@ -457,59 +409,61 @@ const Table = ({
 
       {!updating && data && data.length > 0 && (
         <TableContainer className={clsx(classes.tableWrapper)}>
-          <TableToolbar
-            className={clsx(classes.tableToolbar)}
-            title={title}
-            icon={icon}
-            inputComponent={
-              <ClearableInput
-                label="search"
-                icon="search"
-                value={searchFilter}
-                onChange={setSearchFilter}
-              />
-            }
-            actions={[{
-              title : 'delete',
-              icon : 'delete',
-              onClick : ()=>{
-                console.log('delete');
-              },
-              show : canDelete && Object.keys(selectedRowIds).length > 0,
-            },{
-              title : 'add',
-              icon : 'add',
-              onClick : ()=>{
-                console.log('add');
-              },
-              show : canAdd && Object.keys(selectedRowIds).length === 0
-            }].filter(i=>i.show)}
-            switchComponent={
-              <ToggleButtonGroup
-                value={mode}
-                exclusive
-                onChange={(e, mode)=>{
-                  updateSettings((values)=>{
-                    return {
-                      ...values,
-                      density : mode
-                    };
-                  }, settingsInstanceID);
-                }}
-                aria-label="table size"
-              >
-                <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
-                  <Icon>format_align_justify</Icon>
-                </ToggleButton>
-                <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
-                  <Icon>view_headline</Icon>
-                </ToggleButton>
-                <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
-                  <Icon>menu</Icon>
-                </ToggleButton>
-              </ToggleButtonGroup>
-            }
-          />
+          <ThemeProvider theme={themes.toolbarTheme}>
+            <TableToolbar
+              className={clsx(classes.tableToolbar)}
+              title={title}
+              icon={icon}
+              inputComponent={
+                <ClearableInput
+                  label="search"
+                  icon="search"
+                  value={searchFilter}
+                  onChange={setSearchFilter}
+                />
+              }
+              actions={[{
+                title : 'delete',
+                icon : 'delete',
+                onClick : ()=>{
+                  console.log('delete');
+                },
+                show : canDelete && Object.keys(selectedRowIds).length > 0,
+              },{
+                title : 'add',
+                icon : 'add',
+                onClick : ()=>{
+                  console.log('add');
+                },
+                show : canAdd && Object.keys(selectedRowIds).length === 0
+              }].filter(i=>i.show)}
+              switchComponent={
+                <ToggleButtonGroup
+                  value={mode}
+                  exclusive
+                  onChange={(e, mode)=>{
+                    updateSettings((values)=>{
+                      return {
+                        ...values,
+                        density : mode
+                      };
+                    }, settingsInstanceID);
+                  }}
+                  aria-label="table size"
+                >
+                  <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
+                    <Icon>format_align_justify</Icon>
+                  </ToggleButton>
+                  <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
+                    <Icon>view_headline</Icon>
+                  </ToggleButton>
+                  <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
+                    <Icon>menu</Icon>
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              }
+            />
+          </ThemeProvider>
 
           <div ref={_tableRef} className={clsx(classes.tableScroll, 'flex-1')}>
             <MuiTable className={clsx(classes.table)} {...getTableProps()}>
@@ -536,26 +490,16 @@ const Table = ({
             </MuiTable>
           </div>
 
-          <TablePagination
-            className={clsx(classes.tableFooter)}
-            classes= {{
-              root : classes.paginationRoot,
-              toolbar : classes.paginationToolbar,
-              selectIcon : classes.paginationSelectIcon
-            }}
-            component="div"
-            count={data.length}
-            rowsPerPage={pageSize}
-            page={pageIndex}
-            SelectProps={{
-              inputProps: {'aria-label': 'rows per page1'},
-            }}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-            ActionsComponent={(props)=>(
-              <PaginationActions {...props} onRefresh={onRefresh}/>
-            )}
-          />
+          <ThemeProvider theme={themes.footerTheme}>
+            <TablePagination
+              count={data.length}
+              rowsPerPage={pageSize}
+              page={pageIndex}
+              onRefresh={onRefresh}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </ThemeProvider>
         </TableContainer>
       )}
     </div>

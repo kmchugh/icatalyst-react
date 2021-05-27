@@ -6,9 +6,8 @@ import {Typography, Hidden} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {ModelPropTypes} from '../../utilities/createModel';
-import {useSharedDetail} from './useSharedDetail';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
+    color : theme.palette.primary.contrastText
   },
   detailWrapper : {
     maxWidth: '100%',
@@ -64,11 +64,11 @@ const DetailHeader = ({
   backText,
   backUrl,
   featureImage,
-  actionComponent
+  actionComponent,
+  entity
 })=>{
   const classes = useStyles();
   const theme = useTheme();
-  const {entity} = useSharedDetail();
   const textModel = entity || {
     [definition.primaryTextFieldName] : '',
     [definition.secondaryTextFieldName] : ''
@@ -131,6 +131,7 @@ const DetailHeader = ({
 };
 
 DetailHeader.propTypes = {
+  entity : PropTypes.object,
   definition : ModelPropTypes.isRequired,
   backText : PropTypes.string,
   backUrl :PropTypes.string,
@@ -143,4 +144,4 @@ DetailHeader.propTypes = {
   actionComponent : PropTypes.node
 };
 
-export default React.memo(withRouter(DetailHeader));
+export default DetailHeader;

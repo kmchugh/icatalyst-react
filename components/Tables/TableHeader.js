@@ -3,10 +3,43 @@ import {TableHead, TableCell, TableRow,
   TableSortLabel, Tooltip
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const SELECTION_COLUMN_ID = 'selection';
 
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      background: theme.palette.action.selected,
+      color: `${mostReadable(
+        tinycolor(theme.palette.background.default),
+        [
+          theme.palette.text.secondary,
+          theme.palette.primary.main,
+        ], {}
+      ).toHexString()}!important`,
+
+      ['& .MuiTableCell-head'] : {
+        fontWeight: 'bold'
+      },
+      ['& .MuiTableSortLabel-active, & .MuiTableSortLabel-icon'] : {
+        color : `${mostReadable(
+          tinycolor(theme.palette.action.selected),
+          [
+            theme.palette.text.secondary,
+            theme.palette.primary.main,
+          ], {}
+        ).toHexString()}`,
+      },
+    },
+  };
+});
+
 const TableHeader = ({className, headerGroups, style={}})=>{
+
+  const classes= useStyles();
 
   const sortableHeader = (column, header)=>{
     return column.canSort ? (
@@ -23,7 +56,7 @@ const TableHeader = ({className, headerGroups, style={}})=>{
     ) : header;
   };
   return (
-    <TableHead className={className} style={style}>
+    <TableHead className={clsx(classes.root, className)} style={style}>
       {
         headerGroups.map((headerGroup)=>{
           const {key, ...headerProps} = headerGroup.getHeaderGroupProps();

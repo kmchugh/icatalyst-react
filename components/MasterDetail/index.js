@@ -17,6 +17,7 @@ import DetailHeader from './DetailHeader';
 import DetailContent from './DetailContent';
 import MasterContent from './MasterContent';
 import SearchFilterProvider from '../Tables/SearchFilterProvider';
+import {useSharedDetail} from './useSharedDetail';
 
 const pageConfigKey = 'masterdetail';
 
@@ -40,6 +41,8 @@ const MasterDetailPage = ({
   const [headerHeight, setHeaderHeight] = useState(64);
   const [detailID, setDetailID] = useState(null);
   const {isInRole, accessToken} = singularityContext;
+  const {updateEntity, entity} = useSharedDetail();
+
 
   const { title, operations, getReducerRoot = ()=>{
     console.warn(`You have not set a selector root for definition ${title}`);
@@ -108,6 +111,7 @@ const MasterDetailPage = ({
             backText={definition.labelPlural}
             auth={auth}
             backUrl={match.path}
+            entity={entity}
           />
         )}/>
         <Route path={`${match.path}`} component={()=>(
@@ -121,7 +125,8 @@ const MasterDetailPage = ({
     );
   }, [match && match.url,
     // Update if the child changes
-    location.pathname.replace(match.path, '').split('/')[1]
+    location.pathname.replace(match.path, '').split('/')[1],
+    entity
   ])();
 
   const config = {
@@ -144,6 +149,7 @@ const MasterDetailPage = ({
               auth={auth}
               config={config}
               backUrl={match.path}
+              updateEntity={updateEntity}
               entity={reducer.entity_map[detailMatch.params.id]}/>
           ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
         }}/>

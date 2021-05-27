@@ -117,7 +117,7 @@ function ScrollWrapper({children, scrollType, config, className}) {
             (scroll === 'body' && config.toolbar.position === 'outside') ||
             (scroll !== 'body' && config.toolbar.position === 'inside')
           ) && (
-          <ThemeProvider theme={themes.navbarTheme}>
+          <ThemeProvider theme={themes.toolbarTheme}>
             <ToolbarLayout />
           </ThemeProvider>
         )

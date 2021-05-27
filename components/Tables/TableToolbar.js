@@ -6,13 +6,22 @@ import {makeStyles} from '@material-ui/styles';
 import IconButton from '../IconButton';
 import Icon from '../Icon';
 import {FuseAnimate} from '../fuse';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
       paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
+      paddingRight: theme.spacing(2),
+      background: theme.palette.background.default,
+      color: `${mostReadable(
+        tinycolor(theme.palette.background.default),
+        [
+          theme.palette.text.secondary,
+          theme.palette.primary.main,
+        ], {}
+      ).toHexString()}!important`,
     },
     titleWrapper : {
       flex : '1 1 0%',
@@ -55,18 +64,16 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
     },
     switchButton : {
-      color : theme.palette.primary.light
     },
     switchButtonActive : {
-      color : 'inherit'
     },
     actionButton : {
       marginRight: theme.spacing(1),
-      background : theme.palette.primary.dark,
-
+      background : theme.palette.primary.main,
       '&:hover' : {
-        background : theme.palette.primary.main,
-      }
+        background : theme.palette.primary.light,
+      },
+      color : theme.palette.primary.contrastText
     },
   };
 });

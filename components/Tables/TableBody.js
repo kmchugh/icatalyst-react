@@ -22,6 +22,7 @@ const TableBody = ({
           <TableRow
             className="h-64 cursor-pointer"
             onClick={handleRowClick}
+            aria-checked={row.isSelected}
             hover
             tabIndex={-1}
             selected={row.isSelected}

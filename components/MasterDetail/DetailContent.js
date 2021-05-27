@@ -2,18 +2,19 @@ import React, {useState, useEffect, useMemo} from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
-import {Button, Tabs, Tab} from '@material-ui/core';
+import {Button, ThemeProvider} from '@material-ui/core';
 import Icon from '../Icon';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/styles';
 import {useForm} from '../../hooks/fuse';
-import {useSharedDetail} from './useSharedDetail';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import MasterDetailPage from './index';
 import {FuseAnimateGroup} from '../fuse';
 import PageBase from '../../pages/PageBase';
-import IconButton from '../IconButton';
+import { useSelector } from 'react-redux';
+import DetailContentTabs from './DetailContentTabs';
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -27,7 +28,6 @@ const useStyles = makeStyles((theme) => {
     toolbarWrapper : {
       height: theme.spacing(9),
       flexShrink: 0,
-      background: theme.palette.secondary.main,
       display: 'flex',
       alignItems: 'center'
     },
@@ -85,19 +85,21 @@ const DetailContent = ({
   readonly,
   onChange,
   match,
-  history,
   auth,
   config,
-  backUrl
+  backUrl,
+  history,
+  updateEntity
 })=>{
   const classes = useStyles();
 
   const [modified, setModified] = useState(false);
   const [errors, setErrors] = useState({});
-  const {update} = useSharedDetail();
   const { form, handleChange, resetForm } = useForm(entity || definition.generateModel());
   const theme = useTheme();
   const transitionLength = theme.transitions.duration.shortest;
+
+  const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
   const reset = ()=>{
     setModified(false);
@@ -111,9 +113,13 @@ const DetailContent = ({
   useEffect(()=>{
     if (form) {
       setErrors(definition.validate(form));
-      update(form);
+      updateEntity(form);
     }
   }, [form]);
+
+  useEffect(()=>{
+    updateEntity(entity);
+  }, [entity]);
 
   const tabs = useMemo(()=>{
     return [
@@ -145,62 +151,28 @@ const DetailContent = ({
 
   return (
     <div className={clsx(classes.root)}>
-      <div className={clsx(classes.toolbarWrapper)}>
-        {
-          // If the mode is chromeless then we need a way to get back
-          config.mode === 'chromeless' && (
-            <IconButton className={clsx(classes.backButton)}
-              onClick={()=>{
-                history.push(backUrl);
-              }}
-              icon={theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
-              title="back"
-            />
-          )
-        }
-        {
-          tabs && (
-            <Tabs
-              value={selectedTab.current}
-              selectionFollowsFocus={true}
-              onChange={(e, index)=>{
-                if (index !== selectedTab.index) {
-                  setSelectedTab((selected)=>{
-                    return {
-                      prev : selected.current,
-                      current : index
-                    };
-                  });
-                  const path = tabs[index].path;
-                  if (!path) {
-                    history.push(match.url);
-                  } else {
-                    history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-                  }
-                }
-              }}
-              indicatorColor="primary"
-              textColor="primary"
-              variant="scrollable"
-              scrollButtons="auto"
-              className={clsx(classes.tabBar)}
-            >
-              {
-                tabs.map(({icon, label, path})=>{
-                  return (
-                    <Tab
-                      key={path || ''}
-                      className={clsx(classes.tab)}
-                      icon={<Icon fontSize="small">{icon}</Icon>}
-                      label={label}
-                    />
-                  );
-                })
-              }
-            </Tabs>
-          )
-        }
-      </div>
+      <ThemeProvider theme={themes.toolbarTheme}>
+        <DetailContentTabs
+          config={config}
+          tabs={tabs}
+          backUrl={backUrl}
+          selectedTab={selectedTab}
+          onTabChanged={(index)=>{
+            setSelectedTab((selected)=>{
+              return {
+                prev : selected.current,
+                current : index
+              };
+            });
+            const path = tabs[index].path;
+            if (!path) {
+              history.push(match.url);
+            } else {
+              history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+            }
+          }}
+        />
+      </ThemeProvider>
 
       <div className={clsx(classes.contentWrapper)}>
         {definition && tabs && (
@@ -326,7 +298,8 @@ DetailContent.propTypes = {
     retrieveAll : PropTypes.bool,
     route : PropTypes.bool,
   }),
-  config : PageBase.propTypes.config
+  config : PageBase.propTypes.config,
+  updateEntity : PropTypes.func.isRequired
 };
 
 
