@@ -54,7 +54,7 @@ const SelectField = (props) => {
         labelId={`${id}-label`}
         id={id}
         name={id}
-        value={value}
+        value={value || ''}
         onChange={(e)=>{
           if (e.target.value !== value) {
             onChange && onChange(e, value);

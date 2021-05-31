@@ -240,8 +240,6 @@ const Table = ({
     setGlobalFilter(searchFilter);
   }, [searchFilter]);
 
-
-
   const [columnDefinitions] = useState(columns.map((column)=>{
     return {
       Header : column.label,

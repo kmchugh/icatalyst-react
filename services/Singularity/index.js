@@ -39,6 +39,9 @@ class SingularityService {
     users : 'api/users',
     version : 'version',
 
+    resource_permissions : 'api/resourcePermissions',
+    role_permissions : 'api/rolePermissions',
+
   // client_refresh : 'token/refresh',
   // client_logout : 'logout',
   //
@@ -445,7 +448,7 @@ class SingularityService {
    * @param  {String} resourceID   The resource identifier
    * @return {Promise<boolean>}              promise (boolean)
    */
-  isResourceOwner(accessToken, resourceType, resourceID) {
+  async isResourceOwner(accessToken, resourceType, resourceID) {
     return this.getResourcePermissions(accessToken, resourceType, resourceID)
       .then((permissions)=>{
         return permissions.find((permission)=>{

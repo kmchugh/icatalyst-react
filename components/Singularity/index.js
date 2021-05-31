@@ -321,6 +321,10 @@ function Singularity(props) {
         accessToken,
         token,
         isInRole : (role)=>{
+          // If the role is undefined then it is assumed that there is no access
+          if (role === undefined) {
+            return false;
+          }
           role = !Array.isArray(role) && role ? [role] : role;
           return hasPermission(role, user && user.appRoles || []);
         },

@@ -66,16 +66,20 @@ function createURI(path, params = {}) {
   if (!path) {
     throw new Error('invalid path configuration for uri service');
   }
+
   // Update the path parameters
   let uri = path.replace(/\/:(\w+)/g, function(match, paramKey) {
     const param = params[paramKey];
     delete params[paramKey];
     return '/' + param;
   });
-  // Add any query parameters
-  let query = Object.keys(params).map(key=>`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
 
-  return uri + (query && query.length > 0 ? (uri.indexOf('?') >= 0 ? '&' : '?') : query);
+  // Add any query parameters
+  let query = Object.keys(params)
+    .filter(key=>params[key] !== undefined && params[key] !== null)
+    .map(key=>`${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`).join('&');
+
+  return uri + (query && query.length > 0 ? ((uri.indexOf('?') >= 0 ? '&' : '?') + query) : query);
 }
 
 const createOperation = {

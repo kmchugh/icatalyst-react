@@ -1,4 +1,8 @@
 function getRouteAuth(initialAuth) {
+  if (typeof initialAuth === 'function') {
+    // TODO: Handle promises
+    initialAuth = initialAuth();
+  }
   let auth = initialAuth && initialAuth.route ? initialAuth.route : initialAuth;
   return auth && !Array.isArray(auth) ? [auth] : auth;
 }

@@ -1,11 +1,13 @@
 import TextField, {fieldBuilder as textFieldBuilder} from './TextField';
 import {fieldBuilder as booleanFieldBuilder} from './BooleanField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
+import {fieldBuilder as dateTimeFieldBuilder} from './DateTimeField';
 
 const fieldMap = [
   textFieldBuilder,
   booleanFieldBuilder,
   selectFieldBuilder,
+  dateTimeFieldBuilder,
 
   // Default to TextField if no other matches
   {

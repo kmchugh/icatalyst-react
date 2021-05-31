@@ -18,7 +18,7 @@ function FuseLoading(props)
   const classes = useStyles();
 
   const [showLoading, setShowLoading] = useState(!props.delay);
-  let title= props.title || 'Loading...';
+  let title = props.title != null ? (props.title || 'Loading...') : null;
   useTimeout(() => {
     setShowLoading(true);
   }, props.delay);
@@ -30,7 +30,7 @@ function FuseLoading(props)
 
   return (
     <div className={clsx(classes.root, props.className, 'h-full flex flex-1 flex-col items-center justify-center')}>
-      <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>
+      {title && <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>}
       <LinearProgress className="mb-32 w-xs" color="primary"/>
     </div>
   );

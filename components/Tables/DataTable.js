@@ -17,10 +17,19 @@ const DataTable = ({
 })=>{
 
   const columns = useCallback(()=>{
-    const order = (definition.listLayout || definition.fieldOrder).map((id)=>{
-      const field = typeof id === 'string' ? definition.fields[id] : id;
+    const order = (definition.listLayout || definition.fieldOrder).map((fieldID)=>{
+      let field = null;
+      if (fieldID && typeof fieldID === 'string') {
+        field = definition.fields[fieldID];
+      } else if (fieldID) {
+        field = {
+          ...fieldID,
+          ...definition.fields[fieldID.id]
+        };
+      }
+
       if (!field) {
-        console.warn(`${id} not properly configured on ${definition.name}`);
+        console.warn(`${fieldID} not properly configured on ${definition.name}`);
       }
 
       return {

@@ -1,4 +1,4 @@
-import React, {useContext, useState, useCallback} from 'react';
+import React, {useContext, createContext, useState, useCallback, useEffect} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {PageBase} from '../../pages';
@@ -17,9 +17,10 @@ import DetailHeader from './DetailHeader';
 import DetailContent from './DetailContent';
 import MasterContent from './MasterContent';
 import SearchFilterProvider from '../Tables/SearchFilterProvider';
-import {useSharedDetail} from './useSharedDetail';
 
 const pageConfigKey = 'masterdetail';
+
+export const MasterDetailContext = createContext();
 
 const MasterDetailPage = ({
   match,
@@ -28,6 +29,7 @@ const MasterDetailPage = ({
   definition = null
 })=>{
   const {routes} = useContext(AppContext);
+  const parentMasterDetailContext = useContext(MasterDetailContext);
   if (definition === null) {
     definition = matchRoutes(routes, match.path)[0].route.routeConfig;
   }
@@ -40,10 +42,10 @@ const MasterDetailPage = ({
   const [updating, setUpdating] = useState(false);
   const [headerHeight, setHeaderHeight] = useState(64);
   const [detailID, setDetailID] = useState(null);
+  const [selectedDetailEntity, setSelectedDetailEntity] = useState(null);
   const {isInRole, accessToken} = singularityContext;
-  const {updateEntity, entity} = useSharedDetail();
-
-
+  const [auth, setAuth] = useState(null);
+  const [data, setData] = useState(null);
   const { title, operations, getReducerRoot = ()=>{
     console.warn(`You have not set a selector root for definition ${title}`);
   } } = definition;
@@ -51,31 +53,55 @@ const MasterDetailPage = ({
   const reducer = useSelector(getReducerRoot);
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
-  const data = (reducer && reducer.entities) || [];
-  const auth = useCallback(()=>{
-    return Object.keys(definition.auth).reduce((acc, key)=>{
-      acc[key] = isInRole(definition.auth[key]);
-      return acc;
-    }, {});
-  }, [definition])();
+  useEffect(()=>{
+    setData((reducer && reducer.loaded ? reducer.entities : null));
+  }, [reducer]);
+
+  useEffect(()=>{
+    Promise.resolve(
+      definition.auth && definition.auth(
+        singularityContext,
+        parentMasterDetailContext
+      )
+    ).then((retrievedAuth)=>{
+      if (retrievedAuth) {
+        setAuth(Object.keys(retrievedAuth).reduce((acc, key)=>{
+          acc[key] = typeof retrievedAuth[key] === 'boolean' ?
+            retrievedAuth[key] :
+            isInRole(retrievedAuth[key]);
+          return acc;
+        }, {}));
+      } else {
+        setAuth(null);
+      }
+    });
+  }, [definition]);
 
   const loadEntities = ()=>{
     if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
-        setErrors(['Invalid permissions settings for this function']);
+        setErrors(['You do not have access to this operation']);
         return;
       }
       setUpdating(true);
-      const result = dispatch(operations['RETRIEVE_ENTITIES']((err)=>{
+      const result = dispatch(operations['RETRIEVE_ENTITIES']((err, res)=>{
         // Success will be picked up by the reducer change
         if (err) {
-          setErrors(err.errors);
+          setErrors(err.errors || err);
+        } else {
+          // If there was a parent the responses were not added to the reducer as they are not global
+          if (parentMasterDetailContext) {
+            setData(definition.transformPayload ? res.map(definition.transformPayload) : res);
+          }
         }
         setUpdating(false);
       }, {
         accessToken : accessToken,
         params : {
-          ...(definition.getRetrieveAllParams ? definition.getRetrieveAllParams(definition, match.params) : {})
+          ...(definition.getRetrieveAllParams ? definition.getRetrieveAllParams(definition, {
+            ...match.params,
+            [definition.identityFieldName] : match.params.id
+          }) : {})
         }
       }));
 
@@ -87,6 +113,9 @@ const MasterDetailPage = ({
 
   useDeepCompareEffect(()=>{
     setErrors(null);
+    if (!auth) {
+      return;
+    }
     if (reducer && !reducer.loaded) {
       return loadEntities();
     } else if (!reducer) {
@@ -96,7 +125,7 @@ const MasterDetailPage = ({
     } else {
       setErrors(null);
     }
-  }, [definition, reducer]);
+  }, [definition, reducer, auth]);
 
   const header = useCallback(()=>{
     if (contained) {
@@ -111,7 +140,6 @@ const MasterDetailPage = ({
             backText={definition.labelPlural}
             auth={auth}
             backUrl={match.path}
-            entity={entity}
           />
         )}/>
         <Route path={`${match.path}`} component={()=>(
@@ -125,8 +153,7 @@ const MasterDetailPage = ({
     );
   }, [match && match.url,
     // Update if the child changes
-    location.pathname.replace(match.path, '').split('/')[1],
-    entity
+    location.pathname.replace(match.path, '').split('/')[1]
   ])();
 
   const config = {
@@ -140,7 +167,14 @@ const MasterDetailPage = ({
       <Switch key={location.pathname} location={location}>
         <Route path={`${match.path}/:id`} render={({match : detailMatch})=>{
           setHeaderHeight(72);
-          setDetailID(detailMatch.url);
+          const updatedDetail = detailMatch && detailMatch.params && detailMatch.params.id;
+          if (detailID !== updatedDetail) {
+            setDetailID(updatedDetail);
+          }
+          if (detailID && reducer.entity_map[updatedDetail] && !selectedDetailEntity) {
+            setSelectedDetailEntity(reducer.entity_map[updatedDetail]);
+          }
+
           return (reducer.entity_map && reducer.entity_map[detailMatch.params.id]) ? (
             <DetailContent
               readonly={false}
@@ -149,14 +183,15 @@ const MasterDetailPage = ({
               auth={auth}
               config={config}
               backUrl={match.path}
-              updateEntity={updateEntity}
-              entity={reducer.entity_map[detailMatch.params.id]}/>
+              updateEntity={setSelectedDetailEntity}/>
           ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
         }}/>
         <Route render={()=>{
           setHeaderHeight(64);
           setDetailID(null);
-          return reducer && reducer.loaded ? (
+          setSelectedDetailEntity(null);
+          // Only show when both the data and the auth have been resolved
+          return (auth && data) ? (
             <MasterContent
               // Fix for Safari table rendering
               className="absolute"
@@ -179,44 +214,54 @@ const MasterDetailPage = ({
     location.pathname.replace(match.path, '').split('/')[1],
     detailID,
     reducer,
-    updating
+    updating,
+    data,
+    auth
   ]);
 
   return (
     <SearchFilterProvider>
-      <PageBase
-        config={config}
-        header={header}
-      >
-
-        <FuseAnimateGroup
-          className="w-full h-full relative flex-1 flex"
-          runOnMount={false}
-          enter={{
-            animation: 'transition.slideRightBigIn',
-            delay: transitionLength, duration: transitionLength,
-            style: {
-            }
-          }}
-          leave={{
-            animation: 'transition.slideLeftBigOut',
-            duration: transitionLength,
-            style: {
-              position: 'absolute'
-            }
-          }}
+      <MasterDetailContext.Provider value={{
+        parentContext : parentMasterDetailContext,
+        entityID : detailID,
+        entity : selectedDetailEntity,
+        entityDefinition : definition,
+        updateEntity : setSelectedDetailEntity
+      }}>
+        <PageBase
+          config={config}
+          header={header}
         >
-          {
-            (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={`The following errors occurred when trying to retrieve ${definition.labelPlural}`}/>
-          }
 
-          {
-            // Only show the content if there are no errors
-            (!errors || errors.length === 0) && content()
-          }
+          <FuseAnimateGroup
+            className="w-full h-full relative flex-1 flex"
+            runOnMount={false}
+            enter={{
+              animation: 'transition.slideRightBigIn',
+              delay: transitionLength, duration: transitionLength,
+              style: {
+              }
+            }}
+            leave={{
+              animation: 'transition.slideLeftBigOut',
+              duration: transitionLength,
+              style: {
+                position: 'absolute'
+              }
+            }}
+          >
+            {
+              (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={`The following errors occurred when trying to retrieve ${definition.labelPlural}`}/>
+            }
 
-        </FuseAnimateGroup>
-      </PageBase>
+            {
+              // Only show the content if there are no errors
+              (!errors || errors.length === 0) && content()
+            }
+
+          </FuseAnimateGroup>
+        </PageBase>
+      </MasterDetailContext.Provider>
     </SearchFilterProvider>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
@@ -14,6 +14,8 @@ import {FuseAnimateGroup} from '../fuse';
 import PageBase from '../../pages/PageBase';
 import { useSelector } from 'react-redux';
 import DetailContentTabs from './DetailContentTabs';
+import {MasterDetailContext} from './index';
+import {SingularityContext} from '../Singularity';
 
 
 const useStyles = makeStyles((theme) => {
@@ -80,8 +82,6 @@ const useStyles = makeStyles((theme) => {
 });
 
 const DetailContent = ({
-  definition,
-  entity,
   readonly,
   onChange,
   match,
@@ -89,15 +89,23 @@ const DetailContent = ({
   config,
   backUrl,
   history,
-  updateEntity
 })=>{
   const classes = useStyles();
 
+  const masterDetailContext = useContext(MasterDetailContext);
+  const singularityContext = useContext(SingularityContext);
+
+  const {
+    entityDefinition : definition,
+    entity,
+  } = masterDetailContext;
+
   const [modified, setModified] = useState(false);
   const [errors, setErrors] = useState({});
-  const { form, handleChange, resetForm } = useForm(entity || definition.generateModel());
+  const { form, handleChange, resetForm, setForm } = useForm(entity || definition.generateModel());
   const theme = useTheme();
   const transitionLength = theme.transitions.duration.shortest;
+  // const {isInRole} = singularityContext;
 
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
@@ -113,41 +121,65 @@ const DetailContent = ({
   useEffect(()=>{
     if (form) {
       setErrors(definition.validate(form));
-      updateEntity(form);
     }
   }, [form]);
 
   useEffect(()=>{
-    updateEntity(entity);
+    setForm(entity || definition.generateModel());
   }, [entity]);
 
-  const tabs = useMemo(()=>{
-    return [
-      {
-        icon : definition.icon,
-        label : `${definition.label} Details`,
-        visible : auth.retrieveAll,
-        component  : <div>Tab1</div>,
-      },
-      ...(definition.children ? (
+  const [tabs, setTabs] = useState([]);
+
+  useEffect(()=>{
+    if (!definition || !entity) {
+      return;
+    }
+
+    setTabs([{
+      icon : definition.icon,
+      label : `${definition.label} Details`,
+      visible : auth.retrieveAll,
+    }]);
+
+    if (definition.children) {
+      Promise.allSettled(
         definition.children.map((child)=>{
+          return Promise.resolve(
+            child.auth(
+              singularityContext,
+              masterDetailContext
+            )).then((childAuth)=>{
+            return [child, childAuth];
+          });
+        })
+      ).then((tabAuthResults)=>{
+        const tabs = tabAuthResults.map(({value})=>{
+          const [child, childAuth] = value;
           return {
             icon : child.icon,
             path : child.name,
             label : child.labelPlural,
-            visible : auth.retrieveAll,
-            component  : child.component || MasterDetailPage,
+            visible : childAuth.retrieveAll,
+            component : child.component || MasterDetailPage,
             definition : child
           };
-        })
-      ) : [])
-    ].filter(t=>t.visible);
-  }, [definition]);
+        }).filter(t=>t.visible === true);
+        setTabs(t=>[...t, ...tabs]);
+      });
+    }
+  }, [definition, entity]);
 
   const [selectedTab, setSelectedTab] = useState({
     prev : 0,
     current : Math.max(0, tabs.findIndex(t=>location.pathname.startsWith(match.url + '/' + t.path)))
   });
+
+  useEffect(()=>{
+    setSelectedTab({
+      prev : 0,
+      current : Math.max(0, tabs.findIndex(t=>location.pathname.startsWith(match.url + '/' + t.path)))
+    });
+  }, [tabs]);
 
   return (
     <div className={clsx(classes.root)}>
@@ -177,7 +209,7 @@ const DetailContent = ({
       <div className={clsx(classes.contentWrapper)}>
         {definition && tabs && (
           <Switch key={location.pathname} location={location}>
-            {tabs.filter(t=>t.path).map((t)=>{
+            {tabs.filter(t=>t.visible && t.path).map((t)=>{
               return (
                 <Route key={t.path}
                   path={`${match.path}/${t.path}`}
@@ -200,11 +232,19 @@ const DetailContent = ({
                             'transition.slideRightBigOut'
                         }}
                       >
-                        <Component
-                          contained={true}
-                          definition={t.definition}
-                          {...routeParams}
-                        />
+                        <MasterDetailContext.Provider value={{
+                          parentContext : masterDetailContext,
+                          entityID : null,
+                          entity : null,
+                          entityDefinition : t.definition,
+                          updateEntity : null
+                        }}>
+                          <Component
+                            contained={true}
+                            definition={t.definition}
+                            {...routeParams}
+                          />
+                        </MasterDetailContext.Provider>
                       </FuseAnimateGroup>
                     );
                   }}
@@ -233,7 +273,7 @@ const DetailContent = ({
                     <EntityView
                       className={clsx(classes.entityView)}
                       definition={definition}
-                      model={form}
+                      model={form || entity}
                       readonly={!auth.update || (!auth.create /* && !isNew */)}
                       errors={errors}
                       onChange={(e)=>{
@@ -303,4 +343,4 @@ DetailContent.propTypes = {
 };
 
 
-export default React.memo(withRouter(DetailContent));
+export default withRouter(DetailContent);

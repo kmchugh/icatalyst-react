@@ -201,32 +201,35 @@ export function createModel(model){
 
   if (model.auth) {
     if (typeof model.auth === 'string') {
-      definition.auth = {
+      definition.auth = ()=>({
         create : [model.auth],
         retrieve : [model.auth],
         retrieveAll : [model.auth],
         update : [model.auth],
         delete : [model.auth],
         route : [model.auth]
-      };
+      });
     } else if (Array.isArray(model.auth)) {
-      definition.auth = {
+      definition.auth = ()=>({
         create : model.auth,
         retrieve : model.auth,
         retrieveAll : model.auth,
         update : model.auth,
         delete : model.auth,
         route : model.auth,
-      };
+      });
+    }  else if (typeof model.auth === 'function') {
+      // By providing a function as an auth, it means that authorisation is not yet determinable
+      definition.auth = (...params)=>model.auth(...params);
     } else {
-      definition.auth = {
+      definition.auth = ()=>({
         create : model.auth && model.auth.create ? model.auth.create : model.auth,
         retrieve : model.auth && model.auth.retrieve ? model.auth.retrieve : model.auth,
         retrieveAll : model.auth && model.auth.retrieveAll ? model.auth.retrieveAll : model.auth,
         update : model.auth && model.auth.update ? model.auth.update : model.auth,
         delete : model.auth && model.auth.delete ? model.auth.delete : model.auth,
         route : model.auth && model.auth.route ? model.auth.route : model.auth,
-      };
+      });
     }
   } else {
     definition.auth = null;

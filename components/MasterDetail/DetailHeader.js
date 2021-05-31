@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {FuseAnimate} from '@icatalyst/components/fuse';
 import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
-import {ModelPropTypes} from '../../utilities/createModel';
+import {MasterDetailContext} from './index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,15 +58,20 @@ const useStyles = makeStyles((theme) => ({
 
 
 const DetailHeader = ({
-  definition,
   icon,
   className,
   backText,
   backUrl,
   featureImage,
   actionComponent,
-  entity
 })=>{
+  const masterDetailContext = useContext(MasterDetailContext);
+
+  const {
+    entityDefinition : definition,
+    entity
+  } = masterDetailContext;
+
   const classes = useStyles();
   const theme = useTheme();
   const textModel = entity || {
@@ -131,8 +136,6 @@ const DetailHeader = ({
 };
 
 DetailHeader.propTypes = {
-  entity : PropTypes.object,
-  definition : ModelPropTypes.isRequired,
   backText : PropTypes.string,
   backUrl :PropTypes.string,
   featureImage : PropTypes.string,

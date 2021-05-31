@@ -17,7 +17,7 @@ const Root = ()=>{
   // We also filter to non parameterised routes
   const authRoutes = routes.filter((route)=>{
     // TODO: Add the ability to configure the default based on the user and user roles
-    return route.path && route.path.indexOf(':') < 0 && isInRole(route.auth);
+    return route.path && route.path.indexOf(':') < 0 && (route.auth === undefined || isInRole(route.auth));
   });
 
   const defaultRoute = authRoutes.find(r=>r.routeConfig && r.routeConfig.defaultRoute) || authRoutes[0];

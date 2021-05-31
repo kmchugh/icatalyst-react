@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
@@ -59,14 +59,19 @@ const EntityView = ({
   const dispatch = useDispatch;
   const classes = useStyles();
 
-  function renderField(field, index, layout, orientation){
+  if (!model) {
+    console.error('A model has not been passed to the entity view, this is most likely an error');
+  }
+
+  function renderField(field, index, layout, orientation, key){
     // If the field is an array then change the orientation
     // And render the contents
     if (Array.isArray(field)) {
+      key = !key ? `${orientation}_${index}` : `${key}|${orientation}_${index}`;
       const wrapper = (
-        <div key={orientation + '_' + index} className={clsx(classes[orientation], orientation)}>
+        <div key={key} className={clsx(classes[orientation], orientation)}>
           {field.map((field, i)=>{
-            return renderField(field, i, layout, orientation === 'row' ? 'col' : 'row');
+            return renderField(field, i, layout, orientation === 'row' ? 'col' : 'row', key);
           })}
         </div>
       );
@@ -80,35 +85,32 @@ const EntityView = ({
           }
           const fieldDef = definition.fields[field];
 
+          if (!fieldDef) {
+            console.error(`A field definition for ${field} could not be found in ${definition.name}`);
+          }
+
           let Component = getComponent(fieldDef);
           return <Component
             value={model[field]}
             field={fieldDef}
-            key={fieldDef.id}
-            readonly={readonly}
+            key={`${key}_${fieldDef.id}`}
+            readonly={readonly || fieldDef.readonly}
             onChange={onChange}
             errors={errors && errors[field]}
-            //     className={clsx(classes.entityField)}
-            //     readonly={readonly || fieldDef.readonly}
+            className={clsx(classes.entityField)}
           />;
         };
       return renderFunction(model, fieldProps, dispatch);
     }
   }
 
-  const layoutFn = useCallback(()=>{
-    return definition.layout.map((field, index, layout)=>{
-      console.log(layoutFn);
-      return renderField(field, index, layout, 'row');
-    });
-  }, [definition]);
+  const entityKey = `${definition.name}_entityView`;
 
   return (
-    <div className={clsx(classes.root, classes.col, 'col', className)}>
+    <div key={entityKey} className={clsx(classes.root, classes.col, 'col', className)}>
       {
-        // layoutFn()
         definition.layout.map((field, index, layout)=>{
-          return renderField(field, index, layout, 'row');
+          return renderField(field, index, layout, 'row', entityKey);
         })
       }
     </div>

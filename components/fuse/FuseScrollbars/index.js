@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       '& .ps__thumb-y' : {
-        backgroundColor: theme.palette.secondary.light
+        backgroundColor: theme.palette.primary.compliment
       }
     }
   };

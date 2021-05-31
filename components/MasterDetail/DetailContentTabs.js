@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/styles';
 import IconButton from '../IconButton';
 import PageBase from '../../pages/PageBase';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -42,6 +43,7 @@ const DetailContentTabs = ({
 })=>{
   const classes = useStyles();
   const theme = useTheme();
+  const history = useHistory();
 
   return (
     <div className={clsx(classes.root)}>
@@ -74,7 +76,7 @@ const DetailContentTabs = ({
             className={clsx(classes.tabBar)}
           >
             {
-              tabs.map(({icon, label, path})=>{
+              tabs.filter(t=>t.visible===true).map(({icon, label, path})=>{
                 return (
                   <Tab
                     key={path || ''}

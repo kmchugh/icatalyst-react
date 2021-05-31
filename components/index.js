@@ -7,6 +7,7 @@ library.add(fas, far, fab);
 export {default as Avatar} from './Avatar';
 export {default as ClearableInput} from './ClearableInput';
 export {default as Icon} from './Icon';
+export {default as IconButton} from './IconButton';
 export {default as Image} from './Image';
 export {default as EntityView} from './EntityView';
 export * from './Errors';
