@@ -274,7 +274,7 @@ const DetailContent = ({
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}
-                      readonly={!auth.update || (!auth.create /* && !isNew */)}
+                      readonly={readonly || !auth.update || (!auth.create /* && !isNew */)}
                       errors={errors}
                       onChange={(e)=>{
                         handleChange(e);
@@ -283,7 +283,7 @@ const DetailContent = ({
                       }}
                     />
                     <div className="flex flex-1"/>
-                    { (auth.update || (auth.create /* && !isNew */)) &&
+                    { (!readonly && (auth.update || (auth.create /* && !isNew */))) &&
                       <div className={clsx(classes.actionWrapper)}>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}

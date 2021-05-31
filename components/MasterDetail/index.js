@@ -77,6 +77,8 @@ const MasterDetailPage = ({
     });
   }, [definition]);
 
+  console.log(reducer, definition, operations, auth);
+
   const loadEntities = ()=>{
     if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
@@ -177,7 +179,7 @@ const MasterDetailPage = ({
 
           return (reducer.entity_map && reducer.entity_map[detailMatch.params.id]) ? (
             <DetailContent
-              readonly={false}
+              readonly={definition.readonly || false}
               definition={definition}
               contained={contained}
               auth={auth}
