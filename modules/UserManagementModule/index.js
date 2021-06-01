@@ -16,8 +16,9 @@ export function createModule(config={}){
   const moduleConfig = _.merge({
     name: 'userManagement',
     title: 'User Management',
-    icon: 'fa cogs',
+    icon : 'fa user-cog',
     path: 'users',
+    auth : 'admin',
     component : null,
     paths : [
       roles && roles.visible === false ? null : createRouteConfig(manageRolesConfig(roles)),

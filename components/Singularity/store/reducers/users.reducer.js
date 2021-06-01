@@ -4,7 +4,14 @@ import {createModel, generateReducer, generateUUID} from '../../../../utilities'
 const definition = createModel({
   name: 'user',
   icon: 'fa users-cog',
-  auth : 'admin',
+  auth: {
+    retrieveAll : 'admin',
+    // create : 'admin',
+    retrieve : 'admin',
+    // update : 'admin',
+    // delete : 'admin',
+    route : 'admin'
+  },
 
   fields : [
     {
