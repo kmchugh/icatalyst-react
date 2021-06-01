@@ -1,5 +1,5 @@
-import {layoutDefaults as consoleLayoutDefaults} from './ConsoleLayout';
-import {layoutDefaults as blankLayoutDefaults} from './BlankLayout';
+import {layoutDefaults as consoleLayoutDefaults} from './ConsoleLayout/layoutDefaults';
+import {layoutDefaults as blankLayoutDefaults} from './BlankLayout/layoutDefaults';
 
 export default {
   [consoleLayoutDefaults.style] : consoleLayoutDefaults,

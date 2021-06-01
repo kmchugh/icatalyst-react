@@ -6,6 +6,7 @@ import roles from './roles.reducer';
 import rolemembers from './roleMembers.reducer';
 import version from './version.reducer';
 import users from './users.reducer';
+import groups from './groups.reducer';
 
 const reducers = combineReducers({
   client,
@@ -14,7 +15,8 @@ const reducers = combineReducers({
   roles,
   rolemembers,
   version,
-  users
+  users,
+  groups
 });
 
 export default reducers;

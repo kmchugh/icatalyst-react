@@ -10,10 +10,12 @@ const DataTable = ({
   data,
   updating=false,
   onRefresh,
-  onRowClick,
+  onRowClicked,
   canAdd,
   canDelete,
-  className
+  className,
+  onAddClicked,
+  onDeleteClicked
 })=>{
 
   const columns = useCallback(()=>{
@@ -49,10 +51,12 @@ const DataTable = ({
       columns={columns()}
       onRefresh={onRefresh}
       getRowID={definition.getIdentity}
-      onRowClick={onRowClick}
+      onRowClicked={onRowClicked}
       data={data}
-      canAdd={canAdd}
-      canDelete={canDelete}
+      canAdd={onAddClicked && canAdd}
+      canDelete={onDeleteClicked && canDelete}
+      onAddClicked={onAddClicked}
+      onDeleteClicked={onDeleteClicked}
       updating={updating}
       isSelectable={definition.isSelectable}
       EmptyListComponent={<EmptyTable
@@ -69,7 +73,9 @@ DataTable.propTypes = {
   definition : ModelPropTypes,
   data : PropTypes.array.isRequired,
   loading: PropTypes.bool,
-  onRowClick : PropTypes.func,
+  onRowClicked : PropTypes.func,
+  onAddClicked : PropTypes.func,
+  onDeleteClicked : PropTypes.func,
   onRefresh : PropTypes.func,
   updating : PropTypes.bool,
   canAdd : PropTypes.bool,

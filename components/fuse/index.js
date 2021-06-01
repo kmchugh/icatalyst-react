@@ -1,6 +1,5 @@
 export {default as FuseAnimate} from './FuseAnimate';
 export {default as FuseAnimateGroup} from './FuseAnimateGroup';
-export {default as FuseDialog} from './FuseDialog';
 export {default as FuseLoading} from './FuseLoading';
 export {default as FuseMessage} from './FuseMessage';
 export {default as FuseScrollbars} from './FuseScrollbars';

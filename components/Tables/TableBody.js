@@ -7,7 +7,7 @@ const TableBody = ({
   page,
   className,
   style = {},
-  onRowClick
+  onRowClicked
 })=>{
 
   return (
@@ -16,7 +16,7 @@ const TableBody = ({
         prepareRow(row);
         const {key, ...rowProps} = row.getRowProps();
         const handleRowClick = ()=>{
-          onRowClick && onRowClick(row.original);
+          onRowClicked && onRowClicked(row.original);
         };
         return (
           <TableRow
@@ -57,5 +57,5 @@ TableBody.propTypes = {
     PropTypes.arrayOf(PropTypes.string)
   ]),
   style : PropTypes.object,
-  onRowClick : PropTypes.func
+  onRowClicked : PropTypes.func
 };

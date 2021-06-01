@@ -226,7 +226,6 @@ function Singularity(props) {
           }
 
           if (!singularityDetails) {
-            console.log('ISSUER UPDATE: ' + token.iss);
             setSingularityDetails({});
             singularity.getSingularityDetails(accessToken, token.iss).then((client)=>{
               dispatch(setSingularityClient(client));

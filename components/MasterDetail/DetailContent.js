@@ -12,10 +12,12 @@ import { withRouter } from 'react-router-dom';
 import MasterDetailPage from './index';
 import {FuseAnimateGroup} from '../fuse';
 import PageBase from '../../pages/PageBase';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import DetailContentTabs from './DetailContentTabs';
 import {MasterDetailContext} from './index';
 import {SingularityContext} from '../Singularity';
+import ErrorWrapper from '../Errors/ErrorWrapper';
+import FuseLoading from '../fuse/FuseLoading';
 
 
 const useStyles = makeStyles((theme) => {
@@ -52,6 +54,14 @@ const useStyles = makeStyles((theme) => {
       flexDirection: 'column',
       justifyContent: 'space-between',
       overflow: 'hidden',
+    },
+    errorWrapper: {
+      padding: 0,
+      flexShrink: 1,
+      flexGrow: 0,
+    },
+    errorWrapperComponent: {
+      padding: 0,
     },
     entityWrapper: {
       padding: theme.spacing(1),
@@ -91,6 +101,7 @@ const DetailContent = ({
   history,
 })=>{
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const masterDetailContext = useContext(MasterDetailContext);
   const singularityContext = useContext(SingularityContext);
@@ -100,12 +111,16 @@ const DetailContent = ({
     entity,
   } = masterDetailContext;
 
+  const { operations } = definition;
+
   const [modified, setModified] = useState(false);
   const [errors, setErrors] = useState({});
+  const [updating, setUpdating] = useState(false);
+  const [responseErrors, setResponseErrors] = useState(null);
   const { form, handleChange, resetForm, setForm } = useForm(entity || definition.generateModel());
   const theme = useTheme();
   const transitionLength = theme.transitions.duration.shortest;
-  // const {isInRole} = singularityContext;
+  const {/*isInRole,*/ accessToken} = singularityContext;
 
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
@@ -206,6 +221,12 @@ const DetailContent = ({
         />
       </ThemeProvider>
 
+      <div className={clsx(classes.errorWrapper)}>
+        {
+          responseErrors && <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={responseErrors}/>
+        }
+      </div>
+
       <div className={clsx(classes.contentWrapper)}>
         {definition && tabs && (
           <Switch key={location.pathname} location={location}>
@@ -270,7 +291,8 @@ const DetailContent = ({
                         'transition.slideRightBigOut'
                     }}
                   >
-                    <EntityView
+                    {updating && <FuseLoading title="Updating..."/>}
+                    {!updating && <EntityView
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}
@@ -282,6 +304,7 @@ const DetailContent = ({
                         onChange && onChange(form);
                       }}
                     />
+                    }
                     <div className="flex flex-1"/>
                     { (!readonly && (auth.update || (auth.create /* && !isNew */))) &&
                       <div className={clsx(classes.actionWrapper)}>
@@ -289,9 +312,35 @@ const DetailContent = ({
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           variant="contained"
                           color="primary"
-                          disabled={!canBeSubmitted || readonly}
+                          disabled={updating || !canBeSubmitted || readonly}
                           onClick={() => {
-                            console.log('clicked');
+                            setUpdating(true);
+                            const updateOperation = operations['UPDATE_ENTITY'];
+                            if (!updateOperation) {
+                              setResponseErrors([{
+                                message : 'Operation not accessible'
+                              }]);
+                              setUpdating(false);
+                            } else {
+                              dispatch(
+                                (dispatch, getState)=>{
+                                  return dispatch(updateOperation(form,
+                                    (err)=>{
+                                      if (err) {
+                                        setResponseErrors(err);
+                                      }
+                                      setModified(false);
+                                      setUpdating(false);
+                                    }, {
+                                      accessToken : accessToken,
+                                      params : definition.getUpdateParams ?
+                                        definition.getUpdateParams(getState, masterDetailContext) :
+                                        {}
+                                    }
+                                  ));
+                                }
+                              );
+                            }
                           }}
                         >
                           <Icon className={clsx(classes.actionButtonIcon)}>save</Icon>
@@ -302,7 +351,7 @@ const DetailContent = ({
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           variant="contained"
                           color="secondary"
-                          disabled={!canBeSubmitted || readonly}
+                          disabled={updating || !canBeSubmitted || readonly}
                           onClick={reset}
                         >
                           <Icon className={clsx(classes.actionButtonIcon)}>cancel</Icon>

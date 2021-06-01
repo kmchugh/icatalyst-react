@@ -13,7 +13,9 @@ const MasterContent = ({
   onRefresh,
   updating,
   className,
-  auth
+  auth,
+  onAdd,
+  onDelete
 })=>{
   return (
     <DataTable
@@ -22,11 +24,13 @@ const MasterContent = ({
       data={data}
       onRefresh={onRefresh}
       updating={updating}
-      canAdd={auth.create}
-      onRowClick={(entity)=>{
+      canAdd={onAdd && auth.create}
+      onAddClicked={onAdd}
+      onDeleteClicked={onDelete}
+      onRowClicked={(entity)=>{
         auth.retrieve && history.push(`${match.url}/${definition.getIdentity(entity)}`);
       }}
-      canDelete={auth.delete}
+      canDelete={onDelete && auth.delete}
     />
   );
 };
@@ -37,6 +41,8 @@ MasterContent.propTypes = {
   match : PropTypes.object.isRequired,
   history : PropTypes.object.isRequired,
   onRefresh : PropTypes.func,
+  onAdd : PropTypes.func,
+  onDelete : PropTypes.func,
   updating : PropTypes.bool,
   className : PropTypes.oneOfType([
     PropTypes.string,

@@ -32,7 +32,7 @@ function Layout(props) {
   }, [routes, defaultSettings, currentSettings, location.pathname]);
 
   // If a layout isn't specified then use the default layout
-  const Layout = currentSettings.layout.component || defaultSettings.layout.component;
+  const Layout = (currentSettings.layout.component || defaultSettings.layout.component)();
 
   return (
     <Layout {...props}/>

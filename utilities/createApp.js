@@ -7,13 +7,10 @@ import  Theme from '@icatalyst/components/Theme';
 import  Singularity from '@icatalyst/components/Singularity';
 import  ErrorBoundary from '@icatalyst/components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
-import infoConfig from '@icatalyst/modules/InfoModule';
-import * as NavigationActions from '@icatalyst/store/actions/navigation.actions';
 import {CssBaseline} from '@material-ui/core';
 import { Layout } from '@icatalyst/layouts';
 import history from '../@history';
 
-import {generateNavigation, generateRoutes}  from '@icatalyst/utilities';
 import { create } from 'jss';
 
 const generateClassName = createGenerateClassName();
@@ -34,20 +31,12 @@ export default function createApp({
   const {  singularity : singularityConfig, ...contextConfig } = applicationConfig;
   const appContext = {
     routes :[
-      ...generateRoutes({
-        paths : [infoConfig]
-      }),
       ...routes,
     ],
     applicationConfig : contextConfig,
     layouts : layouts,
     // onUserAuthenticated : (user, dispatch)=>{},
-    onClientUpdated : (client, dispatch)=>{
-      // Add the Info Module if the client exists
-      if (client) {
-        dispatch(NavigationActions.appendNavigationItem(generateNavigation([infoConfig])[0]));
-      }
-    }
+    // onClientUpdated : (client, dispatch)=>{}
   };
 
   const App = ()=>{

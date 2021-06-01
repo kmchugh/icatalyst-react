@@ -2,6 +2,24 @@ import {generateHash} from '@icatalyst/utilities';
 const requestMap = {};
 import axios from 'axios';
 
+const toJSONBody = (data, parse) => {
+  return Object.keys(data).filter((prop)=>{
+    return prop !== 'created' &&
+           prop !== 'createdBy' &&
+           prop !== 'createdby' &&
+           prop !== 'modified' &&
+           prop !== 'modifiedBy' &&
+           prop !== 'modifiedby';
+  }).reduce(function(result, key) {
+    result[key] = data[key] === null ? data[key] : (parse ?
+      ((typeof data[key] !== 'object') ? data[key] : data[key].value) :
+      data[key]);
+
+    return result;
+  }, {});
+};
+
+
 function makeReducerRequest(config, successAction, failureAction, callback){
   return (dispatch)=>{
     let hash = generateHash(config.url);
@@ -33,12 +51,21 @@ function makeReducerRequest(config, successAction, failureAction, callback){
         }
       })
       .catch((err)=>{
-        let error = (err.response && err.response.data && err.response.data.errors) ?
-          err.response.data : (err.response || err);
+        let error = null;
+        if (err.response && err.response.data && err.response.data.data && err.response.data.data.errors) {
+          error = err.response.data.data;
+        } else if (err.response && err.response.data && err.response.data.errors) {
+          error = err.response.data;
+        } else {
+          error = err.response || err;
+        }
 
-        error = error.errors || {
+        error = error.errors.map((e)=>({
+          message  : e.message || `${err.response.status} - ${err.response.statusText}`
+        })) || {
           errors : [`${error.status} - ${error.statusText}`]
         };
+
         dispatch({
           type : failureAction,
           payload : error
@@ -104,149 +131,120 @@ const createOperation = {
       callback
       );
     };
-
-  //   return (callback, methodConfig = {})=>{
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //       }
-  //     };
-  //
-  //     const path = methodConfig.params.path;
-  //     delete methodConfig.params.path;
-  //     delete methodConfig.params.guid;
-  //     delete methodConfig.params.id;
-  //
-  //     let uri = config.uri.replace(/\/:(\w+)/g, function(match, paramKey)
-  //     {
-  //       const param = methodConfig.params[paramKey];
-  //       delete methodConfig.params[paramKey];
-  //       return '/' + param;
-  //     });
-  //     return sensemaker.makeRequest('get',
-  //       uri + (uri.endsWith('/') ? '' : '/') + (path ? (path.endsWith('/') ? path : path + '/') : '') + parseParams(methodConfig.params),
-  //       actions['ENTITY_UPDATED_LIST'],
-  //       actions['ENTITY_UPDATED_ERROR'],
-  //       callback,
-  //       null,
-  //       methodConfig.params);
-  //   };
   },
-  // 'ADD_ENTITY' : (config, actions)=>{
-  //   return (entity, callback, methodConfig = {})=>{
-  //
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //       }
-  //     };
-  //     delete methodConfig.params.guid;
-  //     delete methodConfig.params.id;
-  //
-  //     let uri = config.uri.replace(/\/:(\w+)/g, function(match, paramKey)
-  //     {
-  //       const param = methodConfig.params[paramKey];
-  //       delete methodConfig.params[paramKey];
-  //       return '/' + param;
-  //     });
-  //
-  //     return sensemaker.makeRequest('post',
-  //       uri + (uri.endsWith('/') ? '' : '/') + parseParams(methodConfig.params),
-  //       actions['ENTITY_ADDED'],
-  //       actions['ENTITY_ADDED_ERROR'],
-  //       callback,
-  //       toJSONBody(entity, false),
-  //       methodConfig.params
-  //     );
-  //   };
-  // },
-  // 'UPDATE_ENTITY' : (config, actions)=>{
-  //   return (entity, callback, methodConfig = {})=>{
-  //
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //       }
-  //     };
-  //
-  //     let uri = config.uri.replace(/\/:(\w+)/g, function(match, paramKey)
-  //     {
-  //       const param = methodConfig.params[paramKey];
-  //       delete methodConfig.params[paramKey];
-  //       return '/' + param;
-  //     });
-  //
-  //     return sensemaker.makeRequest('put',
-  //       uri + (uri.endsWith('/') ? '' : '/') + (entity.guid || entity.id || entity) + '/' + parseParams(methodConfig.params),
-  //       actions['ENTITY_UPDATED'],
-  //       actions['ENTITY_UPDATED_ERROR'],
-  //       callback,
-  //       toJSONBody(entity, false),
-  //       methodConfig.params);
-  //   };
-  // },
 
-  // 'DELETE_ENTITY' : function(config, actions){
-  //   return (entity, callback, methodConfig = {})=>{
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //         admin : true
-  //       }
-  //     };
+  'ADD_ENTITY' : (config, actions)=>{
+    return (entity, callback, requestConfig = {})=>{
+      const {accessToken, params} = requestConfig;
+      if (params){
+        delete requestConfig.params.guid;
+        delete requestConfig.params.id;
+      }
+
+      let url = createURI(
+        typeof config.uri === 'function' ? config.uri(config) : config.uri,
+        params
+      );
+
+      return makeReducerRequest({
+        method : 'post',
+        url,
+        headers : {
+          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          'Content-Type': 'text/json',
+        },
+        data : toJSONBody(entity, false),
+      },
+      actions['ENTITY_ADDED'],
+      actions['ENTITY_ADDED_ERROR'],
+      callback
+      );
+    };
+  },
+  'DELETE_ENTITY' : function(config, actions){
+    return (entity, callback, requestConfig = {})=>{
+      const {accessToken, params} = requestConfig;
+      if (params){
+        delete requestConfig.params.guid;
+        delete requestConfig.params.id;
+      }
+
+      const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
+      let url = createURI(
+        `${uri}${uri.endsWith('/') ? '' : '/'}${entity.guid || entity.id || entity}`,
+        params
+      );
+
+      return makeReducerRequest({
+        method : 'delete',
+        url,
+        headers : {
+          Authorization : accessToken ? 'Bearer ' + accessToken : undefined
+        }
+      },
+      actions['ENTITY_DELETED'],
+      actions['ENTITY_DELETED_ERROR'],
+      callback
+      );
+    };
+  },
+  'DELETE_ENTITIES' : function(config, actions){
+    return (entities, callback, requestConfig = {})=>{
+      return (dispatch, getState) => {
+
+        let responses = [];
+        const deleteFn = createOperation['DELETE_ENTITY'](config, actions);
+
+        return Promise.all(entities.map((entity)=>{
+          return (deleteFn(entity, (err, res)=>{
+            responses.push({
+              entity,
+              err,
+              res
+            });
+            if (responses.length === entities.length) {
+              const errors = responses.filter(r=>r.error);
+              callback && callback(errors.length > 0 ? errors : null, responses);
+            }
+          }, requestConfig))(dispatch, getState);
+        }));
+      };
+    };
+  },
+  'UPDATE_ENTITY' : function(config, actions){
+    return (entity, callback, requestConfig = {})=>{
+      const {accessToken, params} = requestConfig;
+      if (params){
+        delete requestConfig.params.guid;
+        delete requestConfig.params.id;
+      }
+
+      const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
+      let url = createURI(
+        `${uri}${uri.endsWith('/') ? '' : '/'}${entity.guid || entity.id || entity}`,
+        params
+      );
+
+      console.log(entity);
+      console.log('body', toJSONBody(entity, false));
+
+      return makeReducerRequest({
+        method : 'put',
+        url,
+        headers : {
+          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          'Content-Type': 'text/json',
+        },
+        data : toJSONBody(entity, false),
+      },
+      actions['ENTITY_UPDATED'],
+      actions['ENTITY_UPDATED_ERROR'],
+      callback
+      );
+    };
+  },
   //
-  //     const path = methodConfig.params.path;
-  //     delete methodConfig.params.path;
   //
-  //     let uri = config.uri.replace(/\/:(\w+)/g, function(match, paramKey)
-  //     {
-  //       const param = methodConfig.params[paramKey];
-  //       delete methodConfig.params[paramKey];
-  //       return '/' + param;
-  //     });
-  //
-  //     return sensemaker.makeRequest('delete',
-  //       uri + (uri.endsWith('/') ? '' : '/') + (path !== undefined ? path + '/' : '') + (entity.guid || entity.id || entity) + '/' + parseParams(methodConfig.params),
-  //       actions['ENTITY_DELETED'],
-  //       actions['ENTITY_DELETED_ERROR'],
-  //       callback,
-  //       null,
-  //       methodConfig.params);
-  //   };
-  // },
-  // 'DELETE_ENTITIES' : function(config, actions){
-  //   return (entities, callback, methodConfig = {})=>{
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //         admin: true
-  //       }
-  //     };
-  //
-  //     delete methodConfig.params.guid;
-  //     delete methodConfig.params.id;
-  //
-  //     return (dispatch, getState) => {
-  //
-  //       let responses = [];
-  //
-  //       const deleteFn = baseOperations['DELETE_ENTITY'](config, actions);
-  //
-  //       return Promise.all(entities.map((entity)=>{
-  //         return (deleteFn(entity, (err, res)=>{
-  //           responses.push({
-  //             entity,
-  //             err,
-  //             res
-  //           });
-  //           if (responses.length === entities.length) {
-  //             callback && callback(responses);
-  //           }
-  //         }, methodConfig))(dispatch, getState);
-  //       }));
-  //     };
-  //   };
-  // },
   // 'RETRIEVE_ENTITY' : function(config, actions){
   //   return (guid, callback, methodConfig = {}) => {
   //     methodConfig = {

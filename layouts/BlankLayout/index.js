@@ -4,7 +4,7 @@ import {renderRoutes} from 'react-router-config';
 import {PropTypes} from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
-import { FuseScrollbars } from '@icatalyst/components/fuse';
+import FuseScrollbars from '../../components/fuse/FuseScrollbars';
 import { AppContext } from '../../contexts';
 
 const useStyles = makeStyles(() => {
@@ -34,11 +34,3 @@ BlankLayout.propTypes = {
 };
 
 export default React.memo(withRouter(BlankLayout));
-
-
-
-export const layoutDefaults = {
-  style: 'blankLayout',
-  component : BlankLayout,
-  customScrollbars : true,
-};

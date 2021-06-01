@@ -1,6 +1,7 @@
 import pluralize from 'pluralize';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import ModelService from '../services/ModelService';
 
 export const ModelPropTypes = PropTypes.shape({
   // the list of field definitions in order preference
@@ -21,11 +22,13 @@ export const ModelPropTypes = PropTypes.shape({
 // - getReducerRoot [required]: a function that helps to find the reducer state in the application state
 // - name [required]: the name of this model
 // - component [optional]: the component to use when displaying the base route
+// - createEntityPath [optional] : if specified when creating a new entity the user will be navigated to this path
 // - detailComponent [optional]: the component to use when displaying the detail route
 // - label [optional]: How to display the name
 // - labelPlural [optional]: The plural of the model label
 // - icon [required]: The mui icon to use when representing the model
 // - auth [optional]: The role that can access this entity, defaults to everyone
+// - addInline [optional]: If true then a dialog will be used when a user creates a new entity
 // - identityFieldName [optional] : the field in the entity that should be used as the identity field, defaults to guid
 // - getIdentity [optional] : function (item)->{item.guid}, defaults to returning the field as specified by identityFieldName
 // - primaryTextField [optional] : the field to represent the primary text for the entity, defaults to 'name'
@@ -38,6 +41,9 @@ export const ModelPropTypes = PropTypes.shape({
 //      arrays can contain field names or functions (entity, containerProps)=>component.  Defaults to fieldOrder
 // - listLayout [optional] : flat list of what fields should be shown in a list, defaults to fieldOrder
 // - transformPayload [optional] : function that receives the action and transforms it appropriately before being processed by the reducer.  defaults to (action)=>{action}
+// - filterPayload [optional] : function that receives the array of data received and filters to appropriate fields.  Happens before transformation
+// - getRetrieveAllParams [optional] : a function to add parameter when retrieving all records
+// - getAddParams [optional] : a function to add parameters when adding a record 
 
 
 // A field definition represents a property of the entity.
@@ -119,6 +125,8 @@ function normaliseValidations(field) {
  * @returns {type} the normalised definition
  */
 export function createModel(model){
+  // Allow modification of the model before generating the definition
+  model = ModelService.mapModel(model);
   const definition = {
     identityFieldName : 'guid',
     primaryTextField : 'name',
@@ -171,7 +179,8 @@ export function createModel(model){
           return acc;
         }, errors);
     },
-    transformPayload: undefined,
+    transformPayload : undefined,
+    filterPayload : undefined,
     ...model
   };
 

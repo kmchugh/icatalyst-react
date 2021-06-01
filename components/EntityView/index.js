@@ -54,7 +54,8 @@ const EntityView = ({
   onChange,
   errors,
   className,
-  readonly
+  readonly,
+  hideReadOnly
 }) => {
   const dispatch = useDispatch;
   const classes = useStyles();
@@ -90,7 +91,7 @@ const EntityView = ({
           }
 
           let Component = getComponent(fieldDef);
-          return <Component
+          return (hideReadOnly && fieldDef.readonly) ? null : <Component
             value={model[field]}
             field={fieldDef}
             key={`${key}_${fieldDef.id}`}
@@ -120,6 +121,7 @@ const EntityView = ({
 EntityView.displayName = 'EntityView';
 EntityView.propTypes = {
   definition : ModelPropTypes.isRequired,
+  hideReadOnly : PropTypes.bool,
   model : PropTypes.object,
   fieldProps : PropTypes.object,
   onChange : PropTypes.func,

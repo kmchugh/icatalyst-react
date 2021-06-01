@@ -6,6 +6,7 @@ import Icon from '../Icon';
 import { Typography } from '@material-ui/core';
 import {fade} from '@material-ui/core/styles/colorManipulator';
 import Error from './Error';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
@@ -17,7 +18,13 @@ const useStyles = makeStyles((theme) => {
       borderRadius: theme.shape.borderRadius,
       border: `thin solid ${theme.palette.error.dark}`,
       background: fade(theme.palette.error.main, .25),
-      color: theme.palette.error.contrastText,
+      color: `${mostReadable(
+        tinycolor(theme.palette.error.main),
+        [
+          theme.palette.error.light,
+          theme.palette.error.dark,
+        ], {}
+      ).toHexString()}`,
       width: '100%',
       position: 'relative!important',
       minHeight: '100%'
@@ -45,20 +52,28 @@ const useStyles = makeStyles((theme) => {
 });
 
 
-const ErrorComponent = ({errors, title, actionComponent})=>{
+const ErrorComponent = ({errors,
+  title,
+  actionComponent,
+  className
+})=>{
   if (!errors || errors.length === 0) {
     return null;
   }
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root)}>
-      <div className={clsx(classes.errorTitle)}>
-        <Icon className={clsx(classes.errorIcon)}>error</Icon>
-        <Typography className="flex-shrink" variant="h5">
-          {title}
-        </Typography>
-      </div>
+    <div className={clsx(classes.root, className)}>
+      {title &&
+        (
+          <div className={clsx(classes.errorTitle)}>
+            <Icon className={clsx(classes.errorIcon)}>error</Icon>
+            <Typography className="flex-shrink" variant="h5">
+              {title}
+            </Typography>
+          </div>
+        )
+      }
       <ul className={clsx(classes.errorList)}>
         {
           errors.map(e=>{
@@ -72,7 +87,7 @@ const ErrorComponent = ({errors, title, actionComponent})=>{
         }
       </ul>
       {
-        <div className={clsx(classes.errorActionWrapper)}>
+        actionComponent && <div className={clsx(classes.errorActionWrapper)}>
           {actionComponent}
         </div>
       }
@@ -86,8 +101,12 @@ ErrorComponent.propTypes = {
       message : PropTypes.string.isRequired
     })
   ),
-  title : PropTypes.string.isRequired,
-  actionComponent : PropTypes.node
+  title : PropTypes.string,
+  actionComponent : PropTypes.node,
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
 };
 
 export default React.memo(ErrorComponent);

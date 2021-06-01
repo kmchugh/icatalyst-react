@@ -6,6 +6,7 @@ library.add(fas, far, fab);
 
 export {default as Avatar} from './Avatar';
 export {default as ClearableInput} from './ClearableInput';
+export * from './Dialogs';
 export {default as Icon} from './Icon';
 export {default as IconButton} from './IconButton';
 export {default as Image} from './Image';

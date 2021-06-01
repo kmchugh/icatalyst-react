@@ -34,9 +34,9 @@ const getReducerFn = (definition, type)=>{
   // Update the list of available entities
   case 'ENTITY_UPDATED_LIST' :
     return (state, action)=>{
-      const payload = definition.transformPayload ?
-        definition.transformPayload('ENTITY_UPDATED_LIST', action.payload) :
-        action.payload;
+      const payload = action.payload
+        .filter(definition.filterPayload || (()=>true))
+        .map(definition.transformPayload || ((i)=>i));
       return {
         ...state,
         errors: null,
@@ -85,123 +85,100 @@ const getReducerFn = (definition, type)=>{
       };
     };
 
+  case 'ENTITY_ADDED' :
+    return (state, action)=>{
+      const transformedPayload = (definition.transformPayload || ((i)=>i))(action.payload);
+      return {
+        ...state,
+        errors : null,
+        entities : [
+          ...state.entities,
+          transformedPayload
+        ],
+        entity_map : {
+          ...state.entity_map,
+          [action.payload[definition.identityFieldName]] : transformedPayload
+        }
+      };
+    };
+
+  case 'ENTITY_ADDED_ERROR' :
+    return (state, action)=>{
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    };
+
+  case 'ENTITY_DELETED' :
+    return (state, action)=>{
+      let index = state.entities.findIndex((element)=>{
+        return element[definition.identityFieldName] === action.payload[definition.identityFieldName];
+      });
+
+      let map = {...state.entity_map};
+      if (state.entity_map[action.payload[definition.identityFieldName]]) {
+        delete map[action.payload[definition.identityFieldName]];
+      }
+
+      return {
+        ...state,
+        errors: null,
+        entities: index === -1 ? [
+          ...state.entities
+        ] : [
+          ...state.entities.slice(0, index),
+          ...state.entities.slice(index + 1)
+        ],
+        entity_map : map
+      };
+    };
+
+  case 'ENTITY_DELETED_ERROR' :
+    return (state, action)=>{
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    };
+
+  case 'ENTITY_UPDATED' :
+    return (state, action)=>{
+      let index = state.entities.findIndex((element)=>{
+        return element[definition.identityFieldName] === action.payload[definition.identityFieldName];
+      });
+
+      const transformedPayload = (definition.transformPayload || ((i)=>i))(action.payload);
+
+      return {
+        ...state,
+        errors: null,
+        entities: index === -1 ? [
+          ...state.entities,
+          transformedPayload,
+        ] : [
+          ...state.entities.slice(0, index),
+          transformedPayload,
+          ...state.entities.slice(index + 1)
+        ],
+        entity_map : {
+          ...state.entity_map,
+          [action.payload[definition.identityFieldName]] : transformedPayload
+        }
+      };
+    };
+
+  case 'ENTITY_UPDATED_ERROR' :
+    return (state, action)=>{
+      return {
+        ...state,
+        errors: action.payload,
+      };
+    };
 
   default:
     return null;
   }
-
-
-
-  //
-
-  //
-  // 'ENTITY_ADDED' : (state, action)=>{
-  //   return {
-  //     ...state,
-  //     errors: null,
-  //     admin_entities: [
-  //       ...state.admin_entities,
-  //       action.payload
-  //     ],
-  //     entities: [
-  //       ...state.entities,
-  //       action.payload
-  //     ],
-  //     entity_map : {
-  //       ...state.entity_map,
-  //       [action.payload.guid] : action.payload
-  //     }
-  //   };
-  // },
-  //
-  // 'ENTITY_ADDED_ERROR' : (state, action)=>{
-  //   return {
-  //     ...state,
-  //     errors: action.payload,
-  //   };
-  // },
-  //
-  // 'ENTITY_DELETED' : (state, action)=>{
-  //   let index = state.entities.findIndex((element)=>{
-  //     return element.guid === action.payload.guid;
-  //   });
-  //
-  //   let admin_index = state.admin_entities.findIndex((element)=>{
-  //     return element.guid === action.payload.guid;
-  //   });
-  //
-  //   let map = {...state.entity_map};
-  //   if (state.entity_map[action.payload.guid]) {
-  //     delete map[action.payload.guid];
-  //   }
-  //
-  //   return {
-  //     ...state,
-  //     errors: null,
-  //     entities: index === -1 ? [
-  //       ...state.entities
-  //     ] : [
-  //       ...state.entities.slice(0, index),
-  //       ...state.entities.slice(index + 1)
-  //     ],
-  //     admin_entities: admin_index === -1 ? [
-  //       ...state.admin_entities
-  //     ] : [
-  //       ...state.admin_entities.slice(0, admin_index),
-  //       ...state.admin_entities.slice(admin_index + 1)
-  //     ],
-  //     entity_map : map
-  //   };
-  // },
-  //
-  // 'ENTITY_DELETED_ERROR' : (state, action)=>{
-  //   return {
-  //     ...state,
-  //     errors: action.payload,
-  //   };
-  // },
-  //
-  // 'ENTITY_UPDATED' : (state, action)=>{
-  //   let index = state.entities.findIndex((element)=>{
-  //     return element.guid === action.payload.guid;
-  //   });
-  //
-  //   let admin_index = state.admin_entities.findIndex((element)=>{
-  //     return element.guid === action.payload.guid;
-  //   });
-  //
-  //   return {
-  //     ...state,
-  //     errors: null,
-  //     entities: index === -1 ? [
-  //       ...state.entities,
-  //       action.payload,
-  //     ] : [
-  //       ...state.entities.slice(0, index),
-  //       action.payload,
-  //       ...state.entities.slice(index + 1)
-  //     ],
-  //     admin_entities: admin_index === -1 ? [
-  //       ...state.admin_entities,
-  //       action.payload,
-  //     ] : [
-  //       ...state.admin_entities.slice(0, admin_index),
-  //       action.payload,
-  //       ...state.admin_entities.slice(admin_index + 1)
-  //     ],
-  //     entity_map : {
-  //       ...state.entity_map,
-  //       [action.payload.guid] : action.payload
-  //     }
-  //   };
-  // },
-  //
-  // 'ENTITY_UPDATED_ERROR' : (state, action)=>{
-  //   return {
-  //     ...state,
-  //     errors: action.payload,
-  //   };
-  // }
 };
 
 /**

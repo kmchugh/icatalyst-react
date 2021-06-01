@@ -28,15 +28,15 @@ class SingularityService {
 
     client : 'api/client',
 
-    invites : 'api/invites',
+    invites : 'api/invite',
     profile : 'api/profile',
-    role_membership : 'api/roles/:roleid/members',
-    roles : 'api/roles',
+    role_membership : 'api/role/:roleid/members',
+    roles : 'api/group',
     session : 'api/session',
 
     token : 'token',
 
-    users : 'api/users',
+    users : 'api/user',
     version : 'version',
 
     resource_permissions : 'api/resourcePermissions',

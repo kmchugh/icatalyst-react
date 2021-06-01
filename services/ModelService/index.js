@@ -1,6 +1,15 @@
+
 const models = {};
 
+let mapModelFn = ((m)=>m);
+
 const ModelService = {
+  setMapModel : (mapFn)=>{
+    mapModelFn = mapFn;
+  },
+  mapModel : (model)=>{
+    return mapModelFn ? mapModelFn(model) : model;
+  },
   registerModel : (service, model)=>{
     if (!models[service]) {
       models[service] = {};
@@ -23,3 +32,9 @@ const ModelService = {
 };
 
 export default ModelService;
+
+try {
+  require('app/init');
+} catch (err) {
+  // Do nothing here
+}

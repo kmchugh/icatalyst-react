@@ -1,16 +1,15 @@
 import {createRouteConfig} from '../../../utilities';
 import {VersionScreen} from '../components';
 
-import {useSelector} from 'react-redux';
+import _ from '../../../@lodash';
 
-export default createRouteConfig({
-  icon : 'fa file-contract',
-  name: 'terms',
-  title: 'Terms and Conditions',
-  component : VersionScreen,
-  visible : ()=>{
-    const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
+export function createModule(config={}){
+  const moduleConfig = _.merge({
+    icon : 'fa file-contract',
+    name: 'terms',
+    title: 'Terms and Conditions',
+    component : VersionScreen,
+  }, config);
 
-    return !!(client && client.termsuri);
-  }
-});
+  return createRouteConfig(moduleConfig);
+}

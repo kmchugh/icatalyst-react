@@ -1,14 +1,21 @@
-import {default as aboutDefinition} from './About';
+import {createModule as aboutDefinition} from './About';
 import {createRouteConfig} from '../../utilities/createRouteConfig';
+import _ from '../../@lodash';
 
-const routeInfo = createRouteConfig({
-  name : 'Software',
-  path : 'info',
-  icon : 'fa info',
-  navigation: true,
-  component : null,
-  paths : [
-    createRouteConfig(aboutDefinition)
-  ]
-});
-export default routeInfo;
+export function createModule(config={}){
+
+  const { modules = {}, ...rest } = config;
+
+  const moduleConfig = _.merge({
+    name : 'Software',
+    path : 'info',
+    icon : 'fa info',
+    navigation: true,
+    component : null,
+    paths : [
+      createRouteConfig(aboutDefinition(modules))
+    ]
+  }, rest);
+
+  return createRouteConfig(moduleConfig);
+}

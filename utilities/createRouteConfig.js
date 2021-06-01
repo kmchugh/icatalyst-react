@@ -13,6 +13,10 @@ import MasterDetailPage from '../components/MasterDetail';
 export function createRouteConfig(definition) {
   const rootAuth = definition.auth || null;
 
+  if (!definition.name) {
+    throw new Error('definition not correctly configured');
+  }
+
   return {
     ...definition,
     title : definition.title || definition.labelPlural || _.startCase(pluralize(definition.name)),

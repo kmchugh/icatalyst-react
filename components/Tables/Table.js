@@ -173,7 +173,9 @@ const useStyles = makeStyles((theme)=>{
 const Table = ({
   columns,
   data,
-  onRowClick,
+  onRowClicked,
+  onAddClicked,
+  onDeleteClicked,
   onRefresh,
   updating,
   EmptyListComponent = <EmptyTable/>,
@@ -424,14 +426,14 @@ const Table = ({
                 title : 'delete',
                 icon : 'delete',
                 onClick : ()=>{
-                  console.log('delete');
+                  onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
                 },
                 show : canDelete && Object.keys(selectedRowIds).length > 0,
               },{
                 title : 'add',
                 icon : 'add',
                 onClick : ()=>{
-                  console.log('add');
+                  onAddClicked && onAddClicked();
                 },
                 show : canAdd && Object.keys(selectedRowIds).length === 0
               }].filter(i=>i.show)}
@@ -479,7 +481,7 @@ const Table = ({
                   maxHeight: tableHeight,
                   width: tableWidth
                 }}
-                onRowClick={onRowClick}
+                onRowClicked={onRowClicked}
                 prepareRow={prepareRow}
                 page={page}
                 {...getTableBodyProps()}
@@ -528,12 +530,14 @@ Table.propTypes = {
   updating: PropTypes.bool,
   EmptyListComponent : PropTypes.node,
   getRowID : PropTypes.func,
-  onRowClick : PropTypes.func,
+  onRowClicked : PropTypes.func,
   onRefresh : PropTypes.func,
   title : PropTypes.string,
   icon : PropTypes.string,
   canAdd : PropTypes.bool,
   canDelete : PropTypes.bool,
+  onAddClicked : PropTypes.func,
+  onDeleteClicked : PropTypes.func,
   isSelectable : PropTypes.func,
 };
 

@@ -8,15 +8,17 @@ import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import {ThemeProvider} from '@material-ui/core';
 
-import { FuseScrollbars, FuseMessage, FuseDialog,
-  FuseSuspense} from '@icatalyst/components/fuse';
+import FuseScrollbars from '../../components/fuse/FuseScrollbars';
+import FuseMessage from '../../components/fuse/FuseMessage';
+import FuseSuspense from '../../components/fuse/FuseSuspense';
 
 import ToolbarLayout from '../components/ToolbarLayout';
 import SidePanelLayout from '../components/SidePanelLayout';
 import Footer from '../components/FooterLayouts/Footer';
 import NavbarWrapperLayout from '../components/NavbarLayouts/NavbarWrapperLayout';
 import SettingsPanelLayout from '../components/SettingsPanelLayout';
-import { SessionPanel } from '@icatalyst/components';
+import SessionPanel from '../../components/Session/SessionPanel';
+import StateDialog from '../../components/Dialogs/StateDialog';
 
 const useStyles = makeStyles(theme => {
   return {
@@ -213,7 +215,7 @@ function Layout(props) {
               )}
               <ScrollWrapper className={classes.content} scrollType="content" config={config}>
                 <ContentWrapper config={config}>
-                  <FuseDialog />
+                  <StateDialog />
                   <FuseSuspense>{renderRoutes(routes)}</FuseSuspense>
                   {props.children}
                 </ContentWrapper>
@@ -266,79 +268,3 @@ Layout.propTypes = {
 
 
 export default React.memo(withRouter(Layout));
-
-
-export const layoutDefaults = {
-  style: 'consoleLayout',
-  component : Layout,
-  customScrollbars : true,
-  theme           : {
-    main      : 'defaultThemeDark',
-    navbar    : 'defaultThemeLight',
-    toolbar   : 'defaultThemeLight',
-    footer    : 'defaultThemeLight',
-    panel     : 'defaultThemeLight',
-  },
-  mode: 'fullwidth', // 'fullwidth', 'boxed'
-  scroll : 'content', // 'body', 'content',
-  clientName : 'Not Set',
-  clientLogo : 'Not Set',
-  companyName : 'Not Set',
-  companyLogo : 'Not Set',
-  companyUrl : 'Not Set',
-
-  leftSidePanel : {
-    display : false
-  },
-  rightSidePanel : {
-    display : true
-  },
-  toolbar : {
-    display : true,
-    style : 'fixed', // 'fixed',
-    position: 'inside', // 'inside', 'outside',
-  },
-  navbar : {
-    display : true,
-    position : 'left',  // 'left', 'right'
-    width: 280,
-    foldedWidth: 64
-  },
-  footer : {
-    display : true,
-    style : 'fixed', // 'fixed',
-    position: 'inside', // 'inside', 'outside'
-  },
-  userSettingsPanel : {
-    display : false
-  },
-  themeSettingsPanel : {
-    display : false
-  },
-  shortcuts : {
-    display : false
-  },
-  pages : {
-    defaults : {
-      mode : 'cardedInside',
-    },
-    // Override individual page styles here using the configKey defined for each page
-  },
-  // Entity View definition for generating edit layout
-  definition : {
-    mode: {
-      title: 'Mode',
-      type: 'radio',
-      options: [
-        {
-          name: 'Boxed',
-          value: 'boxed'
-        },
-        {
-          name: 'Full Width',
-          value: 'fullwidth'
-        }
-      ]
-    }
-  }
-};
