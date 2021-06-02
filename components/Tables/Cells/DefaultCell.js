@@ -13,8 +13,6 @@ const useStyles = makeStyles(()=>{
 
 const DefaultCell = (props)=>{
   const {
-    column,
-    row,
     value,
     className
   } = props;
@@ -23,7 +21,7 @@ const DefaultCell = (props)=>{
 
   return (
     <div className={clsx(classes.root, className)}>
-      {column.getValue ? column.getValue(column, row.original, value) : value}
+      {value}
     </div>
   );
 };

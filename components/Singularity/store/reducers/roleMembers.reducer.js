@@ -33,7 +33,7 @@ const definition = createModel({
     {
       id : 'linkage',
       type : 'string',
-      getValue(column, entity/*, value*/) {
+      getValue(entity) {
         return entity.hops > 0 ? 'Indirect' : 'Direct';
       }
     },

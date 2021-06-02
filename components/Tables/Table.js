@@ -232,11 +232,10 @@ const Table = ({
     }
   });
 
-  const searchContext = useContext(SearchFilterContext);
   const {
     searchFilter,
     setSearchFilter
-  } = searchContext;
+  } = useContext(SearchFilterContext);
 
   useEffect(()=>{
     setGlobalFilter(searchFilter);
@@ -245,11 +244,10 @@ const Table = ({
   const [columnDefinitions] = useState(columns.map((column)=>{
     return {
       Header : column.label,
-      accessor : column.id,
+      accessor : column.getValue ? column.getValue : column.id,
       canSort : column.sortable,
       // If the cell has a render method then let it render itself
       Cell : getCellComponent(column.render ? 'custom' : column.type),
-      getValue : column.getValue,
       field : column,
       // Footer: ƒ emptyRenderer()
       // Header: ƒ Header(_ref2)
@@ -283,6 +281,7 @@ const Table = ({
   }));
 
   const classes = useStyles();
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -296,7 +295,6 @@ const Table = ({
     state : {
       pageIndex, pageSize,
       selectedRowIds,
-      // globalFilter
     }
   } = useTable({
     columns: columnDefinitions,
