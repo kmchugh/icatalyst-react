@@ -135,7 +135,12 @@ const createOperation = {
 
   'ADD_ENTITY' : (config, actions)=>{
     return (entity, callback, requestConfig = {})=>{
-      const {accessToken, params} = requestConfig;
+      const {
+        accessToken,
+        params,
+        parse = true,
+        contentType = 'text/json',
+      } = requestConfig;
       if (params){
         delete requestConfig.params.guid;
         delete requestConfig.params.id;
@@ -151,9 +156,9 @@ const createOperation = {
         url,
         headers : {
           Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
-          'Content-Type': 'text/json',
+          'Content-Type': contentType,
         },
-        data : toJSONBody(entity, false),
+        data : parse ? toJSONBody(entity, false) : entity,
       },
       actions['ENTITY_ADDED'],
       actions['ENTITY_ADDED_ERROR'],
