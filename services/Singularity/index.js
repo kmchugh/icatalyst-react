@@ -28,6 +28,8 @@ class SingularityService {
 
     client : 'api/client',
 
+    edge_type : 'api/edgetype',
+
     invites : 'api/invite',
     profile : 'api/profile',
     role_membership : 'api/role/:roleid/members',
@@ -42,11 +44,11 @@ class SingularityService {
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
 
-  // client_refresh : 'token/refresh',
-  // client_logout : 'logout',
-  //
-  // resource : 'api/resource',
-  // resource_membership : 'api/resourceMembership'
+    // client_refresh : 'token/refresh',
+    // client_logout : 'logout',
+    //
+    // resource : 'api/resource',
+    resource_membership : 'api/resourceMembership'
   };
   #settings = {
     localstore_key : 'singularity_key'

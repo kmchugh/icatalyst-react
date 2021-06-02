@@ -10,7 +10,8 @@ import MasterDetailPage from '../components/MasterDetail';
  * @param  {Object}     config The configuration object allowing specific overriding
  * @return {Object}            The generated configuration
  */
-export function createRouteConfig(definition) {
+export function createRouteConfig(definition, overrides) {
+  definition = _.merge({}, definition, overrides);
   const rootAuth = definition.auth || null;
 
   if (!definition.name) {
@@ -22,7 +23,7 @@ export function createRouteConfig(definition) {
     title : definition.title || definition.labelPlural || _.startCase(pluralize(definition.name)),
     navigation: definition.navigation === undefined ? true : definition.navigation,
     auth : rootAuth,
-    path : (definition.namePlural || definition.name).toLowerCase(),
+    path : definition.path || (definition.namePlural || definition.name).toLowerCase(),
     component : definition.component === undefined ? MasterDetailPage : definition.component,
 
     // If the definition already has a routes property then use that directly

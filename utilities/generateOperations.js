@@ -36,10 +36,15 @@ function makeReducerRequest(config, successAction, failureAction, callback){
       .then((response)=>{
         if (response.data && !response.data.error) {
           const data = response.data;
-          dispatch({
-            type : successAction,
-            payload : data
-          });
+          if (
+            response.headers['content-type'] === 'application/json' ||
+            response.headers['content-type'] === 'text/json'
+          ) {
+            dispatch({
+              type : successAction,
+              payload : data
+            });
+          }
           callback && callback(null, data);
         } else {
           const error = response.data && response.data.error || response.data;
@@ -56,8 +61,12 @@ function makeReducerRequest(config, successAction, failureAction, callback){
           error = err.response.data.data;
         } else if (err.response && err.response.data && err.response.data.errors) {
           error = err.response.data;
+        } else if (err.response.errors) {
+          error = err.response;
         } else {
-          error = err.response || err;
+          error = {
+            errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
+          };
         }
 
         error = error.errors.map((e)=>({
@@ -230,9 +239,6 @@ const createOperation = {
         params
       );
 
-      console.log(entity);
-      console.log('body', toJSONBody(entity, false));
-
       return makeReducerRequest({
         method : 'put',
         url,
@@ -248,47 +254,35 @@ const createOperation = {
       );
     };
   },
-  //
-  //
-  // 'RETRIEVE_ENTITY' : function(config, actions){
-  //   return (guid, callback, methodConfig = {}) => {
-  //     methodConfig = {
-  //       params : {
-  //         ...(methodConfig.params || {}),
-  //       }
-  //     };
-  //     delete methodConfig.params.guid;
-  //
-  //
-  //     if (!guid) {
-  //       return ()=>{
-  //         return {
-  //           type: actions['ENTITY_LOADED'],
-  //           payload : null
-  //         };
-  //       };
-  //     }
-  //
-  //     let uri = config.uri.replace(/\/:(\w+)/g, function(match, paramKey)
-  //     {
-  //       const param = methodConfig.params[paramKey];
-  //       delete methodConfig.params[paramKey];
-  //       return '/' + param;
-  //     });
-  //
-  //     const params = Object.keys(methodConfig.params);
-  //     return sensemaker.makeRequest('get',
-  //       uri + (uri.endsWith('/') ? '' : '/') + guid + '/' + (parseParams ?
-  //         '?' + params.map((key)=>{
-  //           return key + '=' + methodConfig.params[key];
-  //         }).join('&') : ''),
-  //       actions['ENTITY_LOADED'],
-  //       actions['ENTITY_LOADED_ERROR'],
-  //       callback,
-  //       null,
-  //       methodConfig.params);
-  //   };
-  // }
+  'RETRIEVE_ENTITY' : function(config, actions){
+    return (entityid, callback, requestConfig = {})=>{
+      const {accessToken, params} = requestConfig;
+      if (params){
+        delete requestConfig.params.guid;
+        delete requestConfig.params.id;
+      }
+
+      const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
+      let url = createURI(
+        `${uri}${uri.endsWith('/') ? '' : '/'}${entityid}`,
+        params
+      );
+
+      console.log(url);
+
+      return makeReducerRequest({
+        method : 'get',
+        url,
+        headers : {
+          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+        },
+      },
+      actions['ENTITY_LOADED'],
+      actions['ENTITY_LOADED_ERROR'],
+      callback
+      );
+    };
+  },
 };
 
 export function generateOperations(config, actions) {
