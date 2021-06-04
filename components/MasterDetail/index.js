@@ -300,8 +300,8 @@ const MasterDetailPage = ({
               onRefresh={()=>{
                 loadEntities();
               }}
-              onAdd={canAdd && handleAdd}
-              onDelete={canDelete && handleDelete}
+              onAdd={canAdd ? handleAdd : null}
+              onDelete={canDelete ? handleDelete : null}
             />
           ) : <FuseLoading title={`Loading ${definition.labelPlural}...`}/>;
         }}/>

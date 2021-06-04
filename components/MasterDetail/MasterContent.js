@@ -27,7 +27,7 @@ const MasterContent = (props)=>{
       onRefresh={onRefresh}
       updating={updating}
       canAdd={onAdd && auth.create}
-      onAddClicked={onAdd}
+      onAddClicked={onAdd ? onAdd : null}
       onDeleteClicked={onDelete}
       onRowClicked={(entity)=>{
         if (definition.onEntityClicked) {
