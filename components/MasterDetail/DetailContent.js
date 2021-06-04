@@ -153,7 +153,7 @@ const DetailContent = ({
     setTabs([{
       icon : definition.icon,
       label : `${definition.label} Details`,
-      visible : auth.retrieveAll,
+      visible : auth && auth.retrieveAll,
     }]);
 
     if (definition.children) {
@@ -296,7 +296,7 @@ const DetailContent = ({
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}
-                      readonly={readonly || !auth.update || (!auth.create /* && !isNew */)}
+                      readonly={readonly || !auth || !auth.update || (!auth.create /* && !isNew */)}
                       errors={errors}
                       onChange={(e)=>{
                         handleChange(e);

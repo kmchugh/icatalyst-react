@@ -1,3 +1,4 @@
+/*global gtag*/
 import jwt_decode from 'jwt-decode';
 import _ from 'lodash';
 import CryptoJS from 'crypto-js';
@@ -219,7 +220,7 @@ class SingularityService {
     return axios.post(this.uris.token,
       parameters,
       { headers : {
-        'Content-Type': 'text/json',
+        'Content-Type': 'application/json',
         'Authorization' : 'Basic ' +
           btoa(
             // Key
@@ -233,6 +234,16 @@ class SingularityService {
           ...response.data,
           token : this.hydrateToken(response.data.access_token)
         };
+      })
+      .then((accessToken)=>{
+        const {token} = accessToken;
+        if (gtag) {
+          gtag('set', {
+            user_id: token.sub,
+            client_id: token.client_id
+          });
+        }
+        return accessToken;
       })
       .catch((err)=>{
         throw err.response.data;
@@ -353,7 +364,7 @@ class SingularityService {
     return axios.post(this.uris.token,
       parameters,
       { headers : {
-        'Content-Type': 'text/json',
+        'Content-Type': 'application/json',
         'Authorization' : 'Basic ' +
           btoa(
             // Key
@@ -463,7 +474,7 @@ class SingularityService {
   getSingularityDetails(accessToken, clientID) {
     return axios.get(`${this.uris.client}/${clientID}`, {
       headers : {
-        'Content-Type': 'text/json',
+        'Content-Type': 'application/json',
         'Authorization' : `Bearer ${accessToken}`
       }
     })
@@ -478,7 +489,7 @@ class SingularityService {
   getClientDetails(accessToken) {
     return axios.get(`${this.uris.client}/${this.#client.id}`, {
       headers : {
-        'Content-Type': 'text/json',
+        'Content-Type': 'application/json',
         'Authorization' : `Bearer ${accessToken}`
       }
     })

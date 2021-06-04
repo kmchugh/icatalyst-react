@@ -42,7 +42,7 @@ const DialogContentEntityView = ({
   const [updating, setUpdating] = useState(false);
 
   const contentRef = useRef(null);
-  const modified = !entity || _.equals(entity, form);
+  const modified = !entity || _.isEqual(entity, form);
 
   useEffect(()=>{
     if (form) {

@@ -148,7 +148,7 @@ const createOperation = {
         accessToken,
         params,
         parse = true,
-        contentType = 'text/json',
+        contentType = 'application/json',
       } = requestConfig;
       if (params){
         delete requestConfig.params.guid;
@@ -244,7 +244,7 @@ const createOperation = {
         url,
         headers : {
           Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
-          'Content-Type': 'text/json',
+          'Content-Type': 'application/json',
         },
         data : toJSONBody(entity, false),
       },
@@ -267,8 +267,6 @@ const createOperation = {
         `${uri}${uri.endsWith('/') ? '' : '/'}${entityid}`,
         params
       );
-
-      console.log(url);
 
       return makeReducerRequest({
         method : 'get',

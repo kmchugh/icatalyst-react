@@ -1,3 +1,4 @@
+/*global gtag*/
 import React from 'react';
 import AppContext from '@icatalyst/contexts/App';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
@@ -10,8 +11,22 @@ import { Router } from 'react-router-dom';
 import {CssBaseline} from '@material-ui/core';
 import { Layout } from '@icatalyst/layouts';
 import history from '../@history';
+import reportWebVitals from './reportWebVitals';
 
 import { create } from 'jss';
+
+reportWebVitals(({name, delta, value, id})=>{
+  if (gtag) {
+    gtag('event', name, {
+      value : delta,
+      metric_id : id,
+      metric_value : value,
+      metric_delta : delta,
+      nonInteraction: true,
+      transport: 'beacon'
+    });
+  }
+});
 
 const generateClassName = createGenerateClassName();
 const jss = create({
@@ -28,7 +43,16 @@ export default function createApp({
   mapAuthRoles,
   filterDisplayRoles
 }){
-  const {  singularity : singularityConfig, ...contextConfig } = applicationConfig;
+  const {  singularity : singularityConfig, ga_tag_id, ...contextConfig } = applicationConfig;
+  if (ga_tag_id){
+    if (gtag) {
+      gtag('set', {
+        user_id: 'anonymous',
+        client_id: singularityConfig.client.id
+      });
+    }
+  }
+
   const appContext = {
     routes :[
       ...routes,

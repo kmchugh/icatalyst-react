@@ -5,18 +5,20 @@ import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
 
-const MasterContent = ({
-  definition,
-  data,
-  match,
-  history,
-  onRefresh,
-  updating,
-  className,
-  auth,
-  onAdd,
-  onDelete
-})=>{
+const MasterContent = (props)=>{
+  const {
+    definition,
+    data,
+    match,
+    history,
+    onRefresh,
+    updating,
+    className,
+    auth,
+    onAdd,
+    onDelete
+  } = props;
+
   return (
     <DataTable
       className={className}
@@ -28,7 +30,11 @@ const MasterContent = ({
       onAddClicked={onAdd}
       onDeleteClicked={onDelete}
       onRowClicked={(entity)=>{
-        auth.retrieve && history.push(`${match.url}/${definition.getIdentity(entity)}`);
+        if (definition.onEntityClicked) {
+          auth.retrieve && definition.onEntityClicked(entity, props);
+        } else {
+          auth.retrieve && history.push(`${match.url}/${definition.getIdentity(entity)}`);
+        }
       }}
       canDelete={onDelete && auth.delete}
     />

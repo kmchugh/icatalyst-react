@@ -54,7 +54,7 @@ const MasterDetailPage = ({
   const [data, setData] = useState(null);
   const { title, operations, getReducerRoot = ()=>{
     console.warn(`You have not set a selector root for definition ${title}`);
-  } } = definition;
+  }, canAdd = true, canDelete = true } = definition;
 
   const reducer = useSelector(getReducerRoot);
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
@@ -125,6 +125,7 @@ const MasterDetailPage = ({
     if (!auth) {
       return;
     }
+
     if (reducer && !reducer.loaded) {
       return loadEntities();
     } else if (!reducer) {
@@ -132,6 +133,11 @@ const MasterDetailPage = ({
         setErrors(['Invalid reducer configuration']);
       }
     } else {
+      // TODO: Find a way to do this without reloading if the parent hasn't changed
+      // This ensures that a MasterView shows the parent details rather than reducer details
+      if (parentMasterDetailContext) {
+        return loadEntities();
+      }
       setErrors(null);
     }
   }, [definition, reducer, auth]);
@@ -236,6 +242,7 @@ const MasterDetailPage = ({
                 return dispatch(deleteOperation(data,
                   (err, res)=>{
                     callback(err, res);
+                    DialogActions.closeDialog();
                   }, {
                     accessToken : accessToken,
                     params : definition.getDeleteParams ?
@@ -279,6 +286,7 @@ const MasterDetailPage = ({
           setHeaderHeight(64);
           setDetailID(null);
           setSelectedDetailEntity(null);
+
           // Only show when both the data and the auth have been resolved
           return (auth && data) ? (
             <MasterContent
@@ -292,8 +300,8 @@ const MasterDetailPage = ({
               onRefresh={()=>{
                 loadEntities();
               }}
-              onAdd={handleAdd}
-              onDelete={handleDelete}
+              onAdd={canAdd && handleAdd}
+              onDelete={canDelete && handleDelete}
             />
           ) : <FuseLoading title={`Loading ${definition.labelPlural}...`}/>;
         }}/>
@@ -307,7 +315,7 @@ const MasterDetailPage = ({
     reducer,
     updating,
     data,
-    auth
+    auth,
   ]);
 
   return (
