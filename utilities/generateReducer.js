@@ -215,7 +215,7 @@ export function generateReducer(definition, {actions},
   }
 
   // Prepare the initial state for this reducer
-  initialState = _.merge(baseState, initialState);
+  initialState = _.merge({}, baseState, initialState);
 
   // Set of the entity fields
   initialState.entity_fields = definition.fieldOrder.reduce((acc, field)=>{
