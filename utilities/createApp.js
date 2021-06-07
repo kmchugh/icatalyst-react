@@ -16,7 +16,7 @@ import reportWebVitals from './reportWebVitals';
 import { create } from 'jss';
 
 reportWebVitals(({name, delta, value, id})=>{
-  if (gtag) {
+  if (typeof gtag !== 'undefined') {
     gtag('event', name, {
       value : delta,
       metric_id : id,
@@ -45,7 +45,7 @@ export default function createApp({
 }){
   const {  singularity : singularityConfig, ga_tag_id, ...contextConfig } = applicationConfig;
   if (ga_tag_id){
-    if (gtag) {
+    if (typeof gtag !== 'undefined') {
       gtag('set', {
         user_id: 'anonymous',
         client_id: singularityConfig.client.id

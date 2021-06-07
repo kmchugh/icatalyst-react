@@ -170,11 +170,15 @@ const DetailContent = ({
       ).then((tabAuthResults)=>{
         const tabs = tabAuthResults.map(({value})=>{
           const [child, childAuth] = value;
+          const isVisible = typeof childAuth.retrieveAll === 'boolean' ?
+            childAuth.retrieveAll :
+            singularityContext.isInRole(childAuth.retrieveAll);
           return {
             icon : child.icon,
             path : child.name,
             label : child.labelPlural,
-            visible : childAuth.retrieveAll,
+            visible : isVisible,
+            description: child.description,
             component : child.component || MasterDetailPage,
             definition : child
           };
@@ -306,7 +310,7 @@ const DetailContent = ({
                     />
                     }
                     <div className="flex flex-1"/>
-                    { (!readonly && (auth.update || (auth.create /* && !isNew */))) &&
+                    { (!readonly && (auth && (auth.update || (auth.create /* && !isNew */)))) &&
                       <div className={clsx(classes.actionWrapper)}>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}

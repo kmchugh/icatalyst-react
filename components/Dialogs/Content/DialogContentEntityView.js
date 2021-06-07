@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => {
     },
     errorWrapper: {
       padding: 0,
-      marginBottom: theme.spacing(1)
     }
   };
 });
@@ -64,6 +63,7 @@ const DialogContentEntityView = ({
       disabled : !isValid || !modified,
       onClick : ()=>{
         setUpdating(true);
+        setDialogErrors(null);
         onSaved(form, (err)=>{
           if (err) {
             setDialogErrors(err);
@@ -77,11 +77,13 @@ const DialogContentEntityView = ({
     }]}
   >
     <>
-      {
-        (dialogErrors && dialogErrors.length > 0) && (
-          <ErrorWrapper className={clsx(classes.errorWrapper)} errors={dialogErrors}/>
-        )
-      }
+      <div className="mb-8">
+        {
+          (dialogErrors && dialogErrors.length > 0) && (
+            <ErrorWrapper className={clsx(classes.errorWrapper)} errors={dialogErrors}/>
+          )
+        }
+      </div>
       {updating && <FuseLoading title={updatingTitle}/>}
       {!updating &&
         <EntityView

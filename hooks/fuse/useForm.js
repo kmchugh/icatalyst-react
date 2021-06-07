@@ -4,16 +4,41 @@ import { useCallback, useState } from 'react';
 function useForm(initialState, onSubmit) {
   const [form, setForm] = useState(initialState);
 
-  const handleChange = useCallback(event => {
-    event.persist && event.persist();
+  const handleChange = useCallback((event, valueMap) => {
+    if (event) {
+      event.persist && event.persist();
 
-    setForm(_form => {
-      return _.setIn(
-        { ..._form },
-        event.target.name,
-        event.target.type === 'checkbox' ? event.target.checked : event.target.value
-      );
-    });
+      let value = event.target.value;
+      // Checkboxes and dates are handled differently
+      if (event.target.type === 'checkbox') {
+        value = event.target.checked;
+      } else if (
+        event.target.type === 'datetime-local' ||
+        event.target.type === 'date'
+      ) {
+        value = value && value.length > 0 ?
+          new Date(value).getTime() :
+          null;
+      }
+      setForm(_form => {
+        return _.setIn(
+          { ..._form },
+          event.target.name,
+          value
+        );
+      });
+    } else if (valueMap) {
+      Object.keys(valueMap).forEach((key) => {
+        console.log(key, valueMap[key]);
+        setForm(_form => {
+          return _.setIn(
+            { ..._form },
+            key,
+            valueMap[key]
+          );
+        });
+      });
+    }
   }, []);
 
   const resetForm = useCallback(() => {

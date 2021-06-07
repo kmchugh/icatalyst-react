@@ -95,7 +95,6 @@ const DialogContent = React.forwardRef(({
 
               { !hideCloseButton &&
                 (
-                  // startIcon
                   <Button
                     className={clsx(classes.actionButton, closeButtonClassName)}
                     color="secondary"

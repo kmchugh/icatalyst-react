@@ -2,6 +2,7 @@ import React, {useCallback} from 'react';
 import Table from './Table';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EmptyTable from './EmptyTable';
+import {Button} from '@material-ui/core';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 
@@ -59,12 +60,24 @@ const DataTable = ({
       onDeleteClicked={onDeleteClicked}
       updating={updating}
       isSelectable={definition.isSelectable}
-      EmptyListComponent={<EmptyTable
-        icon={definition.icon || 'fa search'}
-        title={`No ${definition.labelPlural} found`}
-        action="Try doing something else"
-        help="Or click somewhere for some help"
-      />}
+      EmptyListComponent={
+        <EmptyTable
+          icon={definition.icon || 'fa search'}
+          title={`No ${definition.labelPlural} found`}
+          action={
+            onAddClicked && canAdd ? '' : 'You may not have access'
+          }
+          help={
+            onAddClicked && canAdd ? (<Button
+              color="primary"
+              variant="contained"
+              onClick={onAddClicked}
+            >
+              {`Add a ${definition.label}`}
+            </Button>) : ''
+          }
+        />
+      }
     />
   );
 };

@@ -9,22 +9,16 @@ const getLinkage = ({hops})=>{
   return hops > 0 ? 'Indirect' : 'Direct';
 };
 
-// TODO: This is actually an override of the roleOwner model.  Make it so
-
 const definition = createModel({
-  name: 'roleMember',
-  icon: 'fa user-lock',
-  getPrimaryText: (entity)=>{
-    return `${entity.username} - ${getLinkage(entity)}`;
-  },
+  name: 'roleOwner',
+  icon: 'fa users-cog',
   addInline : true,
-  description: 'A member has access to a resource but not the ability to modify or manage that resource',
+  description: 'An owner is allowed to manage, modify, and delete the resource they own',
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
     // An edge cannot be updated, just deleted and recreated
-    // update : 'admin',
     delete : 'admin'
   },
   fields : [
@@ -71,7 +65,7 @@ const definition = createModel({
       }
     },
     'start',
-    'expiry'
+    'expiry',
   ],
   isSelectable : (entity)=>{
     return entity.hops === 0;

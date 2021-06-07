@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme)=>{
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      padding : theme.spacing(4)
     },
     title : {
       marginBottom: theme.spacing(2)
@@ -51,7 +52,7 @@ const ErrorPage = (props) => {
       </FuseAnimate>
 
       <FuseAnimate delay={500}>
-        <Typography variant="h5" color="primary" className={clsx(classes.subtitle)}>
+        <Typography variant="h6" color="primary" className={clsx(classes.subtitle)}>
           {message}
         </Typography>
       </FuseAnimate>

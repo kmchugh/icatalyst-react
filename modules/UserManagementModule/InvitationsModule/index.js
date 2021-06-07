@@ -1,6 +1,7 @@
 import {createRouteConfig} from '@icatalyst/utilities';
 import {definition} from '@icatalyst/components/Singularity/store/reducers/invites.reducer';
 import _ from '../../../@lodash';
+import {CreateInvitation} from './components';
 
 export function createModule(config={}){
   let { auth }  = config;
@@ -15,6 +16,13 @@ export function createModule(config={}){
       route : auth
     });
   }
-  
-  return createRouteConfig(_.merge({}, definition, config));
+
+  return createRouteConfig(_.merge({}, definition, config), {
+    paths : [
+      {
+        path : 'create',
+        component : CreateInvitation,
+      }
+    ]
+  });
 }

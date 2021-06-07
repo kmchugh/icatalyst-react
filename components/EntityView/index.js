@@ -110,7 +110,7 @@ const EntityView = ({
   return (
     <div key={entityKey} className={clsx(classes.root, classes.col, 'col', className)}>
       {
-        definition.layout.map((field, index, layout)=>{
+        (definition.layout || []).map((field, index, layout)=>{
           return renderField(field, index, layout, 'row', entityKey);
         })
       }

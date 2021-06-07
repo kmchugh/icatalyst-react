@@ -115,7 +115,9 @@ const MasterDetailPage = ({
       }));
 
       return (()=>{
-        result.cancelToken.cancel();
+        if (result && result.cancelToken) {
+          result.cancelToken.cancel();
+        }
       });
     }
   };
@@ -154,7 +156,7 @@ const MasterDetailPage = ({
             icon={definition.icon}
             backText={definition.labelPlural}
             auth={auth}
-            backUrl={match.path}
+            backUrl={match.url}
           />
         )}/>
         <Route path={`${match.path}`} component={()=>(
@@ -199,7 +201,10 @@ const MasterDetailPage = ({
                     }, {
                       accessToken : accessToken,
                       params : definition.getAddParams ?
-                        definition.getAddParams(getState) :
+                        definition.getAddParams(getState, data, definition, {
+                          ...match.params,
+                          [definition.identityFieldName] : match.params.id
+                        }, parentMasterDetailContext) :
                         parentMasterDetailContext
                     }
                   ));
@@ -278,7 +283,7 @@ const MasterDetailPage = ({
               contained={contained}
               auth={auth}
               config={config}
-              backUrl={match.path}
+              backUrl={match.url}
               updateEntity={setSelectedDetailEntity}/>
           ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
         }}/>

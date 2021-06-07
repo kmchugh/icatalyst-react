@@ -34,6 +34,7 @@ class SingularityService {
     invites : 'api/invite',
     profile : 'api/profile',
     role_membership : 'api/role/:roleid/members',
+    role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
     session : 'api/session',
 
@@ -237,7 +238,7 @@ class SingularityService {
       })
       .then((accessToken)=>{
         const {token} = accessToken;
-        if (gtag) {
+        if (typeof gtag !== 'undefined') {
           gtag('set', {
             user_id: token.sub,
             client_id: token.client_id

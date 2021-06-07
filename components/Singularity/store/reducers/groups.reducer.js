@@ -1,6 +1,9 @@
+import React from 'react';
 import * as Actions from '../actions/groups.actions';
 import { createModel, generateReducer, generateUUID } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
+import { definition as roleOwners } from './roleOwners.reducer';
+import {InviteButton} from '../../components';
 
 const definition = createModel({
   name: 'group',
@@ -38,6 +41,7 @@ const definition = createModel({
     }
   ],
   children : [
+    roleOwners,
     roleMembers
   ],
   layout : [
@@ -50,6 +54,16 @@ const definition = createModel({
   ],
   listLayout : [
     'name', 'description',
+    {
+      id : 'invite',
+      label : '',
+      render(column, field, item){
+        return <InviteButton
+          entity={item}
+          definition={definition}
+        />;
+      }
+    }
   ],
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.groups;

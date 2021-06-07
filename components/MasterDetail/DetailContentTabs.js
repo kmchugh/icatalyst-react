@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab} from '@material-ui/core';
+import {Tabs, Tab, Tooltip} from '@material-ui/core';
 import Icon from '../Icon';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/styles';
@@ -76,14 +76,19 @@ const DetailContentTabs = ({
             className={clsx(classes.tabBar)}
           >
             {
-              tabs.filter(t=>t.visible===true).map(({icon, label, path})=>{
+              tabs.filter(t=>t.visible===true).map(({icon, label, path, description})=>{
                 return (
-                  <Tab
+                  <Tooltip
                     key={path || ''}
-                    className={clsx(classes.tab)}
-                    icon={<Icon fontSize="small">{icon}</Icon>}
-                    label={label}
-                  />
+                    title={description || ''}
+                  >
+                    <Tab
+                      key={path || ''}
+                      className={clsx(classes.tab)}
+                      icon={<Icon fontSize="small">{icon}</Icon>}
+                      label={label}
+                    />
+                  </Tooltip>
                 );
               })
             }

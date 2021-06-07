@@ -20,7 +20,10 @@ const DateTimeField = (props) => {
   const {readonly = false,
     onChange,
     value,
-    errors, field} = props;
+    errors,
+    field,
+    fullWidth = true
+  } = props;
 
   const {
     id,
@@ -57,28 +60,15 @@ const DateTimeField = (props) => {
     helperText={errors && errors.join('/n')}
     required={required}
     autoFocus={autoFocus}
-    InputProps={{
-      readOnly: readonly,
-    }}
+    disabled={readonly}
     InputLabelProps={{
       shrink: true
     }}
     autoComplete="off"
-    fullWidth
+    fullWidth={fullWidth}
     type='datetime-local'
     variant="outlined"
-    onChange={(e)=>{
-      onChange({
-        persist : e.persist,
-        target : {
-          name : name,
-          type : 'datetime',
-          value : e.target.value && e.target.value.length > 0 ?
-            new Date(e.target.value).getTime() :
-            null
-        }
-      });
-    }}
+    onChange={onChange}
     value={transform(value)}
   />);
 };
@@ -89,7 +79,8 @@ DateTimeField.propTypes = {
   onChange : PropTypes.func,
   value : PropTypes.any,
   errors: PropTypes.array,
-  field : PropTypes.object.isRequired
+  field : PropTypes.object.isRequired,
+  fullWidth : PropTypes.bool
 };
 
 export default React.memo(DateTimeField);

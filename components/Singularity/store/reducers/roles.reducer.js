@@ -1,6 +1,9 @@
+import React from 'react';
 import * as Actions from '../actions/roles.actions';
 import { createModel, generateReducer, generateUUID } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
+import { definition as roleOwners } from './roleOwners.reducer';
+import {InviteButton} from '../../components';
 
 const definition = createModel({
   name: 'role',
@@ -64,6 +67,7 @@ const definition = createModel({
     }
   ],
   children : [
+    roleOwners,
     roleMembers
   ],
   layout : [
@@ -82,6 +86,16 @@ const definition = createModel({
   ],
   listLayout : [
     'name', 'description', 'displayable',
+    {
+      id : 'invite',
+      label : '',
+      render(column, field, item){
+        return <InviteButton
+          entity={item}
+          definition={definition}
+        />;
+      }
+    }
   ],
   filterPayload : (group)=>{
     return group.code === 'SINGULARITY_GRAPH_ADMIN_ROLE' ||
