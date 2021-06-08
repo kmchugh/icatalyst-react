@@ -29,7 +29,6 @@ function useForm(initialState, onSubmit) {
       });
     } else if (valueMap) {
       Object.keys(valueMap).forEach((key) => {
-        console.log(key, valueMap[key]);
         setForm(_form => {
           return _.setIn(
             { ..._form },

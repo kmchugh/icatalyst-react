@@ -132,8 +132,10 @@ const createOperation = {
         method : 'get',
         url,
         headers : {
-          Authorization : requestConfig.accessToken ? 'Bearer ' + requestConfig.accessToken : undefined
-        }
+          Authorization : requestConfig.accessToken ? 'Bearer ' + requestConfig.accessToken : undefined,
+          'Content-Type': 'application/json',
+        },
+        data : {}
       },
       actions['ENTITY_UPDATED_LIST'],
       actions['ENTITY_UPDATED_LIST_ERROR'],
@@ -175,6 +177,33 @@ const createOperation = {
       );
     };
   },
+  'ADD_ENTITIES' : function(config, actions){
+    return (entities, callback, requestConfig = {})=>{
+      return (dispatch, getState) => {
+
+        let responses = [];
+        const addFn = createOperation['ADD_ENTITY'](config, actions);
+
+        return Promise.all(entities.map((entity)=>{
+          return (addFn(entity, (err, res)=>{
+            responses.push({
+              entity,
+              error: err,
+              res
+            });
+            if (responses.length === entities.length) {
+              const errors = responses.map(r=>r.error).filter(i=>i);
+
+              callback && callback(
+                errors.length > 0 ? {errors : errors.flatMap(e=>e)} : null,
+                responses
+              );
+            }
+          }, requestConfig))(dispatch, getState);
+        }));
+      };
+    };
+  },
   'DELETE_ENTITY' : function(config, actions){
     return (entity, callback, requestConfig = {})=>{
       const {accessToken, params} = requestConfig;
@@ -193,7 +222,8 @@ const createOperation = {
         method : 'delete',
         url,
         headers : {
-          Authorization : accessToken ? 'Bearer ' + accessToken : undefined
+          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          'Content-Type': 'application/json',
         }
       },
       actions['ENTITY_DELETED'],
@@ -213,12 +243,16 @@ const createOperation = {
           return (deleteFn(entity, (err, res)=>{
             responses.push({
               entity,
-              err,
+              error: err,
               res
             });
             if (responses.length === entities.length) {
-              const errors = responses.filter(r=>r.error);
-              callback && callback(errors.length > 0 ? errors : null, responses);
+              const errors = responses.map(r=>r.error).filter(i=>i);
+
+              callback && callback(
+                errors.length > 0 ? {errors : errors.flatMap(e=>e)} : null,
+                responses
+              );
             }
           }, requestConfig))(dispatch, getState);
         }));
@@ -273,7 +307,9 @@ const createOperation = {
         url,
         headers : {
           Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          'Content-Type': 'application/json',
         },
+        data : {}
       },
       actions['ENTITY_LOADED'],
       actions['ENTITY_LOADED_ERROR'],
@@ -288,6 +324,7 @@ export function generateOperations(config, actions) {
     'RETRIEVE_ENTITIES',
     'RETRIEVE_ENTITY',
     'ADD_ENTITY',
+    'ADD_ENTITIES',
     'DELETE_ENTITY',
     'DELETE_ENTITIES',
     'UPDATE_ENTITY'

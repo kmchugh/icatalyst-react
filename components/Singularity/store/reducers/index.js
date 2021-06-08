@@ -7,6 +7,7 @@ import rolemembers from './roleMembers.reducer';
 import version from './version.reducer';
 import users from './users.reducer';
 import groups from './groups.reducer';
+import edgetypes from './edgeType.reducer';
 
 const reducers = combineReducers({
   client,
@@ -16,7 +17,8 @@ const reducers = combineReducers({
   rolemembers,
   version,
   users,
-  groups
+  groups,
+  edgetypes
 });
 
 export default reducers;

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { AppContext } from '../../../contexts';
 
 const InviteButton = ({
   entity,
@@ -14,6 +15,10 @@ const InviteButton = ({
   const history = useHistory();
   const location = useLocation();
 
+  // TODO: This should be using a reverse lookup rather than this way.
+  const {routes} = useContext(AppContext);
+  const inviteRoute = routes.find((r)=>r.path.endsWith('/invites/create'));
+
   return (
     <Button
       color="primary"
@@ -23,15 +28,18 @@ const InviteButton = ({
         e.stopPropagation();
 
         history.push({
-          pathname: '/admin/users/invites/create',
+          pathname: inviteRoute.path,
           state : {
-            title : `Invitation for ${definition.label} ${definition.getPrimaryText(entity)}`,
+            title : `Invitation for ${definition.label} - ${definition.getPrimaryText(entity)}`,
             emails : [],
             starts,
             expires,
             owner,
             member,
             definitionType : definition.name,
+            entityID: definition.getIdentity(entity),
+            entityName: definition.getPrimaryText(entity),
+            entityDescription: definition.getSecondaryText(entity),
             entity : entity,
             backUrl : location.pathname
           }

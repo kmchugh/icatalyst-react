@@ -1,17 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import {Typography, Divider, Button} from '@material-ui/core';
-import { EntityView, IconButton, Icon } from '@icatalyst/components';
+import { EntityView, IconButton, Icon } from '../../../../components';
+import {FuseLoading} from '../../../../components/fuse';
+import {SingularityContext} from '@icatalyst/components';
 import {useForm} from '@icatalyst/hooks/fuse';
+import {useDispatch} from 'react-redux';
+import { Alert } from '@material-ui/lab';
+import {useSelector} from 'react-redux';
 
+import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
+import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
 
 const useStyles = makeStyles((theme) => {
   return {
     root : {
-      background: theme.palette.secondary.main,
+      background: theme.palette.background.default,
       display: 'flex',
       height: '100%',
       flexDirection: 'column',
@@ -22,6 +29,16 @@ const useStyles = makeStyles((theme) => {
       alignSelf : 'center',
       width: '100%',
       textAlign: 'center',
+    },
+    error_wrapper : {
+      alignSelf : 'center',
+      width: '100%',
+      textAlign: 'center',
+      display: 'flex',
+      background: 'rgb(253, 236, 234)',
+    },
+    error_list : {
+      flex : 1,
     },
     entityView : {
       width: '100%',
@@ -87,8 +104,24 @@ const CreateInvitation = ()=>{
   const classes = useStyles();
   const location = useLocation();
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const {state = {}} = location;
+  const [updating, setUpdating] = useState(false);
+  const singularityContext = useContext(SingularityContext);
+  const [errors, setErrors] = useState(null);
+  const [dialogErrors, setDialogErrors] = useState(null);
+  const {accessToken} = singularityContext;
+  const edgesReducer = useSelector(edgeTypeDefinition.getReducerRoot);
+
+  useEffect(()=>{
+    if (!edgesReducer.loaded) {
+      dispatch(edgeTypeDefinition.operations['RETRIEVE_ENTITIES'](()=>{
+      }, {
+        accessToken : accessToken
+      }));
+    }
+  }, [edgesReducer]);
 
   const {
     entity,
@@ -99,10 +132,11 @@ const CreateInvitation = ()=>{
     owner,
     member,
     backUrl,
-    definitionType
+    definitionType,
+    entityID,
+    entityName,
+    // entityDescription,
   } = state;
-
-  console.log(definitionType);
 
   const [definition] = useState({
     name : 'customInvite',
@@ -205,7 +239,10 @@ const CreateInvitation = ()=>{
     owner : owner !== undefined ? owner : false,
     member : member !== undefined ? member : true,
   });
-  const [errors, setErrors] = useState({});
+
+  const clearErrors = ()=>{
+    setDialogErrors(null);
+  };
 
   const isValid = () => {
     return form &&
@@ -220,6 +257,10 @@ const CreateInvitation = ()=>{
     }
   }, [form]);
 
+  if (updating) {
+    return <FuseLoading title="Updating..."/>;
+  }
+
   return (
     <div className={clsx(classes.root)}>
       {!entity && (
@@ -227,6 +268,25 @@ const CreateInvitation = ()=>{
           <Typography variant='h2'>Could not create invite</Typography>
         </div>
       )}
+
+      {
+        !updating && (dialogErrors && dialogErrors.length > 0) &&
+          (
+            <div className={clsx(classes.error_wrapper)}>
+              <div className={clsx(classes.error_list)}>
+                {dialogErrors.map((error, i)=>{
+                  return (<Alert severity="error" key={error + '_' + i}>{error.message || error}</Alert>);
+                })}
+              </div>
+              <div>
+                <IconButton
+                  title="clear"
+                  icon="close"
+                  onClick={clearErrors}/>
+              </div>
+            </div>
+          )
+      }
 
       {entity && (
         <EntityView
@@ -251,7 +311,45 @@ const CreateInvitation = ()=>{
             buttonSize="medium"
             disabled={!isValid()}
             onClick={()=>{
-              console.log('sending');
+              setUpdating(true);
+              clearErrors();
+              const invites = form && form.emails && form.emails.map((email)=>({
+                email : email,
+                description : null,
+                name: `Invite for ${entityName}`,
+                start: form.starts,
+                expiry : form.expiry,
+                message : '',
+                payload : {
+                  resourceType : definitionType,
+                  resourceID : entityID,
+                  edgeTypes : [
+                    (form.owner && (
+                      edgesReducer.entities.find((e)=>e.name.toLowerCase() === 'owner') ||
+                      {guid : null}
+                    ).guid),
+                    (form.member && (
+                      edgesReducer.entities.find((e)=>e.name.toLowerCase() === 'member') ||
+                      {guid : null}
+                    ).guid),
+                  ].filter(i=>i)
+                }
+              }));
+              dispatch(inviteDefinition.operations['ADD_ENTITIES'](
+                invites,
+                (err)=>{
+                  if (err) {
+                    // Update Errors
+                    setDialogErrors(err.errors);
+                  } else {
+                    // Redirect to invites page
+                    history.push(location.pathname.substring(0, location.pathname.lastIndexOf('/')));
+                  }
+                  setUpdating(false);
+                }, {
+                  accessToken : accessToken
+                }
+              ));
             }}>
             Send
           </Button>
