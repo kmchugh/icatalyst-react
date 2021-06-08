@@ -13,7 +13,7 @@ export function createModule(config={}){
     users, groups, roles, invites
   } = modules;
 
-  const moduleConfig = _.merge({
+  const moduleConfig = _.merge({}, {
     name: 'userManagement',
     title: 'User Management',
     icon : 'fa user-cog',
