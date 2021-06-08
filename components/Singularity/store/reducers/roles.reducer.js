@@ -8,6 +8,7 @@ import {InviteButton} from '../../components';
 const definition = createModel({
   name: 'role',
   icon: 'fa users',
+  resourceName : 'role',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',

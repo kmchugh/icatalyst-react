@@ -110,8 +110,6 @@ function ScrollWrapper({children, scrollType, config, className}) {
   const {scroll} = config;
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
-  console.log(config.footer, scroll);
-
   return scroll === scrollType ? (
     <>
       {

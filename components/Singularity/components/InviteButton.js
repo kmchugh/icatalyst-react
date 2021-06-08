@@ -36,7 +36,7 @@ const InviteButton = ({
             expires,
             owner,
             member,
-            definitionType : definition.name,
+            resourceType : definition.resourceName || definition.name,
             entityID: definition.getIdentity(entity),
             entityName: definition.getPrimaryText(entity),
             entityDescription: definition.getSecondaryText(entity),

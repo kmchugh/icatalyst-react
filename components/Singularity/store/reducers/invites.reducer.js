@@ -10,6 +10,7 @@ import {Icon} from '@icatalyst/components';
 const definition = createModel({
   name: 'invite',
   icon: 'contact_mail',
+  canAdd : false,
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
@@ -68,7 +69,6 @@ const definition = createModel({
     'description'
   ], listLayout : [
     'name',
-    'description',
     'email',
     {
       id : 'status',
@@ -95,7 +95,7 @@ const definition = createModel({
       }
     },{
       id : 'response',
-      label : 'Response',
+      label : 'Actions',
       className: 'hidden sm:table-cell',
       render(column, field, item){
         const {

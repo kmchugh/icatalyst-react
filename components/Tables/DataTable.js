@@ -65,7 +65,7 @@ const DataTable = ({
           icon={definition.icon || 'fa search'}
           title={`No ${definition.labelPlural} found`}
           action={
-            onAddClicked && canAdd ? '' : 'You may not have access'
+            onAddClicked && canAdd ? '' : 'You may not have access or may not have created any yet'
           }
           help={
             onAddClicked && canAdd ? (<Button

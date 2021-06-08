@@ -132,7 +132,7 @@ const CreateInvitation = ()=>{
     owner,
     member,
     backUrl,
-    definitionType,
+    resourceType,
     entityID,
     entityName,
     // entityDescription,
@@ -193,7 +193,7 @@ const CreateInvitation = ()=>{
         return (
           <Typography variant="body1">
           Type or paste email addresses separated by a comma or tab to add to the
-          list of emails
+          list of emails.  If entering a single address, press enter or tab after typing the address.
           </Typography>
         );
       },
@@ -321,7 +321,7 @@ const CreateInvitation = ()=>{
                 expiry : form.expiry,
                 message : '',
                 payload : {
-                  resourceType : definitionType,
+                  resourceType : resourceType,
                   resourceID : entityID,
                   edgeTypes : [
                     (form.owner && (

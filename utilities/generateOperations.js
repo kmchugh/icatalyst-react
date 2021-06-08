@@ -212,9 +212,11 @@ const createOperation = {
         delete requestConfig.params.id;
       }
 
+      let {appendSlash = true} = config;
+
       const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
       let url = createURI(
-        `${uri}${uri.endsWith('/') ? '' : '/'}${entity.guid || entity.id || entity}/`,
+        `${uri}${uri.endsWith('/') ? '' : '/'}${entity.guid || entity.id || entity}${appendSlash ? '/' : ''}`,
         params
       );
 

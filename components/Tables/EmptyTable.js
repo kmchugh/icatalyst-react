@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => {
       margin:theme.spacing(2)
     },
     icon : {
-
       width: theme.spacing(12),
       height: theme.spacing(12),
       fontSize: theme.spacing(12),
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => {
         height: theme.spacing(16),
         fontSize: theme.spacing(16),
       },
-      color: theme.palette.background.paper,
+      color: theme.palette.primary.main,
       marginBottom: theme.spacing(4)
     },
     title : {
