@@ -110,6 +110,8 @@ function ScrollWrapper({children, scrollType, config, className}) {
   const {scroll} = config;
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
+  console.log(config.footer, scroll);
+
   return scroll === scrollType ? (
     <>
       {
@@ -139,12 +141,12 @@ function ScrollWrapper({children, scrollType, config, className}) {
         }
         {children}
         {
-          config.footer.display &&
+          (config.footer.display &&
             config.footer.style !== 'fixed' &&
             (
               (scroll === 'body' && config.footer.position === 'outside') ||
               (scroll !== 'body' && config.footer.position === 'inside')
-            ) && (
+            )) && (
             <ThemeProvider theme={themes.footerTheme}>
               <Footer />
             </ThemeProvider>
@@ -152,12 +154,12 @@ function ScrollWrapper({children, scrollType, config, className}) {
         }
       </FuseScrollbars>
       {
-        config.footer.display &&
+        (config.footer.display &&
           config.footer.style === 'fixed' &&
           (
             (scroll === 'body' && config.footer.position === 'outside') ||
             (scroll !== 'body' && config.footer.position === 'inside')
-          ) && (
+          )) && (
           <ThemeProvider theme={themes.footerTheme}>
             <Footer />
           </ThemeProvider>
