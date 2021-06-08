@@ -246,6 +246,9 @@ const MasterDetailPage = ({
               (dispatch, getState)=>{
                 return dispatch(deleteOperation(data,
                   (err, res)=>{
+                    if (!err && definition.forceRefreshOnDelete) {
+                      loadEntities();
+                    }
                     callback(err, res);
                     DialogActions.closeDialog();
                   }, {

@@ -465,10 +465,11 @@ class SingularityService {
   async isResourceOwner(accessToken, resourceType, resourceID) {
     return this.getResourcePermissions(accessToken, resourceType, resourceID)
       .then((permissions)=>{
-        return permissions.find((permission)=>{
+        const ownerEdge = permissions.find((permission)=>{
           // TODO: This MUST be updated to use the edge type guid
           return (permission.edgetype && permission.edgetype.code === 'SINGULARITY_OWNER_EDGE');
-        }) !== undefined;
+        });
+        return ownerEdge !== undefined;
       });
   }
 

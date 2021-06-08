@@ -21,6 +21,7 @@ export const ModelPropTypes = PropTypes.shape({
 //                        override the validation system
 // - getReducerRoot [required]: a function that helps to find the reducer state in the application state
 // - name [required]: the name of this model
+// - resourceName [optional]: the name of the resource in Singularity, defaults to the model name
 // - component [optional]: the component to use when displaying the base route
 // - createEntityPath [optional] : if specified when creating a new entity the user will be navigated to this path
 // - detailComponent [optional]: the component to use when displaying the detail route
@@ -43,7 +44,7 @@ export const ModelPropTypes = PropTypes.shape({
 // - transformPayload [optional] : function that receives the action and transforms it appropriately before being processed by the reducer.  defaults to (action)=>{action}
 // - filterPayload [optional] : function that receives the array of data received and filters to appropriate fields.  Happens before transformation
 // - getRetrieveAllParams [optional] : a function to add parameter when retrieving all records
-// - getAddParams [optional] : a function to add parameters when adding a record 
+// - getAddParams [optional] : a function to add parameters when adding a record
 
 
 // A field definition represents a property of the entity.

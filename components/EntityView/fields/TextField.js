@@ -42,7 +42,10 @@ const TextField = (props) => {
 };
 
 TextField.propTypes = {
-  className : PropTypes.string,
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   readonly : PropTypes.bool,
   onChange : PropTypes.func,
   value : PropTypes.any,

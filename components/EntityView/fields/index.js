@@ -3,6 +3,7 @@ import {fieldBuilder as booleanFieldBuilder} from './BooleanField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
 import {fieldBuilder as dateTimeFieldBuilder} from './DateTimeField';
 import {fieldBuilder as emailListFieldBuilder} from './EmailListField';
+import {fieldBuilder as entitySelectFieldBuilder} from './EntitySelectField';
 
 const fieldMap = [
   textFieldBuilder,
@@ -10,6 +11,7 @@ const fieldMap = [
   selectFieldBuilder,
   dateTimeFieldBuilder,
   emailListFieldBuilder,
+  entitySelectFieldBuilder,
 
   // Default to TextField if no other matches
   {
