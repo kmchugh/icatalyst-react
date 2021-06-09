@@ -80,7 +80,6 @@ const EmailListField = ({readonly = false,
     const retVal = isValidEmail(email);
 
     if (!retVal) {
-      console.log(`'${email}'`, retVal);
       error = [`${email} is not a valid email address.`];
     }
 
