@@ -47,7 +47,7 @@ function FuseSplashScreen(props)
     <div id='splash-screen' className={clsx(classes.root)}>
 
       <div className="logo">
-        <img width="75" src={applicationConfig.logo} alt="logo"/>
+        <img width="128" src={applicationConfig.logo} alt="logo"/>
       </div>
 
       <div className="loader">
