@@ -440,6 +440,9 @@ class SingularityService {
    * @return {Promise<[Edge]>}              promise ([edges])
    */
   getResourcePermissions(accessToken, resourceType, resourceID) {
+    if (!resourceID) {
+      return Promise.resolve([]);
+    }
     return axios.get(this.uris.resource_permissions, {
       headers : {
         'Authorization' : `Bearer ${accessToken}`
