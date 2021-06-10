@@ -8,7 +8,7 @@ const definition = createModel({
   primaryTextField : 'name',
   secondaryTextField : 'description',
   auth: {
-    retrieveAll : 'admin',
+    retrieveAll : 'everyone',
     // create : 'admin',
     retrieve : 'admin',
     // update : 'admin',

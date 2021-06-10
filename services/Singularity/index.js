@@ -63,11 +63,11 @@ class SingularityService {
     server = {},
     settings = {}
   }){
-    this.#client = client;
+    this.#client = _.merge(this.#client, client);
     this.#urls = _.merge(this.#urls, urls);
     this.#client_urls = _.merge(this.#client_urls, client_urls);
     this.#server = _.merge(this.#server, server);
-    this.#client = _.merge(this.#client, client);
+
     this.#settings = _.merge(this.#settings, settings);
     this.uris=Object.keys(this.#urls).reduce((acc, key)=>{
       const uri = `${this.#server.root}/${this.#urls[key]}`;

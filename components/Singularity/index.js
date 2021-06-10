@@ -336,6 +336,7 @@ function Singularity(props) {
           singularity.cancelSilentRefresh();
           setSession(null);
           setUser(null);
+          setAccessToken(null);
           singularity.logout(accessToken);
         }
       }}>
