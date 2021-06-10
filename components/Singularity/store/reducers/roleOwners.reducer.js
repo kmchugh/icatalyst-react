@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Actions from '../actions/roleMembers.actions';
+import * as Actions from '../actions/roleOwners.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import moment from '../../../../@moment';
 
@@ -13,6 +13,7 @@ const definition = createModel({
   name: 'roleOwner',
   icon: 'fa users-cog',
   addInline : true,
+  forceRefreshOnDelete : true,
   description: 'An owner is allowed to manage, modify, and delete the resource they own',
   auth: {
     retrieveAll : 'admin',
@@ -71,7 +72,12 @@ const definition = createModel({
     return entity.hops === 0;
   },
   getReducerRoot: ({icatalyst})=>{
-    return icatalyst.singularity.rolemembers;
+    return icatalyst.singularity.roleowners;
+  },
+  getDeleteParams : (getState, parentMasterDetailContext)=>{
+    return {
+      roleid : parentMasterDetailContext.parentContext.entityID
+    };
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {

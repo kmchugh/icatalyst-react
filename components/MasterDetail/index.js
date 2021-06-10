@@ -254,7 +254,7 @@ const MasterDetailPage = ({
                   }, {
                     accessToken : accessToken,
                     params : definition.getDeleteParams ?
-                      definition.getDeleteParams(getState) :
+                      definition.getDeleteParams(getState, parentMasterDetailContext) :
                       {}
                   }
                 ));

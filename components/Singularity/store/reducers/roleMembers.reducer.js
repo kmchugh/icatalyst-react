@@ -19,6 +19,7 @@ const definition = createModel({
   },
   addInline : true,
   description: 'A member has access to a resource but not the ability to modify or manage that resource',
+  forceRefreshOnDelete : true,
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
@@ -78,6 +79,11 @@ const definition = createModel({
   },
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.rolemembers;
+  },
+  getDeleteParams : (getState, parentMasterDetailContext)=>{
+    return {
+      roleid : parentMasterDetailContext.parentContext.entityID
+    };
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {

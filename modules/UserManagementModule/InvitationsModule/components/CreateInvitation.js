@@ -11,7 +11,7 @@ import {useForm} from '@icatalyst/hooks/fuse';
 import {useDispatch} from 'react-redux';
 import { Alert } from '@material-ui/lab';
 import {useSelector} from 'react-redux';
-
+import moment from '../../../../@moment';
 import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
 import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
 
@@ -135,6 +135,7 @@ const CreateInvitation = ()=>{
     resourceType,
     entityID,
     entityName,
+    redirectUri,
     // entityDescription,
   } = state;
 
@@ -316,13 +317,16 @@ const CreateInvitation = ()=>{
               const invites = form && form.emails && form.emails.map((email)=>({
                 email : email,
                 description : null,
-                name: `Invite for ${entityName}`,
-                start: form.starts,
-                expiry : form.expiry,
+                name: `${entityName}`,
+                start: new Date().getTime(),
+                expiry : moment().add(1, 'day').valueOf(),
                 message : '',
                 payload : {
+                  start: form.starts,
+                  expiry : form.expiry,
                   resourceType : resourceType,
                   resourceID : entityID,
+                  redirectUri : redirectUri,
                   edgeTypes : [
                     (form.owner && (
                       edgesReducer.entities.find((e)=>e.name.toLowerCase() === 'owner') ||

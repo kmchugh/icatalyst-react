@@ -10,7 +10,8 @@ const InviteButton = ({
   starts,
   expires,
   owner,
-  member
+  member,
+  redirectUri
 })=>{
   const history = useHistory();
   const location = useLocation();
@@ -30,7 +31,7 @@ const InviteButton = ({
         history.push({
           pathname: inviteRoute.path,
           state : {
-            title : `Invitation for ${definition.label} - ${definition.getPrimaryText(entity)}`,
+            title : `${definition.label} - ${definition.getPrimaryText(entity)}`,
             emails : [],
             starts,
             expires,
@@ -41,7 +42,8 @@ const InviteButton = ({
             entityName: definition.getPrimaryText(entity),
             entityDescription: definition.getSecondaryText(entity),
             entity : entity,
-            backUrl : location.pathname
+            backUrl : location.pathname,
+            redirectUri : redirectUri
           }
         });
       }}
@@ -57,7 +59,8 @@ InviteButton.propTypes = {
   starts : PropTypes.number,
   expires : PropTypes.number,
   owner : PropTypes.bool,
-  member : PropTypes.bool
+  member : PropTypes.bool,
+  redirectUri : PropTypes.string
 };
 
 export default InviteButton;
