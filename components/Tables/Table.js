@@ -252,6 +252,7 @@ const Table = ({
       width : column.width,
       minWidth : column.minWidth,
       maxWidth : column.maxWidth,
+      // TODO: Add other properties from react-table
     };
   }));
 
