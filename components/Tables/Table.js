@@ -247,36 +247,11 @@ const Table = ({
       accessor : column.getValue ? column.getValue : column.id,
       canSort : column.sortable,
       // If the cell has a render method then let it render itself
-      Cell : getCellComponent(column.render ? 'custom' : column.type),
+      Cell : column.cell || getCellComponent(column.render ? 'custom' : column.type),
       field : column,
-      // Footer: ƒ emptyRenderer()
-      // Header: ƒ Header(_ref2)
-      // accessor: undefined
-      // canResize: true
-      // canSort: false
-      // getFooterProps: ƒ (userProps)
-      // getHeaderProps: ƒ (userProps)
-      // getSortByToggleProps: ƒ (userProps)
-      // getToggleHiddenProps: ƒ (userProps)
-      // id: "selection"
-      // isSorted: false
-      // isSortedDesc: undefined
-      // isVisible: true
-      // maxWidth: 9007199254740991
-      // minWidth: 0
-      // originalWidth: 150
-      // render: ƒ (type, userProps)
-      // sortDescFirst: false
-      // sortType: "alphanumeric"
-      // sortedIndex: -1
-      // toggleHidden: ƒ (value)
-      // totalFlexWidth: 150
-      // totalLeft: 0
-      // totalMaxWidth: 9007199254740991
-      // totalMinWidth: 0
-      // totalVisibleHeaderCount: 1
-      // totalWidth: 150
-      // width: 150
+      width : column.width,
+      minWidth : column.minWidth,
+      maxWidth : column.maxWidth,
     };
   }));
 

@@ -26,8 +26,8 @@ const DataTable = ({
         field = definition.fields[fieldID];
       } else if (fieldID) {
         field = {
+          ...definition.fields[fieldID.id],
           ...fieldID,
-          ...definition.fields[fieldID.id]
         };
       }
 
@@ -37,7 +37,7 @@ const DataTable = ({
 
       return {
         ...field,
-        label : field.label || _.startCase(field.id),
+        label : (field.label === undefined ? _.startCase(field.id) : field.label),
         align: field.type === 'string' ? 'left' : 'right',
       };
     });
