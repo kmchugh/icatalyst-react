@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import { AppContext } from '../../../contexts';
 import {Typography} from '@material-ui/core';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -12,17 +13,30 @@ const useStyles = makeStyles((theme)=>{
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      backgroundColor : theme.palette.secondary.main
     },
     message   : {
       textAlign: 'center',
       marginTop: theme.spacing(3)
     },
     primary : {
-      color : theme.palette.primary.main
+      color : `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.primary.main,
+          theme.palette.primary.contrastText,
+        ], {}
+      ).toHexString()}`
     },
     secondary : {
-      color : theme.palette.secondary.main
+      color : `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.secondary.main,
+          theme.palette.secondary.contrastText,
+        ], {}
+      ).toHexString()}`
     },
     error : {
       color : theme.palette.error.main
@@ -44,7 +58,7 @@ function FuseSplashScreen(props)
   const {applicationConfig} = useContext(AppContext);
 
   return (
-    <div id='splash-screen' className={clsx(classes.root)}>
+    <div role="main" id='splash-screen' className={clsx(classes.root)}>
 
       <div className="logo">
         <img width="128" src={applicationConfig.logo} alt="logo"/>
@@ -60,7 +74,7 @@ function FuseSplashScreen(props)
       </div>
 
       <div className={clsx(classes.message)}>
-        <Typography className={clsx(classes[messageColor || 'primary'])} variant="h6">{message}</Typography>
+        <Typography component="h1" className={clsx(classes[messageColor || 'primary'])} variant="h6">{message}</Typography>
       </div>
     </div>
   );

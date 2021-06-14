@@ -1,5 +1,6 @@
 /*global gtag*/
 import React from 'react';
+import ReactDOM from 'react-dom';
 import AppContext from '@icatalyst/contexts/App';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
 import { Provider } from 'react-redux';
@@ -62,6 +63,12 @@ export default function createApp({
     // onUserAuthenticated : (user, dispatch)=>{},
     // onClientUpdated : (client, dispatch)=>{}
   };
+
+  if (process.env.NODE_ENV !== 'production') {
+    const axe = require('@axe-core/react');
+    axe(React, ReactDOM, 1000);
+  }
+
 
   const App = ()=>{
     return (
