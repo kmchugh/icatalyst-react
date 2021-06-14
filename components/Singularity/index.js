@@ -106,7 +106,8 @@ function Singularity(props) {
     },
     filterDisplayRoles = (role)=>{
       return role.displayable;
-    }
+    },
+    requireAuth = true
   } = config;
 
   // TODO: Make this configurable
@@ -135,6 +136,12 @@ function Singularity(props) {
     if (location.pathname === errorRoute) {
       return;
     }
+
+    // If we do not require auth then wait for the app to request auth
+    if (!requireAuth) {
+      return;
+    }
+
     if (!token) {
       // We do not currently have a token
       // So attempt to retrieve one or refresh from the refresh token
@@ -263,6 +270,11 @@ function Singularity(props) {
   }, [session, user, location.pathname]);
 
   useEffect(()=>{
+    // If we do not require auth then wait for the app to request auth
+    if (!requireAuth) {
+      return;
+    }
+
     if (token) {
       singularity.retrieveSession(accessToken)
         .then((results)=>{
@@ -310,7 +322,7 @@ function Singularity(props) {
 
   // If we are waiting for authorisation then show the loading screen
   // otherwise show the children
-  return (location.pathname !== errorRoute && (!token || !user || !session)) ?
+  return (location.pathname !== errorRoute && (requireAuth && (!token || !user || !session))) ?
     (<FuseSplashScreen message={message}/>) :
     (
       <SingularityContext.Provider value={{
@@ -359,6 +371,7 @@ Singularity.propTypes = {
     server : PropTypes.object,
     settings : PropTypes.object,
     urls : PropTypes.object,
+    requireAuth : PropTypes.bool,
   }),
   history: PropTypes.object,
   location: PropTypes.object,
