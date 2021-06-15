@@ -19,6 +19,57 @@ const toJSONBody = (data, parse) => {
   }, {});
 };
 
+function handlePromise(promise, dispatch, transform, successAction, failureAction, callback){
+  promise.then((response)=>{
+    if (response.data && !response.data.error) {
+      const data = transform(response.data);
+      if (
+        response.headers['content-type'] === 'application/json' ||
+        response.headers['content-type'] === 'text/json'
+      ) {
+        dispatch({
+          type : successAction,
+          payload : data
+        });
+      }
+      callback && callback(null, data);
+    } else {
+      const error = response.data && response.data.error || response.data;
+      dispatch({
+        type : failureAction,
+        payload : error
+      });
+      callback && callback(error, response);
+    }
+  })
+    .catch((err)=>{
+      let error = null;
+      if (err.response && err.response.data && err.response.data.data && err.response.data.data.errors) {
+        error = err.response.data.data;
+      } else if (err.response && err.response.data && err.response.data.errors) {
+        error = err.response.data;
+      } else if (err.response.errors) {
+        error = err.response;
+      } else {
+        error = {
+          errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
+        };
+      }
+
+      error = error.errors.map((e)=>({
+        message  : e.message || `${err.response.status} - ${err.response.statusText}`
+      })) || {
+        errors : [`${error.status} - ${error.statusText}`]
+      };
+
+      dispatch({
+        type : failureAction,
+        payload : error
+      });
+      callback && callback(error, null);
+    });
+}
+
 
 function makeReducerRequest(config, successAction, failureAction, callback){
   return (dispatch)=>{
@@ -27,66 +78,27 @@ function makeReducerRequest(config, successAction, failureAction, callback){
 
     // If this request is already executing then attach to previous request
     if (requestMap[hash]) {
+      // Attatch success and failure actions
+      let {promise} = requestMap[hash];
+      handlePromise(promise, dispatch, transform, successAction, failureAction, callback);
+
       return requestMap[hash];
     }
 
     const cancelToken = axios.CancelToken.source();
     config.cancelToken = cancelToken.token;
 
-    const promise = axios.request(config)
-      .then((response)=>{
-        if (response.data && !response.data.error) {
-          const data = transform(response.data);
-          if (
-            response.headers['content-type'] === 'application/json' ||
-            response.headers['content-type'] === 'text/json'
-          ) {
-            dispatch({
-              type : successAction,
-              payload : data
-            });
-          }
-          callback && callback(null, data);
-        } else {
-          const error = response.data && response.data.error || response.data;
-          dispatch({
-            type : failureAction,
-            payload : error
-          });
-          callback && callback(error, response);
-        }
-      })
-      .catch((err)=>{
-        let error = null;
-        if (err.response && err.response.data && err.response.data.data && err.response.data.data.errors) {
-          error = err.response.data.data;
-        } else if (err.response && err.response.data && err.response.data.errors) {
-          error = err.response.data;
-        } else if (err.response.errors) {
-          error = err.response;
-        } else {
-          error = {
-            errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
-          };
-        }
+    const promise = axios.request(config);
+    handlePromise(promise, dispatch, transform, successAction, failureAction, callback);
 
-        error = error.errors.map((e)=>({
-          message  : e.message || `${err.response.status} - ${err.response.statusText}`
-        })) || {
-          errors : [`${error.status} - ${error.statusText}`]
-        };
-
-        dispatch({
-          type : failureAction,
-          payload : error
-        });
-        callback && callback(error, null);
-      });
 
     // If this was a get request then cache it
     if (config.method.toLowerCase() === 'get') {
-      requestMap[hash] = promise;
-      requestMap[hash].finally(()=>{
+      requestMap[hash] = {
+        promise,
+        cancelToken
+      };
+      requestMap[hash].promise.finally(()=>{
         // When the call has completed remove from the cache
         delete requestMap[hash];
       });
