@@ -13,6 +13,7 @@ function Image(props) {
     'src',
     'title',
     'alt',
+    'onClick'
   ]);
 
   const {
