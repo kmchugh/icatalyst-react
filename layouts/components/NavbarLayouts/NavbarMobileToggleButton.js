@@ -6,13 +6,20 @@ import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
   return {
     root: {
     },
     icon : {
-      color: theme.palette.secondary.contrastText
+      color: `${mostReadable(
+        tinycolor(theme.palette.background.paper),
+        [
+          theme.palette.secondary.contrastText,
+          theme.palette.primary.contrastText,
+        ], {}
+      ).toHexString()}`,
     }
   };
 });

@@ -22,7 +22,8 @@ const toJSONBody = (data, parse) => {
 
 function makeReducerRequest(config, successAction, failureAction, callback){
   return (dispatch)=>{
-    let hash = generateHash(config.url);
+    const hash = generateHash(config.url);
+    const transform = config.transform || ((i)=>i);
 
     // If this request is already executing then attach to previous request
     if (requestMap[hash]) {
@@ -35,7 +36,7 @@ function makeReducerRequest(config, successAction, failureAction, callback){
     const promise = axios.request(config)
       .then((response)=>{
         if (response.data && !response.data.error) {
-          const data = response.data;
+          const data = transform(response.data);
           if (
             response.headers['content-type'] === 'application/json' ||
             response.headers['content-type'] === 'text/json'
@@ -135,7 +136,8 @@ const createOperation = {
           Authorization : requestConfig.accessToken ? 'Bearer ' + requestConfig.accessToken : undefined,
           'Content-Type': 'application/json',
         },
-        data : {}
+        data : {},
+        transform : requestConfig.transform
       },
       actions['ENTITY_UPDATED_LIST'],
       actions['ENTITY_UPDATED_LIST_ERROR'],
