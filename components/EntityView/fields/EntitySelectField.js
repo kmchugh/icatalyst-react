@@ -45,7 +45,6 @@ const EntitySelectField = (props) => {
     field
   } = props;
 
-  console.log(field);
   const { hideIfEmpty = false } = field;
 
   const model = typeof field.model === 'function' ? field.model() : field.model;

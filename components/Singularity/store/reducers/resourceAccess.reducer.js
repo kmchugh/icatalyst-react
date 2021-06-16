@@ -11,6 +11,19 @@ const isValidEmail = (value) => {
   return !!EMAIL_PATTERN.test(value);
 };
 
+const validateCollaboratorSelection = (model)=>{
+  const email = model.email ? 1 : 0;
+  const groupid = model.groupid ? 1 : 0;
+  const roleid = model.roleid ? 1 : 0;
+  if (email + groupid + roleid > 1) {
+    return 'Only one of Email, Role, or Group can be set';
+  }
+  if (email + groupid + roleid === 0) {
+    return 'One of Email, Role, or Group must be set';
+  }
+  return null;
+};
+
 const definition = createModel({
   name: 'resourceAccess',
   label: 'Collaborator',
@@ -47,16 +60,17 @@ const definition = createModel({
       type: 'entity',
       model: edgeTypeDefinition,
       isLookup : true,
-      hideSecondaryText : true
+      hideSecondaryText : true,
+      validations : [
+        validateCollaboratorSelection,
+      ]
     },{
       id : 'email',
       type : 'email',
       required: false,
       validations : [
+        validateCollaboratorSelection,
         (model, field, value) => {
-          // if (model['roleid'] && value) {
-          //   return 'Both a role and an email address cannot be set';
-          // }
           const {name, label=name} = field;
           if (value && !isValidEmail(value)) {
             return label + ' must be a valid email';
@@ -75,11 +89,7 @@ const definition = createModel({
       hideIfEmpty : true,
       hideSecondaryText : false,
       validations : [
-        (model, field, value) => {
-          if (model['email'] && value) {
-            return 'Both a role and an email address cannot be set';
-          }
-        }
+        validateCollaboratorSelection,
       ]
     },{
       id : 'groupid',
@@ -92,11 +102,7 @@ const definition = createModel({
       hideIfEmpty : true,
       hideSecondaryText : false,
       validations : [
-        (model, field, value) => {
-          if (model['email'] && value) {
-            return 'Both a role and an email address cannot be set';
-          }
-        }
+        validateCollaboratorSelection,
       ]
     },
     {
