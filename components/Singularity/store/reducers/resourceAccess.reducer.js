@@ -3,7 +3,8 @@ import {createModel, generateReducer} from '@icatalyst/utilities';
 import moment from '../../../../@moment';
 
 import {definition as edgeTypeDefinition} from './edgeType.reducer';
-// import {definition as roleDefinition} from 'app/main/GroupManager/store/reducers/roleManager.reducer';
+import {definition as roleDefinition} from './roles.reducer';
+import {definition as groupDefinition} from './groups.reducer';
 
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i;
 const isValidEmail = (value) => {
@@ -63,24 +64,39 @@ const definition = createModel({
         }
       ]
     },
-    // TODO: Implement this when there is a way of restricting to certain roles
-    // {
-    //   id : 'roleid',
-    //   display : false,
-    //   required : false,
-    //   label : 'Role',
-    //   type: 'entity',
-    //   model: roleDefinition,
-    //   isLookup : true,
-    //   hideSecondaryText : false,
-    //   validations : [
-    //     (model, field, value) => {
-    //       if (model['email'] && value) {
-    //         return 'Both a role and an email address cannot be set';
-    //       }
-    //     }
-    //   ]
-    // },
+    {
+      id : 'roleid',
+      display : false,
+      required : false,
+      label : 'Role',
+      type: 'entity',
+      model: roleDefinition,
+      isLookup : true,
+      hideSecondaryText : false,
+      validations : [
+        (model, field, value) => {
+          if (model['email'] && value) {
+            return 'Both a role and an email address cannot be set';
+          }
+        }
+      ]
+    },{
+      id : 'groupid',
+      display : false,
+      required : false,
+      label : 'Group',
+      type: 'entity',
+      model: groupDefinition,
+      isLookup : true,
+      hideSecondaryText : false,
+      validations : [
+        (model, field, value) => {
+          if (model['email'] && value) {
+            return 'Both a role and an email address cannot be set';
+          }
+        }
+      ]
+    },
     {
       id : 'start',
       label : 'Starting Date',
@@ -149,7 +165,8 @@ const definition = createModel({
   },
   layout : [
     'email', //'entry_start', 'entry_expiry',
-    // 'roleid',
+    'roleid',
+    'groupid',
     'edgetypeid',
   ],
   listLayout : [
@@ -159,10 +176,14 @@ const definition = createModel({
     'expiry'
   ],
   getAddParams : (getState, entity, parentDefinition, parent, parentMasterDetailContext)=>{
-    const {entity : parentEntity} = parentMasterDetailContext.parentContext;
-    entity.type = parentDefinition.resourceName || parentDefinition.name;
+    const {
+      entity : parentEntity,
+      entityDefinition : resourceDefinition,
+    } = parentMasterDetailContext.parentContext;
+
+    entity.type = resourceDefinition.resourceName || resourceDefinition.name;
     entity.description = parentEntity.description || '';
-    entity.resourceid = parentDefinition.getIdentity(parent);
+    entity.resourceid = resourceDefinition.getIdentity(parentEntity);
     entity.starts = entity.entry_start;
     entity.expiry = entity.entry_expiry;
 
@@ -175,13 +196,25 @@ const definition = createModel({
     delete entity.userid;
     delete entity.username;
 
+    if (entity.groupid && entity.groupid !== '') {
+      entity.roleid = entity.groupid;
+      delete entity.groupid;
+    }
+
+    if (!entity.email) {
+      delete entity.email;
+    }
+
+    if (!entity.roleid || !entity.roleid === '') {
+      delete entity.roleid;
+    }
+
     console.log(entity);
 
+    // We are returning no parameters here as the updates are in the entity
     return {
 
     };
-    //   roleid: parentEntity.guid
-    // };
   },
   ...Actions
 });
