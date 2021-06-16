@@ -5,6 +5,7 @@ import {makeStyles, useTheme} from '@material-ui/styles';
 import Image from '@icatalyst/components/Image';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import PropTypes from 'prop-types';
 
 const styles = (theme) => {
   return {
@@ -38,7 +39,9 @@ const styles = (theme) => {
 
 const useStyles = makeStyles(styles);
 
-function Logo()
+function Logo({
+  showTitle = true
+})
 {
   const classes = useStyles();
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
@@ -56,10 +59,14 @@ function Logo()
           }
           alt={`logo for ${config.clientName}`}/>
       </div>
-      <Typography className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>
+      {showTitle && <Typography className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
     </div>
   );
 }
+
+Logo.propTypes = {
+  showTitle : PropTypes.bool
+};
 
 
 export default React.memo(Logo);

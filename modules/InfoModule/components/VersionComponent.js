@@ -19,14 +19,12 @@ const useStyles = makeStyles((theme)=>{
   };
 });
 
-const VersionComponents = ({
+const VersionComponent = ({
   versions = [],
   title,
   logo
 })=>{
-
   const classes = useStyles();
-
   return (
     <Card className={clsx(classes.root)}>
       <CardHeader
@@ -51,7 +49,7 @@ const VersionComponents = ({
   );
 };
 
-VersionComponents.propTypes = {
+VersionComponent.propTypes = {
   versions : PropTypes.arrayOf(PropTypes.shape({
     value : PropTypes.string
   })),
@@ -61,4 +59,4 @@ VersionComponents.propTypes = {
 
 
 
-export default VersionComponents;
+export default VersionComponent;

@@ -2,21 +2,30 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
 import {definition} from '@icatalyst/components/Singularity/store/reducers/version.reducer';
-import VersionComponents from './VersionComponents';
+import VersionComponent from './VersionComponent';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import Image from '@icatalyst/components/Image';
+import Logo from '@icatalyst/components/Logo';
 import ModelService from '@icatalyst/services/ModelService';
 
 const useStyles = makeStyles((theme)=>{
   return {
-    root : {
-      flex: 1,
+    root      : {
+      width: '100%',
+      height: 'auto',
+      minHeight: '100%',
       display: 'flex',
+      flexDirection : 'row',
+      padding: theme.spacing(1),
+      paddingTop: theme.spacing(1.5),
+      backgroundColor: theme.palette.secondary.variants['600'],
       justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection : 'column',
-      padding: theme.spacing(1)
+
+      [theme.breakpoints.down('sm')] : {
+        flexDirection : 'column',
+        minHeight: 'auto'
+      },
     },
     logo : {
       width: theme.spacing(4),
@@ -56,14 +65,10 @@ const VersionScreen = ()=>{
 
       {
         (client && clientVersion && clientVersion.loaded) && (
-          <VersionComponents
+          <VersionComponent
             title={client.name || ''}
             logo={
-              <Image
-                className={clsx(classes.logo)}
-                src={client.logouri}
-                alt={`${client.name} Logo`}
-              />
+              <Logo showTitle={false}/>
             }
             versions={clientVersion.entities}
           />
@@ -72,7 +77,7 @@ const VersionScreen = ()=>{
 
       {
         singularityVersion.loaded && (
-          <VersionComponents
+          <VersionComponent
             title="Singularity"
             logo={
               <Image
