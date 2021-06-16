@@ -72,6 +72,7 @@ const definition = createModel({
       type: 'entity',
       model: roleDefinition,
       isLookup : true,
+      hideIfEmpty : true,
       hideSecondaryText : false,
       validations : [
         (model, field, value) => {
@@ -88,6 +89,7 @@ const definition = createModel({
       type: 'entity',
       model: groupDefinition,
       isLookup : true,
+      hideIfEmpty : true,
       hideSecondaryText : false,
       validations : [
         (model, field, value) => {
@@ -165,8 +167,8 @@ const definition = createModel({
   },
   layout : [
     'email', //'entry_start', 'entry_expiry',
-    // 'roleid',
-    // 'groupid',
+    'roleid',
+    'groupid',
     'edgetypeid',
   ],
   listLayout : [

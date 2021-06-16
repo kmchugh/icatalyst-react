@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
     '& > *' : {
       marginBottom: theme.spacing(1),
-      flex: 1,
+      flex: '1 0 0%',
 
       '&:last-child' : {
         marginBottom: 0
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
     '& > *' : {
       marginRight: theme.spacing(2),
-      flex: 1,
+      flex: '1 0 0%',
 
       '&:last-child' : {
         marginRight: 0

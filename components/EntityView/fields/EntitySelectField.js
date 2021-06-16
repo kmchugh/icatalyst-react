@@ -45,6 +45,9 @@ const EntitySelectField = (props) => {
     field
   } = props;
 
+  console.log(field);
+  const { hideIfEmpty = false } = field;
+
   const model = typeof field.model === 'function' ? field.model() : field.model;
   const {
     getReducerRoot = ()=>{},
@@ -64,7 +67,11 @@ const EntitySelectField = (props) => {
       dispatch(operations['RETRIEVE_ENTITIES'](()=>{
         setLoading(false);
       }, {
-        accessToken: accessToken
+        accessToken: accessToken,
+        params : {
+          ...(model.getRetrieveAllParams ? model.getRetrieveAllParams(model, {
+          }) : {})
+        }
       }));
     }
   }, [data]);
@@ -82,7 +89,8 @@ const EntitySelectField = (props) => {
     }, ...(data.entities || [])
   ];
 
-  return (
+  // Dont render if we havent' loaded any items and if hideIfEmpty is true;
+  return (hideIfEmpty && (!items || items.length === 1)) ? null : (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
       variant="outlined"
