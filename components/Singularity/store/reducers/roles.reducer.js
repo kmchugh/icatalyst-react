@@ -107,6 +107,12 @@ const definition = createModel({
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.roles;
   },
+  getRetrieveAllParams : ()=>{
+    // We are getting the list of roles owned by this user
+    return {
+      admin : true
+    };
+  },
   ...Actions
 });
 

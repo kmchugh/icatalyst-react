@@ -18,12 +18,14 @@ import {MasterDetailContext} from './index';
 import {SingularityContext} from '../Singularity';
 import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
+import {isSafari} from 'react-device-detect';
 
 
 const useStyles = makeStyles((theme) => {
   return {
     root : {
-      height: '100%',
+      // Safari doesn't like the height set on this component
+      height: isSafari ? undefined : '100%',
       width: '100%',
       display: 'flex',
       flexDirection : 'column',

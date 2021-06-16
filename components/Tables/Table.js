@@ -292,6 +292,7 @@ const Table = ({
 
     // If selectable
     const Header = (props)=>{
+      console.log('render Header');
       const { getToggleAllRowsSelectedProps, rows, toggleRowSelected} = props;
       return (
         <div className="max-w-42">
@@ -372,6 +373,11 @@ const Table = ({
       };
     }, settingsInstanceID);
   }
+
+  console.log('Master Content Table');
+  console.log(updating, data);
+
+
 
   return (
     <div className={clsx(classes.root, className, `density-${mode}`)}>
@@ -515,4 +521,4 @@ Table.propTypes = {
   isSelectable : PropTypes.func,
 };
 
-export default React.memo(withRouter(Table));
+export default withRouter(Table);

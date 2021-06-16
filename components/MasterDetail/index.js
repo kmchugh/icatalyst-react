@@ -299,7 +299,7 @@ const MasterDetailPage = ({
           return (auth && data) ? (
             <MasterContent
               // Fix for Safari table rendering
-              className="absolute"
+              className="relative"
               definition={definition}
               data={data}
               auth={auth}

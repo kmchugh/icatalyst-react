@@ -70,6 +70,7 @@ const definition = createModel({
     return icatalyst.singularity.groups;
   },
   getRetrieveAllParams : ()=>{
+    console.log('adding retrieval params');
     return {
       admin: true
     };

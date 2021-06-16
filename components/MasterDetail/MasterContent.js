@@ -64,4 +64,4 @@ MasterContent.propTypes = {
   config : PageBase.propTypes.config
 };
 
-export default React.memo(withRouter(MasterContent));
+export default withRouter(MasterContent);

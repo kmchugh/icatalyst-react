@@ -165,8 +165,8 @@ const definition = createModel({
   },
   layout : [
     'email', //'entry_start', 'entry_expiry',
-    'roleid',
-    'groupid',
+    // 'roleid',
+    // 'groupid',
     'edgetypeid',
   ],
   listLayout : [
@@ -208,8 +208,6 @@ const definition = createModel({
     if (!entity.roleid || !entity.roleid === '') {
       delete entity.roleid;
     }
-
-    console.log(entity);
 
     // We are returning no parameters here as the updates are in the entity
     return {
