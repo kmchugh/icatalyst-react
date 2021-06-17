@@ -68,8 +68,27 @@ const definition = createModel({
     }
   ],
   children : [
-    roleOwners,
-    roleMembers
+    {
+      ...roleOwners,
+      auth: ()=>({
+        retrieveAll : 'roleManager',
+        create : 'roleManager',
+        retrieve : 'roleManager',
+        // An edge cannot be updated, just deleted and recreated
+        // update : 'admin',
+        delete : 'roleManager'
+      })
+    },{
+      ...roleMembers,
+      auth: ()=>({
+        retrieveAll : 'roleManager',
+        create : 'roleManager',
+        retrieve : 'roleManager',
+        // An edge cannot be updated, just deleted and recreated
+        // update : 'admin',
+        delete : 'roleManager'
+      })
+    }
   ],
   layout : [
     'guid',
