@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {FormControl, InputLabel,
-  CircularProgress, Select as NativeSelectField
+  CircularProgress, Select as NativeSelectField,
+  FormHelperText, MenuItem, ListItemText
 } from '@material-ui/core';
-import {MenuItem} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
@@ -54,7 +54,8 @@ const EntitySelectField = (props) => {
     label : entityName,
     identityFieldName,
     primaryTextField,
-    getPrimaryText
+    getPrimaryText,
+    getSecondaryText,
   } = model;
 
   const data = useSelector(getReducerRoot);
@@ -79,6 +80,10 @@ const EntitySelectField = (props) => {
     id,
     required,
     label,
+    hideSecondaryText = false,
+    ListComponent = NativeSelectField,
+    ListItemComponent = ListItemText,
+    showLabel = true,
   } = field;
 
   const items = [
@@ -97,12 +102,14 @@ const EntitySelectField = (props) => {
       error={errors && errors.length > 0}
       required={required}
     >
-      <InputLabel id={`${name}-label`} className={clsx(classes.inputLabel)}>
-        {label}
-      </InputLabel>
+      {
+        showLabel && <InputLabel shrink={value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
+          {label}
+        </InputLabel>
+      }
 
       {
-        <NativeSelectField
+        <ListComponent
           className={clsx(classes.select)}
           labelId={`${name}-label`}
           id={id}
@@ -116,10 +123,24 @@ const EntitySelectField = (props) => {
           }}
         >
           {
-            items.map((item) => <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>{getPrimaryText(item)}</MenuItem>)
+            items.map((item) => {
+              return (
+                <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
+                  <ListItemComponent
+                    primary={getPrimaryText(item)}
+                    secondary={!hideSecondaryText && getSecondaryText(item)}
+                    item={item}
+                    field={field}
+                    selected={value}
+                    onChange={onChange}
+                  />
+                </MenuItem>
+              );
+            })
           }
-        </NativeSelectField>
+        </ListComponent>
       }
+      <FormHelperText>{errors && errors.join('/n')}</FormHelperText>
     </FormControl>
   );
 };

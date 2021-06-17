@@ -23,6 +23,7 @@ import {DialogContentEntityView} from '../Dialogs/Content';
 import {DialogContentEntityList} from '../Dialogs/Content';
 
 const pageConfigKey = 'masterdetail';
+export const NEW_ID = 'new';
 
 export const MasterDetailContext = createContext();
 
@@ -216,7 +217,7 @@ const MasterDetailPage = ({
       }));
     } else {
       // Browse to the create entity path
-      let pathFn = (()=>`${window.location.pathname}/new`);
+      let pathFn = (()=>`${window.location.pathname}/${NEW_ID}`);
       if (definition.createEntityPath) {
         pathFn = typeof definition.createEntityPath === 'function' ?
           definition.createEntityPath :
@@ -279,7 +280,7 @@ const MasterDetailPage = ({
             setSelectedDetailEntity(reducer.entity_map[updatedDetail]);
           }
 
-          return (reducer.entity_map && reducer.entity_map[detailMatch.params.id]) ? (
+          return (detailID === NEW_ID || (reducer.entity_map && reducer.entity_map[detailMatch.params.id])) ? (
             <DetailContent
               readonly={definition.readonly || false}
               definition={definition}
