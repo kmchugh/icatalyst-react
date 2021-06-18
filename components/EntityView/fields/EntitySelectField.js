@@ -86,7 +86,7 @@ const EntitySelectField = (props) => {
   useEffect(()=>{
     if (!data.loaded && !data.loading && (!data.entities || data.entities.length === 0)) {
       setLoading(true);
-      dispatch(operations['RETRIEVE_ENTITIES'](()=>{
+      const result = dispatch(operations['RETRIEVE_ENTITIES'](()=>{
         setLoading(false);
       }, {
         accessToken: accessToken,
@@ -95,6 +95,13 @@ const EntitySelectField = (props) => {
           }) : {})
         }
       }));
+
+      return (()=>{
+        if (result && result.cancelToken) {
+          result.cancelToken.cancel();
+        }
+      });
+
     }
   }, [data]);
 
@@ -129,7 +136,7 @@ const EntitySelectField = (props) => {
       required={required}
     >
       {
-        showLabel && <InputLabel shrink={value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
+        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
           {label}
         </InputLabel>
       }

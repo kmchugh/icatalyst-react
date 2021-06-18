@@ -65,13 +65,13 @@ const DialogContentEntityView = ({
         setUpdating(true);
         setDialogErrors(null);
         onSaved(form, (err)=>{
+          setUpdating(false);
           if (err) {
             setDialogErrors(err);
           } else {
             resetForm();
             contentRef.current.closeDialog();
           }
-          setUpdating(false);
         });
       }
     }]}

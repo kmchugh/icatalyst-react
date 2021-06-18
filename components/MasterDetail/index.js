@@ -1,5 +1,5 @@
-import React, {useContext, createContext, useState, useCallback, useEffect} from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React, {useContext, createContext, useState, useMemo, useEffect} from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {PageBase} from '../../pages';
 import {matchRoutes} from 'react-router-config';
@@ -33,6 +33,7 @@ const MasterDetailPage = ({
   contained = false,
   definition = null
 })=>{
+  const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
   if (definition === null) {
@@ -42,12 +43,15 @@ const MasterDetailPage = ({
   const theme = useTheme();
   const history = useHistory();
 
+  let detailMatch = useRouteMatch(DETAIL_PATH);
+  const isDetail = !!detailMatch;
+
   const transitionLength = theme.transitions.duration.shortest;
   const dispatch = useDispatch();
   const singularityContext = useContext(SingularityContext);
   const [errors, setErrors] = useState(null);
   const [updating, setUpdating] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(64);
+  const [headerHeight, setHeaderHeight] = useState(isDetail ? 72 : 64);
   const [detailID, setDetailID] = useState(null);
   const [selectedDetailEntity, setSelectedDetailEntity] = useState(null);
   const {isInRole, accessToken} = singularityContext;
@@ -63,6 +67,33 @@ const MasterDetailPage = ({
   useEffect(()=>{
     setData((reducer && reducer.loaded ? reducer.entities : null));
   }, [reducer]);
+
+  useEffect(()=>{
+    if (!detailMatch) {
+      if (headerHeight !== 64) {
+        setHeaderHeight(64);
+      }
+      if (detailID) {
+        setDetailID(null);
+      }
+      if (selectedDetailEntity) {
+        setSelectedDetailEntity(null);
+      }
+    } else {
+      if (headerHeight !== 72) {
+        setHeaderHeight(72);
+      }
+      const updatedDetail = detailMatch && detailMatch.params && detailMatch.params.id;
+      if (detailID !== updatedDetail) {
+        setDetailID(updatedDetail);
+      }
+      if (detailID && reducer.entity_map[updatedDetail] && !selectedDetailEntity) {
+        setSelectedDetailEntity(reducer.entity_map[updatedDetail]);
+      }
+    }
+  }, [
+    detailMatch && detailMatch.url
+  ]);
 
   useEffect(()=>{
     Promise.resolve(
@@ -117,7 +148,7 @@ const MasterDetailPage = ({
 
       return (()=>{
         if (result && result.cancelToken) {
-          result.cancelToken.cancel();
+          result.cancelToken.cancel ();
         }
       });
     }
@@ -145,13 +176,13 @@ const MasterDetailPage = ({
     }
   }, [definition, reducer, auth]);
 
-  const header = useCallback(()=>{
+  const header = useMemo(()=>{
     if (contained) {
       return null;
     }
     return (
       <Switch key={location.pathname} location={location}>
-        <Route path={`${match.path}/:id`} component={()=>(
+        <Route path={DETAIL_PATH} component={()=>(
           <DetailHeader
             definition={definition}
             icon={definition.icon}
@@ -160,7 +191,7 @@ const MasterDetailPage = ({
             backUrl={match.url}
           />
         )}/>
-        <Route path={`${match.path}`} component={()=>(
+        <Route component={()=>(
           <MasterHeader
             title={definition.labelPlural}
             icon={definition.icon}
@@ -172,7 +203,7 @@ const MasterDetailPage = ({
   }, [match && match.url,
     // Update if the child changes
     location.pathname.replace(match.path, '').split('/')[1]
-  ])();
+  ]);
 
   const config = {
     mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
@@ -267,19 +298,10 @@ const MasterDetailPage = ({
     }));
   };
 
-  const content = useCallback(()=>{
+  const content = useMemo(()=>{
     return (
       <Switch key={location.pathname} location={location}>
-        <Route path={`${match.path}/:id`} render={({match : detailMatch})=>{
-          setHeaderHeight(72);
-          const updatedDetail = detailMatch && detailMatch.params && detailMatch.params.id;
-          if (detailID !== updatedDetail) {
-            setDetailID(updatedDetail);
-          }
-          if (detailID && reducer.entity_map[updatedDetail] && !selectedDetailEntity) {
-            setSelectedDetailEntity(reducer.entity_map[updatedDetail]);
-          }
-
+        <Route path={DETAIL_PATH} render={({match : detailMatch})=>{
           return (detailID === NEW_ID || (reducer.entity_map && reducer.entity_map[detailMatch.params.id])) ? (
             <DetailContent
               readonly={definition.readonly || false}
@@ -292,10 +314,6 @@ const MasterDetailPage = ({
           ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
         }}/>
         <Route render={()=>{
-          setHeaderHeight(64);
-          setDetailID(null);
-          setSelectedDetailEntity(null);
-
           // Only show when both the data and the auth have been resolved
           return (auth && data) ? (
             <MasterContent
@@ -364,7 +382,7 @@ const MasterDetailPage = ({
 
             {
               // Only show the content if there are no errors
-              (!errors || errors.length === 0) && content()
+              (!errors || errors.length === 0) && content
             }
 
           </FuseAnimateGroup>

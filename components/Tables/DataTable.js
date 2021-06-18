@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useMemo} from 'react';
 import Table from './Table';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EmptyTable from './EmptyTable';
@@ -19,7 +19,7 @@ const DataTable = ({
   onDeleteClicked
 })=>{
 
-  const columns = useCallback(()=>{
+  const columns = useMemo(()=>{
     const order = (definition.listLayout || definition.fieldOrder).map((fieldID)=>{
       let field = null;
       if (fieldID && typeof fieldID === 'string') {
@@ -49,7 +49,7 @@ const DataTable = ({
       className={className}
       title={definition.labelPlural}
       icon={definition.icon}
-      columns={columns()}
+      columns={columns}
       onRefresh={onRefresh}
       getRowID={definition.getIdentity}
       onRowClicked={onRowClicked}

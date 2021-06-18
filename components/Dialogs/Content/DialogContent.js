@@ -78,14 +78,14 @@ const DialogContent = React.forwardRef(({
               {
                 actions && actions.map((action)=>(
                   <Button
-                    key={action.key}
+                    key={action.key || action.title}
                     className={clsx(classes.actionButton, action.className)}
                     color={action.color || 'primary'}
                     startIcon={action.icon && (
                       <Icon>{action.icon}</Icon>
                     )}
                     variant={buttonVariant}
-                    buttonSize={buttonSize}
+                    size={buttonSize}
                     disabled={action.disabled || updating}
                     onClick={action.onClick}>
                     {action.title}
@@ -102,7 +102,7 @@ const DialogContent = React.forwardRef(({
                       <Icon>{closeIcon}</Icon>
                     )}
                     variant={buttonVariant}
-                    buttonSize={buttonSize}
+                    size={buttonSize}
                     disabled={updating}
                     onClick={onClose}>
                     {closeText}
