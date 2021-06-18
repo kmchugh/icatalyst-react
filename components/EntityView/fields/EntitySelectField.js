@@ -98,10 +98,9 @@ const EntitySelectField = (props) => {
 
       return (()=>{
         if (result && result.cancelToken) {
-          result.cancelToken.cancel();
+          result.cancelToken.cancel('Unloading');
         }
       });
-
     }
   }, [data]);
 

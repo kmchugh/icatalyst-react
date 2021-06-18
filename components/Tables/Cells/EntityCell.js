@@ -64,7 +64,7 @@ const EntityCell = ({
       }));
 
       return (()=>{
-        result.cancelToken.cancel();
+        result.cancelToken.cancel('Unloading');
       });
     }
   };

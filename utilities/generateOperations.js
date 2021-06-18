@@ -55,17 +55,14 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
           errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
         };
       } else {
-        console.error(err);
         error = {
-          errors : [{message : err.message}]
+          errors : [{message : err.message || err.toString()}]
         };
       }
 
       error = error.errors.map((e)=>({
-        message  : e.message || `${err.response.status} - ${err.response.statusText}`
-      })) || {
-        errors : [`${error.status} - ${error.statusText}`]
-      };
+        message  : e.message || e.toString()
+      }));
 
       dispatch({
         type : failureAction,
@@ -93,8 +90,14 @@ function makeReducerRequest(config, successAction, failureAction, callback){
     const cancelToken = axios.CancelToken.source();
     config.cancelToken = cancelToken.token;
 
-    const promise = axios.request(config);
+    const promise = axios.request(config).catch((err)=>{
+      if (!axios.isCancel(err)) {
+        throw err;
+      }
+    });
+
     handlePromise(promise, dispatch, transform, successAction, failureAction, callback);
+
 
 
     // If this was a get request then cache it

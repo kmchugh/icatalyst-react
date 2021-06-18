@@ -148,7 +148,7 @@ const MasterDetailPage = ({
 
       return (()=>{
         if (result && result.cancelToken) {
-          result.cancelToken.cancel ();
+          result.cancelToken.cancel('Unloading');
         }
       });
     }
