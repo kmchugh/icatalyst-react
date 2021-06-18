@@ -23,6 +23,28 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+const DefaultListItem = ({
+  item,
+  getPrimaryText,
+  hideSecondaryText,
+  getSecondaryText,
+})=>{
+  return (
+    <ListItemText
+      primary={getPrimaryText(item)}
+      secondary={!hideSecondaryText && getSecondaryText(item)}
+    />
+  );
+};
+
+DefaultListItem.propTypes = {
+  item : PropTypes.object.isRequired,
+  identityFieldName : PropTypes.string.isRequired,
+  getPrimaryText : PropTypes.func.isRequired,
+  hideSecondaryText : PropTypes.bool.isRequired,
+  getSecondaryText : PropTypes.func.isRequired,
+};
+
 const LoadingIcon = ()=>{
   return <CircularProgress style={{
     marginRight: '.5em'
@@ -82,16 +104,20 @@ const EntitySelectField = (props) => {
     label,
     hideSecondaryText = false,
     ListComponent = NativeSelectField,
-    ListItemComponent = ListItemText,
+    ListItemComponent = DefaultListItem,
     showLabel = true,
+    addNoneItem = true,
+    emptyItem
   } = field;
 
   const items = [
-    {
+    addNoneItem && {
       [identityFieldName]: '',
       [primaryTextField]: 'Select ' + entityName + '...'
-    }, ...(data.entities || [])
-  ];
+    },
+    (!data.entities || data.entities.length === 0) && emptyItem,
+    ...(data.entities || [])
+  ].filter(i=>i);
 
   // Dont render if we havent' loaded any items and if hideIfEmpty is true;
   return (hideIfEmpty && (!items || items.length === 1)) ? null : (
@@ -127,12 +153,16 @@ const EntitySelectField = (props) => {
               return (
                 <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
                   <ListItemComponent
-                    primary={getPrimaryText(item)}
-                    secondary={!hideSecondaryText && getSecondaryText(item)}
+                    key={item[identityFieldName]}
                     item={item}
+                    model={model}
                     field={field}
-                    selected={value}
+                    identityFieldName={identityFieldName}
+                    getPrimaryText={getPrimaryText}
+                    hideSecondaryText={hideSecondaryText}
+                    getSecondaryText={getSecondaryText}
                     onChange={onChange}
+                    selected={value}
                   />
                 </MenuItem>
               );

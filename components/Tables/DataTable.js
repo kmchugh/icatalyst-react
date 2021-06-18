@@ -76,6 +76,7 @@ const DataTable = ({
               {`Add a ${definition.label}`}
             </Button>) : ''
           }
+          onRefresh={onRefresh}
         />
       }
     />

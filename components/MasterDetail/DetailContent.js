@@ -321,27 +321,43 @@ const DetailContent = ({
                           disabled={updating || !canBeSubmitted || readonly}
                           onClick={() => {
                             setUpdating(true);
-                            const updateOperation = operations['UPDATE_ENTITY'];
-                            if (!updateOperation) {
+                            const isAdding = entity === null;
+                            const operation = isAdding ? operations['ADD_ENTITY'] : operations['UPDATE_ENTITY'];
+                            if (!operation) {
                               setResponseErrors([{
                                 message : 'Operation not accessible'
                               }]);
                               setUpdating(false);
                             } else {
+
                               dispatch(
                                 (dispatch, getState)=>{
-                                  return dispatch(updateOperation(form,
-                                    (err)=>{
-                                      if (err) {
-                                        setResponseErrors(err);
-                                      }
+                                  const params = isAdding ? (
+                                    definition.getAddParams ?
+                                      definition.getAddParams(getState, form, definition, {
+                                        ...match.params,
+                                        [definition.identityFieldName] : match.params.id
+                                      }, masterDetailContext) : {}
+                                  ) : (
+                                    definition.getUpdateParams ?
+                                      definition.getUpdateParams(getState, masterDetailContext) :
+                                      {}
+                                  );
+
+                                  return dispatch(operation(form,
+                                    (err, res)=>{
                                       setModified(false);
                                       setUpdating(false);
+                                      if (err) {
+                                        setResponseErrors(err);
+                                      } else {
+                                        isAdding && definition.onAdded && definition.onAdded(res, dispatch, getState);
+                                        !isAdding && definition.onUpdated && definition.onUpdated(res, dispatch, getState);
+                                        history.push(backUrl);
+                                      }
                                     }, {
                                       accessToken : accessToken,
-                                      params : definition.getUpdateParams ?
-                                        definition.getUpdateParams(getState, masterDetailContext) :
-                                        {}
+                                      params : params
                                     }
                                   ));
                                 }

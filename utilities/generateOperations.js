@@ -48,11 +48,16 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
         error = err.response.data.data;
       } else if (err.response && err.response.data && err.response.data.errors) {
         error = err.response.data;
-      } else if (err.response.errors) {
+      } else if (err.response && err.response.errors) {
         error = err.response;
-      } else {
+      } else if (err.response) {
         error = {
           errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
+        };
+      } else {
+        console.error(err);
+        error = {
+          errors : [{message : err.message}]
         };
       }
 
@@ -132,6 +137,13 @@ function createURI(path, params = {}) {
 }
 
 const createOperation = {
+  'INVALIDATE' : (config, actions)=>{
+    return ()=>{
+      return {
+        type : actions['ENTITY_INVALIDATE'],
+      };
+    };
+  },
   'RETRIEVE_ENTITIES' : (config, actions)=>{
     return (callback, requestConfig = {
       params : {}
@@ -343,7 +355,8 @@ export function generateOperations(config, actions) {
     'ADD_ENTITIES',
     'DELETE_ENTITY',
     'DELETE_ENTITIES',
-    'UPDATE_ENTITY'
+    'UPDATE_ENTITY',
+    'INVALIDATE'
   ];
   return action_list.reduce((acc, key)=>{
     if (config[key]) {

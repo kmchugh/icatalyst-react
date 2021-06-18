@@ -31,6 +31,13 @@ const parseErrors = (errors)=>{
 const getReducerFn = (definition, type)=>{
   switch (type) {
 
+  // Reset the reducer to the base state
+  case 'ENTITY_INVALIDATE' :
+    return (/*state, action*/)=>{
+      console.log('invalidating');
+      return _.merge({}, baseState);
+    };
+
   // Update the list of available entities
   case 'ENTITY_UPDATED_LIST' :
     return (state, action)=>{

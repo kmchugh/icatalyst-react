@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '@icatalyst/components/Icon';
+import IconButton from '@icatalyst/components/IconButton';
 import {Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,6 +39,9 @@ const useStyles = makeStyles((theme) => {
     },
     help : {
 
+    },
+    refreshButton : {
+      marginTop: theme.spacing(2)
     }
   };
 });
@@ -47,6 +51,7 @@ const EmptyTable = ({
   title = 'No results found',
   action,
   help,
+  onRefresh,
 })=>{
   const classes = useStyles();
 
@@ -60,6 +65,14 @@ const EmptyTable = ({
       }
       {
         help && <Typography variant="caption" className={clsx(classes.help)}>{help}</Typography>
+      }
+      {
+        onRefresh && <IconButton
+          className={clsx(classes.refreshButton)}
+          title="refresh"
+          icon="refresh"
+          onClick={onRefresh}
+        />
       }
     </div>
   );
@@ -75,7 +88,8 @@ EmptyTable.propTypes = {
   help: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
-  ])
+  ]),
+  onRefresh: PropTypes.func
 };
 
 export default React.memo(EmptyTable);
