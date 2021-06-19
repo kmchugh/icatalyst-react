@@ -212,17 +212,17 @@ const Table = ({
     if (_tableRef.current) {
       const measure = ()=>{
         const containingElement = _tableRef.current.parentNode;
-        const height = containingElement.height;
+        const height = containingElement.clientHeight;
         const headerElement = containingElement.querySelector(`.${clsx(classes.tableHeader)}`);
 
-        const headerHeight = headerElement ? headerElement.height : 0;
+        const headerHeight = headerElement ? headerElement.clientHeight : 0;
         const newHeight = height - headerHeight;
-        const newWidth = containingElement.width;
+        const newWidth = containingElement.clientWidth;
 
-        if (tableHeight !== newHeight) {
+        if (tableHeight && tableHeight !== newHeight) {
           setTableHeight(newHeight);
         }
-        if (tableWidth !== newWidth) {
+        if (tableWidth && tableWidth !== newWidth) {
           setTableWidth(newWidth);
         }
       };
