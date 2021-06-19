@@ -211,10 +211,13 @@ const Table = ({
   useLayoutEffect(() => {
     if (_tableRef.current) {
       const measure = ()=>{
-        const height = _tableRef.current.clientHeight;
-        const headerHeight = _tableRef.current.querySelector(`.${clsx(classes.tableHeader)}`).clientHeight;
+        const containingElement = _tableRef.current.parentNode;
+        const height = containingElement.height;
+        const headerElement = containingElement.querySelector(`.${clsx(classes.tableHeader)}`);
+
+        const headerHeight = headerElement ? headerElement.height : 0;
         const newHeight = height - headerHeight;
-        const newWidth = _tableRef.current.querySelector(`.${clsx(classes.tableHeader)} > *`).clientWidth;
+        const newWidth = containingElement.width;
 
         if (tableHeight !== newHeight) {
           setTableHeight(newHeight);
@@ -374,7 +377,7 @@ const Table = ({
   }
 
   return (
-    <div className={clsx(classes.root, className, `density-${mode}`)}>
+    <div ref={_tableRef} className={clsx(classes.root, className, `density-${mode}`)}>
       {updating && <FuseLoading/>}
 
       {!updating && (!data || data.length === 0) && (
@@ -439,7 +442,7 @@ const Table = ({
             />
           </ThemeProvider>
 
-          <div ref={_tableRef} className={clsx(classes.tableScroll, 'flex-1')}>
+          <div className={clsx(classes.tableScroll, 'flex-1')}>
             <MuiTable className={clsx(classes.table)} {...getTableProps()}>
               <TableHeader
                 className={clsx(classes.tableHeader)}

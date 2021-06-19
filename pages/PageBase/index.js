@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     '&.scroll-body'   : {
       height  : 'auto',
       '& $contentWrapper' : {
-        flex    : '1 0 auto',
+        flex    : '1 0 100%',
         overflow: 'auto'
       }
     },
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
       'height' : '100%',
 
       '& $contentWrapper': {
-        flex    : '1 1 auto',
+        flex    : '1 1 100%',
         overflow: 'auto'
       }
     },
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 
       '& $contentWrapper': {
-        flex    : '1 1 auto',
+        flex    : '1 1 100%',
         overflow: 'hidden'
       },
       '& $content'       : {
