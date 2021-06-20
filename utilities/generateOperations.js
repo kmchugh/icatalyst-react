@@ -293,6 +293,8 @@ const createOperation = {
   'UPDATE_ENTITY' : function(config, actions){
     return (entity, callback, requestConfig = {})=>{
       const {accessToken, params} = requestConfig;
+      const {id, guid, ...rest} = entity;
+
       if (params){
         delete requestConfig.params.guid;
         delete requestConfig.params.id;
@@ -300,7 +302,7 @@ const createOperation = {
 
       const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
       let url = createURI(
-        `${uri}${uri.endsWith('/') ? '' : '/'}${entity.guid || entity.id || entity}/`,
+        `${uri}${uri.endsWith('/') ? '' : '/'}${guid || id || entity}/`,
         params
       );
 
@@ -311,7 +313,7 @@ const createOperation = {
           Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
           'Content-Type': 'application/json',
         },
-        data : toJSONBody(entity, false),
+        data : toJSONBody(rest, false),
       },
       actions['ENTITY_UPDATED'],
       actions['ENTITY_UPDATED_ERROR'],

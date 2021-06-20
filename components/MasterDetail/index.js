@@ -87,12 +87,12 @@ const MasterDetailPage = ({
       if (detailID !== updatedDetail) {
         setDetailID(updatedDetail);
       }
-      if (detailID && reducer.entity_map[updatedDetail] && !selectedDetailEntity) {
+      if (updatedDetail && reducer.entity_map[updatedDetail]) {
         setSelectedDetailEntity(reducer.entity_map[updatedDetail]);
       }
     }
   }, [
-    detailMatch && detailMatch.url
+    detailMatch && detailMatch.url, reducer
   ]);
 
   useEffect(()=>{
@@ -281,6 +281,9 @@ const MasterDetailPage = ({
                     if (!err && definition.forceRefreshOnDelete) {
                       loadEntities();
                     }
+                    if (!err) {
+                      definition.onDeleted && definition.onDeleted(res, dispatch, getState);
+                    }
                     callback(err, res);
                     DialogActions.closeDialog();
                   }, {
@@ -301,8 +304,8 @@ const MasterDetailPage = ({
   const content = useMemo(()=>{
     return (
       <Switch key={location.pathname} location={location}>
-        <Route path={DETAIL_PATH} render={({match : detailMatch})=>{
-          return (detailID === NEW_ID || (reducer.entity_map && reducer.entity_map[detailMatch.params.id])) ? (
+        <Route path={DETAIL_PATH} render={()=>{
+          return (detailID === NEW_ID || (detailID && reducer.entity_map && reducer.entity_map[detailID])) ? (
             <DetailContent
               readonly={definition.readonly || false}
               definition={definition}
