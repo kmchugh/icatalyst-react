@@ -353,7 +353,8 @@ const createOperation = {
           Authorization : parseToken(requestConfig),
           'Content-Type': 'application/json',
         },
-        data : {}
+        data : {},
+        transform : requestConfig.transform
       },
       actions['ENTITY_LOADED'],
       actions['ENTITY_LOADED_ERROR'],

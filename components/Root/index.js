@@ -2,10 +2,12 @@ import React, {useContext} from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppContext } from '../../contexts';
 import { SingularityContext } from '@icatalyst/components/Singularity';
+import {useLocation} from 'react-router-dom';
 
 const Root = ()=>{
   const appContext = useContext(AppContext);
   const singularityContext = useContext(SingularityContext);
+  const location = useLocation();
 
   const {routes} = appContext;
   const {isInRole} = singularityContext;
@@ -24,7 +26,7 @@ const Root = ()=>{
 
   return defaultRoute.path === '/' ?
     (<div></div>) :
-    (<Redirect to={defaultRoute.path}/>);
+    (<Redirect to={`${defaultRoute.path}${location.search}`}/>);
 };
 
 

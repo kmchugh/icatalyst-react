@@ -10,6 +10,7 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
+  const fadedBackground = fade(theme.palette.error.light, .05);
   return {
     root: {
       display: 'flex',
@@ -17,12 +18,12 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(2),
       borderRadius: theme.shape.borderRadius,
       border: `thin solid ${theme.palette.error.dark}`,
-      background: fade(theme.palette.error.main, .25),
+      background: fadedBackground,
       color: `${mostReadable(
-        tinycolor(theme.palette.error.main),
+        tinycolor(fadedBackground),
         [
-          theme.palette.error.light,
-          theme.palette.error.dark,
+          theme.palette.primary.main,
+          theme.palette.secondary.main,
         ], {}
       ).toHexString()}`,
       width: '100%',
@@ -34,7 +35,13 @@ const useStyles = makeStyles((theme) => {
     },
     errorIcon: {
       marginRight: theme.spacing(2),
-      color: theme.palette.error.main
+      color: `${mostReadable(
+        tinycolor(fadedBackground),
+        [
+          theme.palette.error.main,
+          theme.palette.error.dark,
+        ], {}
+      ).toHexString()}`
     },
     errorTitle: {
       display: 'flex',
@@ -68,7 +75,7 @@ const ErrorComponent = ({errors,
         (
           <div className={clsx(classes.errorTitle)}>
             <Icon className={clsx(classes.errorIcon)}>error</Icon>
-            <Typography className="flex-shrink" variant="h5">
+            <Typography className="flex-shrink" variant="h5" component="h1">
               {title}
             </Typography>
           </div>

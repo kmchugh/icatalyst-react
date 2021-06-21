@@ -31,7 +31,11 @@ function FuseLoading(props)
   return (
     <div className={clsx(classes.root, props.className, 'h-full flex flex-1 flex-col items-center justify-center')}>
       {title && <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>}
-      <LinearProgress className="mb-32 w-xs" color="primary"/>
+      <LinearProgress
+        aria-label={title || 'Loading...'}
+        className="mb-32 w-xs"
+        color="primary"
+      />
     </div>
   );
 }
