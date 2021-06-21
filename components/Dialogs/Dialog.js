@@ -56,12 +56,13 @@ const Dialog = (props)=>{
       aria-labelledby={title && 'alert-dialog-title'}
       aria-describedby={description && 'alert-dialog-description'}
       TransitionComponent={fullScreen ? TransitionFull : TransitionDialog}
+      TransitionProps={{ role: 'presentation' }}
       keepMounted
     >
       <AppBar position="static" className={clsx(classes.dialogAppBar)}>
         <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
           <div className="flex flex-1 flex-col items-start justify-center mr-16">
-            <Typography id="alert-dialog-title" noWrap={true} className="text-16 sm:text-20 truncate max-w-sm">
+            <Typography id="alert-dialog-title" noWrap={true} className="text-16 sm:text-20 truncate max-w-sm" component="h1">
               {title}
             </Typography>
 
