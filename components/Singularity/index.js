@@ -119,6 +119,7 @@ function Singularity(props) {
   const [redirect, setRedirect] = useState(null);
   const [session, setSession] = useState(null);
   const [singularity] = useState(new SingularityService(config));
+  const [clientToken, setClientToken] = useState(null);
   const [singularityDetails, setSingularityDetails] = useState(null);
   const [clientDetails, setClientDetails] = useState(null);
 
@@ -135,6 +136,11 @@ function Singularity(props) {
     // If we are on the error route, then we don't need a token
     if (location.pathname === errorRoute) {
       return;
+    }
+
+    const basicToken = singularity.getBasicToken();
+    if (clientToken !== basicToken) {
+      setClientToken(basicToken);
     }
 
     // If we do not require auth then wait for the app to request auth
@@ -330,6 +336,7 @@ function Singularity(props) {
         user,
         session,
         accessToken,
+        clientToken,
         token,
         isInRole : (role)=>{
           // If the role is undefined then it is assumed that there is no access

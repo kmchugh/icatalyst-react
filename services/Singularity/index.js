@@ -222,13 +222,7 @@ class SingularityService {
       parameters,
       { headers : {
         'Content-Type': 'application/json',
-        'Authorization' : 'Basic ' +
-          btoa(
-            // Key
-            CryptoJS.SHA256(this.#client.id + '|' + this.#client.key).toString() +
-            ':' +
-            // Secret
-            this.#client.secret)
+        'Authorization' : `Basic ${this.getBasicToken()}`
       }})
       .then((response)=>{
         return {
@@ -249,6 +243,15 @@ class SingularityService {
       .catch((err)=>{
         throw err.response.data;
       });
+  }
+
+  getBasicToken() {
+    return btoa(
+      // Key
+      CryptoJS.SHA256(this.#client.id + '|' + this.#client.key).toString() +
+      ':' +
+      // Secret
+      this.#client.secret);
   }
 
   /**

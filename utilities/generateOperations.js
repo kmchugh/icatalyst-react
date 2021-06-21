@@ -19,6 +19,18 @@ const toJSONBody = (data, parse) => {
   }, {});
 };
 
+function parseToken(requestConfig) {
+  let authToken = undefined;
+  if (requestConfig.customToken) {
+    authToken = requestConfig.customToken();
+  } else if (requestConfig.accessToken) {
+    authToken = `Bearer ${requestConfig.accessToken}`;
+  } else if (requestConfig.clientToken) {
+    authToken = `Basic ${requestConfig.clientToken}`;
+  }
+  return authToken;
+}
+
 function handlePromise(promise, dispatch, transform, successAction, failureAction, callback){
   promise.then((response)=>{
     if (response.data && !response.data.error) {
@@ -160,7 +172,7 @@ const createOperation = {
         method : 'get',
         url,
         headers : {
-          Authorization : requestConfig.accessToken ? 'Bearer ' + requestConfig.accessToken : undefined,
+          Authorization : parseToken(requestConfig),
           'Content-Type': 'application/json',
         },
         data : {},
@@ -176,7 +188,6 @@ const createOperation = {
   'ADD_ENTITY' : (config, actions)=>{
     return (entity, callback, requestConfig = {})=>{
       const {
-        accessToken,
         params,
         parse = true,
         contentType = 'application/json',
@@ -195,7 +206,7 @@ const createOperation = {
         method : 'post',
         url,
         headers : {
-          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          Authorization : parseToken(requestConfig),
           'Content-Type': contentType,
         },
         data : parse ? toJSONBody(entity, false) : entity,
@@ -235,7 +246,7 @@ const createOperation = {
   },
   'DELETE_ENTITY' : function(config, actions){
     return (entity, callback, requestConfig = {})=>{
-      const {accessToken, params} = requestConfig;
+      const {params} = requestConfig;
       if (params){
         delete requestConfig.params.guid;
         delete requestConfig.params.id;
@@ -253,7 +264,7 @@ const createOperation = {
         method : 'delete',
         url,
         headers : {
-          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          Authorization : parseToken(requestConfig),
           'Content-Type': 'application/json',
         }
       },
@@ -292,7 +303,7 @@ const createOperation = {
   },
   'UPDATE_ENTITY' : function(config, actions){
     return (entity, callback, requestConfig = {})=>{
-      const {accessToken, params} = requestConfig;
+      const {params} = requestConfig;
       const {id, guid, ...rest} = entity;
 
       if (params){
@@ -310,7 +321,7 @@ const createOperation = {
         method : 'put',
         url,
         headers : {
-          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          Authorization : parseToken(requestConfig),
           'Content-Type': 'application/json',
         },
         data : toJSONBody(rest, false),
@@ -323,7 +334,7 @@ const createOperation = {
   },
   'RETRIEVE_ENTITY' : function(config, actions){
     return (entityid, callback, requestConfig = {})=>{
-      const {accessToken, params} = requestConfig;
+      const {params} = requestConfig;
       if (params){
         delete requestConfig.params.guid;
         delete requestConfig.params.id;
@@ -339,7 +350,7 @@ const createOperation = {
         method : 'get',
         url,
         headers : {
-          Authorization : accessToken ? 'Bearer ' + accessToken : undefined,
+          Authorization : parseToken(requestConfig),
           'Content-Type': 'application/json',
         },
         data : {}
