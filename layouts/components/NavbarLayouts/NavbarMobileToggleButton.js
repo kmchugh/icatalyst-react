@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme)=>{
       color: `${mostReadable(
         tinycolor(theme.palette.background.paper),
         [
-          theme.palette.secondary.contrastText,
-          theme.palette.primary.contrastText,
+          theme.palette.secondary.main,
+          theme.palette.primary.main,
         ], {}
       ).toHexString()}`,
     }
