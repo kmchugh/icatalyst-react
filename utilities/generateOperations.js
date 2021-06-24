@@ -1,4 +1,4 @@
-import {generateHash} from '@icatalyst/utilities';
+import {generateHash} from '@icatalyst/utilities/generateHash';
 const requestMap = {};
 import axios from 'axios';
 
