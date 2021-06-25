@@ -14,14 +14,16 @@ const useStyles = makeStyles(()=>{
 const DefaultCell = (props)=>{
   const {
     value,
-    className
+    className,
+    column
   } = props;
 
+  const {field} = column;
   const classes = useStyles();
 
   return (
     <div className={clsx(classes.root, className)}>
-      {value}
+      {field.format ? field.format(value) : value}
     </div>
   );
 };
@@ -34,7 +36,8 @@ DefaultCell.propTypes = {
   }),
   column : PropTypes.shape({
     id : PropTypes.string.isRequired,
-    getValue : PropTypes.func
+    getValue : PropTypes.func,
+    field : PropTypes.object
   }),
   updateData: PropTypes.func.isRequired,
   className : PropTypes.oneOfType([

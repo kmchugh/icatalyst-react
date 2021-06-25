@@ -4,13 +4,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Checkbox} from '@material-ui/core';
 
-const useStyles = makeStyles(()=>{
+const useStyles = makeStyles((theme)=>{
   return {
     root : {
     },
     checkboxRoot : {
       '&:hover': {
-        backgroundColor: 'transparent !important'
+        backgroundColor: 'transparent !important',
+        color: theme.palette.text.primary
       }
     }
   };
@@ -28,7 +29,7 @@ const BooleanCell = ({
         classes={{
           root : classes.checkboxRoot
         }}
-        color="primary"
+        color="default"
         disableRipple={true}
         checked={value}
         indeterminate={value === null || value === undefined}
@@ -39,7 +40,7 @@ const BooleanCell = ({
 };
 
 BooleanCell.propTypes = {
-  value : PropTypes.any.isRequired,
+  value : PropTypes.any,
   row : PropTypes.shape({
     index : PropTypes.number.isRequired,
   }),

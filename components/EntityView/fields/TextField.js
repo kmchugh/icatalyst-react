@@ -19,6 +19,8 @@ const TextField = (props) => {
     autoFocus = false
   } = field;
 
+  const displayValue = value || '';
+
   return (<NativeTextField
     className={clsx('mt-8 mb-16', props.className)}
     id={id}
@@ -37,7 +39,7 @@ const TextField = (props) => {
     onChange={onChange}
     multiline={maxLength>256}
     rows={Math.min(maxLength/256, 20) || 1}
-    value={value || ''}
+    value={field.format ? field.format(displayValue) : displayValue}
   />);
 };
 

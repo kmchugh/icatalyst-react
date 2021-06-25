@@ -29,6 +29,7 @@ export const ModelPropTypes = PropTypes.shape({
 // - labelPlural [optional]: The plural of the model label
 // - icon [required]: The mui icon to use when representing the model
 // - auth [optional]: The role that can access this entity, defaults to everyone
+// - readonly [optional]: If true then displayed in read only mode
 // - addInline [optional]: If true then a dialog will be used when a user creates a new entity
 // - identityFieldName [optional] : the field in the entity that should be used as the identity field, defaults to guid
 // - getIdentity [optional] : function (item)->{item.guid}, defaults to returning the field as specified by identityFieldName
@@ -52,6 +53,7 @@ export const ModelPropTypes = PropTypes.shape({
 // - id [required]: the name of the property in the entity object this field represents
 // - type [optional]: defaults to string, if defined indicates the type of field and hints
 //                    at how it should be displayed
+// - format [optional]: (v)->text, a function to return the text that should be displayed for this value
 // - label [optional]: how the field should be referenced when it is visually displayed.
 //                     for example the text displayed in the header of a column in a table
 //                     representing this field
