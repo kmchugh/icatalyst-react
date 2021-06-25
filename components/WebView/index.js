@@ -63,7 +63,7 @@ const WebView = ({
           url={uri}
           width="100%"
           height="100%"
-          sandbox="allow-same-origin allow-scripts allow-forms"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-downloads"
           onLoad={()=>{
             setLoaded(true);
           }}
