@@ -10,7 +10,7 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
-  const fadedBackground = fade(theme.palette.error.light, .05);
+  const fadedBackground = fade(theme.palette.error.light, .45);
   return {
     root: {
       display: 'flex',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => {
       padding: theme.spacing(2),
       borderRadius: theme.shape.borderRadius,
       border: `thin solid ${theme.palette.error.dark}`,
-      background: fadedBackground,
+      backgroundColor: fadedBackground,
       color: `${mostReadable(
         tinycolor(fadedBackground),
         [
