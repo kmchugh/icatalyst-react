@@ -10,55 +10,64 @@ import { useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import {mostReadable} from '@ctrl/tinycolor';
 
-const useStyles = makeStyles((theme) => ({
-  itemFn: ({nestedLevel})=>{
-    return {
-      height      : theme.spacing(5),
-      width       : `calc(100% - ${theme.spacing(2)}px)`,
-      borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
-      paddingRight: theme.spacing(2.5),
-      paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
-      color       : theme.palette.text.primary,
-      cursor                     : 'pointer',
-      textDecoration             : 'none!important',
-      textTransform              : 'capitalize'
-    };
-  },
-  item: {
-    '&.active'                 : {
-      backgroundColor            : theme.palette.secondary.main,
-      color                      : `${mostReadable(
-        tinycolor(theme.palette.secondary.main),
-        [
-          theme.palette.primary.main,
-          theme.palette.secondary.contrastText,
-          theme.palette.primary.contrastText,
-        ], {}
-      ).toHexString()}!important`,
-      pointerEvents              : 'none',
-      transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
-      '& .list-item-text-primary': {
-        color: 'inherit'
+const useStyles = makeStyles((theme) => {
+  const activeBackground = mostReadable(
+    theme.palette.background.default, [
+      theme.palette.secondary.light,
+      theme.palette.secondary.main,
+      theme.palette.secondary.dark
+    ]);
+
+  const activeText = mostReadable(
+    activeBackground, [
+      theme.palette.primary.main,
+      theme.palette.secondary.contrastText,
+      theme.palette.primary.contrastText,
+    ]);
+
+  return {
+    itemFn: ({nestedLevel})=>{
+      return {
+        height      : theme.spacing(5),
+        width       : `calc(100% - ${theme.spacing(2)}px)`,
+        borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
+        paddingRight: theme.spacing(2.5),
+        paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
+        color       : theme.palette.text.primary,
+        cursor                     : 'pointer',
+        textDecoration             : 'none!important',
+        textTransform              : 'capitalize'
+      };
+    },
+    item: {
+      '&.active'                 : {
+        backgroundColor            : activeBackground,
+        color                      : `${activeText}!important`,
+        pointerEvents              : 'none',
+        transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
+        '& .list-item-text-primary': {
+          color: 'inherit'
+        },
+        '& .list-item-icon'        : {
+          color: 'inherit!important',
+        },
+        borderLeftWidth : theme.spacing(.5),
+        borderColor : theme.palette.primary.main,
+        borderStyle : 'solid'
+      },
+      '&.square, &.active.square': {
+        width       : '100%',
+        borderRadius: '0'
       },
       '& .list-item-icon'        : {
-        color: 'inherit!important',
+        maxWidth: theme.spacing(2)
       },
-      borderLeftWidth : theme.spacing(.5),
-      borderColor : theme.palette.primary.main,
-      borderStyle : 'solid'
-    },
-    '&.square, &.active.square': {
-      width       : '100%',
-      borderRadius: '0'
-    },
-    '& .list-item-icon'        : {
-      maxWidth: theme.spacing(2)
-    },
-    '& .list-item-text'        : {}
-  }
-}));
+      '& .list-item-text'        : {}
+    }
+  };
+});
 
 function FuseNavVerticalItem(props)
 {
