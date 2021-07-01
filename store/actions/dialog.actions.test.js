@@ -2,7 +2,7 @@ import * as actions from './dialog.actions';
 import {OPEN_DIALOG, CLOSE_DIALOG} from './dialog.actions';
 
 
-describe('actions', () => {
+describe('dialog actions', () => {
 
   it('opens dialog', () => {
 
