@@ -92,7 +92,7 @@ const useStyles = makeStyles(theme => {
 function ContentWrapper({children, config, className}) {
   const {scroll} = config;
   return scroll === 'body' ? (
-    <div className={className}>
+    <div role="main" className={className}>
       {children}
     </div>
   ) : children;

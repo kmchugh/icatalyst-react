@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dialog as NativeDialog,
   AppBar, Typography, Slide
 } from '@material-ui/core';
@@ -46,6 +46,18 @@ const Dialog = (props)=>{
     allowClose = true,
   } = props;
   const classes = useStyles(props);
+
+  /*
+  Workaround for accessibility issues with modal dialogs
+  https://github.com/mui-org/material-ui/issues/19450 
+  */
+  useEffect(() => {
+    if (open) {
+      document
+        .getElementById('root')
+        .setAttribute('aria-hidden', 'false');
+    }
+  }, [open]);
 
   return (
     <NativeDialog
