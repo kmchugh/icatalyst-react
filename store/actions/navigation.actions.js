@@ -1,8 +1,4 @@
-import {
-  prependNavItem,
-  updateNavItem,
-  removeNavItem
-} from '@icatalyst/components/fuse/FuseUtils';
+import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 
 export const GET_NAVIGATION = '[NAVIGATION] GET NAVIGATION';
 export const SET_NAVIGATION = '[NAVIGATION] SET NAVIGATION';
@@ -90,7 +86,7 @@ export function prependNavigationItem(item, parentId)
     const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
-      navigation: prependNavItem(navigation, item, parentId)
+      navigation: FuseUtils.prependNavItem(navigation, item, parentId)
     });
   };
 }
@@ -101,7 +97,7 @@ export function updateNavigationItem(id, item)
     const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
-      navigation: updateNavItem(navigation, id, item)
+      navigation: FuseUtils.updateNavItem(navigation, id, item)
     });
   };
 }
@@ -112,7 +108,7 @@ export function removeNavigationItem(id)
     const {navigation} = getState().icatalyst;
     return dispatch({
       type      : SET_NAVIGATION,
-      navigation: removeNavItem(navigation, id)
+      navigation: FuseUtils.removeNavItem(navigation, id)
     });
   };
 }

@@ -83,7 +83,9 @@ const ErrorComponent = ({errors,
       }
       <ul className={clsx(classes.errorList)}>
         {
-          errors.map(e=>{
+          errors.filter((e, index, self)=>{
+            return self.findIndex((error)=>error.message === e.message) === index;
+          }).map(e=>{
             const message = e.message || e.toString();
             return (
               <li className={clsx(classes.error)} key={message}>
