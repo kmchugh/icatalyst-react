@@ -64,7 +64,7 @@ const DialogContent = React.forwardRef(({
 
   return (
     <div className={clsx(classes.root, className)}>
-      <NativeContent className={clsx(classes.contentWrapper)}>
+      <NativeContent component="div" className={clsx(classes.contentWrapper)}>
         {children}
       </NativeContent>
 

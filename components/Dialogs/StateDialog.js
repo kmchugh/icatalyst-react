@@ -9,15 +9,17 @@ function StateDialog(){
 
   const {
     open,
-    options
+    options,
   } = dialog;
+
+  const allowClose = options.allowClose === false ? false : true;
 
   return <Dialog
     open={!!open}
-    onClose={()=>{dispatch(Actions.closeDialog());}}
-    {
-      ...options
-    }
+    onClose={()=>{
+      allowClose && dispatch(Actions.closeDialog());
+    }}
+    {...options}
   />;
 }
 

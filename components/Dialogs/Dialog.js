@@ -42,7 +42,8 @@ const Dialog = (props)=>{
     title, description,
     children,
     fullScreen = false,
-    fullWidth = false
+    fullWidth = false,
+    allowClose = true,
   } = props;
   const classes = useStyles(props);
 
@@ -75,14 +76,15 @@ const Dialog = (props)=>{
             }
           </div>
 
-          <IconButton
-            className="ml-16"
-            size="small"
-            title="Close"
-            icon="close"
-            onClick={onClose}
-          />
-
+          {
+            allowClose && <IconButton
+              className="ml-16"
+              size="small"
+              title="Close"
+              icon="close"
+              onClick={onClose}
+            />
+          }
         </div>
       </AppBar>
 
@@ -101,6 +103,7 @@ Dialog.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   onClose : PropTypes.func.isRequired,
+  allowClose : PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

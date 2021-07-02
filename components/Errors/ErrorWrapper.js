@@ -62,15 +62,15 @@ const useStyles = makeStyles((theme) => {
 const ErrorComponent = ({errors,
   title,
   actionComponent,
-  className
+  className,
+  role = 'alert'
 })=>{
   if (!errors || errors.length === 0) {
     return null;
   }
   const classes = useStyles();
-
   return (
-    <div className={clsx(classes.root, className)}>
+    <div role={role} aria-atomic={true} className={clsx(classes.root, className)}>
       {title &&
         (
           <div className={clsx(classes.errorTitle)}>
@@ -110,6 +110,7 @@ ErrorComponent.propTypes = {
   ),
   title : PropTypes.string,
   actionComponent : PropTypes.node,
+  role : PropTypes.string,
   className : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
