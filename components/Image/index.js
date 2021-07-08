@@ -65,7 +65,7 @@ function Image(props) {
         }}
       />
     );
-  }, [props.src]);
+  }, [props]);
 
   return !loaded ? (
     <div className={clsx(classes.loadingWrapper)}
