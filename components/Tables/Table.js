@@ -9,7 +9,7 @@ import {useGlobalFilter, usePagination,
 } from 'react-table';
 import {FuseLoading} from '../fuse';
 import { makeStyles } from '@material-ui/core/styles';
-import {ThemeProvider} from '@material-ui/core';
+import {ThemeProvider, Tooltip} from '@material-ui/core';
 import clsx from 'clsx';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
@@ -428,15 +428,21 @@ const Table = ({
                   }}
                   aria-label="table size"
                 >
-                  <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
-                    <Icon>format_align_justify</Icon>
-                  </ToggleButton>
-                  <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
-                    <Icon>view_headline</Icon>
-                  </ToggleButton>
-                  <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
-                    <Icon>menu</Icon>
-                  </ToggleButton>
+                  <Tooltip title="condensed">
+                    <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
+                      <Icon>format_align_justify</Icon>
+                    </ToggleButton>
+                  </Tooltip>
+                  <Tooltip title="regular">
+                    <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
+                      <Icon>view_headline</Icon>
+                    </ToggleButton>
+                  </Tooltip>
+                  <Tooltip title="expanded">
+                    <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
+                      <Icon>menu</Icon>
+                    </ToggleButton>
+                  </Tooltip>
                 </ToggleButtonGroup>
               }
             />
