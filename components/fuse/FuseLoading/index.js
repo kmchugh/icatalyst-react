@@ -3,7 +3,8 @@ import {Typography, LinearProgress} from '@material-ui/core';
 import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@material-ui/styles';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles(()=>{
   return {
@@ -16,6 +17,15 @@ const useStyles = makeStyles(()=>{
 function FuseLoading(props)
 {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const color = props.color || mostReadable(
+    tinycolor(theme.palette.background.paper),
+    [
+      theme.palette.primary.main,
+      theme.palette.secondary.main,
+    ]
+  ).toHexString() === theme.palette.primary.main ? 'primary' : 'secondary';
 
   const [showLoading, setShowLoading] = useState(!props.delay);
   let title = props.title != null ? (props.title || 'Loading...') : null;
@@ -34,7 +44,7 @@ function FuseLoading(props)
       <LinearProgress
         aria-label={title || 'Loading...'}
         className="mb-32 w-xs"
-        color="primary"
+        color={color}
       />
     </div>
   );
@@ -43,7 +53,8 @@ function FuseLoading(props)
 FuseLoading.propTypes = {
   delay: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   className : PropTypes.string,
-  title : PropTypes.string
+  title : PropTypes.string,
+  color: PropTypes.oneOf(['primary', 'secondary'])
 };
 
 FuseLoading.defaultProps = {
