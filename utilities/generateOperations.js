@@ -118,6 +118,7 @@ function makeReducerRequest(config, successAction, failureAction, callback){
         promise,
         cancelToken
       };
+
       requestMap[hash].promise.finally(()=>{
         // When the call has completed remove from the cache
         delete requestMap[hash];
