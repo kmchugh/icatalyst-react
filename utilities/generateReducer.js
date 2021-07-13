@@ -56,7 +56,7 @@ const getReducerFn = (definition, type)=>{
     };
 
   // Clear all loaded entities, update the errors
-  case 'ENTITY_UPDATE_LIST_ERROR' :
+  case 'ENTITY_UPDATED_LIST_ERROR' :
     return (state, action)=>{
       return {
         ...state,

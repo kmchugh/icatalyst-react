@@ -1,6 +1,7 @@
-import {generateHash} from '@icatalyst/utilities/generateHash';
+import {generateHash} from './generateHash';
 const requestMap = {};
 import axios from 'axios';
+import _ from '../@lodash';
 
 const toJSONBody = (data, parse) => {
   return Object.keys(data).filter((prop)=>{
@@ -33,6 +34,11 @@ function parseToken(requestConfig) {
 
 function handlePromise(promise, dispatch, transform, successAction, failureAction, callback){
   promise.then((response)=>{
+    if (!response) {
+      // If there was no response then the request was cancelled
+      callback && callback(null, null);
+      return;
+    }
     if (response.data && !response.data.error) {
       const data = transform(response.data);
       if (
@@ -297,7 +303,7 @@ const createOperation = {
                 responses
               );
             }
-          }, requestConfig))(dispatch, getState);
+          }, _.cloneDeep(requestConfig)))(dispatch, getState);
         }));
       };
     };

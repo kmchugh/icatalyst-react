@@ -126,7 +126,7 @@ const MasterDetailPage = ({
         // Success will be picked up by the reducer change
         if (err) {
           setErrors(err.errors || err);
-        } else {
+        } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
           if (parentMasterDetailContext) {
             setData(res

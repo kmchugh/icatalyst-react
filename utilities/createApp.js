@@ -13,6 +13,8 @@ import {CssBaseline} from '@material-ui/core';
 import { Layout } from '@icatalyst/layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 import { create } from 'jss';
 
@@ -72,31 +74,33 @@ export default function createApp({
 
   const App = ()=>{
     return (
-      <AppContext.Provider value={appContext}>
-        <StylesProvider jss={jss} generateClassName={generateClassName}>
-          <Provider store={store}>
-            <SettingsProvider getReducerRoot={({icatalyst})=>{
-              return icatalyst.settings;
-            }}>
-              <Theme>
-                <ErrorBoundary>
-                  <Router history={history}>
-                    <Singularity config={{
-                      ...singularityConfig,
-                      mapRoles : mapAuthRoles,
-                      // Allows customisation of the roles that are displayed to the user
-                      filterDisplayRoles : filterDisplayRoles
-                    }}>
-                      <CssBaseline/>
-                      <Layout/>
-                    </Singularity>
-                  </Router>
-                </ErrorBoundary>
-              </Theme>
-            </SettingsProvider>
-          </Provider>
-        </StylesProvider>
-      </AppContext.Provider>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <AppContext.Provider value={appContext}>
+          <StylesProvider jss={jss} generateClassName={generateClassName}>
+            <Provider store={store}>
+              <SettingsProvider getReducerRoot={({icatalyst})=>{
+                return icatalyst.settings;
+              }}>
+                <Theme>
+                  <ErrorBoundary>
+                    <Router history={history}>
+                      <Singularity config={{
+                        ...singularityConfig,
+                        mapRoles : mapAuthRoles,
+                        // Allows customisation of the roles that are displayed to the user
+                        filterDisplayRoles : filterDisplayRoles
+                      }}>
+                        <CssBaseline/>
+                        <Layout/>
+                      </Singularity>
+                    </Router>
+                  </ErrorBoundary>
+                </Theme>
+              </SettingsProvider>
+            </Provider>
+          </StylesProvider>
+        </AppContext.Provider>
+      </MuiPickersUtilsProvider>
     );
   };
   return App;

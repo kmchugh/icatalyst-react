@@ -47,7 +47,7 @@ const ClearableInput = ({
             </InputAdornment>
           }
           endAdornment={
-            <InputAdornment position="end">
+            value && <InputAdornment position="end">
               <IconButton
                 size="small"
                 icon="cancel"
