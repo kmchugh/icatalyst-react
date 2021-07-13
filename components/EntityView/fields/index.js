@@ -1,6 +1,7 @@
 import TextField, {fieldBuilder as textFieldBuilder} from './TextField';
 import {fieldBuilder as booleanFieldBuilder} from './BooleanField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
+import {fieldBuilder as dateFieldBuilder} from './DateField';
 import {fieldBuilder as dateTimeFieldBuilder} from './DateTimeField';
 import {fieldBuilder as emailListFieldBuilder} from './EmailListField';
 import {fieldBuilder as entitySelectFieldBuilder} from './EntitySelectField';
@@ -10,6 +11,7 @@ const fieldMap = [
   booleanFieldBuilder,
   selectFieldBuilder,
   dateTimeFieldBuilder,
+  dateFieldBuilder,
   emailListFieldBuilder,
   entitySelectFieldBuilder,
 

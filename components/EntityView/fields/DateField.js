@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 
-const DateTimeField = (props) => {
+const DateField = (props) => {
 
   const utils = useContext(MuiPickersContext);
   // Monkey patching until the date-picker v5 comes out, expected in ~Nov-Dec 2021
@@ -83,7 +83,7 @@ const DateTimeField = (props) => {
   );
 };
 
-DateTimeField.propTypes = {
+DateField.propTypes = {
   className : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
@@ -96,13 +96,13 @@ DateTimeField.propTypes = {
   fullWidth : PropTypes.bool
 };
 
-export default DateTimeField;
+export default DateField;
 
 export const fieldBuilder = {
   isCompatible : (fieldDefinition)=>{
-    return fieldDefinition.type === 'datetime';
+    return fieldDefinition.type === 'date';
   },
   getComponent : ()=>{
-    return DateTimeField;
+    return DateField;
   }
 };
