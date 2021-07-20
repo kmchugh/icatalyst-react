@@ -21,7 +21,7 @@ const AppContextComponent = ({
         ) : route.auth;
 
       // TODO: Add the ability to configure the default based on the user and user roles
-      return !route.path || (route.path && route.path.indexOf(':') < 0) &&
+      return !route.path ||
         (routeAuth === undefined || (singularityContext && singularityContext.isInRole(routeAuth)));
     });
   };

@@ -132,7 +132,6 @@ function Singularity({
   // Force the authentication if the user has previously authenticated
   const hasAuthenticated = singularity.hasAuthenticated();
   const shouldForceAuth = hasAuthenticated || requireAuth;
-  console.log('auth', shouldForceAuth, singularity.hasAuthenticated());
 
   const appContext = useContext(AppContext);
 
