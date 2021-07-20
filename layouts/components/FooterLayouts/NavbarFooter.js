@@ -45,10 +45,14 @@ function Footer()
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   return (
-    <AppBar id="nav-footer" className={clsx(classes.root, 'relative',  'z-10')} color="default">
+    <AppBar component="div" id="nav-footer" className={clsx(classes.root, 'relative',  'z-10')} color="default">
       <Toolbar className="px-16 py-0 flex items-center min-h-32">
         <Link className={clsx(classes.link, 'nav-footer-link')} href={config.companyUrl} target="_blank">
-          <Image className={clsx(classes.logo, 'nav-footer-icon')} defaultSrc="static/backgrounds/150.png" src={config.companyLogo}/>
+          <Image
+            className={clsx(classes.logo, 'nav-footer-icon')}
+            defaultSrc="static/backgrounds/150.png"
+            alt={`${config.companyName} Logo`}
+            src={config.companyLogo}/>
           <Typography variant="caption" className={clsx(classes.text, 'nav-footer-text')}>
             {config.companyName}
           </Typography>

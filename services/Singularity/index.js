@@ -6,6 +6,11 @@ import axios from 'axios';
 import {generateUUID} from '../../utilities/generateUUID';
 import URIService from '../URIService';
 
+const LOGOUT_ACTION = 'LOGGING_OUT';
+const AUTHENTICATED_KEY = 'singularity_authenticated';
+
+
+
 
 /**
  * Service class for communicating with the Singularity Server.
@@ -46,15 +51,13 @@ class SingularityService {
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
 
-    // client_refresh : 'token/refresh',
-    // client_logout : 'logout',
-    //
     // resource : 'api/resource',
     resource_membership : 'api/resourceMembership'
   };
   #settings = {
     localstore_key : 'singularity_key'
-  }
+  };
+  #ls_comms_key = null;
 
   constructor({
     client = {},
@@ -84,6 +87,25 @@ class SingularityService {
     this.default_scope = this.#settings.default_scope ?
       this.#settings.default_scope.join(' ') :
       'auth profile';
+
+    // Get all defined class methods
+    const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this));
+    // Force Binding for all methods
+    methods
+      .filter(method => (method !== 'constructor'))
+      .forEach((method) => { this[method] = this[method].bind(this); });
+
+    this.#ls_comms_key = `${this.#client.id}_comms`;
+    // Add a listener for messages through ls
+    window.addEventListener('storage', this.handleLSMessage);
+  }
+
+  handleLSMessage(event){
+    if (event.key === this.#ls_comms_key && event.trusted) {
+      const {type, payload} = JSON.parse(event.newValue);
+      console.log(type, payload);
+      console.log('EVENT HANDLING');
+    }
   }
 
   /**
@@ -155,12 +177,13 @@ class SingularityService {
     // Store the state so we can validate
     const state = this.localStore('state', generateUUID());
     this.localStore('redirect_uri', redirect_uri);
+
     this.redirectTo(this.uris.authorize, {
       response_type : 'code',
       client_id : this.#client.id,
       scope : scope,
       state : state,
-      redirect_uri : window.location.href
+      redirect_uri : redirect_uri
     });
   }
 
@@ -182,6 +205,10 @@ class SingularityService {
     const stored_state = this.localStore('state');
     const redirect_uri = this.localStore('redirect_uri');
 
+    if (!stored_state) {
+      return;
+    }
+
     // Clear out the localstore so that the values can not be reused
     this.localStore('state', null);
     this.localStore('redirect_uri', null);
@@ -191,7 +218,7 @@ class SingularityService {
       return new Promise((resolve, reject)=>{
         reject({
           error : 'Invalid State',
-          error_description : `The response from the server (${state}) does not match the expected state (${state}])`,
+          error_description : `The response from the server (${state}) does not match the expected state (${stored_state})`,
           error_uri : null
         });
       });
@@ -217,6 +244,7 @@ class SingularityService {
     if (redirect_uri) {
       parameters.redirect_uri = redirect_uri;
     }
+
     // Otherwise make the request for the access token
     return axios.post(this.uris.token,
       parameters,
@@ -429,9 +457,35 @@ class SingularityService {
    * Redirects the user to singularity logout which clears any singularity tokens
    */
   logout(accessToken) {
+    this.clearAuthenticated();
+    window.localStorage.setItem(this.#ls_comms_key, JSON.stringify({
+      type : LOGOUT_ACTION,
+      payload : Date.now()
+    }));
     this.redirectTo(this.client_uris.logout, null, {
       access_token : accessToken
     });
+  }
+
+  /**
+   * Marks that an authentication has occurred on this browser
+   */
+  markAuthenticated() {
+    return this.localStore(AUTHENTICATED_KEY, true);
+  }
+
+  /**
+   * Checks if an authentication has ever happened on this browser
+   */
+  hasAuthenticated() {
+    return this.localStore(AUTHENTICATED_KEY);
+  }
+
+  /**
+   * Clears the knowledge that a valid authentication happenned on this browser
+   */
+  clearAuthenticated() {
+    return this.localStore(AUTHENTICATED_KEY, false);
   }
 
   /**

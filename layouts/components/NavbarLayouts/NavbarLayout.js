@@ -51,6 +51,7 @@ function NavbarLayout(props)
         color="primary"
         position="static"
         elevation={0}
+        component="div"
         className="nav-header flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12"
       >
 

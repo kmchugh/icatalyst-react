@@ -1,7 +1,7 @@
 /*global gtag*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppContext from '@icatalyst/contexts/App';
+import AppContextComponent from '@icatalyst/contexts/App';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '@icatalyst/components/Settings';
@@ -42,6 +42,7 @@ export default function createApp({
   applicationConfig,
   routes,
   layouts,
+  themes,
   store,
   mapAuthRoles,
   filterDisplayRoles
@@ -56,26 +57,20 @@ export default function createApp({
     }
   }
 
-  const appContext = {
-    routes :[
-      ...routes,
-    ],
-    applicationConfig : contextConfig,
-    layouts : layouts,
-    // onUserAuthenticated : (user, dispatch)=>{},
-    // onClientUpdated : (client, dispatch)=>{}
-  };
-
   if (process.env.NODE_ENV !== 'production') {
     const axe = require('@axe-core/react');
     axe(React, ReactDOM, 3000);
   }
 
-
   const App = ()=>{
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
-        <AppContext.Provider value={appContext}>
+        <AppContextComponent
+          routes={routes}
+          applicationConfig={contextConfig}
+          layouts={layouts}
+          themes={themes}
+        >
           <StylesProvider jss={jss} generateClassName={generateClassName}>
             <Provider store={store}>
               <SettingsProvider getReducerRoot={({icatalyst})=>{
@@ -88,7 +83,7 @@ export default function createApp({
                         ...singularityConfig,
                         mapRoles : mapAuthRoles,
                         // Allows customisation of the roles that are displayed to the user
-                        filterDisplayRoles : filterDisplayRoles
+                        filterDisplayRoles : filterDisplayRoles,
                       }}>
                         <CssBaseline/>
                         <Layout/>
@@ -99,7 +94,7 @@ export default function createApp({
               </SettingsProvider>
             </Provider>
           </StylesProvider>
-        </AppContext.Provider>
+        </AppContextComponent>
       </MuiPickersUtilsProvider>
     );
   };

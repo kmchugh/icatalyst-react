@@ -8,7 +8,6 @@ import {setClient, setSingularityClient} from './store/actions/client.actions';
 import { AppContext } from '../../contexts';
 import {useDispatch} from 'react-redux';
 
-
 // import {registerSettings} from '../Settings';
 //
 // const SINGULARITY_SETTINGS_ID = 'singularity_user';
@@ -96,10 +95,11 @@ const getParams = query => {
     {};
 };
 
-function Singularity(props) {
-
+function Singularity({
+  location, t = (t)=>t, history, config,
+  children
+}) {
   const dispatch = useDispatch();
-  const {location, t = (t)=>t, history, config} = props;
   const {
     mapRoles = (roles)=>{
       return roles.map(r=>r.code);
@@ -107,7 +107,7 @@ function Singularity(props) {
     filterDisplayRoles = (role)=>{
       return role.displayable;
     },
-    requireAuth = true
+    requireAuth = true,
   } = config;
 
   // TODO: Make this configurable
@@ -115,7 +115,11 @@ function Singularity(props) {
 
   const [token, setToken] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    roles : [],
+    // Map the singularity roles of the user to app roles
+    appRoles: mapRoles(null)
+  });
   const [redirect, setRedirect] = useState(null);
   const [session, setSession] = useState(null);
   const [singularity] = useState(new SingularityService(config));
@@ -125,11 +129,102 @@ function Singularity(props) {
 
   const [message, setMessage] = useState('Validating...');
 
+  // Force the authentication if the user has previously authenticated
+  const hasAuthenticated = singularity.hasAuthenticated();
+  const shouldForceAuth = hasAuthenticated || requireAuth;
+  console.log('auth', shouldForceAuth, singularity.hasAuthenticated());
+
+  const appContext = useContext(AppContext);
+
   const {
     routes,
     onUserAuthenticated = ()=>{},
-    onClientUpdated = ()=>{}
-  } = useContext(AppContext);
+    onClientUpdated = ()=>{},
+    onUserChange = ()=>{}
+  } = appContext;
+
+  const handleToken = (token)=>{
+    // We have a token, redirect the user if required
+
+    // Validate the token
+    setMessage(t('Validating Token...'));
+    try {
+      singularity.validateToken(token);
+
+      // The token is valid
+      setMessage(t('Validated Token...'));
+
+      if (user && session) {
+        // If we are supposed to redirect, then redirect
+        let redirectLocation = null;
+        if (redirect) {
+          const search = redirect.split('?', 2);
+          const hash = redirect.split('#', 2);
+          redirectLocation = {
+            path: redirect.replace(window.location.origin, ''),
+            search: search.length > 1 ? search[1] : undefined,
+            hash: hash.length > 1 ? hash[1] : undefined,
+          };
+        } else if (session) {
+          redirectLocation = {
+            path : location.pathname,
+            search : location.search,
+            state : location.state,
+            hash : location.hash
+          };
+        }
+
+        // If the client has not been loaded then load it
+        if (!clientDetails) {
+          setClientDetails({});
+          singularity.getClientDetails(accessToken).then((client)=>{
+            dispatch(setClient(client));
+            setClientDetails(client);
+            onClientUpdated(client, dispatch);
+          }).catch((error)=>{
+            console.error(error);
+          });
+        }
+
+        if (!singularityDetails) {
+          setSingularityDetails({});
+          singularity.getSingularityDetails(accessToken, token.iss).then((client)=>{
+            dispatch(setSingularityClient(client));
+          }).catch((error)=>{
+            console.error(error);
+          });
+        }
+
+        const matched = matchRoutes(routes, location.path)[0];
+
+        if (redirectLocation && !hasPermission(matched.route.auth, user.appRoles)) {
+          history.push(errorRoute, {
+            title : t('Unauthorized'),
+            message : t('Your account does not have access to this location'),
+          });
+        } else {
+          if (history.location.pathname !== redirectLocation.path ||
+            history.location.search !== redirectLocation.search ||
+            history.location.hash !== redirectLocation.hash ||
+            history.location.state !== redirectLocation.state
+          ) {
+            history.push(redirectLocation);
+          }
+        }
+        // Mark that we have had a valid token so this user has been authenticated
+        if (!hasAuthenticated) {
+          singularity.markAuthenticated();
+        }
+        setRedirect(null);
+      }
+    } catch (e) {
+      console.error(e);
+      history.push(errorRoute, {
+        title : t('Unauthorized'),
+        message : t(e.message),
+      });
+    }
+  };
 
   // Check that we have access on each path change
   useEffect(()=>{
@@ -143,8 +238,10 @@ function Singularity(props) {
       setClientToken(basicToken);
     }
 
+    const searchParams = getParams(location.search);
+
     // If we do not require auth then wait for the app to request auth
-    if (!requireAuth) {
+    if (!shouldForceAuth && !token && !searchParams.state) {
       return;
     }
 
@@ -152,15 +249,16 @@ function Singularity(props) {
       // We do not currently have a token
       // So attempt to retrieve one or refresh from the refresh token
 
-      const searchParams = getParams(location.search);
       // If there is a code and state parameter,
       // and the state matches our generated state then
       // this is the redirect from singularity so use the
       // code to request the actual access token
       if (searchParams.state) {
         setMessage(t('Requesting Access...'));
-        singularity.requestAccessToken(searchParams)
-          .then((response)=>{
+
+        const promise = singularity.requestAccessToken(searchParams);
+        if (promise) {
+          promise.then((response)=>{
             setMessage(t('Parsing Token...'));
             const { access_token, token } = response;
 
@@ -177,107 +275,30 @@ function Singularity(props) {
             setMessage(t('Retrieving Session...'));
             setToken(token);
           })
-          .catch(({
-            error,
-            error_description,
-            // error_uri
-          })=>{
-            props.history.push(errorRoute, {
-              title : t(error || 'Unknown Error'),
-              message : t(error_description),
+            .catch(({
+              error,
+              error_description,
+              // error_uri
+            })=>{
+              history.push(errorRoute, {
+                title : t(error || 'Unknown Error'),
+                message : t(error_description),
+              });
             });
-          });
+        }
       } else {
         setMessage(t('Requesting Authorisation...'));
         // No token, no code, and no state, so redirect for login
         singularity.requestAuthorizationCode();
-
-        // TODO: Before redirect, attempt to refresh
       }
     } else {
-      // We have a token, redirect the user if required
-
-      // Validate the token
-      setMessage(t('Validating Token...'));
-      try {
-        singularity.validateToken(token);
-
-        // The token is valid
-        setMessage(t('Validated Token...'));
-
-        if (user && session) {
-
-          // If we are supposed to redirect, then redirect
-          let location = null;
-          if (redirect) {
-            const search = redirect.split('?', 2);
-            const hash = redirect.split('#', 2);
-            location = {
-              path: redirect.replace(window.location.protocol + '//' + window.location.host, ''),
-              search: search.length > 1 ? search[1] : undefined,
-              hash: hash.length > 1 ? hash[1] : undefined,
-            };
-          } else if (session) {
-            location = {
-              path : props.location.pathname,
-              search : props.location.search,
-              state : props.location.state,
-              hash : props.location.hash
-            };
-          }
-
-          // If the client has not been loaded then load it
-          if (!clientDetails) {
-            setClientDetails({});
-            singularity.getClientDetails(accessToken).then((client)=>{
-              dispatch(setClient(client));
-              setClientDetails(client);
-              onClientUpdated(client, dispatch);
-            }).catch((error)=>{
-              console.error(error);
-            });
-          }
-
-          if (!singularityDetails) {
-            setSingularityDetails({});
-            singularity.getSingularityDetails(accessToken, token.iss).then((client)=>{
-              dispatch(setSingularityClient(client));
-            }).catch((error)=>{
-              console.error(error);
-            });
-          }
-
-          const matched = matchRoutes(routes, location.path)[0];
-
-          if (location && !hasPermission(matched.route.auth, user.appRoles)) {
-            history.push(errorRoute, {
-              title : t('Unauthorized'),
-              message : t('Your account does not have access to this location'),
-            });
-          } else {
-            if (props.history.location.pathname !== location.path ||
-              props.history.location.search !== location.search ||
-              props.history.location.hash !== location.hash ||
-              props.history.location.state !== location.state
-            ) {
-              props.history.push(location);
-            }
-          }
-
-          setRedirect(null);
-        }
-      } catch (e) {
-        history.push(errorRoute, {
-          title : t('Unauthorized'),
-          message : t(e.message),
-        });
-      }
+      handleToken(token);
     }
   }, [session, user, location.pathname]);
 
   useEffect(()=>{
     // If we do not require auth then wait for the app to request auth
-    if (!requireAuth) {
+    if (!shouldForceAuth && !token) {
       return;
     }
 
@@ -326,40 +347,52 @@ function Singularity(props) {
     }
   }, [token]);
 
+  const singularityContext = {
+    client: clientDetails,
+    user,
+    session,
+    accessToken,
+    clientToken,
+    token,
+    isInRole : (role)=>{
+      // If the role is undefined then it is assumed that there is no access
+      if (role === undefined) {
+        return false;
+      }
+      role = !Array.isArray(role) && role ? [role] : role;
+      return hasPermission(role, user && user.appRoles || []);
+    },
+    isResourceOwner : (type, id)=>{
+      return singularity.isResourceOwner(accessToken, type, id);
+    },
+    logout : ()=>{
+      // Clear the refresh token and user related data, then
+      // hand over to singularity to complete the logout
+      singularity.cancelSilentRefresh();
+      setSession(null);
+      setUser(null);
+      setAccessToken(null);
+      singularity.logout(accessToken);
+    },
+    login : (redirectURI)=>{
+      singularity.cancelSilentRefresh();
+      setSession(null);
+      setAccessToken(null);
+      singularity.requestAuthorizationCode(undefined, redirectURI);
+    }
+  };
+
+  useEffect(()=>{
+    onUserChange && onUserChange(singularityContext);
+  }, [user]);
+
   // If we are waiting for authorisation then show the loading screen
   // otherwise show the children
-  return (location.pathname !== errorRoute && (requireAuth && (!token || !user || !session))) ?
+  return (location.pathname !== errorRoute && (shouldForceAuth && (!token || !user || !session))) ?
     (<FuseSplashScreen message={message}/>) :
     (
-      <SingularityContext.Provider value={{
-        client: clientDetails,
-        user,
-        session,
-        accessToken,
-        clientToken,
-        token,
-        isInRole : (role)=>{
-          // If the role is undefined then it is assumed that there is no access
-          if (role === undefined) {
-            return false;
-          }
-          role = !Array.isArray(role) && role ? [role] : role;
-          return hasPermission(role, user && user.appRoles || []);
-        },
-        isResourceOwner : (type, id)=>{
-          return singularity.isResourceOwner(accessToken, type, id);
-        },
-        logout : ()=>{
-          // Clear the refresh token and user related data, then
-          // hand over to singularity to complete the logout
-          singularity.cancelSilentRefresh();
-          setSession(null);
-          setUser(null);
-          setAccessToken(null);
-          singularity.logout(accessToken);
-        }
-      }}>
-        {props.children}
+      <SingularityContext.Provider value={singularityContext}>
+        {children}
       </SingularityContext.Provider>
     );
 }
@@ -379,6 +412,7 @@ Singularity.propTypes = {
     settings : PropTypes.object,
     urls : PropTypes.object,
     requireAuth : PropTypes.bool,
+    onUserChange : PropTypes.func
   }),
   history: PropTypes.object,
   location: PropTypes.object,

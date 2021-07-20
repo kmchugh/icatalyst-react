@@ -173,7 +173,7 @@ function NavbarWrapper()
 
 
   return (
-    <div id="app-navbar"
+    <div id="app-navbar" role="navigation"
       className={
         clsx(
           classes.wrapper,

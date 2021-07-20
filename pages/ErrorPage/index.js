@@ -52,7 +52,7 @@ const ErrorPage = (props) => {
       </FuseAnimate>
 
       <FuseAnimate delay={500}>
-        <Typography variant="h6" color="primary" className={clsx(classes.subtitle)}>
+        <Typography variant="h6" component="h2" color="primary" className={clsx(classes.subtitle)}>
           {message}
         </Typography>
       </FuseAnimate>

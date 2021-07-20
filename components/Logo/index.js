@@ -59,7 +59,7 @@ function Logo({
           }
           alt={`logo for ${config.clientName}`}/>
       </div>
-      {showTitle && <Typography className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
+      {showTitle && <Typography component="h1" className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
     </div>
   );
 }

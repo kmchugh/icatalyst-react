@@ -106,7 +106,7 @@ ContentWrapper.propTypes = {
   ]),
 };
 
-function ScrollWrapper({children, scrollType, config, className}) {
+function ScrollWrapper({children, scrollType, config, className, role}) {
   const {scroll} = config;
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
 
@@ -124,7 +124,7 @@ function ScrollWrapper({children, scrollType, config, className}) {
           </ThemeProvider>
         )
       }
-      <FuseScrollbars className={className} scrollToTopOnRouteChange>
+      <FuseScrollbars role={role} className={className} scrollToTopOnRouteChange>
         {
           config.toolbar.display &&
             config.toolbar.style !== 'fixed' &&
@@ -174,6 +174,7 @@ ScrollWrapper.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
+  role : PropTypes.string
 };
 
 function Layout(props) {
@@ -213,7 +214,7 @@ function Layout(props) {
                   <ToolbarLayout />
                 </ThemeProvider>
               )}
-              <ScrollWrapper className={classes.content} scrollType="content" config={config}>
+              <ScrollWrapper role="main" className={classes.content} scrollType="content" config={config}>
                 <ContentWrapper config={config}>
                   <StateDialog />
                   <FuseSuspense>{renderRoutes(routes)}</FuseSuspense>

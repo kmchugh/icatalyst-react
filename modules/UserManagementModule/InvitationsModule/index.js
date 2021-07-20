@@ -22,6 +22,7 @@ export function createModule(config={}){
       {
         path : 'create',
         component : CreateInvitation,
+        auth : config.auth().create
       }
     ]
   });

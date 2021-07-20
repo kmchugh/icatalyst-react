@@ -49,6 +49,7 @@ function UserNavbarHeader({className})
       position="static"
       color="primary"
       elevation={0}
+      component="div"
       classes={{root: classes.root}}
       className={clsx('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
     >

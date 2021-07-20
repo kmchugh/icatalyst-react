@@ -49,7 +49,7 @@ function Layout(props) {
       )));
     } else {
       // Not a match so need to reset to default
-      dispatch(Actions.resetSettings);
+      dispatch(Actions.resetSettings());
     }
   }, [routes, defaultSettings, currentSettings, location.pathname]);
 

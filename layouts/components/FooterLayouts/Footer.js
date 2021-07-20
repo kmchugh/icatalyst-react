@@ -25,7 +25,11 @@ function Footer()
   const {footer} = config.text;
 
   return (
-    <AppBar id="app-footer" className={clsx(classes.root)} color="default">
+    <AppBar
+      role="contentinfo"
+      component="div"
+      id="app-footer"
+      className={clsx(classes.root)} color="default">
       <Toolbar className="px-16 py-8 md:py-0 flex items-center min-h-32 text-10 md:text-12">
         <Typography variant="caption">
           {footer}

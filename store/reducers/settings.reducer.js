@@ -2,22 +2,75 @@ import * as Actions from '../actions/settings.actions';
 import _ from '../../@lodash';
 import CryptoJS from 'crypto-js';
 
-import layouts from 'app/settings/layouts';
-import themes from 'app/settings/themes';
-
 import { generateThemeVariants } from '../../utilities/generateThemeVariants';
-
-const defaultTheme = _.cloneDeep(Object.values(themes).find(t=>t.default));
-const defaultLayout = _.cloneDeep(Object.values(layouts).find(l=>l.default));
 const LS_KEY = CryptoJS.MD5('app_settings').toString();
 
-const themeMap = Object.keys(themes).reduce((acc, k)=>{
-  acc = {
-    ...acc,
-    ...generateThemeVariants(k, themes[k], defaultTheme)
-  };
-  return acc;
-}, {});
+let initialState = null;
+
+const updateInitialState = (defaultLayout, themeMap)=>{
+  if (defaultLayout && themeMap) {
+    initialState = {
+      userSettingsView : {
+        open: false,
+      },
+      defaults : {
+        layout : defaultLayout,
+        themes : {
+          mainTheme   : themeMap[defaultLayout.theme.main],
+          navbarTheme : themeMap[defaultLayout.theme.navbar],
+          toolbarTheme: themeMap[defaultLayout.theme.toolbar],
+          footerTheme : themeMap[defaultLayout.theme.footer],
+          panelTheme : themeMap[defaultLayout.theme.panel],
+        },
+      },
+      current  : {
+        layout : defaultLayout,
+        themes : {
+          mainTheme   : themeMap[defaultLayout.theme.main],
+          navbarTheme : themeMap[defaultLayout.theme.navbar],
+          toolbarTheme: themeMap[defaultLayout.theme.toolbar],
+          footerTheme : themeMap[defaultLayout.theme.footer],
+          panelTheme : themeMap[defaultLayout.theme.panel]
+        }
+      },
+      userSettings : lsValue,
+      themes   : themeMap
+    };
+  }
+};
+
+let layouts = {};
+let defaultLayout = {};
+let themes = {};
+let defaultTheme = {};
+let themeMap = {};
+
+export const setLayouts = (applicationLayouts)=>{
+  // Make sure that there is a layout for each style key
+  layouts = Object.keys(applicationLayouts).reduce((acc, key)=>{
+    acc[key] = applicationLayouts[key];
+    if (key !== applicationLayouts[key].style) {
+      acc[applicationLayouts[key].style] = applicationLayouts[key];
+    }
+    return acc;
+  }, {});
+  defaultLayout = _.cloneDeep(Object.values(layouts).find(l=>l.default));
+  updateInitialState(defaultLayout, themeMap);
+};
+
+
+export const setThemes = (applicationThemes)=>{
+  themes = applicationThemes;
+  defaultTheme = _.cloneDeep(Object.values(themes).find(t=>t.default));
+  themeMap = Object.keys(themes).reduce((acc, k)=>{
+    acc = {
+      ...acc,
+      ...generateThemeVariants(k, themes[k], defaultTheme)
+    };
+    return acc;
+  }, {});
+  updateInitialState(defaultLayout, themeMap);
+};
 
 let lsValue = {};
 try {
@@ -25,34 +78,6 @@ try {
 } catch {
   // Nothing to do here
 }
-
-const initialState = {
-  userSettingsView : {
-    open: false,
-  },
-  defaults : {
-    layout : defaultLayout,
-    themes : {
-      mainTheme   : themeMap[defaultLayout.theme.main],
-      navbarTheme : themeMap[defaultLayout.theme.navbar],
-      toolbarTheme: themeMap[defaultLayout.theme.toolbar],
-      footerTheme : themeMap[defaultLayout.theme.footer],
-      panelTheme : themeMap[defaultLayout.theme.panel],
-    },
-  },
-  current  : {
-    layout : defaultLayout,
-    themes : {
-      mainTheme   : themeMap[defaultLayout.theme.main],
-      navbarTheme : themeMap[defaultLayout.theme.navbar],
-      toolbarTheme: themeMap[defaultLayout.theme.toolbar],
-      footerTheme : themeMap[defaultLayout.theme.footer],
-      panelTheme : themeMap[defaultLayout.theme.panel]
-    }
-  },
-  userSettings : lsValue,
-  themes   : themeMap
-};
 
 export default function (state = initialState, action) {
   switch ( action.type ) {
@@ -134,7 +159,7 @@ export default function (state = initialState, action) {
   }
   default:
   {
-    return state;
+    return state === null ? initialState : state;
   }
   }
 }

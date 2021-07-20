@@ -40,7 +40,7 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
   const ps = useRef(null);
   const handlerByEvent = useRef(new Map());
   const classes = useStyles();
-  const { customScrollbars } = props;
+  const { customScrollbars, role } = props;
 
   const hookUpEvents = useCallback(() => {
     Object.keys(handlerNameByEvent).forEach(key => {
@@ -134,6 +134,7 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
     <div
       id={props.id}
       className={clsx(classes.root, props.className)}
+      role={role}
       style={
         props.customScrollbars && (props.enable || true) && !isMobile
           ? {
@@ -182,7 +183,8 @@ FuseScrollbars.propTypes = {
   className : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
-  ])
+  ]),
+  role : PropTypes.string
 };
 
 FuseScrollbars.defaultProps = {

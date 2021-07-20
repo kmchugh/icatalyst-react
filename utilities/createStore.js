@@ -3,6 +3,7 @@ import {applyMiddleware, compose, createStore as createReduxStore} from 'redux';
 import thunk from 'redux-thunk';
 import _ from '../@lodash';
 import { setInitialNavigation } from '@icatalyst/store/actions';
+import { setLayouts, setThemes } from '../store/reducers/settings.reducer';
 
 import icatalyst from '@icatalyst/store/reducers';
 
@@ -47,11 +48,15 @@ function createReducer(mainReducer, storeKey = 'main'){
  * Creates a new redux store to be used by the application
  * @param  {[type]} reducers          The reducer hierarchy for the store
  * @param  {[type]} navigation        The initial navigation for the store
+ * @param  {[type]} layouts           The layouts available to the application
+ * @param  {[type]} themes            The themes available to the application
  * @param  {String} [storeKey='main'] The key to access the custom store
  * @return {[type]}                   the created store
  */
-export function createStore(reducers, navigation, storeKey = 'main'){
+export function createStore(reducers, navigation, layouts, themes, storeKey = 'main'){
   setInitialNavigation(navigation);
+  setLayouts(layouts);
+  setThemes(themes);
 
   // Create the store
   const store = createReduxStore(

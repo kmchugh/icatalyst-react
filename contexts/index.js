@@ -1,1 +1,1 @@
-export {default as AppContext} from './App';
+export {AppContext} from './App';
