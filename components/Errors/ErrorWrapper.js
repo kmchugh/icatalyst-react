@@ -81,20 +81,22 @@ const ErrorComponent = ({errors,
           </div>
         )
       }
-      <ul className={clsx(classes.errorList)}>
-        {
-          errors.filter((e, index, self)=>{
-            return self.findIndex((error)=>error.message === e.message) === index;
-          }).map(e=>{
-            const message = e.message || e.toString();
-            return (
-              <li className={clsx(classes.error)} key={message}>
-                <Error>{message || 'Unknown Error'}</Error>
-              </li>
-            );
-          })
-        }
-      </ul>
+      {
+        process.env.NODE_ENV !== 'production' && <ul className={clsx(classes.errorList)}>
+          {
+            errors.filter((e, index, self)=>{
+              return self.findIndex((error)=>error.message === e.message) === index;
+            }).map(e=>{
+              const message = e.message || e.toString();
+              return (
+                <li className={clsx(classes.error)} key={message}>
+                  <Error>{message || 'Unknown Error'}</Error>
+                </li>
+              );
+            })
+          }
+        </ul>
+      } 
       {
         actionComponent && <div className={clsx(classes.errorActionWrapper)}>
           {actionComponent}
