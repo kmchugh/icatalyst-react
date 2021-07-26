@@ -18,7 +18,7 @@ const InviteButton = ({
 
   // TODO: This should be using a reverse lookup rather than this way.
   const {routes} = useContext(AppContext);
-  const inviteRoute = routes.find((r)=>r.path.endsWith('/invites/create'));
+  const inviteRoute = routes.find((r)=>r.path && r.path.endsWith('/invites/create'));
 
   return (
     <Button
