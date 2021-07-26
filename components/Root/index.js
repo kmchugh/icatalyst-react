@@ -26,7 +26,7 @@ const Root = ()=>{
   return defaultRoute.path === '/' ?
     (<div></div>) :
     (<Redirect to={{
-      pathname : defaultRoute.path || '/',
+      pathname : defaultRoute.path || (prioritisedRoutes.length === 1 ? location.pathname : '/'),
       search : location.search,
       state : location.state ? location.state : {
         referrer : location.pathname

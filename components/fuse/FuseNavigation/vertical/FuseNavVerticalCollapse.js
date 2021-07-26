@@ -113,7 +113,7 @@ function FuseNavVerticalCollapse(props)
         {item.badge && (
           <FuseNavBadge className="mr-4" badge={item.badge}/>
         )}
-        <IconButton disableRipple className="w-16 h-16 p-0">
+        <IconButton aria-label={open ? 'collapse' : 'expand'} component="div" disableRipple className="w-16 h-16 p-0">
           <Icon className="text-16 arrow-icon" color="inherit">
             {open ? 'expand_less' : 'expand_more'}
           </Icon>
