@@ -126,6 +126,7 @@ function Singularity({
   const [clientToken, setClientToken] = useState(null);
   const [singularityDetails, setSingularityDetails] = useState(null);
   const [clientDetails, setClientDetails] = useState(null);
+  const [initialised, setInitialised] = useState(false);
 
   const [message, setMessage] = useState('Validating...');
 
@@ -298,6 +299,7 @@ function Singularity({
   useEffect(()=>{
     // If we do not require auth then wait for the app to request auth
     if (!shouldForceAuth && !token) {
+      setInitialised(true);
       return;
     }
 
@@ -334,7 +336,7 @@ function Singularity({
             // Map the singularity roles of the user to app roles
             appRoles: mapRoles(user.roles)
           });
-
+          setInitialised(true);
           onUserAuthenticated(user, dispatch);
 
         }).catch((data)=>{
@@ -353,6 +355,7 @@ function Singularity({
     accessToken,
     clientToken,
     token,
+    initialised : initialised,
     isInRole : (role)=>{
       // If the role is undefined then it is assumed that there is no access
       if (role === undefined) {
@@ -371,6 +374,7 @@ function Singularity({
       setSession(null);
       setUser(null);
       setAccessToken(null);
+      setInitialised(false);
       singularity.logout(accessToken);
     },
     login : (redirectURI)=>{
