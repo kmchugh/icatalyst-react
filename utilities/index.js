@@ -12,6 +12,7 @@ export * from './generateRoutes';
 export * from './generateThemeVariants';
 export * from './generateUUID';
 export * from './setAuthRoles';
+export * from './validateInputs';
 
 
 // The following are not included to prevent circular dependencies
