@@ -53,7 +53,7 @@ function Footer()
             defaultSrc="static/backgrounds/150.png"
             alt={`${config.companyName} Logo`}
             src={config.companyLogo}/>
-          <Typography variant="caption" className={clsx(classes.text, 'nav-footer-text')}>
+          <Typography color="textPrimary" variant="caption" className={clsx(classes.text, 'nav-footer-text')}>
             {config.companyName}
           </Typography>
         </Link>
