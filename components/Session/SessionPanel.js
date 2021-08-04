@@ -83,7 +83,6 @@ function SessionPanel() {
         aria-labelledby="settings-panel"
         aria-describedby="settings"
         open={open}
-        keepMounted
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{

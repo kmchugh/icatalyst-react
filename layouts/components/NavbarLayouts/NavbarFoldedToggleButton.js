@@ -19,21 +19,23 @@ const useStyles = makeStyles((theme)=>{
 });
 
 
-function NavbarFoldedToggleButton(props) {
-  const {className} = props;
+function NavbarFoldedToggleButton({
+  className, onClick
+}) {
   const dispatch = useDispatch();
   const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
 
   const theme = useTheme();
 
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   return (
     <IconButton
       className={clsx(classes.root, className)}
-      onClick={() => {
-        dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', !layout.navbar.folded)));
+      onClick={(e) => {
+        onClick && onClick(e, !layout.navbar.folded);
+        return dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', !layout.navbar.folded)));
       }}
       style={{
         color : theme.palette.primary.contrastText
@@ -49,7 +51,8 @@ NavbarFoldedToggleButton.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
-  ])
+  ]),
+  onClick : PropTypes.func
 };
 
 export default NavbarFoldedToggleButton;

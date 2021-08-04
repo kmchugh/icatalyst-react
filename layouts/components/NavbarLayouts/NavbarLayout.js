@@ -36,16 +36,18 @@ const useStyles = makeStyles((theme)=>({
   }
 }));
 
-function NavbarLayout(props)
+function NavbarLayout({
+  className, onToggled
+})
 {
   const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
   const theme = useTheme();
 
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   return (
-    <div className={clsx('flex flex-col overflow-hidden h-full', props.className)}>
+    <div className={clsx('flex flex-col overflow-hidden h-full', className)}>
 
       <AppBar
         color="primary"
@@ -60,11 +62,21 @@ function NavbarLayout(props)
         </div>
 
         <Hidden mdDown>
-          <NavbarFoldedToggleButton className="w-40 h-40 p-0"/>
+          <NavbarFoldedToggleButton
+            className="w-40 h-40 p-0"
+            onClick={(e, value)=>{
+              onToggled && onToggled(value);
+            }}
+          />
         </Hidden>
 
         <Hidden lgUp>
-          <NavbarMobileToggleButton className={clsx('w-40 h-40 p-0')}>
+          <NavbarMobileToggleButton
+            className={clsx('w-40 h-40 p-0')}
+            onClick={(e, value)=>{
+              onToggled && onToggled(value);
+            }}
+          >
             <Icon className={clsx(classes.mobileToggleIcon)} style={{
               color : theme.palette.primary.contrastText
             }}>
@@ -90,7 +102,8 @@ function NavbarLayout(props)
 }
 
 NavbarLayout.propTypes = {
-  className : PropTypes.string
+  className : PropTypes.string,
+  onToggled : PropTypes.func
 };
 
 export default NavbarLayout;

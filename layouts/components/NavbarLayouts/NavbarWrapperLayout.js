@@ -1,10 +1,37 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Drawer, Hidden} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
 import NavbarLayout from './NavbarLayout';
 import {useDispatch, useSelector} from 'react-redux';
+import {useSettingsContext} from '../../../components/Settings/SettingsProvider';
+import {registerSettings} from '../../../components/Settings/SettingsProvider';
+import _ from '../../../@lodash';
+
+const NAVBAR_SETTINGS_ID = 'icat_navbar';
+
+/**
+ * Register the NavBar Settings with the settings provider
+ * so they can be managed by the user
+ * @type {[type]}
+ */
+registerSettings({
+  name : NAVBAR_SETTINGS_ID,
+  sectionName : 'userInterface',
+  label : 'Navigation Bar',
+  icon : 'menu_open',
+  fields : [{
+    id : 'state',
+    type : 'select',
+    default : 'expanded',
+    options : [{
+      id : 'expanded'
+    }, {
+      id : 'collapsed'
+    }]
+  }]
+});
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -135,6 +162,13 @@ const useStyles = makeStyles((theme) => {
             padding: 0
           }
         },
+        '& ul.navigation' : {
+          marginTop : theme.spacing(2),
+          transition   : theme.transitions.create(['margin-top'], {
+            easing  : theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.shorter
+          }),
+        },
         '& .list-item.active'                            : {
           marginLeft  : theme.spacing(1.5),
           width       : theme.spacing(5),
@@ -146,6 +180,17 @@ const useStyles = makeStyles((theme) => {
             paddingLeft : theme.spacing(3),
             width       : '100%'
           }
+        },
+        '& ul.navigation > .active' : {
+          transition   : theme.transitions.create(['border-left-width', 'margin-left', 'border-radius', 'padding-left', 'width'], {
+            easing  : theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.shorter
+          }),
+          borderRadius: 0,
+          marginLeft  : 0,
+          paddingLeft : theme.spacing(3),
+          width       : '100%',
+          borderLeftWidth : 0
         }
       }
     }
@@ -160,7 +205,14 @@ function NavbarWrapper()
 
   const navbar = useSelector(({icatalyst}) => icatalyst.navbar);
 
-  const folded = config.navbar.folded;
+  const navbarSettings = useSettingsContext(NAVBAR_SETTINGS_ID);
+  const {
+    values : reducerValues,
+    updateSettings,
+    settingsInstanceID
+  } = navbarSettings;
+
+  const folded = reducerValues.state === 'collapsed';
   const foldedAndClosed = folded && !navbar.foldedOpen;
   const foldedAndOpened = folded && navbar.foldedOpen;
   const navbarWidth = config.navbar.width;
@@ -171,6 +223,18 @@ function NavbarWrapper()
     navbarFoldedWidth
   });
 
+  useEffect(()=>{
+    return dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
+  }, []);
+
+  const onNavbarToggled = (value)=>{
+    updateSettings((values)=>{
+      return {
+        ...values,
+        state : value ? 'collapsed' : 'expanded'
+      };
+    }, settingsInstanceID);
+  };
 
   return (
     <div id="app-navbar" role="navigation"
@@ -194,7 +258,10 @@ function NavbarWrapper()
           onMouseEnter={() => foldedAndClosed && dispatch(Actions.navbarOpenFolded())}
           onMouseLeave={() => foldedAndOpened && dispatch(Actions.navbarCloseFolded())}
         >
-          <NavbarLayout className={classes.navbarContent}/>
+          <NavbarLayout
+            onToggled={onNavbarToggled}
+            className={classes.navbarContent}
+          />
         </div>
       </Hidden>
 
