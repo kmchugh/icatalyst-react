@@ -27,7 +27,9 @@ const TextField = (props) => {
     name={id}
     label={label}
     error={errors && errors.length > 0}
-    helperText={errors && errors.join('/n')}
+    // We are only showing the first error, so that less space is used
+    // as the user fixes each error feedback is quick
+    helperText={errors && errors[0]}
     required={required}
     autoFocus={autoFocus}
     InputProps={{

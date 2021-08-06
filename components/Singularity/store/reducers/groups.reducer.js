@@ -1,9 +1,10 @@
 import React from 'react';
 import * as Actions from '../actions/groups.actions';
-import { createModel, generateReducer, generateUUID, isValidName } from '../../../../utilities';
+import { createModel, generateReducer, generateUUID } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import {InviteButton} from '../../components';
+import {isName} from '../../../EntityView/validations';
 
 const definition = createModel({
   name: 'group',
@@ -30,11 +31,7 @@ const definition = createModel({
       minLength: 4,
       maxLength: 256,
       validations : [
-        (model, field, value) => {
-          if (value && value.length >= 4 && isValidName(value)) {
-            return 'Group name can contain only letters,numbers,hyphens,underscores and spaces. Name must start and end with letters or numbers.';
-          }
-        }
+        isName
       ]
     },
     {
