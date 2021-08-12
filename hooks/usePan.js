@@ -11,9 +11,6 @@ const usePan = ()=>{
   const trackPan = useCallback((e)=>{
     const prevPoint = lastPoint.current;
 
-    var scale = e.target.getBoundingClientRect().width / e.target.offsetWidth;
-    const appliedMultiplier = scale < .39 ? 10*(1-scale) : 1;
-
     const currentPoint = {
       x: e.pageX,
       y: e.pageY
@@ -22,8 +19,8 @@ const usePan = ()=>{
 
     setPanPosition((state)=>{
       return {
-        x: state.x + ((prevPoint.x - currentPoint.x) * appliedMultiplier),
-        y: state.y + ((prevPoint.y - currentPoint.y) * appliedMultiplier)
+        x: state.x + (prevPoint.x - currentPoint.x),
+        y: state.y + (prevPoint.y - currentPoint.y)
       };
     });
 

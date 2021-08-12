@@ -18,6 +18,17 @@ const useZoom = (ref, config)=>{
 
   const [zoom, setZoom] = useState(initial_zoom);
 
+  const setZoomValidated = (value)=>{
+    if (value < min_zoom) {
+      value = min_zoom;
+    } else if (value > max_zoom) {
+      value = max_zoom;
+    }
+    setZoom(()=>{
+      return value;
+    });
+  };
+
   const updateZoom = ({direction, interval})=>{
     setZoom((state)=>{
       if (direction === 'up' && state + interval < max_zoom) {
@@ -55,7 +66,7 @@ const useZoom = (ref, config)=>{
     }
   }, [ref]);
 
-  return [zoom];
+  return [zoom, setZoomValidated];
 
 };
 
