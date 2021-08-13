@@ -52,7 +52,7 @@ const useZoom = (ref, config)=>{
     e.preventDefault();
 
     updateZoom({
-      direction: e.deltaY > 0 ? 'up' : 'down',
+      direction: e.deltaY > 0 ? 'down' : 'up',
       interval
     });
   };
