@@ -35,7 +35,7 @@ const generateClassName = createGenerateClassName();
 const jss = create({
   ...jssPreset(),
   plugins: [...jssPreset().plugins],
-  insertionPoint: 'jss-insertion-point',
+  insertionPoint: document.getElementById('jss-insertion-point'),
 });
 
 export default function createApp({
