@@ -22,9 +22,13 @@ const baseState = {
 
 
 const parseErrors = (errors)=>{
-  console.error(errors);
-  // TODO: complete
-  return ['ERRORS'];
+  if (Array.isArray(errors)) {
+    return errors;
+  } else {
+    console.error(errors);
+    // TODO: complete
+    return ['ERRORS'];
+  }
 };
 
 
