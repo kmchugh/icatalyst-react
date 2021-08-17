@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => {
       flexDirection: 'column',
       alignItems: 'center',
       padding: theme.spacing(2),
-      // Fix for safari
+      // Fix for safari flexbox
       minHeight: '600px'
     },
     errorView : {
