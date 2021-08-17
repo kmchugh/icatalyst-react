@@ -21,7 +21,12 @@ const useStyles = makeStyles((theme) => ({
       '&:last-child' : {
         marginBottom: 0
       }
-    }
+    },
+
+    '& > .MuiDivider-root' : {
+      maxHeight: 1,
+      minHeight: 1,
+    },
   },
   row : {
     display: 'flex',

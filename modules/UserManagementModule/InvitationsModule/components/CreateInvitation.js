@@ -26,6 +26,8 @@ const useStyles = makeStyles((theme) => {
       flexDirection: 'column',
       alignItems: 'center',
       padding: theme.spacing(2),
+      // Fix for safari
+      minHeight: '600px'
     },
     errorView : {
       alignSelf : 'center',
@@ -41,17 +43,24 @@ const useStyles = makeStyles((theme) => {
       borderRadius: theme.shape.borderRadius,
     },
     error_list : {
-      flex : 1,
+      flex: '1 0 0%',
     },
     entityView : {
       width: '100%',
+
     },
     invites : {
-      flex: 1,
       borderColor: theme.palette.divider,
       borderWidth: 'thin',
       borderRadius: theme.shape.borderRadius,
+      maxHeight: '100%',
       overflow: 'auto'
+    },
+    formWrapper : {
+      width: '100%',
+      flex: '1 1 0%',
+      overflow: 'auto',
+      minHeight: theme.spacing(8)
     },
     inviteWrapper : {
       display: 'flex',
@@ -66,7 +75,7 @@ const useStyles = makeStyles((theme) => {
       },
 
       '& .booleanField' : {
-        flex: 1,
+        flex: '1 0 0%'
       },
 
       '& .dateField' : {
@@ -201,37 +210,7 @@ const CreateInvitation = ()=>{
           </Typography>
         );
       },
-      'emails',
-      (entity)=>{
-        const {emails} = entity;
-        if (!emails || emails.length === 0) {
-          return <Typography color="error">Please enter email addresses</Typography>;
-        } else {
-          return (
-            <div className={clsx(classes.invites)}>
-              {
-                emails.map((email, i)=>{
-                  return (
-                    <div className={clsx(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
-                      <Typography className="title">
-                        {email}
-                      </Typography>
-                      <IconButton
-                        icon="delete"
-                        color="primary"
-                        title="remove"
-                        onClick={()=>{
-                          handleChange(null, {emails : emails.filter((e)=>e!==email)});
-                        }}
-                      />
-                    </div>
-                  );
-                })
-              }
-            </div>
-          );
-        }
-      }
+      'emails'
     ]
   });
 
@@ -264,6 +243,8 @@ const CreateInvitation = ()=>{
   if (updating) {
     return <FuseLoading title="Updating..."/>;
   }
+
+  console.log(form);
 
   return (
     <div className={clsx(classes.root)}>
@@ -302,6 +283,37 @@ const CreateInvitation = ()=>{
           onChange={handleChange}
         />
       )}
+
+
+      <div className={clsx(classes.formWrapper)}>
+        {(form && (!form.emails || form.emails.length === 0)) && (
+          <Typography color="error">Please enter email addresses</Typography>
+        )}
+
+        {(form && form.emails && form.emails.length > 0) && (
+          <div className={clsx(classes.invites)}>
+            {
+              form.emails.map((email, i)=>{
+                return (
+                  <div className={clsx(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
+                    <Typography className="title">
+                      {email}
+                    </Typography>
+                    <IconButton
+                      icon="delete"
+                      color="primary"
+                      title="remove"
+                      onClick={()=>{
+                        handleChange(null, {emails : emails.filter((e)=>e!==email)});
+                      }}
+                    />
+                  </div>
+                );
+              })
+            }
+          </div>
+        )}
+      </div>
 
       {entity && (
         <div className={clsx(classes.actionWrapper)}>
@@ -373,7 +385,6 @@ const CreateInvitation = ()=>{
             }}>
             Cancel
           </Button>
-
         </div>
       )}
     </div>
