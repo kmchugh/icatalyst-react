@@ -72,7 +72,7 @@ const useZoom = (ref, config)=>{
     }
   }, [ref]);
 
-  return [zoom, setZoomValidated, allowZoom, setAllowZoom];
+  return [zoom, setZoomValidated, allowZoom.current, setAllowZoom];
 
 };
 
