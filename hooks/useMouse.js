@@ -1,6 +1,17 @@
 import {useState, useEffect} from 'react';
 
-const ORIGIN = Object.freeze({x: 0, y:0});
+const ORIGIN = Object.freeze({
+  x: 0,
+  y: 0,
+  screenX: 0,
+  screenY: 0,
+  pageX: 0,
+  pageY: 0,
+  offsetX: 0,
+  offsetY: 0,
+  clientX : 0,
+  clientY : 0
+});
 
 const useMouse = (ref)=>{
 
@@ -14,10 +25,10 @@ const useMouse = (ref)=>{
       screenY: e.screenY,
       pageX: e.pageX,
       pageY: e.pageY,
-      offsetX: e.offsetX,
-      offsetY: e.offsetY,
-      layerX: e.layerX,
-      layerY: e.layerY,
+      offsetX: e.offsetX || e.layerX,
+      offsetY: e.offsetY || e.layerX,
+      clientX : e.clientX,
+      clientY : e.clientY
     });
   };
 

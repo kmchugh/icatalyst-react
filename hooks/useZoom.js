@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import _ from '../@lodash';
 
 const defaultSettings = {
@@ -17,6 +17,11 @@ const useZoom = (ref, config)=>{
   } = _.merge({}, defaultSettings, config);
 
   const [zoom, setZoom] = useState(initial_zoom);
+  const allowZoom = useRef(true);
+
+  const setAllowZoom = (value)=>{
+    allowZoom.current = Boolean(value);
+  };
 
   const setZoomValidated = (value)=>{
     if (value < min_zoom) {
@@ -49,12 +54,13 @@ const useZoom = (ref, config)=>{
   };
 
   const wheelListener = (e)=>{
-    e.preventDefault();
-
-    updateZoom({
-      direction: e.deltaY > 0 ? 'down' : 'up',
-      interval
-    });
+    if (allowZoom.current) {
+      e.preventDefault();
+      updateZoom({
+        direction: e.deltaY > 0 ? 'down' : 'up',
+        interval
+      });
+    }
   };
 
   useEffect(()=>{
@@ -66,7 +72,7 @@ const useZoom = (ref, config)=>{
     }
   }, [ref]);
 
-  return [zoom, setZoomValidated];
+  return [zoom, setZoomValidated, allowZoom, setAllowZoom];
 
 };
 
