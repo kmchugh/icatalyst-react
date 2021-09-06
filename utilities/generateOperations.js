@@ -66,6 +66,20 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
         error = err.response.data.data;
       } else if (err.response && err.response.data && err.response.data.errors) {
         error = err.response.data;
+      } else if (err.response && err.response.data && typeof err.response.data !== 'string') {
+        error = {
+          errors : Object.keys(err.response.data).map((key)=>{
+            const error = err.response.data[key];
+            return {
+              key : key,
+              message : Array.isArray(error) ? error.join('\n') : error
+            };
+          })
+        };
+      } else if (err.response && err.response.data && typeof err.response.data === 'string') {
+        error = {
+          errors : [{message: err.response.data}]
+        };
       } else if (err.response && err.response.errors) {
         error = err.response;
       } else if (err.response) {
@@ -78,9 +92,9 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
         };
       }
 
-      error = error.errors.map((e)=>({
-        message  : e.message || e.toString()
-      }));
+      error = error.errors.map((e)=>{
+        return (e.message) ? e : {message: e.toString()};
+      });
 
       dispatch({
         type : failureAction,
