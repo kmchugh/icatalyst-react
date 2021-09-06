@@ -68,10 +68,6 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
         error = err.response.data;
       } else if (err.response && err.response.errors) {
         error = err.response;
-      } else if (err.response && err.response.data && typeof err.response.data === 'string') {
-        error = {
-          errors : [{message: err.response.data }]
-        };
       } else if (err.response) {
         error = {
           errors : [{message:`${err.response.status} - ${err.response.statusText}`}]
