@@ -305,8 +305,9 @@ const MasterDetailPage = ({
     return (
       <Switch key={location.pathname} location={location}>
         <Route path={DETAIL_PATH} render={()=>{
+          const WrapperComponent = definition.detailComponent ? definition.detailComponent : DetailContent;
           return (detailID === NEW_ID || (detailID && reducer.entity_map && reducer.entity_map[detailID])) ? (
-            <DetailContent
+            <WrapperComponent
               readonly={definition.readonly || false}
               definition={definition}
               contained={contained}
