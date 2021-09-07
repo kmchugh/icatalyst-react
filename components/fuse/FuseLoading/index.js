@@ -45,6 +45,7 @@ function FuseLoading(props)
         aria-label={title || 'Loading...'}
         className="mb-32 w-xs"
         color={color}
+        id={props.id}
       />
     </div>
   );
@@ -54,7 +55,8 @@ FuseLoading.propTypes = {
   delay: PropTypes.oneOfType([PropTypes.number, PropTypes.bool]),
   className : PropTypes.string,
   title : PropTypes.string,
-  color: PropTypes.oneOf(['primary', 'secondary'])
+  color: PropTypes.oneOf(['primary', 'secondary']),
+  id: PropTypes.string
 };
 
 FuseLoading.defaultProps = {
