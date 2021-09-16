@@ -32,6 +32,9 @@ const useStyles = makeStyles((theme)=>{
     },
     optionWrapper : {
 
+    },
+    menuList : {
+      display: 'inline-flex'
     }
   };
 });
@@ -44,7 +47,9 @@ const SplitButton = ({
   value,
   title = 'Switch Menu',
   options,
-  onChange
+  onChange,
+  placement = 'bottom',
+  itemDisplay = 'vertical'
 })=>{
   const classes = useStyles();
   const anchorRef = useRef(null);
@@ -136,6 +141,7 @@ const SplitButton = ({
         role="menu"
         transition
         disablePortal
+        placement={placement}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -146,7 +152,7 @@ const SplitButton = ({
           >
             <Paper className={clsx(classes.menuWrapper)}>
               <ClickAwayListener onClickAway={closeMenu}>
-                <MenuList id="split-button-menu">
+                <MenuList id="split-button-menu" className={clsx(itemDisplay === 'horizontal' && classes.menuList)}>
                   {
                     options.filter(o=>o.value!==storedValue).map((option)=>{
                       return (
@@ -192,7 +198,10 @@ SplitButton.propTypes = {
   color : PropTypes.oneOf(['default', 'inherit', 'primary', 'secondary']),
   value : PropTypes.string,
   title: PropTypes.string,
-  onChange : PropTypes.func
+  onChange : PropTypes.func,
+  itemDisplay : PropTypes.oneOf(['vertical', 'horizontal']),
+  placement : PropTypes.oneOf(['top-start','top','top-end','left-start','left','left-end',
+    'right-start','right','right-end','bottom-start','bottom','bottom-end'])
 };
 
 export default SplitButton;
