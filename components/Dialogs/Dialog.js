@@ -44,12 +44,13 @@ const Dialog = (props)=>{
     fullScreen = false,
     fullWidth = false,
     allowClose = true,
+    classes
   } = props;
-  const classes = useStyles(props);
+  const styles = useStyles(props);
 
   /*
   Workaround for accessibility issues with modal dialogs
-  https://github.com/mui-org/material-ui/issues/19450 
+  https://github.com/mui-org/material-ui/issues/19450
   */
   useEffect(() => {
     if (open) {
@@ -61,7 +62,7 @@ const Dialog = (props)=>{
 
   return (
     <NativeDialog
-      className={clsx(classes.root, className)}
+      className={clsx(styles.root, className)}
       open={open}
       fullWidth={fullWidth}
       fullScreen={fullScreen}
@@ -71,8 +72,9 @@ const Dialog = (props)=>{
       TransitionComponent={fullScreen ? TransitionFull : TransitionDialog}
       TransitionProps={{ role: 'presentation' }}
       keepMounted
+      classes={classes}
     >
-      <AppBar position="static" className={clsx(classes.dialogAppBar)}>
+      <AppBar position="static" className={clsx(styles.dialogAppBar)}>
         <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
           <div className="flex flex-1 flex-col items-start justify-center mr-16">
             <Typography id="alert-dialog-title" noWrap={true} className="text-16 sm:text-20 truncate max-w-sm" component="h1">
@@ -100,7 +102,7 @@ const Dialog = (props)=>{
         </div>
       </AppBar>
 
-      <div className={clsx(classes.contentWrapper)}>
+      <div className={clsx(styles.contentWrapper)}>
         {children}
       </div>
 
@@ -124,6 +126,7 @@ Dialog.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
+  classes : PropTypes.object
 };
 
 export default Dialog;
