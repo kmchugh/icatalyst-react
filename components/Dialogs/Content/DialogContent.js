@@ -50,6 +50,7 @@ const DialogContent = React.forwardRef(({
   buttonSize = 'medium',
   className,
   children,
+  style
 }, ref) => {
 
   const classes = useStyles();
@@ -63,7 +64,7 @@ const DialogContent = React.forwardRef(({
 
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={clsx(classes.root, className)} style={style}>
       <NativeContent component="div" className={clsx(classes.contentWrapper)}>
         {children}
       </NativeContent>
@@ -167,6 +168,7 @@ DialogContent.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
+  style : PropTypes.object,
 };
 
 

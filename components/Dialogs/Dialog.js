@@ -44,6 +44,8 @@ const Dialog = (props)=>{
     fullScreen = false,
     fullWidth = false,
     allowClose = true,
+    showTitle = true,
+    titleVariant = 'default',
     classes
   } = props;
   const styles = useStyles(props);
@@ -60,6 +62,21 @@ const Dialog = (props)=>{
     }
   }, [open]);
 
+  let appBarColor = 'primary';
+  if (titleVariant === 'flat') {
+    appBarColor = 'transparent';
+  }
+
+  let titleTextColor = 'inherit';
+  if (titleVariant === 'flat') {
+    titleTextColor = 'primary';
+  }
+
+  let elevation = 1;
+  if (titleVariant === 'flat') {
+    elevation = 0;
+  }
+
   return (
     <NativeDialog
       className={clsx(styles.root, className)}
@@ -74,33 +91,52 @@ const Dialog = (props)=>{
       keepMounted
       classes={classes}
     >
-      <AppBar position="static" className={clsx(styles.dialogAppBar)}>
-        <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
-          <div className="flex flex-1 flex-col items-start justify-center mr-16">
-            <Typography id="alert-dialog-title" noWrap={true} className="text-16 sm:text-20 truncate max-w-sm" component="h1">
-              {title}
-            </Typography>
+      {showTitle && (
+        <AppBar
+          position="static"
+          className={clsx(styles.dialogAppBar)}
+          color={appBarColor}
+          elevation={elevation}
+        >
+          <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
+            <div className="flex flex-1 flex-col items-start justify-center mr-16">
+              <Typography
+                id="alert-dialog-title"
+                noWrap={true}
+                className="text-16 sm:text-20 truncate max-w-sm"
+                component="h1"
+                color={titleTextColor}
+              >
+                {title}
+              </Typography>
 
-            { description &&
-              (
-                <Typography id="alert-dialog-description" noWrap={true} variant="caption">
-                  {description}
-                </Typography>
-              )
+              { description &&
+                (
+                  <Typography
+                    id="alert-dialog-description"
+                    noWrap={true}
+                    variant="caption"
+                    color={titleTextColor}
+                  >
+                    {description}
+                  </Typography>
+                )
+              }
+            </div>
+
+            {
+              allowClose && <IconButton
+                className="ml-16"
+                size="small"
+                title="Close"
+                icon="close"
+                color={titleTextColor}
+                onClick={onClose}
+              />
             }
           </div>
-
-          {
-            allowClose && <IconButton
-              className="ml-16"
-              size="small"
-              title="Close"
-              icon="close"
-              onClick={onClose}
-            />
-          }
-        </div>
-      </AppBar>
+        </AppBar>
+      )}
 
       <div className={clsx(styles.contentWrapper)}>
         {children}
@@ -118,6 +154,7 @@ Dialog.propTypes = {
   description: PropTypes.string,
   onClose : PropTypes.func.isRequired,
   allowClose : PropTypes.bool,
+  showTitle : PropTypes.bool,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
@@ -126,7 +163,11 @@ Dialog.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
-  classes : PropTypes.object
+  classes : PropTypes.object,
+  titleVariant : PropTypes.oneOf([
+    'default',
+    'flat'
+  ])
 };
 
 export default Dialog;

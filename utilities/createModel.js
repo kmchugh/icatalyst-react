@@ -172,8 +172,9 @@ export function createModel(model){
         }, {});
     },
     validate: (entity, field, errors={})=>{
+      field = field ? (Array.isArray(field) ? field : [field]) : field;
       return Object.keys(definition.fields)
-        .filter((key)=>{return !field || field === key;})
+        .filter((key)=>{return !field || field.includes(key);})
         .reduce((acc, fieldName)=>{
           const fieldDef = definition.fields[fieldName];
           acc[fieldName] = fieldDef.validations.map((validate)=>{
