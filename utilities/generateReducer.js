@@ -1,5 +1,16 @@
 import _ from 'lodash';
 
+export const createInitialState = (definition, entities)=>{
+  return {
+    ...baseState,
+    loaded : true,
+    entities : [...entities],
+    entity_map : entities.reduce((acc, entity)=>{
+      acc[definition.getIdentity(entity)] = entity;
+      return acc;
+    }, {})
+  };
+};
 
 /**
  * This is the initial state template for any data objects
@@ -17,6 +28,8 @@ const baseState = {
   // A list of child models that can be validated by this model
   children:[],
   // The validation function for this model
+  // TODO: I believe this is no longer used, the definition validation is used instead.
+  // Confirm and remove
   validate: ()=>{}
 };
 

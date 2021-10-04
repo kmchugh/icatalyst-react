@@ -46,7 +46,7 @@ export const ModelPropTypes = PropTypes.shape({
 // - filterPayload [optional] : function that receives the array of data received and filters to appropriate fields.  Happens before transformation
 // - getRetrieveAllParams [optional] : a function to add parameter when retrieving all records
 // - getAddParams [optional] : a function to add parameters when adding a record
-
+// - onEntityClicked [optional] : function to respond to an entity being clicked in a view such as a master view
 
 // A field definition represents a property of the entity.
 // A field may contain:
