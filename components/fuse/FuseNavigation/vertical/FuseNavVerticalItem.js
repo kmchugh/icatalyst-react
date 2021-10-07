@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => {
       '&.active'                 : {
         backgroundColor            : activeBackground,
         color                      : `${activeText}!important`,
-        pointerEvents              : 'none',
         transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
         '& .list-item-text-primary': {
           color: 'inherit'
@@ -97,7 +96,9 @@ function FuseNavVerticalItem(props)
       exact={item.exact}
     >
       {item.icon && (
-        <Icon className="list-item-icon text-16 flex-shrink-0 mr-16" color="action">{item.icon}</Icon>
+        <Icon className="list-item-icon text-16 flex-shrink-0 mr-16" color="action">
+          {item.icon}
+        </Icon>
       )}
       <ListItemText
         className="list-item-text"
