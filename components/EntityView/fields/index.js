@@ -34,3 +34,7 @@ export function getComponent(fieldDefinition){
     .find((builder)=>builder.isCompatible(fieldDefinition))
     .getComponent();
 }
+
+export function registerFieldBuilder(builder){
+  fieldMap.splice(fieldMap.length -2, 0, builder);
+}
