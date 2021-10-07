@@ -123,8 +123,8 @@ const DialogContentEntityView = ({
           hideReadOnly={true}
           model={form}
           errors={errors}
-          onChange={(e)=>{
-            handleChange(e);
+          onChange={(e, value)=>{
+            handleChange(e, value);
           }}
         />
       }

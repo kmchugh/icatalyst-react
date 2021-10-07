@@ -75,6 +75,8 @@ export const ModelPropTypes = PropTypes.shape({
 // - default [optional]: a function that returns the default value of this field when a new entity is created
 // - sortable [optional]: if this field is a sortable field, defaults to true
 // - className [optional]: classes applied to both the header and body for this column
+// - getValue [optional]: A function to return the value that represents this field; (model)->value
+// - setValue [optional]: A function to set a value in the model; (entity, value)=>{//resulting value map to override in the entity}
 
 /**
  * updateValidations - Adds any validation functions required based

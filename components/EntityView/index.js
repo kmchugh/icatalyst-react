@@ -97,11 +97,16 @@ const EntityView = ({
 
           let Component = getComponent(fieldDef);
           return (hideReadOnly && fieldDef.readonly) ? null : <Component
-            value={model[field]}
+            value={fieldDef.getValue ? fieldDef.getValue(model) : model[field]}
             field={fieldDef}
             key={`${key}_${fieldDef.id}`}
             readonly={readonly || fieldDef.readonly}
-            onChange={onChange}
+            onChange={fieldDef.setValue ?
+              (e, value)=>{
+                // Custom data so don't pass the event
+                onChange(null, fieldDef.setValue(model, value || e.target.value));
+              } : onChange
+            }
             errors={errors && errors[field]}
             className={clsx(classes.entityField)}
           />;

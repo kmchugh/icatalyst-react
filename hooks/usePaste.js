@@ -4,7 +4,7 @@ import _ from '../@lodash';
 const defaultSettings = {
   allowPaste : true,
   onPaste(e){
-    console.log(e);
+    console.warn('paste function not provided', e);
   }
 };
 
