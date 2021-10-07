@@ -67,7 +67,10 @@ const EntitySelectField = (props) => {
     field
   } = props;
 
-  const { hideIfEmpty = false } = field;
+  const {
+    hideIfEmpty = false,
+    description
+  } = field;
 
   const model = typeof field.model === 'function' ? field.model() : field.model;
   const {
@@ -125,13 +128,15 @@ const EntitySelectField = (props) => {
     ...(data.entities || [])
   ].filter(i=>i);
 
-  // Dont render if we havent' loaded any items and if hideIfEmpty is true;
+  const hasErrors = errors && errors.length > 0;
+
+  // Dont render if we haven't loaded any items and if hideIfEmpty is true;
   return (hideIfEmpty && (!items || items.length === 1)) ? null : (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
-      error={errors && errors.length > 0}
+      error={hasErrors}
       required={required}
     >
       {
@@ -176,7 +181,9 @@ const EntitySelectField = (props) => {
           }
         </ListComponent>
       }
-      <FormHelperText>{errors && errors.join('/n')}</FormHelperText>
+      <FormHelperText error={hasErrors}>
+        {hasErrors ? errors[0] : description}
+      </FormHelperText>
     </FormControl>
   );
 };

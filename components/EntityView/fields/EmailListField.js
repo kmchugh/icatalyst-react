@@ -63,7 +63,8 @@ const EmailListField = ({readonly = false,
     required,
     label,
     autoFocus = false,
-    showChips = true
+    showChips = true,
+    description
   } = field;
 
   const updateEmails = (emails) => {
@@ -143,7 +144,7 @@ const EmailListField = ({readonly = false,
     }
   };
 
-
+  const hasErrors = inputErrors && inputErrors.length > 0;
 
   return (
     <div>
@@ -152,8 +153,8 @@ const EmailListField = ({readonly = false,
         id={id}
         name={id}
         label={label}
-        error={inputErrors && inputErrors.length > 0}
-        helperText={inputErrors && inputErrors.join(', ')}
+        error={hasErrors}
+        helperText={hasErrors ? inputErrors[0] : description}
         required={required}
         autoFocus={autoFocus}
         disabled={readonly}

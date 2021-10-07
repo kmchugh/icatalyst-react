@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormControl,
-  InputLabel} from '@material-ui/core';
+  InputLabel, FormHelperText} from '@material-ui/core';
 import {Select as NativeSelectField} from '@material-ui/core';
 import {MenuItem} from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -34,15 +34,18 @@ const SelectField = (props) => {
     id,
     required,
     label,
-    options
+    options,
+    description
   } = field;
+
+  const hasErrors = errors && errors.length > 0;
 
   return (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
-      error={errors && errors.length > 0}
+      error={hasErrors}
       required={required}
     >
       <InputLabel id={`${id}-label`} className={clsx(classes.inputLabel)}>
@@ -76,6 +79,11 @@ const SelectField = (props) => {
           })
         }
       </NativeSelectField>
+
+      <FormHelperText error={hasErrors}>
+        {hasErrors ? errors[0] : description}
+      </FormHelperText>
+
     </FormControl>
   );
 };

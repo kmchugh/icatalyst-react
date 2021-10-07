@@ -43,7 +43,10 @@ const DateTimeField = (props) => {
     label,
     autoFocus = false,
     showLabel = true,
+    description
   } = field;
+
+  const hasErrors = errors && errors.length > 0;
 
   return (
     <FormControl
@@ -53,7 +56,7 @@ const DateTimeField = (props) => {
       label={label}
       variant="outlined"
       fullWidth={fullWidth}
-      error={errors && errors.length > 0}
+      error={hasErrors}
       required={required}
     >
       {
@@ -78,7 +81,9 @@ const DateTimeField = (props) => {
         }
       />
 
-      <FormHelperText>{errors && errors.join('/n')}</FormHelperText>
+      <FormHelperText error={hasErrors}>
+        {hasErrors ? errors[0] : description}
+      </FormHelperText>
     </FormControl>
   );
 };
