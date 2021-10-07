@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {createLengthConstraint} from '../components/EntityView/validations';
 
 export const createInitialState = (definition, entities)=>{
   return {
@@ -247,21 +248,12 @@ export function generateReducer(definition, {actions},
       type : field.type || 'string',
       validations : [
 
-        // Add the minLength Validations
-        ...(field.minLength >= 0 ? [(model, field, value)=>{
-          const {id, label = id, minLength} = field;
-          return (value && value.length < minLength) ?
-            label + ' should be at least ' + minLength + ' characters':
-            null;
-        }] : []),
+        // Add the minLength and maxLength Validations
+        ...(((field.minLength !== null && field.maxLength !== undefined) ||
+          (field.maxLength !== null && field.maxLength !== undefined)) ? [
+            createLengthConstraint(field.minLength, field.maxLength)
+          ] : []),
 
-        // Add the maxLength Validations
-        ...(field.maxLength >= 0 ? [(model, field, value)=>{
-          const {id, label = id, maxLength} = field;
-          return (value && value.length > maxLength) ?
-            label + ' should be at most ' + maxLength + ' characters':
-            null;
-        }] : []),
 
         // Add the required field
         ...(field.required === true ? [(model, field, value)=>{

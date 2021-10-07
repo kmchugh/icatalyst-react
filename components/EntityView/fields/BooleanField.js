@@ -17,15 +17,18 @@ const BooleanField = (props) => {
     required,
     label,
     autoFocus = false,
-    labelPlacement = 'end'
+    labelPlacement = 'end',
+    description
   } = field;
+
+  const hasErrors = errors && errors.length > 0;
 
   return (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
       fullWidth
       variant="outlined"
-      error={errors && errors.length > 0}
+      error={hasErrors}
       required={required}>
 
       <FormControlLabel
@@ -50,7 +53,9 @@ const BooleanField = (props) => {
         label={label}
       />
 
-      <FormHelperText>{errors && errors.join('/n')}</FormHelperText>
+      <FormHelperText error={hasErrors}>
+        {hasErrors ? errors[0] : description}
+      </FormHelperText>
     </FormControl>
   );
 };

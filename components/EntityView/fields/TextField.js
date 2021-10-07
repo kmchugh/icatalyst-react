@@ -16,20 +16,23 @@ const TextField = (props) => {
     required,
     label,
     maxLength,
-    autoFocus = false
+    autoFocus = false,
+    description
   } = field;
 
   const displayValue = value || '';
+
+  const hasErrors = errors && errors.length > 0;
 
   return (<NativeTextField
     className={clsx('mt-8 mb-16', props.className)}
     id={id}
     name={id}
     label={label}
-    error={errors && errors.length > 0}
+    error={hasErrors}
     // We are only showing the first error, so that less space is used
     // as the user fixes each error feedback is quick
-    helperText={errors && errors[0]}
+    helperText={hasErrors ? errors[0] : description}
     required={required}
     autoFocus={autoFocus}
     InputProps={{
@@ -39,6 +42,9 @@ const TextField = (props) => {
     fullWidth
     variant="outlined"
     onChange={onChange}
+    inputProps={{
+      maxLength : maxLength
+    }}
     multiline={maxLength>256}
     rows={Math.min(maxLength/256, 20) || 1}
     value={field.format ? field.format(displayValue) : displayValue}

@@ -2,6 +2,7 @@ import pluralize from 'pluralize';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import ModelService from '../services/ModelService';
+import {createLengthConstraint} from '../components/EntityView/validations';
 
 export const ModelPropTypes = PropTypes.shape({
   // the list of field definitions in order preference
@@ -88,24 +89,12 @@ function normaliseValidations(field) {
     ...(field.validations || [])
   ];
 
-  // Ensure the field will adhere to minlength
-  if (field.minLength) {
-    validations.unshift((model, field, value)=>{
-      const {label, minLength} = field;
-      return (value && value.length < minLength) ?
-        label + ' should be at least ' + minLength + ' characters':
-        null;
-    });
-  }
-
-  // Ensure the field will adhere to maxlength
-  if (field.maxLength) {
-    validations.unshift((model, field, value)=>{
-      const {label, maxLength} = field;
-      return (value && value.length > maxLength) ?
-        label + ' should be at most ' + maxLength + ' characters':
-        null;
-    });
+  if ((field.minLength !== null && field.maxLength !== undefined) ||
+    (field.maxLength !== null && field.maxLength !== undefined)){
+    validations.unshift(createLengthConstraint(
+      field.minLength,
+      field.maxLength
+    ));
   }
 
   // Ensure required fields validate correctly
