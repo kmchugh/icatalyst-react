@@ -10,9 +10,13 @@ const usePan = ()=>{
   const lastPoint = useRef(ORIGIN);
 
   const trackPan = useCallback((e)=>{
+    e = e.evt || e;
     const prevPoint = lastPoint.current;
 
-    const currentPoint = {
+    const currentPoint = e.touches ? {
+      x: e.touches[0].pageX,
+      y: e.touches[0].pageY
+    } : {
       x: e.pageX,
       y: e.pageY
     };
@@ -30,15 +34,24 @@ const usePan = ()=>{
   const stopListening = useCallback(()=>{
     document.removeEventListener('mousemove', trackPan);
     document.removeEventListener('mouseup', stopListening);
+    document.removeEventListener('touchmove', trackPan);
+    document.removeEventListener('touchend', stopListening);
     setIsPanning(false);
   }, [trackPan]);
 
   const startListening = useCallback((e)=>{
     document.addEventListener('mousemove', trackPan);
     document.addEventListener('mouseup', stopListening);
+    document.addEventListener('touchmove', trackPan);
+    document.addEventListener('touchend', stopListening);
     setIsPanning(true);
     // Update the ref
-    lastPoint.current = {
+    e = e.evt || e;
+
+    lastPoint.current = e.touches ? {
+      x: e.touches[0].pageX,
+      y: e.touches[0].pageY
+    } : {
       x: e.pageX,
       y: e.pageY
     };
