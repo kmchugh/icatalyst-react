@@ -65,9 +65,10 @@ const useZoom = (ref, config)=>{
 
   useEffect(()=>{
     if (ref && ref.current) {
-      ref.current.addEventListener('wheel', wheelListener);
+      const element = ref.current;
+      element.addEventListener('wheel', wheelListener);
       return ()=>{
-        ref.current.removeEventListener('wheel', wheelListener);
+        element.removeEventListener('wheel', wheelListener);
       };
     }
   }, [ref]);

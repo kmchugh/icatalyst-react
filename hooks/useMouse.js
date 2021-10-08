@@ -35,9 +35,10 @@ const useMouse = (ref)=>{
   // Set up the listeners when the element is available
   useEffect(()=>{
     if (ref && ref.current) {
-      ref.current.addEventListener('mousemove', handleMouseMove);
+      const element = ref.current;
+      element.addEventListener('mousemove', handleMouseMove);
       return ()=>{
-        ref.current.removeEventListener('mousemove', handleMouseMove);
+        element.removeEventListener('mousemove', handleMouseMove);
       };
     }
   }, [ref]);
