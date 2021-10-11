@@ -18,6 +18,9 @@ const styles = (theme) => {
     listItem : {
       padding: 0,
       paddingRight: theme.spacing(2)
+    },
+    customItemWrapper : {
+      overflow : 'inherit'
     }
   };
 };
@@ -29,9 +32,10 @@ function DropdownMenu({
   title = 'menu',
   id = 'menu',
   icon = 'more_vertical',
-  menu
+  menu,
+  classes = {}
 }){
-  const classes = useStyles();
+  const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuID = `menu-${id}`;
 
@@ -47,10 +51,10 @@ function DropdownMenu({
   };
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={clsx(styles.root, classes.root)}>
       <IconButton
         title={title}
-        className={clsx(classes.menuIcon)}
+        className={clsx(styles.menuIcon, classes.menuIcon)}
         component="div"
         size={size}
         icon={icon}
@@ -72,7 +76,7 @@ function DropdownMenu({
         keepMounted
         open={!!anchorEl}
         onClose={closeMenu}
-        className={clsx(classes.menu)}
+        className={clsx(styles.menu, classes.menu)}
         TransitionComponent={Fade}
       >
         {
@@ -86,7 +90,8 @@ function DropdownMenu({
             } = menuitem;
             return (
               <MenuItem
-                key={menuitem.title || menuitem.key}
+                className={clsx(isElement ? styles.customItemWrapper : '')}
+                key={menuitem.title || menuitem.key || menuitem.id}
                 onClick={(e)=>{
                   e.stopPropagation();
                   closeMenu(e);
@@ -97,7 +102,7 @@ function DropdownMenu({
                 {
                   isElement ? menuitem : (
                     <ListItem
-                      className={clsx(classes.listItem)}
+                      className={clsx(styles.listItem, classes.listItem)}
                       aria-label={title}>
                       {
                         <ListItemIcon>
@@ -125,13 +130,18 @@ DropdownMenu.propTypes = {
   title : PropTypes.string,
   icon : PropTypes.string,
   id : PropTypes.string,
-  menu : PropTypes.arrayOf(PropTypes.shape({
-    title : PropTypes.string.isRequired,
-    subtitle : PropTypes.string,
-    key : PropTypes.string,
-    onClick : PropTypes.func.isRequired,
-    icon : PropTypes.string
-  })).isRequired
+  menu : PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.node,
+      PropTypes.shape({
+        title : PropTypes.string.isRequired,
+        subtitle : PropTypes.string,
+        key : PropTypes.string,
+        onClick : PropTypes.func.isRequired,
+        icon : PropTypes.string
+      })
+    ])
+  ).isRequired,
+  classes : PropTypes.object
 };
 
 

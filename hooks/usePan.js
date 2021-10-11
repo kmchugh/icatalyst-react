@@ -13,6 +13,12 @@ const usePan = ()=>{
     e = e.evt || e;
     const prevPoint = lastPoint.current;
 
+    if (e.touches && e.touches.length > 1) {
+      // If there is more than one touch target then
+      // we are not panning.
+      return;
+    }
+
     const currentPoint = e.touches ? {
       x: e.touches[0].pageX,
       y: e.touches[0].pageY

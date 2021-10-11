@@ -17,6 +17,12 @@ const useZoom = (ref, config)=>{
   } = _.merge({}, defaultSettings, config);
 
   const [zoom, setZoom] = useState(initial_zoom);
+  const lastZoom = useRef(zoom);
+
+  const pinchReference = useRef({
+    d : 0,
+    z : 1
+  });
   const allowZoom = useRef(true);
 
   const setAllowZoom = (value)=>{
@@ -53,6 +59,17 @@ const useZoom = (ref, config)=>{
     });
   };
 
+  const getDistance = ([p1, p2])=>{
+    return Math.sqrt(
+      Math.pow(p1.x - p2.x, 2) +
+      Math.pow(p1.y - p2.y, 2)
+    );
+  };
+
+  useEffect(()=>{
+    lastZoom.current = zoom;
+  }, [zoom]);
+
   const wheelListener = (e)=>{
     if (allowZoom.current) {
       e.preventDefault();
@@ -63,12 +80,56 @@ const useZoom = (ref, config)=>{
     }
   };
 
+  const touchStart = (e)=>{
+    if (allowZoom.current) {
+      e = e.evt || e;
+      // Only do anything if there are 2 touches
+      if (e.touches && e.touches.length === 2) {
+        e.preventDefault();
+        // We don't know anything yet as we just started the pinch
+        // measure the distance of the two points and store our current zoom
+        pinchReference.current.d = getDistance([e.touches[0], e.touches[1]].map((t)=>({
+          x : t.pageX,
+          y : t.pageY
+        })));
+        pinchReference.current.z = lastZoom.current;
+      }
+    }
+  };
+
+  const touchMove = (e)=>{
+    if (pinchReference &&
+      pinchReference.current &&
+      pinchReference.current.d > 0) {
+      e = e.evt || e;
+      if (e.touches && e.touches.length === 2) {
+        const distance = getDistance([e.touches[0], e.touches[1]].map((t)=>({
+          x : t.pageX,
+          y : t.pageY
+        })));
+        setZoom(pinchReference.current.z * distance/pinchReference.current.d);
+      }
+    }
+
+  };
+
+  const touchEnd = ()=>{
+    pinchReference.current.d = 0;
+    pinchReference.current.z = 1;
+  };
+
   useEffect(()=>{
     if (ref && ref.current) {
       const element = ref.current;
       element.addEventListener('wheel', wheelListener);
+      element.addEventListener('touchstart', touchStart);
+      element.addEventListener('touchmove', touchMove);
+      element.addEventListener('touchend', touchEnd);
       return ()=>{
         element.removeEventListener('wheel', wheelListener);
+        element.removeEventListener('touchstart', touchStart);
+        element.removeEventListener('touchmove', touchMove);
+        element.removeEventListener('touchend', touchEnd);
       };
     }
   }, [ref]);

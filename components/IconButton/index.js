@@ -30,6 +30,7 @@ const IconButton = (props)=>{
     color = 'inherit',
     onClick,
     className,
+    id,
     ...rest
   } = props;
 
@@ -37,7 +38,7 @@ const IconButton = (props)=>{
     <Tooltip
       title={title}
     >
-      <span className={clsx(classes.root)}>
+      <span id={id} className={clsx(classes.root)}>
         <NativeButton
           className={clsx(classes.iconButton, className)}
           color={color}
@@ -64,6 +65,7 @@ IconButton.propTypes = {
     PropTypes.string,
     PropTypes.array
   ]),
+  id : PropTypes.string
 };
 
 export default IconButton;
