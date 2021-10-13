@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => {
     },
     contentWrapper : {
       overflow : 'hidden',
-      display: 'flex'
+      display: 'flex',
+      flex: 1
     }
   };
 });
@@ -46,9 +47,10 @@ const Dialog = (props)=>{
     allowClose = true,
     showTitle = true,
     titleVariant = 'default',
-    classes
+    classes,
+    style
   } = props;
-  const styles = useStyles(props);
+  const styles = useStyles();
 
   /*
   Workaround for accessibility issues with modal dialogs
@@ -90,6 +92,9 @@ const Dialog = (props)=>{
       TransitionProps={{ role: 'presentation' }}
       keepMounted
       classes={classes}
+      PaperProps={{
+        style : style
+      }}
     >
       {showTitle && (
         <AppBar
@@ -138,7 +143,9 @@ const Dialog = (props)=>{
         </AppBar>
       )}
 
-      <div className={clsx(styles.contentWrapper)}>
+      <div
+        className={clsx(styles.contentWrapper)}
+      >
         {children}
       </div>
 
@@ -167,7 +174,8 @@ Dialog.propTypes = {
   titleVariant : PropTypes.oneOf([
     'default',
     'flat'
-  ])
+  ]),
+  style : PropTypes.object
 };
 
 export default Dialog;
