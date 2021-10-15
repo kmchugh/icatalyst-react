@@ -21,8 +21,14 @@ const useStyles = makeStyles((theme)=>{
       fontSize: 'inherit'
     }
   };
-
 });
+
+const fa_font_map = {
+  'inherit' : undefined,
+  'default' : '1x',
+  'small' : 'sm',
+  'large' : 'lg'
+};
 
 const Icon = ({
   children = 'fa question',
@@ -44,6 +50,7 @@ const Icon = ({
           theme.palette[color].main
       } : null}
       {...rest}
+      size={fa_font_map[fontSize] || fa_font_map['inherit']}
       icon={icon}/>;
   } else {
     return (<MUIIcon color={color} {...rest} fontSize={fontSize}>{children}</MUIIcon>);
