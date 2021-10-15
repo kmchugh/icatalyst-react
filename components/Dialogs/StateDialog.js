@@ -16,10 +16,11 @@ function StateDialog(){
 
   return <Dialog
     open={!!open}
-    onClose={()=>{
-      allowClose && dispatch(Actions.closeDialog());
-    }}
     {...options}
+    onClose={(e, reason)=>{
+      allowClose && dispatch(Actions.closeDialog());
+      allowClose && options.onClose && options.onClose(e, reason);
+    }}
   />;
 }
 

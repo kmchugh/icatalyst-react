@@ -56,10 +56,13 @@ const DialogContent = React.forwardRef(({
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  onClose = onClose || (()=>{dispatch(Actions.closeDialog());});
+  const onCloseHandler = ((e)=>{
+    dispatch(Actions.closeDialog());
+    onClose && onClose(e);
+  });
 
   useImperativeHandle(ref, () => ({
-    closeDialog: onClose
+    closeDialog: onCloseHandler
   }));
 
 
@@ -105,7 +108,7 @@ const DialogContent = React.forwardRef(({
                     variant={buttonVariant}
                     size={buttonSize}
                     disabled={updating}
-                    onClick={onClose}>
+                    onClick={onCloseHandler}>
                     {closeText}
                   </Button>
                 )
