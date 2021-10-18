@@ -347,9 +347,7 @@ class SingularityService {
    */
   isExpired(token) {
     const now = new Date();
-    // TODO: While we are shifting from millis to seconds on exp
-    const expTime = token.exp > 100 ? token.exp/1000 : token.exp;
-    const expires = new Date(expTime);
+    const expires = new Date(token.exp);
     return expires <= now;
   }
 
