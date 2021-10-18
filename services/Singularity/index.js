@@ -8,9 +8,7 @@ import URIService from '../URIService';
 
 const LOGOUT_ACTION = 'LOGGING_OUT';
 const AUTHENTICATED_KEY = 'singularity_authenticated';
-
-
-
+const SECONDS_MS_THRESHOLD = 9999999999;
 
 /**
  * Service class for communicating with the Singularity Server.
@@ -308,6 +306,11 @@ class SingularityService {
    */
   validateToken(token) {
     if (token) {
+      // TODO : This can be removed once we have updated Singularity to
+      // provide seconds rather than millis on iat and exp.
+      token.iat = token.iat < SECONDS_MS_THRESHOLD ? token.iat * 1000 : token.iat;
+      token.exp = token.exp < SECONDS_MS_THRESHOLD ? token.exp * 1000 : token.exp;
+
       // Check the token is valid
       // Allow fuzziness in the issued time
       const issuedAt = new Date(token.iat - (1000*60*60*24));
@@ -344,7 +347,9 @@ class SingularityService {
    */
   isExpired(token) {
     const now = new Date();
-    const expires = new Date(token.exp);
+    // TODO: While we are shifting from millis to seconds on exp
+    const expTime = token.exp > 100 ? token.exp/1000 : token.exp;
+    const expires = new Date(expTime);
     return expires <= now;
   }
 
