@@ -8,7 +8,7 @@ import URIService from '../URIService';
 
 const LOGOUT_ACTION = 'LOGGING_OUT';
 const AUTHENTICATED_KEY = 'singularity_authenticated';
-const SECONDS_MS_THRESHOLD = 9999999999;
+// const SECONDS_MS_THRESHOLD = 9999999999;
 
 /**
  * Service class for communicating with the Singularity Server.
