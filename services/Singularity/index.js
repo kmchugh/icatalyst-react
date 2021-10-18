@@ -306,10 +306,10 @@ class SingularityService {
    */
   validateToken(token) {
     if (token) {
-      // TODO : This can be removed once we have updated Singularity to
-      // provide seconds rather than millis on iat and exp.
-      token.iat = token.iat < SECONDS_MS_THRESHOLD ? token.iat * 1000 : token.iat;
-      token.exp = token.exp < SECONDS_MS_THRESHOLD ? token.exp * 1000 : token.exp;
+      // // TODO : This can be removed once we have updated Singularity to
+      // // provide seconds rather than millis on iat and exp.
+      // token.iat = token.iat < SECONDS_MS_THRESHOLD ? token.iat * 1000 : token.iat;
+      // token.exp = token.exp < SECONDS_MS_THRESHOLD ? token.exp * 1000 : token.exp;
 
       // Check the token is valid
       // Allow fuzziness in the issued time
