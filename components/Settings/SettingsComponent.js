@@ -38,6 +38,8 @@ const useStyles = makeStyles((theme)=>{
     },
     actionButtonIcon : {
       marginRight : theme.spacing(1)
+    },
+    componentWrapper : {
     }
   };
 });
@@ -104,12 +106,17 @@ function SettingsComponent(){
         <div className={clsx(classes.section)}>
           <Typography variant="h5" className={clsx(classes.sectionHeading)}>{label}</Typography>
           {
-            settings.map((setting)=>{
+            settings.filter(setting=>setting.visible || setting.visible === undefined).map((setting)=>{
               const {name} = setting;
               const id = `${sectionName}_${name}`;
               const definition = definitions[name];
               const settingsContext = useSettingsContext(name);
-              return (
+              const Component = setting.component;
+              return Component ? (
+                <div className={clsx(classes.componentWrapper)}>
+                  <Component/>
+                </div>
+              ) : (
                 <Accordion
                   id={id}
                   key={id}

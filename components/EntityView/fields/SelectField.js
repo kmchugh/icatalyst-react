@@ -23,6 +23,8 @@ const useStyles = makeStyles((theme) => {
 
 const SelectField = (props) => {
 
+  console.log(props);
+
   const classes = useStyles();
 
   const {readonly = false,

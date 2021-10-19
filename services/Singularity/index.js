@@ -36,6 +36,8 @@ class SingularityService {
 
     invites : 'api/invite',
     profile : 'api/profile',
+    profileUpdate : 'api/me',
+
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
@@ -384,6 +386,17 @@ class SingularityService {
       return response.data;
     }).catch((error)=>{
       throw error.response.data;
+    });
+  }
+
+  updateProfile(profile, accessToken) {
+    return axios.patch(this.uris.profileUpdate, profile, {
+      headers : {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    }).then((response)=>{
+      return response.data;
     });
   }
 

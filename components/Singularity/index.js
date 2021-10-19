@@ -19,8 +19,10 @@ import {useDispatch} from 'react-redux';
 //  */
 // registerSettings([{
 //   name : `${SINGULARITY_SETTINGS_ID}_avatar`,
-//   sectionName : 'Profile',
+//   sectionName : 'User',
+//   sectionIndex : 1,
 //   label : 'Profile Image',
+//   labelPlural : 'Profile Image',
 //   global : true,
 //   fields : [{
 //     id : 'profileImage',
@@ -28,8 +30,9 @@ import {useDispatch} from 'react-redux';
 //   }]
 // }, {
 //   name : `${SINGULARITY_SETTINGS_ID}_displayname`,
-//   sectionName : 'Profile',
+//   sectionName : 'User',
 //   label : 'Display Name',
+//   labelPlural : 'Display Name',
 //   global : true,
 //   fields : [{
 //     id : 'displayName',
@@ -37,8 +40,9 @@ import {useDispatch} from 'react-redux';
 //   }]
 // }, {
 //   name : `${SINGULARITY_SETTINGS_ID}_password`,
-//   sectionName : 'Profile',
+//   sectionName : 'User',
 //   label : 'Change Password',
+//   labelPlural : 'Change Password',
 //   global : true,
 //   fields : [{
 //     id : 'changePassword',
@@ -382,6 +386,20 @@ function Singularity({
       setSession(null);
       setAccessToken(null);
       singularity.requestAuthorizationCode(undefined, redirectURI);
+    },
+    updateProfile : (profile, callback)=>{
+      singularity.updateProfile(profile, accessToken)
+        .then((response)=>{
+          setUser((user)=>({
+            ...user,
+            profileimageuri : response.profileimageuri,
+            displayname : response.displayname
+          }));
+          callback && callback(null, response);
+        })
+        .catch((err)=>{
+          callback && callback(err, null);
+        });
     }
   };
 

@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius :'50%',
 
     ['& img'] : {
-      borderRadius : '50%'
+      borderRadius : '50%',
+      width: '100%'
     }
   },
   image : {

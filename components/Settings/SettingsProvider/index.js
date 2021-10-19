@@ -124,17 +124,25 @@ function updateLayout(settings){
     const section = registeredSettings[key];
     const sectionID = section.sectionName || 'general';
 
+    const index = settings[key].sectionIndex !== undefined ?
+      settings[key].sectionIndex :
+      999;
+
     if (!settingsLayout[sectionID]) {
       settingsLayout[sectionID] = {
         name : sectionID,
         label: _.startCase(sectionID),
+        index: index,
         settings: {}
       };
     }
     settingsLayout[sectionID].settings[section.name] = {
       name : section.name,
       label : section.label,
-      values: section.values
+      index: section.index !== undefined ? section.index : 999,
+      visible : section.visible === undefined ? true : section.visible,
+      values: section.values,
+      component : section.component,
     };
   }, {});
 }
