@@ -98,7 +98,36 @@ function FuseNavVerticalCollapse(props)
     return null;
   }
 
-  return (
+  const {skipLevel = false} = item;
+
+  return skipLevel && item.children ? (
+    <React.Fragment>
+      {
+        item.children.map((item) => (
+
+          <React.Fragment key={item.id}>
+
+            {item.type === 'group' && (
+              <FuseNavVerticalGroup item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'collapse' && (
+              <NavVerticalCollapse item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'item' && (
+              <FuseNavVerticalItem item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'link' && (
+              <FuseNavVerticalLink item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+          </React.Fragment>
+        ))
+      }
+    </React.Fragment>
+  ) : (
     <ul className={clsx(classes.root, open && 'open')}>
 
       <ListItem
@@ -161,7 +190,8 @@ FuseNavVerticalCollapse.propTypes = {
       icon    : PropTypes.string,
       type    : PropTypes.string,
       children: PropTypes.array,
-      auth : PropTypes.array
+      auth : PropTypes.array,
+      skipLevel : PropTypes.bool
     }),
   location: PropTypes.object,
   nestedLevel : PropTypes.number,

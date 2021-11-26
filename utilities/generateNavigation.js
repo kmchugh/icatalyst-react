@@ -14,7 +14,8 @@ function createNavItem(item, accumulator = {
   const {
     title, badge, name,
     auth, paths, icon,
-    component, path = name
+    component, path = name,
+    skipLevel = false
   } = item;
 
   const children  = (paths || []).filter(p=>p.navigation);
@@ -32,6 +33,7 @@ function createNavItem(item, accumulator = {
     auth : getRouteAuth(auth),
     type : children.length > 0 ? 'collapse' : 'item',
     url : url,
+    skipLevel,
     children : children.map((p)=>createNavItem(p, {
       prefix : id,
       pathPrefix : url
@@ -44,7 +46,8 @@ function createNavGroup(group) {
   const {
     title, badge, name,
     auth, paths, icon,
-    component, path = name
+    component, path = name,
+    skipLevel = false
   } = group;
 
   const children  = (paths || []).filter(p=>p.navigation);
@@ -58,6 +61,7 @@ function createNavGroup(group) {
     icon,
     url : children.length >0 ? url : `/${path}`,
     badge,
+    skipLevel,
     component,
     type : children.length > 0 ? 'group' : 'item',
     auth : getRouteAuth(auth),

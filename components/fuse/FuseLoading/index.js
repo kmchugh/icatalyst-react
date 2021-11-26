@@ -9,8 +9,16 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 const useStyles = makeStyles(()=>{
   return {
     root : {
-      alignSelf: 'center'
-    }
+      alignSelf: 'center',
+      height: '100%',
+      display : 'flex',
+      flexGrow : 1,
+      flexShrink : 1,
+      flexDirection : 'column',
+      alignItems : 'center',
+      justifyContent : 'center',
+      overflow : 'hidden'
+    },
   };
 });
 
@@ -39,7 +47,7 @@ function FuseLoading(props)
   }
 
   return (
-    <div className={clsx(classes.root, props.className, 'h-full flex flex-1 flex-col items-center justify-center')}>
+    <div className={clsx(classes.root, props.className)}>
       {title && <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>}
       <LinearProgress
         aria-label={title || 'Loading...'}

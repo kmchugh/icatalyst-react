@@ -37,28 +37,28 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 export function createColor(color){
   const tc = new tinycolor(color);
   const variants = {
-    '50' : tc.clone().lighten(52).toHexString(),
-    '100' : tc.clone().lighten(37).toHexString(),
-    '200' : tc.clone().lighten(26).toHexString(),
-    '300' : tc.clone().lighten(12).toHexString(),
-    '400' : tc.clone().lighten(6).toHexString(),
-    '500' : tc.toHexString(),
-    '600' : tc.clone().darken(6).toHexString(),
-    '700' : tc.clone().darken(12).toHexString(),
-    '800' : tc.clone().darken(18).toHexString(),
-    '900' : tc.clone().darken(24).toHexString(),
-    'A100' : tc.clone().lighten(50).saturate(30).toHexString(),
-    'A200' : tc.clone().lighten(30).saturate(30).toHexString(),
-    'A400' : tc.clone().lighten(10).saturate(15).toHexString(),
-    'A700' : tc.clone().lighten(5).saturate(5).toHexString(),
+    '50' : tc.clone().lighten(52).toHex8String(),
+    '100' : tc.clone().lighten(37).toHex8String(),
+    '200' : tc.clone().lighten(26).toHex8String(),
+    '300' : tc.clone().lighten(12).toHex8String(),
+    '400' : tc.clone().lighten(6).toHex8String(),
+    '500' : tc.toHex8String(),
+    '600' : tc.clone().darken(6).toHex8String(),
+    '700' : tc.clone().darken(12).toHex8String(),
+    '800' : tc.clone().darken(18).toHex8String(),
+    '900' : tc.clone().darken(24).toHex8String(),
+    'A100' : tc.clone().lighten(50).saturate(30).toHex8String(),
+    'A200' : tc.clone().lighten(30).saturate(30).toHex8String(),
+    'A400' : tc.clone().lighten(10).saturate(15).toHex8String(),
+    'A700' : tc.clone().lighten(5).saturate(5).toHex8String(),
   };
 
   return {
     main : variants['500'],
     light : variants['200'],
     dark : variants['700'],
-    compliment : tc.clone().mix(tc.clone().spin(180), 80).toHexString(),
-    contrastText : mostReadable(tc, ['#fff', '#000'], {}).toHexString(),
+    compliment : tc.clone().mix(tc.clone().spin(180), 80).toHex8String(),
+    contrastText : mostReadable(tc, ['#fff', '#000'], {}).toHex8String(),
     variants
   };
 }
@@ -229,15 +229,23 @@ export function createPalette({
   error = 'red',
   success = 'green',
   info = 'blue',
-  tint = 75
+  tint = 75,
+  ...rest
 }){
+
+  const custom = Object.keys(rest || {}).reduce((acc, key)=>{
+    const colour = rest[key];
+    acc[key] = createColor(new tinycolor(colour).toHex8String());
+    return acc;
+  }, {});
 
   return {
     primary  : createColor(primary),
     secondary  : createColor(secondary),
-    warning   : createColor(new tinycolor(primary).mix(warning, tint).toHexString()),
-    error    : createColor(new tinycolor(primary).mix(error, tint).toHexString()),
-    success  : createColor(new tinycolor(primary).mix(success, tint).toHexString()),
-    info  : createColor(new tinycolor(primary).mix(info, tint).toHexString()),
+    warning   : createColor(new tinycolor(primary).mix(warning, tint).toHex8String()),
+    error    : createColor(new tinycolor(primary).mix(error, tint).toHex8String()),
+    success  : createColor(new tinycolor(primary).mix(success, tint).toHex8String()),
+    info  : createColor(new tinycolor(primary).mix(info, tint).toHex8String()),
+    ...custom
   };
 }

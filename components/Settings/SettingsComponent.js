@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {SettingsContext} from './SettingsProvider';
 import { Typography, Button,
   Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
@@ -44,7 +45,13 @@ const useStyles = makeStyles((theme)=>{
   };
 });
 
-function SettingsComponent(){
+function SettingsComponent({
+  settingsWhitelist = null,
+  settingsBlacklist = null,
+  displayHeaders = true,
+  showApplyButton = true,
+  className
+}){
 
   const settingsContext = useContext(SettingsContext);
   const classes = useStyles();
@@ -52,7 +59,15 @@ function SettingsComponent(){
     getRegisteredSettings,
     getSettingsLayout
   } = settingsContext;
-  const layout = getSettingsLayout();
+  const layout = getSettingsLayout().filter((setting)=>{
+    if (!settingsWhitelist && !settingsBlacklist) {
+      return true;
+    } else if (settingsWhitelist) {
+      return settingsWhitelist.includes(setting.name);
+    } else if (settingsBlacklist) {
+      return !settingsBlacklist.includes(setting.name);
+    }
+  });
   const definitions = getRegisteredSettings();
   const [modified, setModified] = useState(false);
   const [errors, setErrors] = useState({});
@@ -101,10 +116,12 @@ function SettingsComponent(){
       <div
         id={sectionName}
         key={label}
-        className={clsx(classes.root)}
+        className={clsx(classes.root, className)}
       >
         <div className={clsx(classes.section)}>
-          <Typography variant="h5" className={clsx(classes.sectionHeading)}>{label}</Typography>
+          {displayHeaders && (
+            <Typography variant="h5" className={clsx(classes.sectionHeading)}>{label}</Typography>
+          )}
           {
             settings.filter(setting=>setting.visible || setting.visible === undefined).map((setting)=>{
               const {name} = setting;
@@ -145,17 +162,19 @@ function SettingsComponent(){
                         />
                       }
                       <div className={clsx(classes.accordionActions)}>
-                        <Button
-                          className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
-                          color="primary"
-                          disabled={!canBeSubmitted}
-                          onClick={()=>{
-                            saveSettings(settingsContext, form);
-                          }}
-                        >
-                          <Icon className={clsx(classes.actionButtonIcon)}>done</Icon>
-                          Apply
-                        </Button>
+                        {showApplyButton && (
+                          <Button
+                            className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                            color="primary"
+                            disabled={!canBeSubmitted}
+                            onClick={()=>{
+                              saveSettings(settingsContext, form);
+                            }}
+                          >
+                            <Icon className={clsx(classes.actionButtonIcon)}>done</Icon>
+                            Apply
+                          </Button>
+                        )}
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           color="inherit"
@@ -185,6 +204,17 @@ function SettingsComponent(){
       </div>
     );
   });
-
 }
+
+SettingsComponent.propTypes={
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  settingsWhitelist : PropTypes.arrayOf(PropTypes.string),
+  settingsBlacklist : PropTypes.arrayOf(PropTypes.string),
+  displayHeaders : PropTypes.bool,
+  showApplyButton : PropTypes.bool
+};
+
 export default SettingsComponent;

@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => {
     },
     info : {
       marginBottom: theme.spacing(1),
+      textAlign: 'center',
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2)
     },
     help : {
 
@@ -52,13 +55,15 @@ const EmptyTable = ({
   action,
   help,
   onRefresh,
+  className,
+  showIcon = true,
 })=>{
   const classes = useStyles();
 
 
   return (
-    <div className={clsx(classes.root)}>
-      <Icon className={clsx(classes.icon)}>{icon}</Icon>
+    <div className={clsx(classes.root, className)}>
+      {showIcon && <Icon className={clsx(classes.icon)}>{icon}</Icon>}
       <Typography variant="h4" className={clsx(classes.title)}>{title}</Typography>
       {
         action && <Typography variant="subtitle1" className={clsx(classes.info)}>{action}</Typography>
@@ -79,6 +84,10 @@ const EmptyTable = ({
 };
 
 EmptyTable.propTypes = {
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   icon: PropTypes.string,
   title: PropTypes.string,
   action: PropTypes.oneOfType([
@@ -89,7 +98,8 @@ EmptyTable.propTypes = {
     PropTypes.string,
     PropTypes.node
   ]),
-  onRefresh: PropTypes.func
+  onRefresh: PropTypes.func,
+  showIcon : PropTypes.bool
 };
 
 export default React.memo(EmptyTable);

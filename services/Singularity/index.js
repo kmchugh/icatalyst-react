@@ -118,7 +118,7 @@ class SingularityService {
    *
    */
   redirectTo(url, params, hashparams) {
-    window.location = url + (
+    const redirect = url + (
       params ?
         (
           url.indexOf('?') ? '?' : '&') +
@@ -133,6 +133,8 @@ class SingularityService {
               .map((key)=>`${key}=${encodeURIComponent(hashparams[key])}`)
               .join('&') :
         '');
+
+    window.location = redirect;
   }
 
   /**
@@ -478,9 +480,13 @@ class SingularityService {
       type : LOGOUT_ACTION,
       payload : Date.now()
     }));
-    this.redirectTo(this.client_uris.logout, null, {
-      access_token : accessToken
-    });
+    if (!accessToken) {
+      console.error('access token not defined');
+    } else {
+      this.redirectTo(this.client_uris.logout, null, {
+        access_token : accessToken
+      });
+    }
   }
 
   /**

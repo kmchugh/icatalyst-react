@@ -47,7 +47,36 @@ function FuseNavVerticalGroup(props)
     return null;
   }
 
-  return (
+  const {skipLevel = false} = item;
+
+  return skipLevel && item.children ? (
+    <React.Fragment>
+      {
+        item.children.map((item) => (
+
+          <React.Fragment key={item.id}>
+
+            {item.type === 'group' && (
+              <NavVerticalGroup item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'collapse' && (
+              <FuseNavVerticalCollapse item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'item' && (
+              <FuseNavVerticalItem item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+            {item.type === 'link' && (
+              <FuseNavVerticalLink item={item} nestedLevel={nestedLevel} active={active}/>
+            )}
+
+          </React.Fragment>
+        ))
+      }
+    </React.Fragment>
+  ) : (
     <React.Fragment>
 
       <ListSubheader disableSticky={true} className={clsx(classes.item, classes.itemFn, 'list-subheader flex items-center', item.icon ? 'icon' : 'iconless')}>
@@ -99,10 +128,11 @@ FuseNavVerticalGroup.propTypes = {
       children: PropTypes.array,
       type    : PropTypes.string,
       auth : PropTypes.array,
-      icon : PropTypes.string
+      icon : PropTypes.string,
+      skipLevel : PropTypes.bool
     }),
   nestedLevel : PropTypes.number,
-  active : PropTypes.bool
+  active : PropTypes.bool,
 };
 
 FuseNavVerticalGroup.defaultProps = {};

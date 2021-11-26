@@ -4,6 +4,10 @@ import {Typography} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
+import Hidden from '@material-ui/core/Hidden';
+import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -45,6 +49,20 @@ const useStyles = makeStyles((theme) => {
     },
     action : {
 
+    },
+    separator: {
+      width          : 1,
+      height: theme.spacing(6),
+      backgroundColor: theme.palette.divider,
+      marginLeft : theme.spacing(1),
+      marginRight : theme.spacing(2),
+    },
+    mobileNavButton : {
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+      position: 'absolute',
+      top: 0,
+      left: 0
     }
   };
 });
@@ -59,8 +77,20 @@ const DefaultAccessComponent = ({
   const infoText = typeof info === 'string';
   const actionText = typeof action === 'string';
 
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+  const {toolbar} = config;
+
   return (
     <div className={clsx(classes.root, 'max-w-md text-center')}>
+      {
+        // If the toolbar is not displayed then we need
+        // to allow access to the navigation
+        !toolbar.display && (
+          <Hidden lgUp>
+            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+          </Hidden>
+        )
+      }
       <Icon color="primary" className={clsx(classes.icon)}>{icon}</Icon>
       <Typography variant="h4" component="h1" className={clsx(classes.title)}>{title}</Typography>
       {

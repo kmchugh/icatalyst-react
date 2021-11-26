@@ -13,12 +13,15 @@ import {SingularityContext} from '@icatalyst/components/Singularity';
 import {mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme) => {
-  const activeBackground = mostReadable(
-    theme.palette.background.default, [
-      theme.palette.secondary.light,
-      theme.palette.secondary.main,
-      theme.palette.secondary.dark
-    ]);
+
+  const activeBackground = theme.palette.navigation_active_background ?
+    theme.palette.navigation_active_background.main :
+    mostReadable(
+      theme.palette.background.default, [
+        theme.palette.secondary.light,
+        theme.palette.secondary.main,
+        theme.palette.secondary.dark
+      ]);
 
   const activeText = mostReadable(
     activeBackground, [
@@ -44,6 +47,7 @@ const useStyles = makeStyles((theme) => {
     item: {
       '&.active'                 : {
         backgroundColor            : activeBackground,
+        fontWeight                 : 'bold',
         color                      : `${activeText}!important`,
         transition                 : 'border-radius .15s cubic-bezier(0.4,0.0,0.2,1), border-left-width .15s cubic-bezier(0.4,0.0,0.2,1)',
         '& .list-item-text-primary': {

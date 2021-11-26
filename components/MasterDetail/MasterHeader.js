@@ -8,6 +8,9 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import {SearchFilterContext} from '../Tables';
+import {useSelector} from 'react-redux';
+import Hidden from '@material-ui/core/Hidden';
+import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,6 +66,17 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
       marginRight: theme.spacing(1),
     }
+  },
+  separator: {
+    width          : 1,
+    height: theme.spacing(6),
+    backgroundColor: theme.palette.divider,
+    marginLeft : theme.spacing(1),
+    marginRight : theme.spacing(2),
+  },
+  mobileNavButton : {
+    width: theme.spacing(6),
+    height: theme.spacing(6)
   }
 }));
 
@@ -78,6 +92,10 @@ const Header = ({
   const actionComponent = false;
   const theme = useTheme();
   const searchContext = useContext(SearchFilterContext);
+
+  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+  const {toolbar} = config;
+
   const {
     searchFilter,
     setSearchFilter
@@ -86,6 +104,17 @@ const Header = ({
   return (
     <FuseAnimate animation="transition.slideLeftIn" delay={300}>
       <div className={clsx(classes.root)}>
+
+        {
+          // If the toolbar is not displayed then we need
+          // to allow access to the navigation
+          !toolbar.display && (
+            <Hidden lgUp>
+              <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+              <div className={classes.separator}/>
+            </Hidden>
+          )
+        }
 
         {
           backText && <Typography
