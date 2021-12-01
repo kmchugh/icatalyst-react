@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import {IconButton} from '@icatalyst/components';
-import _ from '../../@lodash';
+import _ from '../../../@lodash';
 import { Wizard } from '../../Wizard';
 console.log(Wizard);
 
