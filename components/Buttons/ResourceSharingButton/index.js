@@ -5,7 +5,6 @@ import clsx from 'clsx';
 import {IconButton} from '@icatalyst/components';
 import _ from '../../../@lodash';
 import { Wizard } from '../../Wizard';
-console.log(Wizard);
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {
@@ -39,7 +38,7 @@ const ResourceSharingButton = ({
     }
   };
 
-  console.log(iconProps);
+  console.log(iconProps, console.log(Wizard));
   console.log(resource, showWizard);
 
   return (

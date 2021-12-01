@@ -396,7 +396,7 @@ export function generateOperations(config, actions) {
     'UPDATE_ENTITY',
     'INVALIDATE'
   ];
-  return action_list.reduce((acc, key)=>{
+  const operations = action_list.reduce((acc, key)=>{
     if (config[key]) {
       acc[key] = config[key];
     } else if (createOperation[key]){
@@ -404,4 +404,15 @@ export function generateOperations(config, actions) {
     }
     return acc;
   }, {});
+
+  operations['UPDATE_ENTITY_LOCAL'] = (entity)=>{
+    return {
+      type : actions['ENTITY_UPDATED'],
+      payload : {
+        ...entity
+      }
+    };
+  };
+
+  return operations;
 }

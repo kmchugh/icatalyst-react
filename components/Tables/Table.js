@@ -249,6 +249,7 @@ const Table = ({
       Header : column.label,
       accessor : column.getValue ? column.getValue : column.id,
       canSort : column.sortable,
+      sortType : column.sortType || 'alphanumeric',
       // If the cell has a render method then let it render itself
       Cell : column.cell || getCellComponent(column.render ? 'custom' : column.type),
       field : column,
