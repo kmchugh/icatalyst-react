@@ -41,6 +41,15 @@ export function useSettingsContext(id, instanceProps) {
       return acc;
     }, {});
 
+    /**
+     * Gets the settings for a specific instance
+     * @param  {String} instanceID The instance of the settings to get
+     * @return {[type]}            The values for the specified instance
+     */
+    const getSettingsForInstance = (instanceID)=>{
+      return settings.instanceValues[instanceID] || defaults;
+    };
+
     // Generate the collapsed values
     const collapsedValues = _.merge({},
       // apply the default values
@@ -112,7 +121,8 @@ export function useSettingsContext(id, instanceProps) {
       values : collapsedValues,
       updateSettings,
       clearInstanceSettings,
-      instanceID
+      instanceID,
+      getSettingsForInstance
     };
 
     return retVal;
