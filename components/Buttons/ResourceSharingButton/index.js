@@ -38,7 +38,7 @@ const ResourceSharingButton = ({
     }
   };
 
-  console.log(iconProps, console.log(Wizard));
+  console.log(iconProps, Wizard);
   console.log(resource, showWizard);
 
   return (
