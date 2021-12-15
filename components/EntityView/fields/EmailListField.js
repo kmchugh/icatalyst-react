@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => {
 
 const EmailListField = ({readonly = false,
   onChange,
-  value,
+  value = [],
   errors, field,
   className,
 })=>{
@@ -84,7 +84,7 @@ const EmailListField = ({readonly = false,
       error = [`${email} is not a valid email address.`];
     }
 
-    if (value.includes(email)) {
+    if (value && value.includes(email)) {
       error = [`${email} has already been added.`];
     }
 
@@ -115,8 +115,8 @@ const EmailListField = ({readonly = false,
     const extractedEmails = pasted.match(EMAIL_MATCH_PATTERN);
     if (extractedEmails) {
       updateEmails([
-        ...value,
-        ...extractedEmails.filter((e)=>(!value.includes(e)))
+        ...(value||[]),
+        ...extractedEmails.filter((e)=>(!(value||[]).includes(e)))
       ]);
     }
   };
@@ -125,7 +125,7 @@ const EmailListField = ({readonly = false,
     const email = e.target.value;
     if (email && email.trim().length > 0 && isValid(email)) {
       updateEmails([
-        ...value,
+        ...(value||[]),
         email
       ]);
       setInputValue('');
@@ -137,7 +137,7 @@ const EmailListField = ({readonly = false,
       e.preventDefault();
       var email = e.target.value;
       if (email && isValid(email)) {
-        const updatedValue = [...value, email];
+        const updatedValue = [...(value || []), email];
         updateEmails(updatedValue);
         setInputValue('');
       }
@@ -148,40 +148,42 @@ const EmailListField = ({readonly = false,
 
   return (
     <div>
-      <NativeTextField
-        className={clsx(classes.root, className)}
-        id={id}
-        name={id}
-        label={label}
-        error={hasErrors}
-        helperText={hasErrors ? inputErrors[0] : description}
-        required={required}
-        autoFocus={autoFocus}
-        disabled={readonly}
-        InputLabelProps={{
-          readOnly: readonly
-        }}
-        autoComplete="off"
-        fullWidth
-        type='email'
-        variant="outlined"
-        onKeyDown={handleKeyDown}
-        onChange={handleChange}
-        onPaste={handlePaste}
-        onBlur={handleBlur}
-        value={inputValue}
-      />
+      {!readonly && (
+        <NativeTextField
+          className={clsx(classes.root, className)}
+          id={id}
+          name={id}
+          label={label}
+          error={hasErrors}
+          helperText={hasErrors ? inputErrors[0] : description}
+          required={required}
+          autoFocus={autoFocus}
+          disabled={readonly}
+          InputLabelProps={{
+            readOnly: readonly
+          }}
+          autoComplete="off"
+          fullWidth
+          type='email'
+          variant="outlined"
+          onKeyDown={handleKeyDown}
+          onChange={handleChange}
+          onPaste={handlePaste}
+          onBlur={handleBlur}
+          value={inputValue}
+        />
+      )}
 
       {
-        showChips && <div className={clsx(classes.chipWrapper)}>
+        (readonly || showChips) && <div className={clsx(classes.chipWrapper)}>
           {
-            value.map((email)=>{
+            value && value.map((email)=>{
               return (
                 <Chip
                   className={clsx(classes.chip)}
                   key={email}
                   label={email}
-                  onDelete={()=>handleDeleteEmail(email)}
+                  onDelete={readonly ? null : ()=>handleDeleteEmail(email)}
                 />
               );
             })

@@ -5,6 +5,7 @@ import {fieldBuilder as dateFieldBuilder} from './DateField';
 import {fieldBuilder as dateTimeFieldBuilder} from './DateTimeField';
 import {fieldBuilder as emailListFieldBuilder} from './EmailListField';
 import {fieldBuilder as entitySelectFieldBuilder} from './EntitySelectField';
+import {fieldBuilder as customFieldBuilder} from './CustomField';
 
 const fieldMap = [
   textFieldBuilder,
@@ -14,6 +15,7 @@ const fieldMap = [
   dateFieldBuilder,
   emailListFieldBuilder,
   entitySelectFieldBuilder,
+  customFieldBuilder,
 
   // Default to TextField if no other matches
   {

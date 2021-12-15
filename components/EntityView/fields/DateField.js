@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {FormControl, InputLabel, FormHelperText} from '@material-ui/core';
-import {DateTimePicker, MuiPickersContext} from '@material-ui/pickers';
+import {DatePicker, MuiPickersContext} from '@material-ui/pickers';
 import {makeStyles} from '@material-ui/styles';
 import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
 import moment from '@icatalyst/@moment';
@@ -65,7 +65,9 @@ const DateField = (props) => {
         </InputLabel>
       }
 
-      <DateTimePicker
+      <DatePicker
+        disabled={readonly}
+        autoOk={true}
         value={value}
         variant="inline"
         readOnly={readonly}

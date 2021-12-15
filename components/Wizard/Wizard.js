@@ -28,6 +28,25 @@ const useStyles = makeStyles((theme)=>{
       flexDirection : 'row',
       alignItems : 'center',
       flexShrink : 1,
+      backgroundColor : theme.palette.action.hover,
+      borderRadius : theme.shape.borderRadius,
+      borderWidth : 'thin',
+      borderColor : theme.palette.action.disabled,
+      paddingLeft : theme.spacing(1),
+      paddingRight : theme.spacing(1),
+      paddingTop : theme.spacing(.5),
+      paddingBottom : theme.spacing(.5),
+    },
+    wrapperCompleted : {
+    },
+    wrapperCurrent : {
+      backgroundColor : theme.palette.secondary.light,
+
+      ['& $stepDescription'] : {
+        color : theme.palette.secondary.contrastText
+      }
+    },
+    wrapperFuture : {
     },
     stepLabel : {
       width: theme.spacing(3),
@@ -39,10 +58,12 @@ const useStyles = makeStyles((theme)=>{
       marginRight: theme.spacing(1),
     },
     stepDescription : {
+      textAlign: 'center',
+      width: '100%',
     },
     stepCompleted : {
-      background : theme.palette.primary.main,
-      color : theme.palette.primary.contrastText,
+      background : theme.palette.success.main,
+      color : theme.palette.success.contrastText,
     },
     stepCurrent : {
       background : theme.palette.primary.main,
@@ -56,11 +77,11 @@ const useStyles = makeStyles((theme)=>{
       flex : '1 1 0%',
       flexGrow: 1,
       background : theme.palette.action.disabled,
-      height : '2px',
+      height : '1px',
       minWidth : theme.spacing(2),
       alignSelf : 'center',
-      marginRight: theme.spacing(2),
-      marginLeft: theme.spacing(2)
+      marginRight: 0,
+      marginLeft: 0
     },
     textBold : {
       fontWeight : 'bold'
@@ -84,6 +105,7 @@ const Wizard = React.forwardRef(({
   entityViewClassName,
   onSave,
   updatingTitle = 'Saving',
+  onClosed = null
 }, ref)=>{
 
   const styles = useStyles();
@@ -108,7 +130,13 @@ const Wizard = React.forwardRef(({
     },
     nextPage : moveNext,
     previousPage : movePrevious,
-    contentRef: contentRef
+    contentRef: contentRef,
+    cancelWizard : ()=>{
+      resetForm();
+      setPageIndex(0);
+      setWizardOpen(false);
+      contentRef.current.closeDialog();
+    }
   }));
 
   const currentPageLayout = pageLayouts[pageIndex];
@@ -140,6 +168,12 @@ const Wizard = React.forwardRef(({
   }).flatMap((key)=>{
     return errors[key];
   }).length === 0;
+
+  useEffect(()=>{
+    if (open !== wizardOpen) {
+      setWizardOpen(open);
+    }
+  }, [open]);
 
   actions = (actions === undefined) ? [{
     key : 'prev',
@@ -214,7 +248,6 @@ const Wizard = React.forwardRef(({
     title : 'Next'
   }] : actions;
 
-
   return (
     <Dialog
       className={clsx(styles.root, className)}
@@ -224,7 +257,10 @@ const Wizard = React.forwardRef(({
       titleVariant="flat"
       fullWidth
       onClose={()=>{
+        resetForm();
+        setPageIndex(0);
         setWizardOpen(false);
+        onClosed && onClosed();
       }}
     >
       <DialogContent
@@ -234,6 +270,12 @@ const Wizard = React.forwardRef(({
         className={clsx(styles.contentRoot)}
         style={{
           minHeight : minHeight
+        }}
+        onClose={()=>{
+          resetForm();
+          setPageIndex(0);
+          setWizardOpen(false);
+          onClosed && onClosed();
         }}
       >
         {updating && <FuseLoading title={updatingTitle}/>}
@@ -256,7 +298,12 @@ const Wizard = React.forwardRef(({
 
                   <div
                     key={i}
-                    className={clsx(styles.stepWrapper)}
+                    className={clsx(
+                      styles.stepWrapper,
+                      position === -1 ? styles.wrapperCompleted : null,
+                      position === 0 ? styles.wrapperCurrent : null,
+                      position === 1 ? styles.wrapperFuture : null,
+                    )}
                     style={{
                       flexBasis : `${100/progressSteps.length}%`
                     }}
@@ -323,6 +370,7 @@ const Wizard = React.forwardRef(({
               layout : layout
             }}
             model={form}
+            readonly={currentPageLayout.readonly}
             errors={errors}
             onChange={(e, v)=>{
               handleChange(e, v);
@@ -371,6 +419,7 @@ Wizard.propTypes={
   entity : PropTypes.object,
   onSave : PropTypes.func,
   updatingTitle : PropTypes.string,
+  onClosed : PropTypes.func
 };
 
 export default Wizard;

@@ -103,7 +103,7 @@ function normaliseValidations(field) {
   if (field.required) {
     validations.unshift((model, field, value)=>{
       const {label} = field;
-      return (!value || value.trim() === '') ?
+      return (!value || (value.trim && value.trim() === '')) ?
         label + ' is required':
         null;
     });
