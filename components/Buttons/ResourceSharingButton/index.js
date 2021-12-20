@@ -11,6 +11,8 @@ import moment from '../../../@moment';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import {definition as resourceInviteDefinition } from '../../Singularity/store/reducers/resourceInvite.reducer';
+import {definition as inviteDefinition } from '../../Singularity/store/reducers/invites.reducer';
+import {useDispatch} from 'react-redux';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {
@@ -41,7 +43,10 @@ const ResourceSharingButton = ({
   resource,
   iconButtonProps = {},
   isOwner = null,
-  disabled = false
+  disabled = false,
+  onClosed,
+  additionalResources = [],
+  onSaved,
 })=>{
   const styles = useStyles();
   const iconButtonDefaults = {
@@ -55,8 +60,9 @@ const ResourceSharingButton = ({
   const [resourceOwner, setResourceOwner] = useState(isOwner);
 
   const authContext = useContext(SingularityContext);
-  const {isResourceOwner} = authContext;
+  const {isResourceOwner, accessToken} = authContext;
   const wizardRef = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(()=>{
     if (resource && !resourceOwner) {
@@ -87,13 +93,15 @@ const ResourceSharingButton = ({
     <div className={clsx(styles.root, className)}>
       <Wizard
         ref={wizardRef}
+        finishButtonIcon="email"
+        finishButtonText="Send"
         entity={{
           emails : [],
           resourceType : resourceType,
           resourceDescription : primaryText,
           resourceID : resourceID,
           start : null,
-          expiry : null
+          expiry : null,
         }}
         definition={resourceInviteDefinition}
         className={clsx(styles.wizard)}
@@ -101,10 +109,35 @@ const ResourceSharingButton = ({
         title={`Sharing ${definition.label}`}
         onClosed={()=>{
           setShowWizard(false);
+          onClosed && onClosed();
         }}
         onSave={(data, callback)=>{
-          console.log('saving', data);
-          callback && callback();
+          const payload = {
+            emails : data.emails,
+            resources : [
+              {
+                resourceType : data.resourceType,
+                resourceDescription : data.resourceDescription,
+                resourceID : data.resourceID,
+                start : data.start,
+                expiry : data.expiry,
+                edgeTypes : data.edgeTypes
+              },
+              ...additionalResources.map((r)=>{
+                return {
+                  start : data.start,
+                  expiry : data.expiry,
+                  ...r,
+                };
+              })
+            ]
+          };
+          dispatch(inviteDefinition.operations['ADD_ENTITY'](payload, (err, res)=>{
+            callback && callback(err, res);
+            !err && onSaved && onSaved(res);
+          }, {
+            accessToken : accessToken
+          }));
         }}
         pageLayouts={[{
           // showTitle : false,
@@ -221,7 +254,7 @@ const ResourceSharingButton = ({
             (value)=>{
               const {start, expiry} = value;
               return (
-                <>
+                <div key="confirm">
                   <Typography
                     key="name"
                     variant="h6"
@@ -251,7 +284,7 @@ const ResourceSharingButton = ({
                       }
                     </Typography>
                   )}
-                </>
+                </div>
               );
             }
           ]
@@ -277,7 +310,15 @@ ResourceSharingButton.propTypes={
   resource : PropTypes.object.isRequired,
   iconButtonProps : PropTypes.shape(IconButton.propTypes),
   isOwner : PropTypes.bool,
-  disabled : PropTypes.bool
+  disabled : PropTypes.bool,
+  onClosed : PropTypes.func,
+  additionalResources : PropTypes.arrayOf(PropTypes.shape({
+    resourceType : PropTypes.string.isRequired,
+    resourceDescription : PropTypes.string,
+    resourceID : PropTypes.string.isRequired,
+    edgeTypes : PropTypes.arrayOf(PropTypes.string)
+  })),
+  onSaved : PropTypes.func
 };
 
 export default ResourceSharingButton;

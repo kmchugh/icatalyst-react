@@ -9,7 +9,7 @@ const URIService = {
   },
   getURI : (service, key)=>{
     if (!uris[service] || !uris[service][key]) {
-      console.warn(`invalid uri requested ${service}/${key}`);
+      console.error(`invalid uri requested ${service}/${key}`);
       return null;
     }
     return uris[service][key];

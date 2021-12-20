@@ -105,7 +105,9 @@ const Wizard = React.forwardRef(({
   entityViewClassName,
   onSave,
   updatingTitle = 'Saving',
-  onClosed = null
+  onClosed = null,
+  finishButtonIcon = 'check',
+  finishButtonText = 'Finish'
 }, ref)=>{
 
   const styles = useStyles();
@@ -235,8 +237,8 @@ const Wizard = React.forwardRef(({
         }
       });
     },
-    icon : 'check',
-    title : 'Finish'
+    icon : finishButtonIcon,
+    title : finishButtonText
   } : {
     key : 'next',
     color : 'primary',
@@ -419,7 +421,9 @@ Wizard.propTypes={
   entity : PropTypes.object,
   onSave : PropTypes.func,
   updatingTitle : PropTypes.string,
-  onClosed : PropTypes.func
+  onClosed : PropTypes.func,
+  finishButtonText : PropTypes.string,
+  finishButtonIcon : PropTypes.string
 };
 
 export default Wizard;

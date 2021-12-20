@@ -111,17 +111,25 @@ const getReducerFn = (definition, type)=>{
 
   case 'ENTITY_ADDED' :
     return (state, action)=>{
-      const transformedPayload = (definition.transformPayload || ((i)=>i))(action.payload);
+      // Transform the payload as required
+      const payload = Array.isArray(action.payload) ? action.payload : [action.payload];
+      const transformedPayload = payload.map(p=>{
+        return (definition.transformPayload || ((i)=>i))(p);
+      });
+      const entityMap = transformedPayload.reduce((acc, p)=>{
+        acc[p[definition.identityFieldName]] = p;
+        return acc;
+      }, {});
       return {
         ...state,
         errors : null,
         entities : [
           ...state.entities,
-          transformedPayload
+          ...transformedPayload
         ],
         entity_map : {
           ...state.entity_map,
-          [action.payload[definition.identityFieldName]] : transformedPayload
+          ...entityMap
         }
       };
     };

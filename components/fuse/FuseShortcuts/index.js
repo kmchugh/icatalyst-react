@@ -13,7 +13,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import { updateUserShortcuts } from 'app/auth/store/userSlice';
 // import { selectNavigation } from 'app/store/fuse/navigationSlice';
@@ -39,9 +38,6 @@ const useStyles = makeStyles({
 });
 
 function FuseShortcuts(props) {
-  const dispatch = useDispatch();
-  console.log(dispatch);
-
   const singularityContext = useContext(SingularityContext);
   const {user} = singularityContext;
   const shortcuts = user && user.data && user.data.shortcuts || [];

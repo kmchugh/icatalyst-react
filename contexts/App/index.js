@@ -40,7 +40,19 @@ const AppContextComponent = ({
         setAuthRoutes(getAuthRoutes(routes, singularityContext));
       }),
       onUserAuthenticated,
-      onClientUpdated
+      onClientUpdated,
+      reverse : (route)=>{
+        const lookup = routes.filter(r=>
+          r.routeConfig &&
+          (r.routeConfig.name === route || r.routeConfig.namePlural === route)
+        );
+        if (lookup.length === 0) {
+          console.error(`No routes found for ${route}`);
+        } else if (lookup.length > 1) {
+          console.warn(`Multiple routes found for ${route}`);
+        }
+        return lookup.length > 0 ? lookup[0].path : null;
+      }
     }}>
       {children}
     </AppContext.Provider>

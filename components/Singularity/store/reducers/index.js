@@ -10,7 +10,7 @@ import users from './users.reducer';
 import groups from './groups.reducer';
 import edgetypes from './edgeType.reducer';
 import resourceAccess from './resourceAccess.reducer';
-
+import clientdata from './clientdata.reducer';
 import resourceInvite from './resourceInvite.reducer';
 
 const reducers = combineReducers({
@@ -25,7 +25,8 @@ const reducers = combineReducers({
   groups,
   edgetypes,
   resourceAccess,
-  resourceInvite
+  resourceInvite,
+  clientdata
 });
 
 export default reducers;

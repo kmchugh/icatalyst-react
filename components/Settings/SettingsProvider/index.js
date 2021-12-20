@@ -1,22 +1,15 @@
-import React, {createContext, useCallback} from 'react';
+import React, {createContext, useCallback, useContext} from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
 import {createModel} from '../../../utilities/createModel';
 import _ from 'lodash';
-import {setUserSettings} from '../../../store/actions/settings.actions';
-
 export const SettingsContext = createContext();
+import { SingularityContext } from '../../Singularity';
 
 let registeredSettings = {};
 const settingsLayout = {};
 
-const settingsTemplate = {
-  defaultValues : {},
-  instanceValues : {}
-};
-
 export function useSettingsContext(id, instanceProps) {
-  const dispatch = useDispatch();
+  const {clientData, setClientData} = useContext(SingularityContext);
   const requestedSettings = registeredSettings[id];
 
   if (!requestedSettings) {
@@ -29,10 +22,20 @@ export function useSettingsContext(id, instanceProps) {
       requestedSettings.getInstanceSettingsID(instanceProps)
       : null;
 
+    // TODO: We will remove this reducer after Dec 2021 as all settings
+    // will then be stored on the server side
+
     // Get the settings from the reducer
-    const settings = useSelector(({icatalyst})=>{
-      return (icatalyst.settings.userSettings[id]) || settingsTemplate;
-    });
+    let settings = {
+      defaultValues : {},
+      instanceValues : {
+        [instanceID]  :{}
+      },
+      ...(clientData[id] || {})
+    };
+    // Settings is broken down into instanceValues which are values specifically
+    // assigned to an instance, as well as defaultvalues which are user set
+    // values to use if an instance setting is not found
 
     // Generate the defaults from the registeredSettings
     const defaults = Object.keys(requestedSettings.fields).reduce((acc, field)=>{
@@ -76,9 +79,7 @@ export function useSettingsContext(id, instanceProps) {
         instanceValues : {}
       };
 
-      dispatch(setUserSettings({
-        [id] : payload
-      }));
+      setClientData(id, payload);
     };
 
     /**
@@ -109,10 +110,7 @@ export function useSettingsContext(id, instanceProps) {
             [instanceID] : {...updatedValues}
           }
         };
-
-        dispatch(setUserSettings({
-          [id] : payload
-        }));
+        setClientData(id, payload);
       }
     };
 
@@ -174,9 +172,7 @@ export function registerSettings(config) {
   });
 }
 
-function SettingsProvider({children/*, getReducerRoot*/}){
-  // const settings = useSelector(getReducerRoot);
-
+function SettingsProvider({children}){
   const getSettingsLayout = useCallback(()=>{
     return Object.keys(settingsLayout)
       .map((settingsLayoutKey)=>({

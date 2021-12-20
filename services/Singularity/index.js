@@ -52,7 +52,9 @@ class SingularityService {
     role_permissions : 'api/rolePermissions',
 
     // resource : 'api/resource',
-    resource_membership : 'api/resourceMembership'
+    resource_membership : 'api/resourceMembership',
+
+    client_data : 'api/clientdata',
   };
   #settings = {
     localstore_key : 'singularity_key'
@@ -73,7 +75,7 @@ class SingularityService {
 
     this.#settings = _.merge(this.#settings, settings);
     this.uris=Object.keys(this.#urls).reduce((acc, key)=>{
-      const uri = `${this.#server.root}/${this.#urls[key]}`;
+      const uri = `${this.#server.root}/v1/${this.#urls[key]}`;
       acc[key] = uri;
       URIService.registerURI('singularity', key, uri);
       return acc;

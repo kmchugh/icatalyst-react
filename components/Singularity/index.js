@@ -7,50 +7,11 @@ import {matchRoutes} from 'react-router-config';
 import {setClient, setSingularityClient} from './store/actions/client.actions';
 import { AppContext } from '../../contexts';
 import {useDispatch} from 'react-redux';
-
-// import {registerSettings} from '../Settings';
-//
-// const SINGULARITY_SETTINGS_ID = 'singularity_user';
-//
-// /**
-//  * Register the Table Settings with the settings provider
-//  * so they can be managed by the user
-//  * @type {[type]}
-//  */
-// registerSettings([{
-//   name : `${SINGULARITY_SETTINGS_ID}_avatar`,
-//   sectionName : 'User',
-//   sectionIndex : 1,
-//   label : 'Profile Image',
-//   labelPlural : 'Profile Image',
-//   global : true,
-//   fields : [{
-//     id : 'profileImage',
-//     type : 'avatar',
-//   }]
-// }, {
-//   name : `${SINGULARITY_SETTINGS_ID}_displayname`,
-//   sectionName : 'User',
-//   label : 'Display Name',
-//   labelPlural : 'Display Name',
-//   global : true,
-//   fields : [{
-//     id : 'displayName',
-//     type : 'string',
-//   }]
-// }, {
-//   name : `${SINGULARITY_SETTINGS_ID}_password`,
-//   sectionName : 'User',
-//   label : 'Change Password',
-//   labelPlural : 'Change Password',
-//   global : true,
-//   fields : [{
-//     id : 'changePassword',
-//     type : 'command',
-//   }]
-// }]);
-
 export const SingularityContext = createContext();
+import {operations as CDOperations} from './store/actions/clientdata.actions';
+
+// TODO: Make this configurable per singularity install
+const SETTINGS_KEY = 'aefa26fc-6a47-4998-8d93-c4a18d8b9119';
 
 /**
  * Checks if the auth array contains the role,
@@ -104,6 +65,7 @@ function Singularity({
   children
 }) {
   const dispatch = useDispatch();
+
   const {
     mapRoles = (roles)=>{
       return roles.map(r=>r.code);
@@ -131,6 +93,7 @@ function Singularity({
   const [singularityDetails, setSingularityDetails] = useState(null);
   const [clientDetails, setClientDetails] = useState(null);
   const [initialised, setInitialised] = useState(false);
+  const [clientData, setClientData] = useState(false);
 
   const [message, setMessage] = useState('Validating...');
 
@@ -301,6 +264,29 @@ function Singularity({
   }, [session, user, location.pathname]);
 
   useEffect(()=>{
+    if (accessToken && !clientData) {
+      dispatch(CDOperations['RETRIEVE_ENTITY'](SETTINGS_KEY, (err, res)=>{
+        setClientData(res);
+      }, {
+        accessToken: accessToken
+      }));
+    }
+  }, [accessToken]);
+
+  const updateClientData = ((id, data)=>{
+    const payload = {
+      ...clientData,
+      [id] : data,
+      guid : SETTINGS_KEY,
+    };
+    setClientData(data);
+    // Fire and forget as we have already locally updated
+    dispatch(CDOperations['UPDATE_ENTITY'](payload, null, {
+      accessToken: accessToken
+    }));
+  });
+
+  useEffect(()=>{
     // If we do not require auth then wait for the app to request auth
     if (!shouldForceAuth && !token) {
       setInitialised(true);
@@ -354,6 +340,8 @@ function Singularity({
 
   const singularityContext = {
     client: clientDetails,
+    clientData,
+    setClientData : updateClientData,
     user,
     session,
     accessToken,
