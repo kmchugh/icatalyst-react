@@ -138,7 +138,8 @@ const Wizard = React.forwardRef(({
       setPageIndex(0);
       setWizardOpen(false);
       contentRef.current.closeDialog();
-    }
+    },
+    handleChange : handleChange
   }));
 
   const currentPageLayout = pageLayouts[pageIndex];

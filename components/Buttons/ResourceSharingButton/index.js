@@ -7,12 +7,17 @@ import _ from '../../../@lodash';
 import { SingularityContext } from '@icatalyst/components';
 import { Wizard } from '../../Wizard';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import moment from '../../../@moment';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import {definition as resourceInviteDefinition } from '../../Singularity/store/reducers/resourceInvite.reducer';
 import {definition as inviteDefinition } from '../../Singularity/store/reducers/invites.reducer';
 import {useDispatch} from 'react-redux';
+import Icon from '@icatalyst/components/Icon';
+import EdgeTypeSelection from '@icatalyst/components/Singularity/components/EdgeTypeSelection';
+import { AppContext } from '@icatalyst/contexts/App';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {
@@ -47,8 +52,11 @@ const ResourceSharingButton = ({
   onClosed,
   additionalResources = [],
   onSaved,
+  variant = 'iconbutton',
+  accessTypeProps = {}
 })=>{
   const styles = useStyles();
+  const history = useHistory();
   const iconButtonDefaults = {
     size : 'small',
     title : `Share ${definition.label.replace(/\b\w/g, c => c.toUpperCase())}`,
@@ -63,6 +71,12 @@ const ResourceSharingButton = ({
   const {isResourceOwner, accessToken} = authContext;
   const wizardRef = useRef(null);
   const dispatch = useDispatch();
+  const {reverse} = useContext(AppContext);
+
+  onSaved = onSaved || (()=>{
+    // Navigate to the invites page
+    history.push(reverse('invites'));
+  });
 
   useEffect(()=>{
     if (resource && !resourceOwner) {
@@ -75,6 +89,7 @@ const ResourceSharingButton = ({
   }, [resource, isOwner]);
 
   const handleClick = (e)=>{
+    e.stopPropagation();
     if (iconProps.onClick) {
       iconProps.onClick(e);
     } else {
@@ -102,11 +117,12 @@ const ResourceSharingButton = ({
           resourceID : resourceID,
           start : null,
           expiry : null,
+          edgeTypes : null
         }}
         definition={resourceInviteDefinition}
         className={clsx(styles.wizard)}
         open={showWizard}
-        title={`Sharing ${definition.label}`}
+        title={iconProps.title}
         onClosed={()=>{
           setShowWizard(false);
           onClosed && onClosed();
@@ -208,7 +224,17 @@ const ResourceSharingButton = ({
           subtitle : 'Access',
           hideCloseButton : true,
           minHeight: 350,
-          layout : ['edgeTypes']
+          layout : [
+            (data)=>{
+              return <EdgeTypeSelection
+                key="edgetypeselection"
+                field={resourceInviteDefinition.fields['edgeTypes']}
+                accessTypeProps={accessTypeProps}
+                value={data.edgeTypes}
+                onChange={wizardRef.current.handleChange}
+              />;
+            }
+          ]
         }, {
           title : 'When should access start and expire?',
           subtitle : 'Dates',
@@ -245,12 +271,20 @@ const ResourceSharingButton = ({
                   variant="h6"
                   color="textSecondary"
                   component="p">
-                  You have requested that
+                  You are requesting that
                 </Typography>
               );
             },
             'emails',
-            'edgeTypes',
+            (data)=>{
+              return <EdgeTypeSelection
+                key="edgetypeselection"
+                field={resourceInviteDefinition.fields['edgeTypes']}
+                accessTypeProps={accessTypeProps}
+                value={data.edgeTypes}
+                readonly={true}
+              />;
+            },
             (value)=>{
               const {start, expiry} = value;
               return (
@@ -268,7 +302,7 @@ const ResourceSharingButton = ({
                     variant="h5"
                     color="textPrimary"
                     component="p">
-                    {value.resourcedescription}
+                    {value.resourceDescription}
                   </Typography>
 
                   {(start != null || expiry != null) && (
@@ -290,13 +324,31 @@ const ResourceSharingButton = ({
           ]
         }]}
       />
-      <IconButton
-        disabled={disabled}
-        size={iconProps.size}
-        onClick={handleClick}
-        title={iconProps.title}
-        icon={iconProps.icon}
-        color={iconProps.color}/>
+      { variant === 'iconbutton' &&
+        <IconButton
+          disabled={disabled}
+          size={iconProps.size}
+          onClick={handleClick}
+          title={iconProps.title}
+          icon={iconProps.icon}
+          color={iconProps.color}/>
+      }
+      { variant === 'button' &&
+        <Button
+          color={iconProps.color}
+          disabled={disabled}
+          size={iconProps.size}
+          variant="contained"
+          onClick={handleClick}
+          startIcon={
+            iconProps.icon ?
+              <Icon>{iconProps.icon}</Icon> :
+              null
+          }
+        >
+          {iconProps.title}
+        </Button>
+      }
     </div>
   ) : null;
 };
@@ -318,7 +370,9 @@ ResourceSharingButton.propTypes={
     resourceID : PropTypes.string.isRequired,
     edgeTypes : PropTypes.arrayOf(PropTypes.string)
   })),
-  onSaved : PropTypes.func
+  onSaved : PropTypes.func,
+  variant : PropTypes.oneOf(['button', 'iconbutton']),
+  accessTypeProps : PropTypes.object
 };
 
 export default ResourceSharingButton;

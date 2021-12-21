@@ -244,8 +244,6 @@ const CreateInvitation = ()=>{
     return <FuseLoading title="Updating..."/>;
   }
 
-  console.log(form);
-
   return (
     <div className={clsx(classes.root)}>
       {!entity && (

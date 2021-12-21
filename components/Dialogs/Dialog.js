@@ -95,6 +95,7 @@ const Dialog = (props)=>{
       PaperProps={{
         style : style
       }}
+      onClick={(e)=>{e.stopPropagation();}}
     >
       {showTitle && (
         <AppBar

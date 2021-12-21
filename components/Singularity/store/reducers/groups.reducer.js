@@ -3,7 +3,7 @@ import * as Actions from '../actions/groups.actions';
 import { createModel, generateReducer, generateUUID } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
-import {InviteButton} from '../../components';
+import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
 import {isName} from '../../../EntityView/validations';
 
 const definition = createModel({
@@ -82,9 +82,28 @@ const definition = createModel({
       id : 'invite',
       label : '',
       render(column, field, item){
-        return <InviteButton
-          entity={item}
+        return <ResourceSharingButton
+          key="resourceSharingButton"
           definition={definition}
+          resource={item}
+          isOwner={true}
+          variant="button"
+          iconButtonProps={{
+            icon : 'email',
+            title : 'Invite'
+          }}
+          accessTypeProps={{
+            'SINGULARITY_MEMBER_EDGE' : {
+              title : 'Member',
+              description : 'Is a member of',
+              icon : 'fa users'
+            },
+            'SINGULARITY_OWNER_EDGE' : {
+              title : 'Administrator',
+              description : 'Is an administrator of',
+              icon : 'fa user-cog'
+            },
+          }}
         />;
       }
     }

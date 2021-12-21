@@ -72,7 +72,8 @@ const EdgeTypeSelection = ({
   onChange,
   value,
   field,
-  readonly
+  readonly,
+  accessTypeProps = {}
 })=>{
   const styles = useStyles();
   const dispatch = useDispatch();
@@ -82,6 +83,19 @@ const EdgeTypeSelection = ({
 
   const singularityContext = useContext(SingularityContext);
   const {accessToken} = singularityContext;
+
+  const accessTypes = _.merge({}, {
+    'SINGULARITY_MEMBER_EDGE' : {
+      title : 'View',
+      description : 'Can only view',
+      icon : 'visibility'
+    },
+    'SINGULARITY_OWNER_EDGE' : {
+      title : 'Edit',
+      description : 'Can modify',
+      icon : 'edit'
+    }
+  }, accessTypeProps);
 
   const { title, operations, getReducerRoot = ()=>{
     console.warn(`You have not set a selector root for definition ${title}`);
@@ -120,16 +134,8 @@ const EdgeTypeSelection = ({
       setData(reducer.entities.map((edgeType)=>{
         return {
           ...edgeType,
-          title : edgeType.name === 'Member' ?
-            'View' :
-            'Edit',
-          description : edgeType.name === 'Member' ?
-            'Can only view' :
-            'Can modify',
-          icon : edgeType.name === 'Member' ?
-            'visibility' :
-            'edit',
-          value : edgeType.name === 'Member' ?
+          ...accessTypes[edgeType.code],
+          value : edgeType.code === 'SINGULARITY_MEMBER_EDGE' ?
             [edgeType.guid] :
             reducer.entities.sort().map(e=>e.guid)
           ,
@@ -155,7 +161,7 @@ const EdgeTypeSelection = ({
                   if (isDisabled) {
                     return;
                   }
-                  onChange({
+                  onChange && onChange({
                     target : {
                       name : field.id,
                       value : edgeType.value
@@ -191,7 +197,8 @@ EdgeTypeSelection.propTypes={
   value : PropTypes.any,
   errors: PropTypes.array,
   field : PropTypes.object.isRequired,
-  fullWidth : PropTypes.bool
+  fullWidth : PropTypes.bool,
+  accessTypeProps : PropTypes.object
 };
 
 export default EdgeTypeSelection;
