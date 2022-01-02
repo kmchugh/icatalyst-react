@@ -286,7 +286,8 @@ const Table = ({
     updateData,
     initialState : {
       pageSize: reducerValues.rowsPerPage
-    }
+    },
+    autoResetGlobalFilter: false
   },
   useGlobalFilter,
   useSortBy,
