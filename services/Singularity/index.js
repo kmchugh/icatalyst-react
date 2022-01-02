@@ -517,12 +517,11 @@ class SingularityService {
     // Otherwise the resourceType is actually a list of resources to get
     // the edges for
     const isResourceList = typeof resourceType !== 'string';
-
     const resources = !isResourceList ?
-      {
+      [{
         resourceType : resourceType,
         resourceID : resourceID
-      } :
+      }] :
       (Array.isArray(resourceType) ? resourceType : [resourceType]);
 
     // If no ID provided then no need to lookup, no permissions
@@ -555,7 +554,7 @@ class SingularityService {
   async isResourceOwner(accessToken, resourceType, resourceID) {
     return this.getResourcePermissions(accessToken, resourceType, resourceID)
       .then((permissions)=>{
-        console.log('here' ,permissions);
+        permissions = Array.isArray(permissions) ? permissions : permissions[resourceID];
         const ownerEdge = permissions.find((permission)=>{
           // TODO: This MUST be updated to use the edge type guid
           return (permission.edgetype && permission.edgetype.code === 'SINGULARITY_OWNER_EDGE');
