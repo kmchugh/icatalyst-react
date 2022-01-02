@@ -81,6 +81,7 @@ const definition = createModel({
     {
       id : 'invite',
       label : '',
+      type : 'string',
       render(column, field, item){
         return <ResourceSharingButton
           key="resourceSharingButton"

@@ -74,6 +74,7 @@ const definition = createModel({
       id : 'status',
       label : 'Status',
       className: 'hidden sm:table-cell',
+      type : 'string',
       render(column, field, item){
         const time = new Date().getTime();
         const status = time < item.start ? {
@@ -97,6 +98,7 @@ const definition = createModel({
       id : 'response',
       label : 'Actions',
       className: 'hidden sm:table-cell',
+      type : 'string',
       render(column, field, item){
         const {
           declined,
