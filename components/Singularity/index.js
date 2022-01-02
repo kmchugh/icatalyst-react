@@ -279,7 +279,10 @@ function Singularity({
       [id] : data,
       guid : SETTINGS_KEY,
     };
-    setClientData(data);
+    setClientData({
+      ...clientData,
+      [id] : data
+    });
     // Fire and forget as we have already locally updated
     dispatch(CDOperations['UPDATE_ENTITY'](payload, null, {
       accessToken: accessToken
@@ -358,6 +361,20 @@ function Singularity({
     },
     isResourceOwner : (type, id)=>{
       return singularity.isResourceOwner(accessToken, type, id);
+    },
+    getResourcePermissions : (resources)=>{
+      // Expects a resource in the format of
+      // {
+      //  resourceType : 'type',
+      //  resourceID : 'local resource id'
+      // }
+      // can be a list or individual resource
+      return singularity.getResourcePermissions(
+        accessToken, resources
+      ).catch((error)=>{
+        console.error(error);
+        return {};
+      });
     },
     logout : ()=>{
       // Clear the refresh token and user related data, then

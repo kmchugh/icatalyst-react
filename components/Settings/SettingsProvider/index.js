@@ -29,7 +29,7 @@ export function useSettingsContext(id, instanceProps) {
     let settings = {
       defaultValues : {},
       instanceValues : {
-        [instanceID]  :{}
+        [instanceID]  : {}
       },
       ...(clientData[id] || {})
     };

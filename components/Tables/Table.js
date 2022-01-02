@@ -429,18 +429,18 @@ const Table = ({
                   }}
                   aria-label="table size"
                 >
-                  <Tooltip title="condensed">
-                    <ToggleButton className={clsx(classes.toggleButton)} value="condensed" aria-label="condensed">
+                  <Tooltip title="condensed" value="condensed">
+                    <ToggleButton className={clsx(classes.toggleButton)} aria-label="condensed">
                       <Icon>format_align_justify</Icon>
                     </ToggleButton>
                   </Tooltip>
-                  <Tooltip title="regular">
-                    <ToggleButton className={clsx(classes.toggleButton)} value="regular" aria-label="regular">
+                  <Tooltip title="regular" value="regular">
+                    <ToggleButton className={clsx(classes.toggleButton)} aria-label="regular">
                       <Icon>view_headline</Icon>
                     </ToggleButton>
                   </Tooltip>
-                  <Tooltip title="expanded">
-                    <ToggleButton className={clsx(classes.toggleButton)} value="expanded" aria-label="expanded">
+                  <Tooltip title="expanded" value="expanded">
+                    <ToggleButton className={clsx(classes.toggleButton)} aria-label="expanded">
                       <Icon>menu</Icon>
                     </ToggleButton>
                   </Tooltip>

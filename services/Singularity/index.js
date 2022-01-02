@@ -512,25 +512,31 @@ class SingularityService {
     return this.localStore(AUTHENTICATED_KEY, false);
   }
 
-  /**
-   * Gets the list of permissions that the current user has for the
-   * resource specified
-   * @param  {String} accessToken  The user access token
-   * @param  {String} resourceType The type of resource
-   * @param  {String} resourceID   The resource identifier
-   * @return {Promise<[Edge]>}              promise ([edges])
-   */
   getResourcePermissions(accessToken, resourceType, resourceID) {
-    if (!resourceID) {
+    // If the resourceType is a string, then expect resourceID,
+    // Otherwise the resourceType is actually a list of resources to get
+    // the edges for
+    const isResourceList = typeof resourceType !== 'string';
+
+    const resources = !isResourceList ?
+      {
+        resourceType : resourceType,
+        resourceID : resourceID
+      } :
+      (Array.isArray(resourceType) ? resourceType : [resourceType]);
+
+    // If no ID provided then no need to lookup, no permissions
+    if (!isResourceList && !resourceID) {
       return Promise.resolve([]);
     }
+
     return axios.get(this.uris.resource_permissions, {
       headers : {
         'Authorization' : `Bearer ${accessToken}`
       },
       params : {
-        type : resourceType,
-        resourceid : resourceID
+        type : resources.map(r=>r.resourceType).join(','),
+        resourceid : resources.map(r=>r.resourceID).join(',')
       }
     }).then((response)=>{
       return response.data;
@@ -549,6 +555,7 @@ class SingularityService {
   async isResourceOwner(accessToken, resourceType, resourceID) {
     return this.getResourcePermissions(accessToken, resourceType, resourceID)
       .then((permissions)=>{
+        console.log('here' ,permissions);
         const ownerEdge = permissions.find((permission)=>{
           // TODO: This MUST be updated to use the edge type guid
           return (permission.edgetype && permission.edgetype.code === 'SINGULARITY_OWNER_EDGE');
