@@ -190,7 +190,7 @@ const definition = createModel({
     } = parentMasterDetailContext.parentContext;
 
     entity.type = resourceDefinition.resourceName || resourceDefinition.name;
-    entity.description = parentEntity.description || '';
+    entity.description = parentEntity.name || '';
     entity.resourceid = resourceDefinition.getIdentity(parentEntity);
     entity.starts = entity.entry_start;
     entity.expiry = entity.entry_expiry;
