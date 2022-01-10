@@ -1,18 +1,83 @@
 # @icatalyst/react
 > Opinionated Library for rapid application development
 
-## Creating the application
-The application defines a default directory structure.  While this is under the control of the developer it is an easy way to organise files and function.
+## Creating a new application
+While we are working towards making the icatalyst-react library an includable dependency as well
+as creating a generator for the application skeleton, the steps required to create a new application are:
+
+1. create a new repository for the application.
+2. add the required files to the application structure.
+3. Include the icatalyst react library as a submodule ```git submodule add https://github.com/kmchugh/icatalyst-react.git src/@icatalyst```
+3. ```yarn install```
+
+The initial structure of the application should be as follows:
+* **app_dir/** - The repository root directory
+  * **__mocks__/** - For jest mocking to enable tests to run headless
+    * **fileMock.js/** - Used for injecting files into the build process during testing
+    * **styleMock.js/** - Used for injecting styles into the build process during testing
+  * **public/** - The static public directory for content
+    * **assets/** - Static assets such as fonts that are included in the build
+      * **css/** - Static css assets
+      * **fonts/** - Static font assets
+      * **iconfont/** - Static font assets for rendering icons
+      * **images/** - Static images that can be referenced from code
+        * **backgrounds/** - background images
+        * **icons/** - images to use as the application icon
+        * **placeholders/** - Static image placeholders that can be referenced from code
+      * **logos/** - All versions of the application logo
+    * **js/** - static js to include in the html
+    * **android-icon...** - Various versions of the application icon for different platforms
+    * **index.html** - the index.html template
+    * **manifest.json** - the manifest template
+    * **src/** - the source folder is described in more detail [here](#src_folder)
+    * **.babelrc** - babel configuration
+    * **.env** - environment variables
+    * **.eslintrc** - eslint configuration
+    * **.gitignore** - git patterns to ignore
+    * **.gitlab-ci.yml** - gitlab build configuration
+    * **env.js** - environment configuration
+    * **jest.setup.js** - jest initialisation
+    * **package.json** - dependency and package declarations
+    * **paths.js** - path configuration for the build process
+    * **README.md** - application specific readme
+    * **tailwind.config.js** - tailwind configuration
+    * **webpack.common.js** - webpack standard configuration for dev and prod
+    * **webpack.dev.js** - webpack standard configuration overrides for dev
+    * **webpack.prod.js** - webpack standard configuration overrides for prod
+
+
+### <a name="src_folder">src folder content</a>
 
 * **src/** - The source directory for all custom app code
   * **@icatalyst/** - The icatalyst react library, linked as a submodule
   * **app/** - Application specific source code
+    * **common/** - code that is used across the entire app
+      * **components/** - component definitions that are not module specific
+      * **hooks/** - react hooks that are used throughout the app      
     * **main/** - The main application, contains the [module](#main_modules) definitions
+      * **store/** - the main store definition, this should combine reducers from the various application modules
+      * **module definitions.../** The modules for this application
     * **settings/** - Application [configuration and settings](#app_configuration)
+      * **config/** - Application configuration
+        * **applicationConfig.js** - Application specific overrides
+        * **authRoles.js** - Authorisation roles mapping and overrides
+        * **colors.js** - Default application colours
+        * **contentConfig.js** - Configuration of available application modules
+        * **index.js** - application configuration generator for use across build and code
+        * **local.config.js** - not included in the git repo, local overrides for development
+      * **layouts/** - Configuration of the layouts used within the application
+        * **[various.layouts].js** - individual layout files
+        * **index.js** - layout combiner
+      * **navigation/** - Navigation (UI) configuration and overrides
+      * **routes/** - Route configuration and overrides
+      * **themes/** - Theme configuration and overrides
     * **store/** - [Application state](#app_store) configuration
-    * **App.js** - Application initialisation, usually calls createApp
+    * **App.js** - Application initialisation, calls createApp on icatalyst library
     * **index.js** - Standard React entry point
+    * **init.js** - Overrides during initialisation process
+  * **sdks/** - any SDKs or services that are used across the app
   * **styles/** - [global styles](#global_styles) that are applied to the entire app
+  * **utilities/** - any utility functions that are used across the entire app
 
 ### <a name="app_configuration">Configuration and Settings</a>
 
