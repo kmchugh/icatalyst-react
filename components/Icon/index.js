@@ -33,7 +33,7 @@ const fa_font_map = {
 const Icon = ({
   children = 'fa question',
   color,
-  fontSize = 'default',
+  fontSize = 'medium',
   ...rest
 })=>{
   const theme = useTheme();

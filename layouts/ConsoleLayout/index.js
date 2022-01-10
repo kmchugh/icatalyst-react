@@ -109,6 +109,7 @@ ContentWrapper.propTypes = {
 function ScrollWrapper({children, scrollType, config, className, role}) {
   const {scroll} = config;
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
+  console.log(themes.navbarTheme);
 
   return scroll === scrollType ? (
     <>
