@@ -3,7 +3,7 @@ import {tinycolor, /*mostReadable*/} from '@ctrl/tinycolor';
 import _ from 'lodash';
 
 export function generateThemeVariants(name, theme, defaults = {}){
-  let tint = 15;
+  let tint = 10;
 
   return {
     [name] :
