@@ -11,14 +11,17 @@ const useStyles = makeStyles(()=>{
   return {
     root : {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      '& > div' : {
+        position: 'absolute!important'
+      }
     },
     modalWrapper : {
       width: '100%',
       height: '100%'
     },
     iframe : {
-    }
+    },
   };
 });
 
@@ -39,6 +42,7 @@ const WebView = ({
         <Modal
           container={()=>(document.getElementById(id))}
           open={!loaded}
+          disablePortal={true}
         >
           <div className={clsx(classes.modalWrapper)}>
             <FuseLoading/>
