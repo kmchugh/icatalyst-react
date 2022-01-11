@@ -14,18 +14,21 @@ const useStyles = makeStyles((theme)=>{
     root      : {
       width: '100%',
       height: 'auto',
-      minHeight: '100%',
       display: 'flex',
-      flexDirection : 'row',
       padding: theme.spacing(1),
       paddingTop: theme.spacing(1.5),
-      backgroundColor: theme.palette.secondary.variants['600'],
+      backgroundColor: theme.palette.background.default,
       justifyContent: 'center',
+      alignItems: 'center',
+    },
+    versionWrapper : {
+      display : 'flex',
+      flexDirection : 'row',
 
       [theme.breakpoints.down('sm')] : {
-        flexDirection : 'column',
-        minHeight: 'auto'
+        flexDirection : 'column'
       },
+
     },
     logo : {
       width: theme.spacing(4),
@@ -59,37 +62,39 @@ const VersionScreen = ()=>{
 
   return (
     <div className={clsx(classes.root)}>
-      {
-        !client || !singularityVersion.loaded && <FuseLoading/>
-      }
+      <div className={clsx(classes.versionWrapper)}>
+        {
+          !client || !singularityVersion.loaded && <FuseLoading/>
+        }
 
-      {
-        (client && clientVersion && clientVersion.loaded) && (
-          <VersionComponent
-            title={client.name || ''}
-            logo={
-              <Logo showTitle={false}/>
-            }
-            versions={clientVersion.entities}
-          />
-        )
-      }
+        {
+          (client && clientVersion && clientVersion.loaded) && (
+            <VersionComponent
+              title={client.name || ''}
+              logo={
+                <Logo showTitle={false}/>
+              }
+              versions={clientVersion.entities}
+            />
+          )
+        }
 
-      {
-        singularityVersion.loaded && (
-          <VersionComponent
-            title="Singularity"
-            logo={
-              <Image
-                className={clsx(classes.logo)}
-                src="https://app.singularity.icatalyst.com/assets/images/logos/logo.svg"
-                alt="Singularity Logo"
-              />
-            }
-            versions={singularityVersion.entities}
-          />
-        )
-      }
+        {
+          singularityVersion.loaded && (
+            <VersionComponent
+              title="Singularity"
+              logo={
+                <Image
+                  className={clsx(classes.logo)}
+                  src="https://app.singularity.icatalyst.com/assets/images/logos/logo.svg"
+                  alt="Singularity Logo"
+                />
+              }
+              versions={singularityVersion.entities}
+            />
+          )
+        }
+      </div>
     </div>
   );
 };
