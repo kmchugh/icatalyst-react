@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -18,15 +19,34 @@ const useStyles = makeStyles((theme)=>{
       padding : theme.spacing(4)
     },
     title : {
-      marginBottom: theme.spacing(2)
+      marginBottom: theme.spacing(2),
+      color: `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.error.light,
+          theme.palette.error.dark,
+        ], {}
+      ).toHexString()}`
     },
     subtitle : {
       marginBottom: theme.spacing(2),
-      color: theme.palette.primary.light
+      color: `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.primary.light,
+          theme.palette.primary.dark,
+        ], {}
+      ).toHexString()}`
     },
     link : {
       marginTop: theme.spacing(2),
-      color: theme.palette.info.light
+      color: `${mostReadable(
+        tinycolor(theme.palette.secondary.main),
+        [
+          theme.palette.info.light,
+          theme.palette.info.dark,
+        ], {}
+      ).toHexString()}`
     }
   };
 });
