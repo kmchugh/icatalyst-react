@@ -392,6 +392,12 @@ function Singularity({
       setAccessToken(null);
       singularity.requestAuthorizationCode(undefined, redirectURI);
     },
+    register : (redirectURI)=>{
+      singularity.cancelSilentRefresh();
+      setSession(null);
+      setAccessToken(null);
+      singularity.requestAuthorizationCode(undefined, redirectURI, true);
+    },
     updateProfile : (profile, callback)=>{
       singularity.updateProfile(profile, accessToken)
         .then((response)=>{

@@ -3,10 +3,9 @@ import {createRouteConfig} from '../../../utilities';
 import WebView from '@icatalyst/components/WebView';
 
 import {useSelector} from 'react-redux';
-import _ from '../../../@lodash';
 
-export function createModule(config={}){
-  const moduleConfig = _.merge({
+export function createModule(overrides){
+  return createRouteConfig({
     icon : 'fa file-contract',
     name: 'terms',
     title: 'Terms and Conditions',
@@ -14,7 +13,5 @@ export function createModule(config={}){
       const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
       return (<WebView uri={client && client.termsuri}/>);
     }
-  }, config);
-
-  return createRouteConfig(moduleConfig);
+  }, overrides);
 }

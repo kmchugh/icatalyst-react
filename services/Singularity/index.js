@@ -75,7 +75,7 @@ class SingularityService {
 
     this.#settings = _.merge(this.#settings, settings);
     this.uris=Object.keys(this.#urls).reduce((acc, key)=>{
-      const uri = `${this.#server.root}/v1/${this.#urls[key]}`;
+      const uri = `${this.#server.root}/${this.#urls[key]}`;
       acc[key] = uri;
       URIService.registerURI('singularity', key, uri);
       return acc;
@@ -177,7 +177,7 @@ class SingularityService {
    * redirecting the user to the singularity login uri
    * @method requestAuthorizationCode
    */
-  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href) {
+  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href, register=false) {
     // Store the state so we can validate
     const state = this.localStore('state', generateUUID());
     this.localStore('redirect_uri', redirect_uri);
@@ -185,7 +185,7 @@ class SingularityService {
     this.redirectTo(this.uris.authorize, {
       response_type : 'code',
       client_id : this.#client.id,
-      scope : scope,
+      scope : scope + (register ? ' registration' : ''),
       state : state,
       redirect_uri : redirect_uri
     });

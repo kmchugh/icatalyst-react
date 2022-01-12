@@ -81,6 +81,29 @@ The initial structure of the application should be as follows:
 
 ### <a name="app_configuration">Configuration and Settings</a>
 
+### <a name="theme">Variable Configuration</a>
+
+app/settings/config/applicationConfig properties
+  * **environment** - the environment that we are executing in, dev, prod, etc.
+  * **title** The name of the application for display
+  * **company_title** - The name of the company for the copyright
+  * **company_logo** - The logo of the company for the copyright
+  * **company_url** - link to the company website
+  * **ga_tag_id** - ga tag for google analytics properties
+  * **colors** - colors for palette generation
+  * **singularity** - singularity configuration
+    * **requireAuth** - if true or undefined will force authorisation flows, otherwise will route to default page
+    * **client** - singularity client info
+      * **root** - (optional) singularity application root url
+      * **id** - client id
+      * **key** - client key
+      * **secret** - client secret
+    * **server** - (optional) singularity api info
+      * **root** - singularity api root url
+
+
+
+
 ### <a name="theme">Setting up Themes</a>
 
 #### <a name="colours">Selecting Colours</a>

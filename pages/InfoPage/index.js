@@ -74,6 +74,7 @@ const DefaultAccessComponent = ({
   action = null
 })=>{
   const classes = useStyles();
+  const iconText = typeof icon === 'string';
   const infoText = typeof info === 'string';
   const actionText = typeof action === 'string';
 
@@ -91,7 +92,13 @@ const DefaultAccessComponent = ({
           </Hidden>
         )
       }
-      <Icon color="primary" className={clsx(classes.icon)}>{icon}</Icon>
+
+      {
+        iconText ? (
+          <Icon color="primary" className={clsx(classes.icon)}>{icon}</Icon>
+        ) : icon
+      }
+
       <Typography variant="h4" component="h1" className={clsx(classes.title)}>{title}</Typography>
       {
         infoText ? (
@@ -113,7 +120,10 @@ const DefaultAccessComponent = ({
 };
 
 DefaultAccessComponent.propTypes = {
-  icon: PropTypes.string,
+  icon: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   title: PropTypes.string,
   action: PropTypes.oneOfType([
     PropTypes.string,

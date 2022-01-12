@@ -40,7 +40,8 @@ const styles = (theme) => {
 const useStyles = makeStyles(styles);
 
 function Logo({
-  showTitle = true
+  showTitle = true,
+  className
 })
 {
   const classes = useStyles();
@@ -48,7 +49,7 @@ function Logo({
   const theme = useTheme();
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={clsx(classes.root, className)}>
       <div className={clsx(classes.logoWrapper, 'logo-icon')}>
         <Image className={clsx(classes.logoIcon)}
           src={config.clientLogo}
@@ -65,7 +66,11 @@ function Logo({
 }
 
 Logo.propTypes = {
-  showTitle : PropTypes.bool
+  showTitle : PropTypes.bool,
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
 };
 
 

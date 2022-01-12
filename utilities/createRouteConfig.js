@@ -11,7 +11,7 @@ import MasterDetailPage from '../components/MasterDetail';
  * @return {Object}            The generated configuration
  */
 export function createRouteConfig(definition, overrides) {
-  definition = _.merge({}, definition, overrides);
+  definition = _.merge(definition, overrides);
   const rootAuth = definition.auth || null;
 
   if (!definition.name) {
