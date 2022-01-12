@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme)=>{
     },
     infoPage : {
       background : alpha(
-        theme.palette.secondary.light,
+        theme.palette.secondary.main,
         1-theme.palette.action.selectedOpacity
       ),
       padding: theme.spacing(2),
