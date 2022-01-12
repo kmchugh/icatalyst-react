@@ -12,16 +12,21 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
       display : 'flex',
       flexDirection : 'column',
-      flexGrow: 1
+      flexGrow: 1,
     },
-    logoWrapper : {
-
+    backgroundCoverFN : ({backgroundImage})=>{
+      return backgroundImage ? {
+        backgroundImage: `url('${backgroundImage}')`,
+        objectFit : 'cover',
+        backgroundSize : 'cover'
+      } : {};
     },
     logoIcon : {
       width: theme.spacing(16),
@@ -42,6 +47,18 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'column',
       padding: theme.spacing(2),
+    },
+    infoPage : {
+      background : alpha(
+        theme.palette.secondary.light,
+        1-theme.palette.action.selectedOpacity
+      ),
+      padding: theme.spacing(2),
+
+      [theme.breakpoints.up('md')]: {
+        paddingLeft: theme.spacing(8),
+        paddingRight: theme.spacing(8)
+      },
     }
   };
 });
@@ -49,10 +66,13 @@ const useStyles = makeStyles((theme)=>{
 const OpenAccessComponent = ({
   className
 })=>{
-  const styles = useStyles();
   const theme = useTheme();
   const singularityContext = useContext(SingularityContext);
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+
+  const styles = useStyles({
+    backgroundImage : config.clientBackground
+  });
 
   const authContext = singularityContext;
   const {login, register, session} = authContext;
@@ -68,15 +88,16 @@ const OpenAccessComponent = ({
   const inAuthFlow = !!(session || oAuthState || oAuthCode);
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={clsx(styles.root, styles.backgroundCoverFN, className)}>
       { inAuthFlow && (
         <FuseLoading/>
       )}
 
       { !inAuthFlow && (
         <InfoPage
+          className={clsx(styles.infoPage)}
           icon={
-            <div className={clsx(styles.logoWrapper)}>
+            <div>
               <Image className={clsx(styles.logoIcon)}
                 src={config.clientLogo}
                 defaultSrc={

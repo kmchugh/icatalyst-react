@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      background: theme.palette.background.default,
       height: '100%',
       margin:theme.spacing(2),
       alignSelf: 'center',
@@ -67,11 +66,12 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const DefaultAccessComponent = ({
+const InfoPage = ({
   icon = 'fa info',
   title = 'Title',
   info = 'info text',
-  action = null
+  action = null,
+  className
 })=>{
   const classes = useStyles();
   const iconText = typeof icon === 'string';
@@ -82,7 +82,7 @@ const DefaultAccessComponent = ({
   const {toolbar} = config;
 
   return (
-    <div className={clsx(classes.root, 'max-w-md text-center')}>
+    <div className={clsx(classes.root, 'max-w-md text-center', className)}>
       {
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
@@ -119,7 +119,11 @@ const DefaultAccessComponent = ({
   );
 };
 
-DefaultAccessComponent.propTypes = {
+InfoPage.propTypes = {
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -135,4 +139,4 @@ DefaultAccessComponent.propTypes = {
   ])
 };
 
-export default DefaultAccessComponent;
+export default InfoPage;
