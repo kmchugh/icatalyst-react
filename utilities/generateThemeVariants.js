@@ -2,9 +2,7 @@ import {createTheme} from '@material-ui/core/styles';
 import {tinycolor, /*mostReadable*/} from '@ctrl/tinycolor';
 import _ from 'lodash';
 
-export function generateThemeVariants(name, theme, defaults = {}){
-  let tint = 10;
-
+export function generateThemeVariants(name, theme, defaults = {}, tint=0){
   return {
     [name] :
       createTheme(_.merge({}, defaultThemeOptions, theme, {...requiredThemeOptions}, {

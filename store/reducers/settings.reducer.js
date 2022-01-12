@@ -65,7 +65,7 @@ export const setThemes = (applicationThemes)=>{
   themeMap = Object.keys(themes).reduce((acc, k)=>{
     acc = {
       ...acc,
-      ...generateThemeVariants(k, themes[k], defaultTheme)
+      ...generateThemeVariants(k, themes[k], defaultTheme, (themes[k].defaultColorTint || 0))
     };
     return acc;
   }, {});

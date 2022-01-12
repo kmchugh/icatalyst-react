@@ -81,6 +81,36 @@ The initial structure of the application should be as follows:
 
 ### <a name="app_configuration">Configuration and Settings</a>
 
+### <a name="theme">Setting up Themes</a>
+
+#### <a name="colours">Selecting Colours</a>
+Colours are generated from a simple palette that is defined in app/main/settings/config/colors.js.
+
+By providing a reference palette, a full themed palette will be generated with appropriate colours for light and dark themes.
+The color palette should be similar to the following:
+
+```
+const colors = {
+  primary: '#6f4021',
+  secondary: '#678d58',
+  complimentary: '#f4860f',
+  info : '#2175EB',
+  error: '#EB2C15',
+  warning : '#EB6309',
+  success : '#21EB84',
+};
+
+module.exports = colors;
+```
+
+These colours can then be used to generate a specific theme in the app/settings/themes folder.
+
+A theme contains the following properties:
+ * **default** - Optional, if no theme is specified on a layout themes with default true will be chosen.  
+ * **defaultColorTint** - Optional, specifies how much the primary or secondary colour should be mixed with default generated colours such as paper, backgrounds, and greys.
+ * **palette** - an object of a similar structure to the [colour definition](#colours).  This can also contain an additional key 'navigation_active_background' to override the active colour of the left hand navigation panel.
+ * **typography** - The default font family as well as the font family to use for specific tags.  If using custom fonts they must be loaded through either the index.html or another mechanism
+
 ### <a name="main_modules">Modules</a>
 Modules are intended to encapsulate responsibilities within the application.
 Modules can refer to other modules and be embedded inside other modules.
