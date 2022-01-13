@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import Button from '@material-ui/core/Button';
+import IconButton from '../../../components/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ErrorWrapper from '@icatalyst/components/Errors/ErrorWrapper';
 import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
 import TextField from '@material-ui/core/TextField';
 import {isName} from '@icatalyst/components/EntityView/validations/isName';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -36,6 +37,24 @@ const useStyles = makeStyles((theme)=>{
       paddingLeft : theme.spacing(2),
       marginBottom: theme.spacing(.5),
       width: '100%'
+    },
+    inputField : {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+    },
+    iconButton : {
+      color: `${mostReadable(
+        tinycolor(theme.palette.background.default),
+        [
+          theme.palette.primary.main,
+          theme.palette.secondary.main,
+          theme.palette.primary.light,
+          theme.palette.secondary.light,
+          theme.palette.primary.dark,
+          theme.palette.secondary.dark,
+        ], {}
+      ).toHexString()}`,
     }
   };
 });
@@ -66,6 +85,21 @@ const ProfileDisplayName = ({
     label : 'Display Name'
   }, displayName) : null;
 
+  const isDisabled = Boolean(!user || validationError || (displayName === user.displayname));
+
+  const onSubmit = (displayName)=>{
+    setUpdating(true);
+    setError(null);
+    updateProfile({
+      displayname : displayName
+    }, (err/*, response*/)=>{
+      if (err) {
+        setError(err.message);
+      }
+      setUpdating(false);
+    });
+  };
+
   return updating ? (<FuseLoading title="Updating..."/>) : (
     <div className={clsx(styles.root, className)}>
       <Typography
@@ -75,39 +109,38 @@ const ProfileDisplayName = ({
       >
         Display Name
       </Typography>
-      <div className={clsx(styles.textWrapper)}>
-        <TextField
-          className={clsx(styles.textField)}
-          fullWidth
-          key="Name"
-          placeholder="Display Name"
-          variant="outlined"
-          value={displayName || ''}
-          onChange={handleSearchChange}
-          helperText={validationError}
-          error={Boolean(validationError)}
+      <div className={clsx(styles.inputField)}>
+        <div className={clsx(styles.textWrapper)}>
+          <TextField
+            className={clsx(styles.textField)}
+            fullWidth
+            key="Name"
+            placeholder="Display Name"
+            variant="outlined"
+            value={displayName || ''}
+            onChange={handleSearchChange}
+            onKeyPress={(e)=>{
+              if (!isDisabled && e.key === 'Enter') {
+                e.preventDefault();
+                onSubmit(displayName);
+              }
+            }}
+            helperText={validationError}
+            error={Boolean(validationError)}
+          />
+        </div>
+        <IconButton
+          className={clsx(styles.iconButton)}
+          title="Update"
+          icon="save"
+          disabled={isDisabled}
+          onClick={()=>{
+            onSubmit(displayName);
+          }}
+          variant="contained"
+          color="primary"
         />
       </div>
-      <Button
-        disabled={Boolean(!user || validationError || (displayName === user.displayname))}
-        onClick={()=>{
-          setUpdating(true);
-          setError(null);
-          updateProfile({
-            displayname : displayName
-          }, (err/*, response*/)=>{
-            if (err) {
-              setError(err.message);
-            }
-            setUpdating(false);
-          });
-        }}
-        variant="contained"
-        color="primary"
-      >
-        Update
-      </Button>
-
       {
         error && (
           <ErrorWrapper

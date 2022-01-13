@@ -1,6 +1,7 @@
 import {createTheme} from '@material-ui/core/styles';
-import {tinycolor, /*mostReadable*/} from '@ctrl/tinycolor';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import _ from 'lodash';
+import {createColor} from './createPalette';
 
 export function generateThemeVariants(name, theme, defaults = {}, tint=0){
   return {
@@ -31,7 +32,16 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0){
         }
       }, {mixins: extendThemeWithMixins(theme)})),
     [name + 'Dark'] :
-      createTheme(_.merge({}, defaultThemeOptions, theme, {palette: {type: 'dark'}, ...requiredThemeOptions}, {
+      createTheme(_.merge({}, defaultThemeOptions, {
+        ...theme,
+        palette : {
+          ...theme.palette,
+          // Update the error color to make sure it is readable on the background
+          error : createColor(mostReadable(new tinycolor('#424242').mix(theme.palette.secondary.dark, tint).toHex8String(), [
+            theme.palette.error.main, theme.palette.error.light, theme.palette.error.dark
+          ]))
+        }
+      }, {palette: {type: 'dark'}, ...requiredThemeOptions}, {
         ...defaults,
         palette : {
           background : {
