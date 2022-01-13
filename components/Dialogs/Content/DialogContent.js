@@ -90,7 +90,12 @@ const DialogContent = React.forwardRef(({
                     )}
                     variant={buttonVariant}
                     size={buttonSize}
-                    disabled={action.disabled || updating}
+                    disabled={
+                      updating || (
+                        typeof action.disabled === 'function' ?
+                          action.disabled() : action.disabled
+                      )
+                    }
                     onClick={action.onClick}>
                     {action.title}
                   </Button>
@@ -152,7 +157,10 @@ DialogContent.propTypes = {
         'primary',
         'inherit'
       ]),
-      disabled : PropTypes.bool,
+      disabled : PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.func
+      ]),
       onClick : PropTypes.func,
       autoFocus : PropTypes.bool,
       icon : PropTypes.string,

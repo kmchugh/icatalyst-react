@@ -1,5 +1,5 @@
 import {createRouteConfig} from '../../../utilities';
-import {VersionScreen} from '@icatalyst/modules/InfoModule/components';
+import SignoutComponent from './components/SignoutComponent';
 
 export function createModule(overrides){
   return createRouteConfig({
@@ -7,6 +7,6 @@ export function createModule(overrides){
     title : 'Sign Out',
     icon : 'power_settings_new',
     navigation: true,
-    component : VersionScreen
+    component : SignoutComponent
   }, overrides);
 }

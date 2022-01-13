@@ -1,5 +1,5 @@
 import {createRouteConfig} from '../../../utilities';
-import {VersionScreen} from '@icatalyst/modules/InfoModule/components';
+import SettingsComponent from './components/SettingsComponent';
 
 export function createModule(overrides){
   return createRouteConfig({
@@ -7,6 +7,6 @@ export function createModule(overrides){
     title : 'Settings',
     icon : 'settings',
     navigation: true,
-    component : VersionScreen
+    component : SettingsComponent
   }, overrides);
 }

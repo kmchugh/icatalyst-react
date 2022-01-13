@@ -57,7 +57,22 @@ const DialogContentEntityView = ({
     ref={contentRef}
     {...rest}
     updating={updating}
-    actions={actions || [{
+    actions={actions ? (
+      actions.map((action)=>{
+        return {
+          ...action,
+          disabled : typeof action.disabled === 'function' ?
+            ()=>{
+              return action.disabled({
+                isValid : isValid,
+                isModified : modified,
+                data : form
+              });
+            } :
+            action.disabled
+        };
+      })
+    ) : [{
       title : 'Save',
       icon : 'save',
       disabled : !isValid || !modified,

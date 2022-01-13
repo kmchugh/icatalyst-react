@@ -6,6 +6,8 @@ import {registerSettings} from '@icatalyst/components/Settings';
 
 import ProfileAvatar from './components/ProfileAvatar';
 import ProfileDisplayName from './components/ProfileDisplayName';
+import ChangePassword from './components/ChangePassword';
+import DeleteUser from './components/DeleteUser';
 
 const SINGULARITY_SETTINGS_ID = 'singularity_user';
 
@@ -40,24 +42,26 @@ registerSettings([
     }],
     component : ProfileDisplayName
   },
-// {
-//   name : `${SINGULARITY_SETTINGS_ID}_password`,
-//   sectionName : 'User',
-//   label : 'Change Password',
-//   labelPlural : 'Change Password',
-//   global : true,
-//   fields : [{
-//     id : 'changePassword',
-//     type : 'command',
-//   }]
-// }, {
-//   name : `${SINGULARITY_SETTINGS_ID}_delete`,
-//   sectionName : 'User',
-//   label : 'Delete User',
-//   labelPlural : 'Delete User',
-//   global : true,
-//   fields : []
-// }
+  {
+    name : `${SINGULARITY_SETTINGS_ID}_password`,
+    sectionName : 'User',
+    label : 'Change Password',
+    labelPlural : 'Change Password',
+    global : true,
+    fields : [{
+      id : 'changePassword',
+      type : 'command',
+    }],
+    component : ChangePassword
+  }, {
+    name : `${SINGULARITY_SETTINGS_ID}_delete`,
+    sectionName : 'User',
+    label : 'Delete User',
+    labelPlural : 'Delete User',
+    global : true,
+    fields : [],
+    component : DeleteUser
+  }
 ]);
 
 export function createModule(config={}){

@@ -396,7 +396,24 @@ function Singularity({
       singularity.cancelSilentRefresh();
       setSession(null);
       setAccessToken(null);
-      singularity.requestAuthorizationCode(undefined, redirectURI, true);
+      singularity.requestAuthorizationCode('registration', redirectURI);
+    },
+    changePassword : (redirectURI)=>{
+      singularity.cancelSilentRefresh();
+      setSession(null);
+      setAccessToken(null);
+      singularity.requestAuthorizationCode('changepassword', redirectURI);
+    },
+    deleteUser : ()=>{
+      return singularity.deleteUser(accessToken)
+        .then(()=>{
+          setSession(null);
+          setAccessToken(null);
+        })
+        .catch((error)=>{
+          console.error(error);
+          return {};
+        });
     },
     updateProfile : (profile, callback)=>{
       singularity.updateProfile(profile, accessToken)

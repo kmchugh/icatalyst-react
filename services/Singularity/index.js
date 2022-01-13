@@ -171,7 +171,7 @@ class SingularityService {
    * redirecting the user to the singularity login uri
    * @method requestAuthorizationCode
    */
-  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href, register=false) {
+  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href) {
     // Store the state so we can validate
     const state = this.localStore('state', generateUUID());
     this.localStore('redirect_uri', redirect_uri);
@@ -179,9 +179,9 @@ class SingularityService {
     this.redirectTo(this.uris.authorize, {
       response_type : 'code',
       client_id : this.#client.id,
-      scope : scope + (register ? ' registration' : ''),
+      scope : scope,
       state : state,
-      redirect_uri : redirect_uri
+      redirect_uri : redirect_uri === null ? undefined : redirect_uri
     });
   }
 
@@ -364,8 +364,10 @@ class SingularityService {
       }
     }).then((response)=>{
       return response.data;
-    }).catch((error)=>{
-      throw error.response.data;
+    }).catch(()=>{
+      // Session was not available, this would only happen because the user is not registered
+      // or has been deleted
+      this.logout(accessToken);
     });
   }
 
@@ -504,6 +506,18 @@ class SingularityService {
    */
   clearAuthenticated() {
     return this.localStore(AUTHENTICATED_KEY, false);
+  }
+
+  deleteUser(accessToken) {
+    return axios.delete(this.uris.users, {
+      headers : {
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    }).then(()=>{
+      this.logout(accessToken);
+    }).catch((error)=>{
+      throw error.response.data;
+    });
   }
 
   getResourcePermissions(accessToken, resourceType, resourceID) {

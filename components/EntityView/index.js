@@ -5,10 +5,17 @@ import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme) => ({
   root : {
-
+    ['& .MuiFormLabel-root.Mui-focused:not([class*="Mui-error"])'] : {
+      color: mostReadable(tinycolor(theme.palette.background.default), [
+        theme.palette.primary.light,
+        theme.palette.primary.main,
+        theme.palette.primary.dark,
+      ]).toHex8String()
+    }
   },
   col : {
     display: 'flex',

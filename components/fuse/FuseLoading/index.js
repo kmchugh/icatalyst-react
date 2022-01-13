@@ -33,7 +33,7 @@ function FuseLoading(props)
       theme.palette.primary.main,
       theme.palette.secondary.main,
     ]
-  ).toHexString() === theme.palette.primary.main ? 'primary' : 'secondary';
+  ).toHex8String() === theme.palette.primary.main ? 'primary' : 'secondary';
 
   const [showLoading, setShowLoading] = useState(!props.delay);
   let title = props.title != null ? (props.title || 'Loading...') : null;
