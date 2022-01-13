@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'column',
       flexGrow: 1,
+      justifyContent: 'center'
     },
     backgroundCoverFN : ({backgroundImage})=>{
       return backgroundImage ? {
@@ -57,7 +58,8 @@ const useStyles = makeStyles((theme)=>{
 
       [theme.breakpoints.up('md')]: {
         paddingLeft: theme.spacing(8),
-        paddingRight: theme.spacing(8)
+        paddingRight: theme.spacing(8),
+        height: 'auto'
       },
     }
   };
