@@ -14,10 +14,10 @@ import {useSelector} from 'react-redux';
 import moment from '../../../../@moment';
 import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
 import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
-import {fade} from '@material-ui/core/styles/colorManipulator';
+import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles((theme) => {
-  const fadedBackground = fade(theme.palette.error.light, .45);
+  const fadedBackground = alpha(theme.palette.error.light, .45);
   return {
     root : {
       background: theme.palette.background.default,

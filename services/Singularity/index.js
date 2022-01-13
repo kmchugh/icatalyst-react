@@ -29,32 +29,26 @@ class SingularityService {
   };
   #urls = {
     authorize : 'authorize',
-
     client : 'api/client',
-
+    client_data : 'api/clientdata',
     edge_type : 'api/edgetype',
-
+    fileUpload : 'api/fileUpload',
     invites : 'api/invite',
     profile : 'api/profile',
     profileUpdate : 'api/me',
-
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
     session : 'api/session',
-
     token : 'token',
-
     users : 'api/user',
     version : 'version',
 
+    // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
-
     // resource : 'api/resource',
     resource_membership : 'api/resourceMembership',
-
-    client_data : 'api/clientdata',
   };
   #settings = {
     localstore_key : 'singularity_key'

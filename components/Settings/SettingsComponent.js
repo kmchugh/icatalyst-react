@@ -130,7 +130,7 @@ function SettingsComponent({
               const settingsContext = useSettingsContext(name);
               const Component = setting.component;
               return Component ? (
-                <div className={clsx(classes.componentWrapper)}>
+                <div key={id} className={clsx(classes.componentWrapper)}>
                   <Component/>
                 </div>
               ) : (

@@ -4,13 +4,13 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { Typography } from '@material-ui/core';
-import {fade} from '@material-ui/core/styles/colorManipulator';
+import {alpha} from '@material-ui/core/styles/colorManipulator';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
-  const fadedBackground = fade(theme.palette.error.light, .45);
+  const fadedBackground = alpha(theme.palette.error.light, .45);
   return {
     root: {
       display: 'flex',
@@ -96,7 +96,7 @@ const ErrorComponent = ({errors,
             })
           }
         </ul>
-      } 
+      }
       {
         actionComponent && <div className={clsx(classes.errorActionWrapper)}>
           {actionComponent}

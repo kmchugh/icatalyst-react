@@ -26,7 +26,7 @@ export const layoutDefaults = {
     display : true
   },
   toolbar : {
-    display : true,
+    display : false,
     style : 'fixed', // 'fixed',
     position: 'inside', // 'inside', 'outside',
   },
@@ -34,7 +34,8 @@ export const layoutDefaults = {
     display : true,
     position : 'left',  // 'left', 'right'
     width: 280,
-    foldedWidth: 64
+    foldedWidth: 64,
+    flattenNav: false  // true to have one level navigation, false to allow expandable nav
   },
   footer : {
     display : true,
@@ -42,7 +43,7 @@ export const layoutDefaults = {
     position: 'inside', // 'inside', 'outside'
   },
   userSettingsPanel : {
-    display : false
+    display : true
   },
   themeSettingsPanel : {
     display : false
