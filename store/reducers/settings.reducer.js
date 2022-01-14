@@ -81,6 +81,22 @@ try {
 
 export default function (state = initialState, action) {
   switch ( action.type ) {
+  case Actions.UPDATE_THEMES: {
+    const updatedThemes = Object.keys(action.payload).filter(key=>action.payload[key]).reduce((acc, key)=>{
+      acc[`${key}Theme`] = themeMap[action.payload[key]] || themeMap[defaultLayout.theme[key]];
+      return acc;
+    }, {});
+    return {
+      ...state,
+      current : {
+        ...state.current,
+        themes : {
+          ...state.current.themes,
+          ...updatedThemes,
+        }
+      }
+    };
+  }
   case Actions.SET_SETTINGS: {
     if (!layouts[action.value.layout.style]) {
       throw new Error(`The layout [${action.value.layout.style}] is not valid`);
@@ -142,7 +158,11 @@ export default function (state = initialState, action) {
     return {
       ...state,
       defaults: state.defaults,
-      current : state.defaults,
+      // exclude themes from reset
+      current : _.merge({},
+        state.defaults, {
+          themes : state.current.themes
+        })
     };
   }
   case Actions.SET_USER_SETTINGS:

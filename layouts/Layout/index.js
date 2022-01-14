@@ -1,12 +1,53 @@
 import React, {useContext} from 'react';
-import {useDeepCompareEffect} from '@icatalyst/hooks/fuse';
+import {useDeepCompareEffect} from '../../hooks/fuse';
 import {useDispatch, useSelector} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {matchRoutes} from 'react-router-config';
 import {PropTypes} from 'prop-types';
-import * as Actions from '@icatalyst/store/actions/settings.actions';
-import { SingularityContext } from '@icatalyst/components/Singularity';
-import _ from 'lodash';
+import * as Actions from '../../store/actions/settings.actions';
+import { SingularityContext } from '../../components/Singularity';
+import _ from '../../@lodash';
+import {useSettingsContext} from '../../components/Settings/SettingsProvider';
+import {registerSettings} from '../../components/Settings';
+
+import ThemeSelector from '../components/ThemeSelector';
+const SINGULARITY_THEME_SETTINGS_ID = 'singularity_theme';
+
+/**
+ * Register the User Settings with the settings provider
+ * so they can be managed by the user
+ * @type {[type]}
+ */
+registerSettings([
+  {
+    name : `${SINGULARITY_THEME_SETTINGS_ID}`,
+    sectionName : 'theme',
+    label : 'Theme',
+    global : true,
+    fields : [{
+      id : 'main',
+      type : 'custom',
+      Component : ThemeSelector
+    }, {
+      id : 'navbar',
+      type : 'custom',
+      Component : ThemeSelector
+    }, {
+      id : 'toolbar',
+      type : 'custom',
+      Component : ThemeSelector
+    }, {
+      id : 'footer',
+      type : 'custom',
+      Component : ThemeSelector
+    }, {
+      id : 'panel',
+      type : 'custom',
+      Component : ThemeSelector
+    }]
+  }
+]);
+
 
 import { AppContext } from '../../contexts';
 
@@ -19,6 +60,17 @@ function Layout(props) {
 
   const {isInRole} = singularityContext;
   const {location} = props;
+
+  const themeSettings = useSettingsContext(SINGULARITY_THEME_SETTINGS_ID);
+  const {
+    values : reducerValues
+  } = themeSettings;
+
+  useDeepCompareEffect(() => {
+    dispatch(Actions.updateThemes(reducerValues));
+  }, [
+    reducerValues
+  ]);
 
   useDeepCompareEffect(() => {
     const matched = matchRoutes(routes, props.location.pathname)[0];

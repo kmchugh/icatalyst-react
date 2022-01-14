@@ -5,6 +5,7 @@ export const RESET_DEFAULT_SETTINGS = '[SETTINGS] RESET DEFAULT SETTINGS';
 export const OPEN_USER_SETTINGS = '[SETTINGS] OPEN_USER_SETTINGS';
 export const CLOSE_USER_SETTINGS = '[SETTINGS] CLOSE_USER_SETTINGS';
 export const SET_USER_SETTINGS = '[SETTINGS] SET_USER_SETTINGS';
+export const UPDATE_THEMES = '[SETTINGS] UPDATE_THEMES';
 
 export function openUserSettings()
 {
@@ -54,6 +55,13 @@ export function resetSettings(value)
 export function setUserSettings(value) {
   return {
     type : SET_USER_SETTINGS,
+    payload : value
+  };
+}
+
+export function updateThemes(value) {
+  return {
+    type : UPDATE_THEMES,
     payload : value
   };
 }
