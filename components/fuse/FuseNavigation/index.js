@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Divider, List} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -10,6 +10,7 @@ import FuseNavHorizontalGroup from './horizontal/FuseNavHorizontalGroup';
 import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './horizontal/FuseNavHorizontalLink';
+import {useSelector} from 'react-redux';
 
 const layoutComponentMap = {
   'vertical' : {
@@ -31,6 +32,9 @@ const layoutComponentMap = {
 function FuseNavigation(props)
 {
   const {navigation, layout, active, dense, className} = props;
+  const {current} = useSelector(({icatalyst})=>icatalyst.settings);
+  const {layout : selectedLayout} = current;
+  const {navbar : navbarConfig} = selectedLayout;
 
   const renderNavComponent = (item) => {
     const {id, type='unknown'} = item;
@@ -44,6 +48,25 @@ function FuseNavigation(props)
     }
   };
 
+  const flattenNav = (items)=>{
+    if (Array.isArray(items)) {
+      return items.map((item)=>flattenNav(item));
+    } else {
+      return {
+        ...items,
+        skipLevel :
+          (items.children && items.children.length > 0) && !items.component,
+        children : items.children ? flattenNav(items.children) : items.children
+      };
+    }
+  };
+
+  const navigationItems = useMemo(()=>{
+    return navbarConfig.flattenNav ?
+      flattenNav(navigation) :
+      navigation;
+  }, [navigation, navbarConfig]);
+
   const listClass = layout === 'vertical' ?
     'navigation whitespace-no-wrap' :
     'navigation whitespace-no-wrap flex p-0';
@@ -51,7 +74,7 @@ function FuseNavigation(props)
   return (
     <List className={clsx(listClass, className)}>
       {
-        navigation.map((item) => renderNavComponent(item))
+        navigationItems.map((item) => renderNavComponent(item))
       }
     </List>
   );

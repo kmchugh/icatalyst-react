@@ -35,7 +35,7 @@ export const layoutDefaults = {
     position : 'left',  // 'left', 'right'
     width: 280,
     foldedWidth: 64,
-    flattenNav: false  // true to have one level navigation, false to allow expandable nav
+    flattenNav: true  // true to have one level navigation, false to allow expandable nav
   },
   footer : {
     display : true,

@@ -4,28 +4,37 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { Typography } from '@material-ui/core';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
-  const fadedBackground = alpha(theme.palette.error.light, .45);
+  const background = mostReadable(tinycolor(theme.palette.background.default), [
+    theme.palette.error.dark,
+    theme.palette.error.main,
+    theme.palette.error.light,
+  ]).toHex8String();
+  const border = mostReadable(tinycolor(background), [
+    theme.palette.error.dark,
+    theme.palette.error.main,
+    theme.palette.error.light,
+  ]).toHex8String();
+  const text = mostReadable(tinycolor(background), [
+    theme.palette.error.contrastText,
+    theme.palette.error.dark,
+    theme.palette.error.main,
+    theme.palette.error.light,
+  ]
+  );
   return {
     root: {
       display: 'flex',
       flexDirection: 'column',
       padding: theme.spacing(2),
       borderRadius: theme.shape.borderRadius,
-      border: `thin solid ${theme.palette.error.dark}`,
-      backgroundColor: fadedBackground,
-      color: `${mostReadable(
-        tinycolor(fadedBackground),
-        [
-          theme.palette.primary.main,
-          theme.palette.secondary.main,
-        ], {}
-      ).toHexString()}`,
+      border: `thin solid ${border}`,
+      backgroundColor: background,
+      color: text,
       width: '100%',
       position: 'relative!important',
       minHeight: '100%'
@@ -35,13 +44,7 @@ const useStyles = makeStyles((theme) => {
     },
     errorIcon: {
       marginRight: theme.spacing(2),
-      color: `${mostReadable(
-        tinycolor(fadedBackground),
-        [
-          theme.palette.error.main,
-          theme.palette.error.dark,
-        ], {}
-      ).toHexString()}`
+      color: text
     },
     errorTitle: {
       display: 'flex',

@@ -29,6 +29,7 @@ class SingularityService {
   };
   #urls = {
     authorize : 'authorize',
+    changePassword : 'changePassword',
     client : 'api/client',
     client_data : 'api/clientdata',
     edge_type : 'api/edgetype',
@@ -368,6 +369,23 @@ class SingularityService {
       // Session was not available, this would only happen because the user is not registered
       // or has been deleted
       this.logout(accessToken);
+    });
+  }
+
+  changePassword(accessToken, callback) {
+    return axios.post(this.uris.changePassword, null, {
+      headers : {
+        'Authorization' : `Bearer ${accessToken}`
+      }
+    }).then((response)=>{
+      console.log(response.data);
+      callback && callback(null, response);
+      return response.data;
+    }).catch((e)=>{
+      // Session was not available, this would only happen because the user is not registered
+      // or has been deleted
+      console.log(e);
+      callback && callback(e, null);
     });
   }
 

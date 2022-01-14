@@ -398,11 +398,11 @@ function Singularity({
       setAccessToken(null);
       singularity.requestAuthorizationCode('registration', redirectURI);
     },
-    changePassword : (redirectURI)=>{
-      singularity.cancelSilentRefresh();
-      setSession(null);
-      setAccessToken(null);
-      singularity.requestAuthorizationCode('changepassword', redirectURI);
+    changePassword : (callback)=>{
+      console.log('chaning password');
+      /* eslint-disable-next-line */
+      debugger;
+      singularity.changePassword(accessToken, callback);
     },
     deleteUser : ()=>{
       return singularity.deleteUser(accessToken)
