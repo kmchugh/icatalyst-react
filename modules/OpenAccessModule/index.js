@@ -1,7 +1,9 @@
 import OpenAccessComponent from './components/OpenAccessComponent';
 import {createRouteConfig} from '@icatalyst/utilities';
 
-export function createModule(overrides) {
+export function createModule(overrides = {
+  auth : 'guest'
+}) {
   return createRouteConfig({
     name : 'access',
     title : 'Open Access',

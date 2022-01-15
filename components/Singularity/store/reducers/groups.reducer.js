@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Actions from '../actions/groups.actions';
-import { createModel, generateReducer, generateUUID } from '../../../../utilities';
+import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
@@ -42,7 +42,7 @@ const definition = createModel({
       id: 'code',
       minLength: 4,
       maxLength: 256,
-      default: ()=>generateUUID()
+      excludeFromModel : true
     }
   ],
   children : [
@@ -69,11 +69,7 @@ const definition = createModel({
     }
   ],
   layout : [
-    'guid',
-    [
-      'name',
-      'code',
-    ],
+    'name',
     'description'
   ],
   listLayout : [

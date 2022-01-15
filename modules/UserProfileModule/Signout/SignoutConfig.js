@@ -1,7 +1,9 @@
 import {createRouteConfig} from '../../../utilities';
 import SignoutComponent from './components/SignoutComponent';
 
-export function createModule(overrides){
+export function createModule(overrides = {
+  auth : 'user'
+}){
   return createRouteConfig({
     name : 'signout',
     title : 'Sign Out',

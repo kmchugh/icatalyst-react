@@ -2,7 +2,9 @@ import {createRouteConfig} from '@icatalyst/utilities';
 import {definition} from '@icatalyst/components/Singularity/store/reducers/roles.reducer';
 import _ from '../../../@lodash';
 
-export function createModule(config={}){
+export function createModule(config={
+  auth : 'admin'
+}){
   let { auth }  = config;
 
   if (auth && typeof auth !== 'function') {
@@ -15,6 +17,6 @@ export function createModule(config={}){
       route : auth
     });
   }
-  
+
   return createRouteConfig(_.merge({}, definition, config));
 }

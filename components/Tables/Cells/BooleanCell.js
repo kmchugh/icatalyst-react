@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {Checkbox} from '@material-ui/core';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -12,6 +13,18 @@ const useStyles = makeStyles((theme)=>{
       '&:hover': {
         backgroundColor: 'transparent !important',
         color: theme.palette.text.primary
+      },
+    },
+    checkbox : {
+      ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
+        color: mostReadable(
+          tinycolor(theme.palette.background.paper),
+          [
+            theme.palette.primary.light,
+            theme.palette.primary.dark,
+            theme.palette.primary.main,
+          ]
+        ).toHex8String()
       }
     }
   };
@@ -29,6 +42,7 @@ const BooleanCell = ({
         classes={{
           root : classes.checkboxRoot
         }}
+        className={clsx(classes.checkbox)}
         color="default"
         disableRipple={true}
         checked={value}

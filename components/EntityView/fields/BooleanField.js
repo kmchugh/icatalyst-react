@@ -3,9 +3,33 @@ import {FormControl, FormControlLabel,
   FormHelperText, Checkbox} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import {makeStyles} from '@material-ui/styles';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
+const useStyles = makeStyles((theme)=>{
+  return {
+    root : {
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(2),
+    },
+    checkbox : {
+      ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
+        color: mostReadable(
+          tinycolor(theme.palette.background.paper),
+          [
+            theme.palette.primary.light,
+            theme.palette.primary.dark,
+            theme.palette.primary.main,
+          ]
+        ).toHex8String()
+      }
+    }
+  };
+});
 
 const BooleanField = (props) => {
+
+  const styles = useStyles();
 
   const {readonly = false,
     onChange,
@@ -25,7 +49,7 @@ const BooleanField = (props) => {
 
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={clsx(clsx(styles.root), props.className)}
       fullWidth
       variant="outlined"
       error={hasErrors}
@@ -36,6 +60,7 @@ const BooleanField = (props) => {
         disabled={readonly}
         control={
           <Checkbox
+            className={clsx(styles.checkbox)}
             required={required}
             name={id}
             id={id}

@@ -77,7 +77,11 @@ const DialogContentEntityView = ({
         setUpdating(true);
         onSaved(entities, (err)=>{
           if (err) {
-            setDialogErrors(err);
+            setDialogErrors(
+              Array.isArray(err) ? err : (
+                err.errors ? err.errors : [err]
+              )
+            );
           } else {
             contentRef.current.closeDialog();
           }

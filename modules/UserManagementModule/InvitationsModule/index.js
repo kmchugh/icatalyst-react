@@ -3,7 +3,9 @@ import {definition} from '@icatalyst/components/Singularity/store/reducers/invit
 import _ from '../../../@lodash';
 import {CreateInvitation} from './components';
 
-export function createModule(config={}){
+export function createModule(config={
+  auth : 'admin'
+}){
   let { auth }  = config;
 
   if (auth && typeof auth !== 'function') {
@@ -22,7 +24,7 @@ export function createModule(config={}){
       {
         path : 'create',
         component : CreateInvitation,
-        auth : config.auth().create
+        auth : config.auth && config.auth().create
       }
     ]
   });

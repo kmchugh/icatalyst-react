@@ -20,26 +20,26 @@ const useStyles = makeStyles((theme)=>{
 const PaginationActions = ({
   className,
   count, page,
-  rowsPerPage, onChangePage,
+  rowsPerPage, onPageChange,
   onRefresh
 })=>{
   const classes = useStyles();
   const theme = useTheme();
 
   const handleFirstPageButtonClick = ()=>{
-    onChangePage(event, 0);
+    onPageChange(event, 0);
   };
 
   const handleBackButtonClick = ()=>{
-    onChangePage(event, page - 1 );
+    onPageChange(event, page - 1 );
   };
 
   const handleNextButtonClick = ()=>{
-    onChangePage(event, page + 1 );
+    onPageChange(event, page + 1 );
   };
 
   const handleLastPageButtonClick = (event) => {
-    onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
 
   return (
@@ -98,7 +98,7 @@ PaginationActions.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
-  onChangePage : PropTypes.func.isRequired,
+  onPageChange : PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,

@@ -3,8 +3,6 @@ import {createModule as manageGroupsConfig} from './GroupsModule';
 import {createModule as manageUsersConfig} from './UsersModule';
 import {createModule as manageRolesConfig} from './RolesModule';
 import {createModule as manageInvitationsConfig} from './InvitationsModule';
-import _ from '../../@lodash';
-
 
 export function createModule(config={}){
 
@@ -13,7 +11,7 @@ export function createModule(config={}){
     users, groups, roles, invites
   } = modules;
 
-  const moduleConfig = _.merge({}, {
+  return createRouteConfig({
     name: 'userManagement',
     title: 'User Management',
     icon : 'fa user-cog',
@@ -27,6 +25,4 @@ export function createModule(config={}){
       invites && invites.visible === false ? null : createRouteConfig(manageInvitationsConfig(invites)),
     ].filter(i=>i)
   }, rest);
-
-  return createRouteConfig(moduleConfig);
 }

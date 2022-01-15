@@ -188,7 +188,6 @@ const createOperation = {
         typeof config.uri === 'function' ? config.uri(config) : config.uri,
         requestConfig.params
       );
-
       return makeReducerRequest({
         method : 'get',
         url,

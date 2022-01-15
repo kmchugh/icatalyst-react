@@ -1,7 +1,9 @@
 import {createRouteConfig} from '../../../utilities';
 import SettingsComponent from './components/SettingsComponent';
 
-export function createModule(overrides){
+export function createModule(overrides = {
+  auth : 'user'
+}){
   return createRouteConfig({
     name : 'settings',
     title : 'Settings',

@@ -9,16 +9,16 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {},
     'font-small' : {
-      fontSize: theme.spacing(2)
+      fontSize: `${theme.spacing(2)}px!important`
     },
     'font-default' : {
-      fontSize: theme.spacing(3)
+      fontSize: `${theme.spacing(3)}px!important`
     },
     'font-large' : {
-      fontSize: theme.spacing(4)
+      fontSize: `${theme.spacing(4)}px!important`
     },
     'font-inherit' : {
-      fontSize: 'inherit'
+      fontSize: 'inherit!important'
     }
   };
 });

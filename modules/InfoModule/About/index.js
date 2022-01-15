@@ -6,7 +6,9 @@ import {createModule as privacyConfig} from '../Privacy/PrivacyConfig';
 import {createModule as statusConfig} from '../Status/StatusConfig';
 
 
-export function createModule(config={}){
+export function createModule(config = {
+  auth : 'everyone'
+}){
 
   const {
     version, terms, status, privacy, license

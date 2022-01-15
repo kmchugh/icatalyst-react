@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme)=>{
     },
     icon : {
       marginBottom : theme.spacing(2),
-      fontSize : theme.spacing(4)
+      fontSize : `${theme.spacing(4)}px!important`
     }
   };
 });

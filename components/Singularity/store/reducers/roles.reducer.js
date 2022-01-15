@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Actions from '../actions/roles.actions';
-import { createModel, generateReducer, generateUUID } from '../../../../utilities';
+import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
@@ -37,7 +37,7 @@ const definition = createModel({
       id: 'code',
       minLength: 4,
       maxLength: 256,
-      default: ()=>generateUUID()
+      excludeFromModel: true
     },
     {
       id: 'displayable',
@@ -91,11 +91,7 @@ const definition = createModel({
     }
   ],
   layout : [
-    'guid',
-    [
-      'name',
-      'code',
-    ],
+    'name',
     'description',
     [
       'displayable',
@@ -105,7 +101,7 @@ const definition = createModel({
     ]
   ],
   listLayout : [
-    'name', 'description', 'displayable',
+    'name', 'code', 'description', 'displayable',
     {
       id : 'invite',
       label : '',
@@ -145,12 +141,6 @@ const definition = createModel({
   },
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.roles;
-  },
-  getRetrieveAllParams : ()=>{
-    // We are getting the list of roles owned by this user
-    return {
-      admin : true
-    };
   },
   ...Actions
 });

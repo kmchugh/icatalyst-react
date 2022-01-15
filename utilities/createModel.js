@@ -150,6 +150,7 @@ export function createModel(model){
       const identityField = definition.identityFieldName;
       return Object.keys(definition.fields)
         .filter(f=>f!==identityField)
+        .filter(f=>f.excludeFromModel === true)
         .reduce((acc, fieldName)=>{
           const field = definition.fields[fieldName];
           // If there is a default, check if it is a function
@@ -226,14 +227,7 @@ export function createModel(model){
       // By providing a function as an auth, it means that authorisation is not yet determinable
       definition.auth = (...params)=>model.auth(...params);
     } else {
-      definition.auth = ()=>({
-        create : model.auth && model.auth.create ? model.auth.create : model.auth,
-        retrieve : model.auth && model.auth.retrieve ? model.auth.retrieve : model.auth,
-        retrieveAll : model.auth && model.auth.retrieveAll ? model.auth.retrieveAll : model.auth,
-        update : model.auth && model.auth.update ? model.auth.update : model.auth,
-        delete : model.auth && model.auth.delete ? model.auth.delete : model.auth,
-        route : model.auth && model.auth.route ? model.auth.route : model.auth,
-      });
+      definition.auth = ()=>(model.auth);
     }
   } else {
     definition.auth = null;

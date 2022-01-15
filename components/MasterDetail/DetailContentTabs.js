@@ -7,6 +7,7 @@ import {makeStyles, useTheme} from '@material-ui/styles';
 import IconButton from '../IconButton';
 import PageBase from '../../pages/PageBase';
 import { useHistory } from 'react-router-dom';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -26,10 +27,20 @@ const useStyles = makeStyles((theme) => {
     tabBar : {
       height: theme.spacing(9),
       width: '100%',
+      ['& .Mui-selected'] : {
+        color: mostReadable(
+          tinycolor(theme.palette.background.paper),
+          [
+            theme.palette.primary.light,
+            theme.palette.primary.dark,
+            theme.palette.primary.main,
+          ]
+        ).toHex8String()
+      }
     },
     tab : {
       height : theme.spacing(9),
-      textTransform : 'none'
+      textTransform : 'none',
     },
   };
 });

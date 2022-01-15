@@ -26,6 +26,7 @@ import {registerSettings} from '../Settings/SettingsProvider';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const TABLE_SETTINGS_ID = 'icat_table';
 
@@ -111,6 +112,18 @@ const useStyles = makeStyles((theme)=>{
       '&.density-expanded .MuiTableRow-root' : {
         height: theme.spacing(10)
       },
+    },
+    checkbox : {
+      ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
+        color: mostReadable(
+          tinycolor(theme.palette.background.paper),
+          [
+            theme.palette.primary.light,
+            theme.palette.primary.dark,
+            theme.palette.primary.main,
+          ]
+        ).toHex8String()
+      }
     },
     tableWrapper:  {
       flexGrow: 1,
@@ -323,6 +336,7 @@ const Table = ({
           e.stopPropagation();
         }} className="max-w-42">
           <Checkbox
+            className={clsx(classes.checkbox)}
             color="primary"
             onChange={(e)=>{
               return onChange(e);

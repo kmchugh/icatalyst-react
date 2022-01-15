@@ -21,12 +21,12 @@ const useStyles = makeStyles((theme) => {
     icon : {
       width: theme.spacing(12),
       height: theme.spacing(12),
-      fontSize: theme.spacing(12),
+      fontSize: `${theme.spacing(12)}px!important`,
 
       [theme.breakpoints.up('md')]: {
         width: theme.spacing(16),
         height: theme.spacing(16),
-        fontSize: theme.spacing(16),
+        fontSize: `${theme.spacing(16)}px!important`,
       },
       color: theme.palette.primary.main,
       marginBottom: theme.spacing(4)

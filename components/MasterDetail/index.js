@@ -57,9 +57,15 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
-  const { title, operations, getReducerRoot = ()=>{
-    console.warn(`You have not set a selector root for definition ${title}`);
-  }, canAdd = true, canDelete = true } = definition;
+  const {
+    title,
+    operations,
+    getReducerRoot = ()=>{
+      console.warn(`You have not set a selector root for definition ${title}`);
+    },
+  } = definition;
+  const [canAdd, setCanAdd] = useState(false);
+  const [canDelete, setCanDelete] = useState(false);
 
   const reducer = useSelector(getReducerRoot);
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
@@ -103,12 +109,24 @@ const MasterDetailPage = ({
       )
     ).then((retrievedAuth)=>{
       if (retrievedAuth) {
-        setAuth(Object.keys(retrievedAuth).reduce((acc, key)=>{
+        const resolvedAuth = Object.keys(retrievedAuth).reduce((acc, key)=>{
           acc[key] = typeof retrievedAuth[key] === 'boolean' ?
             retrievedAuth[key] :
             isInRole(retrievedAuth[key]);
           return acc;
-        }, {}));
+        }, {});
+        console.log(definition.auth, resolvedAuth);
+        setAuth(resolvedAuth);
+        setCanDelete(
+          definition.canDelete === undefined ?
+            resolvedAuth['delete'] :
+            definition.canDelete
+        );
+        setCanAdd(
+          definition.canAdd === undefined ?
+            resolvedAuth['create'] :
+            definition.canAdd
+        );
       } else {
         setAuth(null);
       }

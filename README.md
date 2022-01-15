@@ -132,7 +132,7 @@ A theme contains the following properties:
  * **default** - Optional, if no theme is specified on a layout themes with default true will be chosen.  
  * **defaultColorTint** - Optional, specifies how much the primary or secondary colour should be mixed with default generated colours such as paper, backgrounds, and greys.
  * **palette** - an object of a similar structure to the [colour definition](#colours).  This can also contain an additional key 'navigation_active_background' to override the active colour of the left hand navigation panel.
- * **typography** - The default font family as well as the font family to use for specific tags.  If using custom fonts they must be loaded through either the index.html or another mechanism
+ * **typography** - The default font family as well as the font family to use for specific tags.  If using custom fonts they must be loaded through either the index.html or preferably through /src/styles/fonts.css
 
 ### <a name="main_modules">Modules</a>
 Modules are intended to encapsulate responsibilities within the application.

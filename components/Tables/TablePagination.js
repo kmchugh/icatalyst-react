@@ -89,8 +89,8 @@ const TablePagination = ({
       SelectProps={{
         inputProps: {'aria-label': 'rows per page'},
       }}
-      onChangePage={onChangePage}
-      onChangeRowsPerPage={onChangeRowsPerPage}
+      onPageChange={onChangePage}
+      onRowsPerPageChange={onChangeRowsPerPage}
       ActionsComponent={(props)=>(
         <PaginationActions {...props} onRefresh={onRefresh}/>
       )}

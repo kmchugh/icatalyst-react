@@ -4,7 +4,9 @@ import WebView from '@icatalyst/components/WebView';
 
 import {useSelector} from 'react-redux';
 
-export function createModule(overrides){
+export function createModule(overrides = {
+  auth : 'everyone'
+}){
   return createRouteConfig({
     icon : 'policy',
     name: 'privacy',

@@ -1,9 +1,10 @@
 import * as Actions from '../actions/users.actions';
-import {createModel, generateReducer, generateUUID} from '../../../../utilities';
+import {createModel, generateReducer} from '../../../../utilities';
 
 const definition = createModel({
   name: 'user',
   icon: 'fa users-cog',
+  primaryTextField : 'displayname',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
@@ -12,26 +13,25 @@ const definition = createModel({
     // delete : 'admin',
     route : 'admin'
   },
-
   fields : [
     {
-      id: 'name',
+      id: 'guid',
+      readonly : true,
+      label : 'User Identifier'
+    },
+    {
+      id: 'displayname',
+      label: 'Display Name',
       required: true,
       minLength: 4,
-      maxLength: 256
-    },
-    {
-      id: 'description',
-      maxLength: 2048
-    },
-    {
-      id: 'code',
-      minLength: 4,
       maxLength: 256,
-      default: ()=>generateUUID()
-    }
+      readonly : true
+    },
   ],
-
+  listLayout : [
+    'displayname',
+    'guid'
+  ],
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.users;
   },
