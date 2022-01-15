@@ -18,8 +18,10 @@ const definition = createModel({
       id: 'guid',
       readonly : true,
       label : 'User Identifier'
-    },
-    {
+    }, {
+      id: 'email',
+      readonly : true,
+    },{
       id: 'displayname',
       label: 'Display Name',
       required: true,
@@ -30,7 +32,8 @@ const definition = createModel({
   ],
   listLayout : [
     'displayname',
-    'guid'
+    'email',
+    'guid',
   ],
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.users;
