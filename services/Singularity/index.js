@@ -159,8 +159,11 @@ class SingularityService {
    */
   hydrateToken(tokenString) {
     try {
+      // TODO: Validate using jwks, extract kid from header
+      // jwt_decode(tokenString, {header: true});
       return tokenString && jwt_decode(tokenString);
     } catch (e) {
+      console.error(e);
       throw {
         message : 'Invalid token provided'
       };
@@ -307,8 +310,8 @@ class SingularityService {
    */
   validateToken(token) {
     if (token) {
-      // // TODO : This can be removed once we have updated Singularity to
-      // // provide seconds rather than millis on iat and exp.
+      // TODO : This can be removed once we have updated Singularity to
+      // provide seconds rather than millis on iat and exp.
       token.iat = token.iat < SECONDS_MS_THRESHOLD ? token.iat * 1000 : token.iat;
       token.exp = token.exp < SECONDS_MS_THRESHOLD ? token.exp * 1000 : token.exp;
 
@@ -322,15 +325,11 @@ class SingularityService {
         throw new Error('Invalid client');
       }
 
-      // TODO: Token expired is not valid
+      if (!token.iss.includes(this.#client.id)) {
+        throw new Error('Invalid issuer');
+      }
 
-      // TODO : token.iss should be singularity
-      // if (token.iss !== singularity id) {
-      //   throw new Error('Invalid issuer');
-      // }
-      // TODO: Validate signature with public key
-
-      if (now >= issuedAt && sub) {
+      if (now >= issuedAt && now <=token.exp && sub) {
         // Token is okay so return
         return;
       } else {
@@ -378,13 +377,12 @@ class SingularityService {
         'Authorization' : `Bearer ${accessToken}`
       }
     }).then((response)=>{
-      console.log(response.data);
       callback && callback(null, response);
       return response.data;
     }).catch((e)=>{
       // Session was not available, this would only happen because the user is not registered
       // or has been deleted
-      console.log(e);
+      console.error(e);
       callback && callback(e, null);
     });
   }

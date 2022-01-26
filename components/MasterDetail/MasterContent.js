@@ -4,6 +4,26 @@ import {DataTable} from '../Tables';
 import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
+import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
+import Hidden from '@material-ui/core/Hidden';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+  },
+  separator: {
+    width          : 1,
+    height: theme.spacing(6),
+    backgroundColor: theme.palette.divider,
+    marginLeft : theme.spacing(1),
+    marginRight : theme.spacing(2),
+  },
+  mobileNavButton : {
+    width: theme.spacing(6),
+    height: theme.spacing(6)
+  }
+}));
 
 const MasterContent = (props)=>{
   const {
@@ -16,8 +36,11 @@ const MasterContent = (props)=>{
     className,
     auth,
     onAdd,
-    onDelete
+    onDelete,
+    config
   } = props;
+
+  const classes = useStyles();
 
   return (
     <DataTable
@@ -26,6 +49,14 @@ const MasterContent = (props)=>{
       data={data}
       onRefresh={onRefresh}
       updating={updating}
+      PrependHeaderComponent={
+        config.mode === 'chromeless' ? (
+          <Hidden lgUp>
+            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+            <div className={classes.separator}/>
+          </Hidden>
+        ) : null
+      }
       canAdd={onAdd && auth.create}
       onAddClicked={onAdd ? onAdd : null}
       onDeleteClicked={onDelete}

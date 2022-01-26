@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => {
       flex : '1 1 0%',
       display : 'flex',
       alignItems : 'center',
-      [theme.breakpoints.down('sm')] : {
-        display: 'none'
-      }
+      // [theme.breakpoints.down('sm')] : {
+      //   display: 'none'
+      // }
     },
     title : {
       textTransform : 'capitalize',
@@ -37,12 +37,11 @@ const useStyles = makeStyles((theme) => {
     },
     inputWrapper : {
       flexGrow: 1,
+      flexShrink: 1,
+      display: 'none',
       overflow: 'hidden',
-      [theme.breakpoints.up('lg')]: {
-        flex: '1 1 0%',
-      },
-      [theme.breakpoints.down('sm')] : {
-        display: 'none'
+      [theme.breakpoints.up('sm')] : {
+        display: 'flex'
       }
     },
     controlWrapper : {
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme) => {
 
       '& > *:first-child' : {
         borderLeft: 'none',
-      }
+      },
     },
     actionWrapper : {
       paddingRight : theme.spacing(1),
@@ -61,7 +60,10 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
     },
     switchWrapper : {
-      display: 'flex',
+      display: 'none',
+      [theme.breakpoints.up('md')] : {
+        display: 'flex'
+      }
     },
     switchButton : {
     },
@@ -75,6 +77,14 @@ const useStyles = makeStyles((theme) => {
       },
       color : theme.palette.primary.contrastText
     },
+    toolbar : {
+      paddingLeft : theme.spacing(2),
+      paddingRight : theme.spacing(1),
+    },
+    toolbarPrepend : {
+      paddingLeft : 0,
+      paddingRight : theme.spacing(1),
+    }
   };
 });
 
@@ -85,13 +95,17 @@ const TableToolbar = ({
   inputComponent,
   switchComponent,
   actions,
-  switches
+  switches,
+  PrependHeaderComponent
 })=>{
   const classes = useStyles();
 
   return (
     <AppBar color="secondary" position="relative" className={clsx(classes.root, className)}>
-      <Toolbar className="pl-16 pr-8">
+      <Toolbar className={clsx(PrependHeaderComponent ? classes.toolbarPrepend : classes.toolbar)}>
+        {
+          PrependHeaderComponent
+        }
         <div className={clsx(classes.titleWrapper)}>
           {
             icon &&
@@ -172,7 +186,8 @@ TableToolbar.propTypes = {
       onClick : PropTypes.func,
       active : PropTypes.bool
     })
-  )
+  ),
+  PrependHeaderComponent : PropTypes.node
 };
 
 export default React.memo(TableToolbar);

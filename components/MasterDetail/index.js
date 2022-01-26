@@ -115,7 +115,6 @@ const MasterDetailPage = ({
             isInRole(retrievedAuth[key]);
           return acc;
         }, {});
-        console.log(definition.auth, resolvedAuth);
         setAuth(resolvedAuth);
         setCanDelete(
           definition.canDelete === undefined ?
@@ -194,40 +193,40 @@ const MasterDetailPage = ({
     }
   }, [definition, reducer, auth]);
 
+  const config = {
+    mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
+    headerHeight: headerHeight,
+    footerHeight: 64
+  };
+
   const header = useMemo(()=>{
     if (contained) {
       return null;
     }
     return (
       <Switch key={location.pathname} location={location}>
-        <Route path={DETAIL_PATH} component={()=>(
-          <DetailHeader
+        <Route path={DETAIL_PATH} component={()=>{
+          return config.mode !== 'chromeless' && <DetailHeader
             definition={definition}
             icon={definition.icon}
             backText={definition.labelPlural}
             auth={auth}
             backUrl={match.url}
-          />
-        )}/>
-        <Route component={()=>(
-          <MasterHeader
+          />;
+        }}/>
+        <Route component={()=>{
+          return config.mode !== 'chromeless' && <MasterHeader
             title={definition.labelPlural}
             icon={definition.icon}
             auth={auth}
-          />
-        )}/>
+          />;
+        }}/>
       </Switch>
     );
   }, [match && match.url,
     // Update if the child changes
     location.pathname.replace(match.path, '').split('/')[1]
   ]);
-
-  const config = {
-    mode :  contained ? 'chromeless' : (pages[pageConfigKey] && pages[pageConfigKey].mode) || pages.defaults.mode,
-    headerHeight: headerHeight,
-    footerHeight: 64
-  };
 
   const handleAdd = ()=>{
     if (definition.addInline === true) {

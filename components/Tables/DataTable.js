@@ -16,7 +16,8 @@ const DataTable = ({
   canDelete,
   className,
   onAddClicked,
-  onDeleteClicked
+  onDeleteClicked,
+  PrependHeaderComponent
 })=>{
 
   const columns = useMemo(()=>{
@@ -60,6 +61,7 @@ const DataTable = ({
       onDeleteClicked={onDeleteClicked}
       updating={updating}
       isSelectable={definition.isSelectable}
+      PrependHeaderComponent={PrependHeaderComponent}
       EmptyListComponent={
         <EmptyTable
           icon={definition.icon || 'fa search'}
@@ -97,7 +99,8 @@ DataTable.propTypes = {
   className : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
-  ])
+  ]),
+  PrependHeaderComponent : PropTypes.node
 };
 
 export default React.memo(DataTable);

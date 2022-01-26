@@ -1,6 +1,6 @@
 import React from 'react';
 import {createRouteConfig} from '../../../utilities';
-import WebView from '@icatalyst/components/WebView';
+import WebViewPage from '@icatalyst/pages/WebViewPage';
 
 import {useSelector} from 'react-redux';
 
@@ -13,7 +13,10 @@ export function createModule(overrides = {
     title: 'Terms and Conditions',
     component(){
       const {client} = useSelector(({icatalyst})=>icatalyst.singularity.client);
-      return (<WebView uri={client && client.termsuri}/>);
+      return client ? (<WebViewPage
+        title="Terms and Conditions"
+        uri={client && client.termsuri}
+      />) : null;
     }
   }, overrides);
 }

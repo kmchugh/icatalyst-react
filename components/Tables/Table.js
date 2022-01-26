@@ -198,7 +198,8 @@ const Table = ({
   canDelete,
   icon,
   isSelectable = ()=>true,
-  match
+  match,
+  PrependHeaderComponent
 })=>{
 
   const skipPageReset = true;
@@ -407,10 +408,12 @@ const Table = ({
               className={clsx(classes.tableToolbar)}
               title={title}
               icon={icon}
+              PrependHeaderComponent={PrependHeaderComponent}
               inputComponent={
                 <ClearableInput
                   label="search"
                   icon="search"
+                  fullWidth={true}
                   value={searchFilter}
                   onChange={setSearchFilter}
                 />
@@ -538,6 +541,7 @@ Table.propTypes = {
   onAddClicked : PropTypes.func,
   onDeleteClicked : PropTypes.func,
   isSelectable : PropTypes.func,
+  PrependHeaderComponent : PropTypes.node
 };
 
 export default withRouter(Table);

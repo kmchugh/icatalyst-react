@@ -1,24 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {definition} from '@icatalyst/components/Singularity/store/reducers/version.reducer';
+import {definition} from '../../../components/Singularity/store/reducers/version.reducer';
 import VersionComponent from './VersionComponent';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
-import Image from '@icatalyst/components/Image';
-import Logo from '@icatalyst/components/Logo';
-import ModelService from '@icatalyst/services/ModelService';
+import Image from '../../../components/Image';
+import Logo from '../../../components/Logo';
+import ModelService from '../../../services/ModelService';
+import TitledPage from '../../../pages/TitledPage';
 
 const useStyles = makeStyles((theme)=>{
   return {
     root      : {
-      width: '100%',
-      height: 'auto',
-      display: 'flex',
-      padding: theme.spacing(1),
-      paddingTop: theme.spacing(1.5),
-      backgroundColor: theme.palette.background.default,
-      justifyContent: 'center',
-      alignItems: 'center',
     },
     versionWrapper : {
       display : 'flex',
@@ -27,7 +20,6 @@ const useStyles = makeStyles((theme)=>{
       [theme.breakpoints.down('sm')] : {
         flexDirection : 'column'
       },
-
     },
     logo : {
       width: theme.spacing(4),
@@ -66,7 +58,9 @@ const VersionScreen = ()=>{
   });
 
   return (
-    <div className={clsx(classes.root)}>
+    <TitledPage
+      title="Versions"
+      className={clsx(classes.root)}>
       <div className={clsx(classes.versionWrapper)}>
         {
           (client && clientVersion) && (
@@ -94,7 +88,7 @@ const VersionScreen = ()=>{
           errors={singularityErrors}
         />
       </div>
-    </div>
+    </TitledPage>
   );
 };
 

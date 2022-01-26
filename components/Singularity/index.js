@@ -155,7 +155,7 @@ function Singularity({
 
         if (!singularityDetails) {
           setSingularityDetails({});
-          singularity.getSingularityDetails(accessToken, token.iss).then((client)=>{
+          singularity.getSingularityDetails(accessToken, token.client_id).then((client)=>{
             dispatch(setSingularityClient(client));
           }).catch((error)=>{
             console.error(error);
@@ -399,9 +399,6 @@ function Singularity({
       singularity.requestAuthorizationCode('registration', redirectURI);
     },
     changePassword : (callback)=>{
-      console.log('chaning password');
-      /* eslint-disable-next-line */
-      debugger;
       singularity.changePassword(accessToken, callback);
     },
     deleteUser : ()=>{

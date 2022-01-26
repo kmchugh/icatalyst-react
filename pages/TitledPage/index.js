@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme)=>{
       paddingTop : theme.spacing(3),
       paddingBottom : theme.spacing(1),
 
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         padding: theme.spacing(4),
         paddingTop : theme.spacing(6),
         paddingBottom : theme.spacing(2),
@@ -32,7 +32,8 @@ const TitledPage = ({
   className,
   children,
   headerSize = 'medium',
-  title
+  title,
+  headerClassName
 })=>{
   const styles = useStyles();
 
@@ -41,6 +42,7 @@ const TitledPage = ({
       <PageHeader
         title={title}
         size={headerSize}
+        className={clsx(styles.header, headerClassName)}
       />
       <div className={clsx(styles.pageContent)}>
         {children}
@@ -51,6 +53,10 @@ const TitledPage = ({
 
 TitledPage.propTypes={
   className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  headerClassName : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
