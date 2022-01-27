@@ -79,7 +79,18 @@ function Singularity({
   // TODO: Make this configurable
   const errorRoute = '/errors/';
 
-  const [token, setToken] = useState(null);
+  const [token, setUpdatedToken] = useState(null);
+
+  // The token needs to be udpated with the correct date format
+  const setToken = (token)=>{
+    setUpdatedToken({
+      ...token,
+      exp : token.exp < 9999999999 ? token.exp * 1000 : token.exp,
+      iat : token.iat < 9999999999 ? token.iat * 1000 : token.iat,
+    });
+  };
+
+
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState({
     roles : [],
