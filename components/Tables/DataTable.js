@@ -64,6 +64,7 @@ const DataTable = ({
       PrependHeaderComponent={PrependHeaderComponent}
       EmptyListComponent={
         <EmptyTable
+          NavigationComponent={PrependHeaderComponent}
           icon={definition.icon || 'fa search'}
           title={`No ${definition.labelPlural} found`}
           action={

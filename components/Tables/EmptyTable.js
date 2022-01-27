@@ -11,12 +11,21 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection : 'column',
       background: theme.palette.background.default,
       height: '100%',
       margin:theme.spacing(2)
+    },
+    contentWrapper : {
+      display: 'flex',
+      flexDirection : 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexGrow: 1
+    },
+    navigationWrapper : {
+      display: 'flex',
+      flexDirection : 'row',
     },
     icon : {
       width: theme.spacing(12),
@@ -57,28 +66,36 @@ const EmptyTable = ({
   onRefresh,
   className,
   showIcon = true,
+  NavigationComponent
 })=>{
   const classes = useStyles();
 
 
   return (
     <div className={clsx(classes.root, className)}>
-      {showIcon && <Icon className={clsx(classes.icon)}>{icon}</Icon>}
-      <Typography variant="h4" className={clsx(classes.title)}>{title}</Typography>
-      {
-        action && <Typography variant="subtitle1" className={clsx(classes.info)}>{action}</Typography>
-      }
-      {
-        help && <Typography variant="caption" className={clsx(classes.help)}>{help}</Typography>
-      }
-      {
-        onRefresh && <IconButton
-          className={clsx(classes.refreshButton)}
-          title="refresh"
-          icon="refresh"
-          onClick={onRefresh}
-        />
-      }
+      {NavigationComponent && (
+        <div className={clsx(classes.navigationWrapper)}>
+          {NavigationComponent}
+        </div>
+      )}
+      <div className={clsx(classes.contentWrapper)}>
+        {showIcon && <Icon className={clsx(classes.icon)}>{icon}</Icon>}
+        <Typography variant="h4" className={clsx(classes.title)}>{title}</Typography>
+        {
+          action && <Typography variant="subtitle1" className={clsx(classes.info)}>{action}</Typography>
+        }
+        {
+          help && <Typography variant="caption" className={clsx(classes.help)}>{help}</Typography>
+        }
+        {
+          onRefresh && <IconButton
+            className={clsx(classes.refreshButton)}
+            title="refresh"
+            icon="refresh"
+            onClick={onRefresh}
+          />
+        }
+      </div>
     </div>
   );
 };
@@ -99,7 +116,8 @@ EmptyTable.propTypes = {
     PropTypes.node
   ]),
   onRefresh: PropTypes.func,
-  showIcon : PropTypes.bool
+  showIcon : PropTypes.bool,
+  NavigationComponent : PropTypes.node
 };
 
 export default React.memo(EmptyTable);
