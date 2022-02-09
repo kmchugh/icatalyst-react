@@ -373,7 +373,7 @@ const DetailContent = ({
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           variant="contained"
                           color="secondary"
-                          disabled={updating || !canBeSubmitted || readonly}
+                          disabled={updating || !modified || readonly}
                           onClick={reset}
                         >
                           <Icon className={clsx(classes.actionButtonIcon)}>cancel</Icon>
