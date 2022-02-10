@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'column',
       flexGrow: 1,
-      justifyContent: 'center'
+      justifyContent: 'center',
+      color: theme.palette.secondary.contrastText
     },
     backgroundCoverFN : ({backgroundImage})=>{
       return backgroundImage ? {

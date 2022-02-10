@@ -53,7 +53,7 @@ const ChangePassword = ({
       { !processing && (
         <div className={clsx(styles.buttonWrapper)}>
           <Button
-            disabled={error || message}
+            disabled={Boolean(error || message)}
             variant="contained"
             color="primary"
             onClick={()=>{
