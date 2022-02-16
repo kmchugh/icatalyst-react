@@ -1,16 +1,27 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
-import { Menu, MenuItem, Fade,
-  ListItem, ListItemIcon, ListItemText
-} from '@material-ui/core';
-import {IconButton, Icon} from '@icatalyst/components';
+
+import IconButton from '../../IconButton';
+import Icon from '../../Icon';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Fade from '@material-ui/core/Fade';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import PropTypes from 'prop-types';
 
 const styles = (theme) => {
   return {
     root : {
       cursor: 'default'
+    },
+    primaryItem : {
+      display : 'flex',
+      flexDirection: 'row'
     },
     menuIcon : {
       marginLeft : theme.spacing(1),
@@ -21,6 +32,12 @@ const styles = (theme) => {
     },
     customItemWrapper : {
       overflow : 'inherit'
+    },
+    sublistItem : {
+      paddingRight: 0,
+    },
+    sublistItemText : {
+      flexGrow: 1
     }
   };
 };
@@ -33,7 +50,18 @@ function DropdownMenu({
   id = 'menu',
   icon = 'more_vertical',
   menu,
-  classes = {}
+  classes = {},
+  anchorOrigin = {
+    vertical : 'bottom',
+    horizontal: 'right'
+  },
+  transformOrigin= {
+    vertical : 'top',
+    horizontal: 'right'
+  },
+  label,
+  secondaryLabel,
+  onClose,
 }){
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -48,31 +76,35 @@ function DropdownMenu({
       e.stopPropagation();
     }
     setAnchorEl(null);
+    onClose && onClose();
   };
 
   return (
     <div className={clsx(styles.root, classes.root)}>
-      <IconButton
-        title={title}
-        className={clsx(styles.menuIcon, classes.menuIcon)}
-        component="div"
-        size={size}
-        icon={icon}
-        aria-haspopup={true}
-        aria-controls={anchorEl ? menuID : undefined}
-        onClick={openMenu}/>
+      <div className={clsx(styles.primaryItem)}>
+        { label && (
+          <ListItemText
+            primary={label}
+            secondary={secondaryLabel}
+            onClick={openMenu}
+          />
+        )}
+        <IconButton
+          title={title}
+          className={clsx(styles.menuIcon, classes.menuIcon)}
+          component="div"
+          size={size}
+          icon={icon}
+          aria-haspopup={true}
+          aria-controls={anchorEl ? menuID : undefined}
+          onClick={openMenu}/>
+      </div>
       <Menu
         id={menuID}
         getContentAnchorEl={null}
         anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
+        anchorOrigin={anchorOrigin}
+        transformOrigin={transformOrigin}
         keepMounted
         open={!!anchorEl}
         onClose={closeMenu}
@@ -86,12 +118,16 @@ function DropdownMenu({
               title,
               onClick,
               icon,
-              subtitle
+              subtitle,
+              menu
             } = menuitem;
+
             return (
               <MenuItem
                 className={clsx(isElement ? styles.customItemWrapper : '')}
                 key={menuitem.title || menuitem.key || menuitem.id}
+                disabled={menuitem.disabled}
+                selected={menuitem.selected}
                 onClick={(e)=>{
                   e.stopPropagation();
                   closeMenu(e);
@@ -100,20 +136,59 @@ function DropdownMenu({
                   }
                 }}>
                 {
-                  isElement ? menuitem : (
+                  menu && (
                     <ListItem
-                      className={clsx(styles.listItem, classes.listItem)}
-                      aria-label={title}>
-                      {
-                        <ListItemIcon>
-                          <Icon>{icon}</Icon>
-                        </ListItemIcon>
-                      }
+                      className={clsx(
+                        styles.listItem,
+                        classes.listItem,
+                        styles.sublistItem,
+                        classes.sublistItem
+                      )}
+                      aria-label={title}
+                    >
+                      <ListItemIcon>
+                        <Icon>{icon}</Icon>
+                      </ListItemIcon>
                       <ListItemText
                         primary={title}
                         secondary={subtitle}
+                        className={clsx(
+                          styles.sublistItemText,
+                          classes.sublistItemText
+                        )}
+                      />
+                      <DropdownMenu
+                        icon="chevron_right"
+                        menu={menu}
+                        anchorOrigin={{
+                          vertical : 'top',
+                          horizontal: 'left'
+                        }}
+                        transformOrigin={{
+                          vertical : 'top',
+                          horizontal: 'left'
+                        }}
+                        onClose={closeMenu}
                       />
                     </ListItem>
+                  )
+                }
+                {
+                  (!menu) && (
+                    isElement ? menuitem : (
+                      <ListItem
+                        className={clsx(styles.listItem, classes.listItem)}
+                        aria-label={title}
+                      >
+                        <ListItemIcon>
+                          <Icon>{icon}</Icon>
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={title}
+                          secondary={subtitle}
+                        />
+                      </ListItem>
+                    )
                   )
                 }
               </MenuItem>
@@ -128,6 +203,8 @@ function DropdownMenu({
 DropdownMenu.propTypes = {
   size : PropTypes.oneOf(['small', 'medium', 'large']),
   title : PropTypes.string,
+  label : PropTypes.string,
+  secondaryLabel : PropTypes.string,
   icon : PropTypes.string,
   id : PropTypes.string,
   menu : PropTypes.arrayOf(
@@ -137,10 +214,31 @@ DropdownMenu.propTypes = {
         subtitle : PropTypes.string,
         key : PropTypes.string,
         onClick : PropTypes.func.isRequired,
-        icon : PropTypes.string
+        icon : PropTypes.string,
+        disabled : PropTypes.bool,
+        selected : PropTypes.bool,
+        iconColor : PropTypes.string,
+        menu : PropTypes.object
       })
     ])
   ).isRequired,
+  anchorOrigin : PropTypes.shape({
+    horizontal : PropTypes.oneOf([
+      'center', 'left', 'right'
+    ]).isRequired,
+    vertical : PropTypes.oneOf([
+      'bottom', 'center', 'top'
+    ]).isRequired
+  }),
+  transformOrigin : PropTypes.shape({
+    horizontal : PropTypes.oneOf([
+      'center', 'left', 'right'
+    ]).isRequired,
+    vertical : PropTypes.oneOf([
+      'bottom', 'center', 'top'
+    ]).isRequired
+  }),
+  onClose : PropTypes.func,
   classes : PropTypes.object
 };
 

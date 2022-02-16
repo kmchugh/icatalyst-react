@@ -3,7 +3,7 @@ const requestMap = {};
 import axios from 'axios';
 import _ from '../@lodash';
 
-const toJSONBody = (data, parse) => {
+export const toJSONBody = (data, parse) => {
   return Object.keys(data).filter((prop)=>{
     return prop !== 'created' &&
            prop !== 'createdBy' &&
@@ -20,7 +20,7 @@ const toJSONBody = (data, parse) => {
   }, {});
 };
 
-function parseToken(requestConfig) {
+export function parseToken(requestConfig) {
   let authToken = undefined;
   if (requestConfig.customToken) {
     authToken = requestConfig.customToken();
@@ -105,7 +105,7 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
 }
 
 
-function makeReducerRequest(config, successAction, failureAction, callback){
+export function makeReducerRequest(config, successAction, failureAction, callback){
   return (dispatch)=>{
     const hash = generateHash(config.url);
     const transform = config.transform || ((i)=>i);
@@ -152,7 +152,7 @@ function makeReducerRequest(config, successAction, failureAction, callback){
   };
 }
 
-function createURI(path, params = {}) {
+export function createURI(path, params = {}) {
   if (!path) {
     throw new Error('invalid path configuration for uri service');
   }
