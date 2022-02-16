@@ -22,15 +22,9 @@ export function useSettingsContext(id, instanceProps) {
       requestedSettings.getInstanceSettingsID(instanceProps)
       : null;
 
-    // TODO: We will remove this reducer after Dec 2021 as all settings
-    // will then be stored on the server side
-
     // Get the settings from the reducer
     let settings = {
       defaultValues : {},
-      instanceValues : {
-        [instanceID]  : {}
-      },
       ...(clientData[id] || {})
     };
     // Settings is broken down into instanceValues which are values specifically
