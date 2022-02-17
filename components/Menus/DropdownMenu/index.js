@@ -62,6 +62,7 @@ function DropdownMenu({
   label,
   secondaryLabel,
   onClose,
+  color= 'inherit'
 }){
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -91,6 +92,7 @@ function DropdownMenu({
         )}
         <IconButton
           title={title}
+          color={color}
           className={clsx(styles.menuIcon, classes.menuIcon)}
           component="div"
           size={size}
@@ -119,7 +121,9 @@ function DropdownMenu({
               onClick,
               icon,
               subtitle,
-              menu
+              menu,
+              iconColor = 'inherit',
+              showLabel = true
             } = menuitem;
 
             return (
@@ -147,7 +151,7 @@ function DropdownMenu({
                       aria-label={title}
                     >
                       <ListItemIcon>
-                        <Icon>{icon}</Icon>
+                        <Icon color={iconColor}>{icon}</Icon>
                       </ListItemIcon>
                       <ListItemText
                         primary={title}
@@ -181,12 +185,14 @@ function DropdownMenu({
                         aria-label={title}
                       >
                         <ListItemIcon>
-                          <Icon>{icon}</Icon>
+                          <Icon color={iconColor}>{icon}</Icon>
                         </ListItemIcon>
-                        <ListItemText
-                          primary={title}
-                          secondary={subtitle}
-                        />
+                        {
+                          showLabel && (<ListItemText
+                            primary={title}
+                            secondary={subtitle}
+                          />)
+                        }
                       </ListItem>
                     )
                   )
@@ -207,6 +213,7 @@ DropdownMenu.propTypes = {
   secondaryLabel : PropTypes.string,
   icon : PropTypes.string,
   id : PropTypes.string,
+  color : PropTypes.string,
   menu : PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.node,
       PropTypes.shape({
@@ -218,7 +225,7 @@ DropdownMenu.propTypes = {
         disabled : PropTypes.bool,
         selected : PropTypes.bool,
         iconColor : PropTypes.string,
-        menu : PropTypes.object
+        menu : PropTypes.array
       })
     ])
   ).isRequired,

@@ -25,6 +25,7 @@ export function useSettingsContext(id, instanceProps) {
     // Get the settings from the reducer
     let settings = {
       defaultValues : {},
+      instanceValues : {},
       ...(clientData[id] || {})
     };
     // Settings is broken down into instanceValues which are values specifically
@@ -84,7 +85,12 @@ export function useSettingsContext(id, instanceProps) {
      * @param  {string} instanceID The instanceid of the settings to update or null for updating defaults
      */
     const updateSettings = (updateFn, instanceID)=>{
-      const updatedValues = updateFn(collapsedValues);
+      const updatedValues = updateFn(_.merge({},
+        defaults,
+        settings.defaultValues,
+        instanceID ?
+          settings.instanceValues[instanceID] : {}
+      ));
       const originalValues = instanceID ?
         settings.instanceValues[instanceID] :
         settings.defaultValues;

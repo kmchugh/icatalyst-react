@@ -18,6 +18,9 @@ import Icon from '@icatalyst/components/Icon';
 import EdgeTypeSelection from '@icatalyst/components/Singularity/components/EdgeTypeSelection';
 import { AppContext } from '@icatalyst/contexts/App';
 import { useHistory } from 'react-router-dom';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {
@@ -39,6 +42,10 @@ const useStyles = makeStyles((/*theme*/)=>{
     cardContent : {
       flexGrow: 1,
     },
+    listItem : {
+      width: '100%',
+      padding : 0,
+    }
   };
 });
 
@@ -53,13 +60,14 @@ const ResourceSharingButton = ({
   additionalResources = [],
   onSaved,
   variant = 'iconbutton',
-  accessTypeProps = {}
+  accessTypeProps = {},
+  label
 })=>{
   const styles = useStyles();
   const history = useHistory();
   const iconButtonDefaults = {
     size : 'small',
-    title : `Share ${definition.label.replace(/\b\w/g, c => c.toUpperCase())}`,
+    title : label || `Share ${definition.label.replace(/\b\w/g, c => c.toUpperCase())}`,
     icon : 'ios_share',
     color : 'primary',
   };
@@ -349,6 +357,22 @@ const ResourceSharingButton = ({
           {iconProps.title}
         </Button>
       }
+      { variant === 'listitem' &&
+        <ListItem
+          className={clsx(styles.listItem)}
+          aria-label={iconProps.title}
+          disabled={disabled}
+          onClick={handleClick}
+        >
+          <ListItemIcon>
+            <Icon color={iconProps.color}>{iconProps.icon}</Icon>
+          </ListItemIcon>
+          <ListItemText
+            primary={iconProps.title}
+            secondary={iconProps.subtitle}
+          />
+        </ListItem>
+      }
     </div>
   ) : null;
 };
@@ -371,8 +395,9 @@ ResourceSharingButton.propTypes={
     edgeTypes : PropTypes.arrayOf(PropTypes.string)
   })),
   onSaved : PropTypes.func,
-  variant : PropTypes.oneOf(['button', 'iconbutton']),
-  accessTypeProps : PropTypes.object
+  variant : PropTypes.oneOf(['button', 'iconbutton', 'listitem']),
+  accessTypeProps : PropTypes.object,
+  label : PropTypes.string
 };
 
 export default ResourceSharingButton;
