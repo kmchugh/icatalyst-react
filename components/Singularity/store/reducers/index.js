@@ -12,6 +12,7 @@ import edgetypes from './edgeType.reducer';
 import resourceAccess from './resourceAccess.reducer';
 import clientdata from './clientdata.reducer';
 import resourceInvite from './resourceInvite.reducer';
+import knowledgeBase from './knowledgeBase.reducer';
 
 const reducers = combineReducers({
   client,
@@ -26,7 +27,8 @@ const reducers = combineReducers({
   edgetypes,
   resourceAccess,
   resourceInvite,
-  clientdata
+  clientdata,
+  knowledgeBase
 });
 
 export default reducers;

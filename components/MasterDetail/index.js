@@ -364,6 +364,10 @@ const MasterDetailPage = ({
     updating,
     data,
     auth,
+    canAdd,
+    canDelete,
+    handleAdd,
+    handleDelete
   ]);
 
   return (
