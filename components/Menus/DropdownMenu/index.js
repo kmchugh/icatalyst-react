@@ -64,6 +64,7 @@ function DropdownMenu({
   onClose,
   color= 'inherit'
 }){
+  console.log('menu', menu);
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuID = `menu-${id}`;
@@ -148,6 +149,7 @@ function DropdownMenu({
                         styles.sublistItem,
                         classes.sublistItem
                       )}
+                      component="div"
                       aria-label={title}
                     >
                       <ListItemIcon>
@@ -183,6 +185,7 @@ function DropdownMenu({
                       <ListItem
                         className={clsx(styles.listItem, classes.listItem)}
                         aria-label={title}
+                        component="div"
                       >
                         <ListItemIcon>
                           <Icon color={iconColor}>{icon}</Icon>
@@ -215,12 +218,13 @@ DropdownMenu.propTypes = {
   id : PropTypes.string,
   color : PropTypes.string,
   menu : PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.node,
+    PropTypes.oneOfType([
+      PropTypes.node,
       PropTypes.shape({
         title : PropTypes.string.isRequired,
         subtitle : PropTypes.string,
         key : PropTypes.string,
-        onClick : PropTypes.func.isRequired,
+        onClick : PropTypes.func,
         icon : PropTypes.string,
         disabled : PropTypes.bool,
         selected : PropTypes.bool,

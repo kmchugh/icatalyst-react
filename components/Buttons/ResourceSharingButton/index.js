@@ -363,6 +363,7 @@ const ResourceSharingButton = ({
           aria-label={iconProps.title}
           disabled={disabled}
           onClick={handleClick}
+          component="div"
         >
           <ListItemIcon>
             <Icon color={iconProps.color}>{iconProps.icon}</Icon>
