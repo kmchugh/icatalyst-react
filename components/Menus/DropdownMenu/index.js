@@ -64,7 +64,6 @@ function DropdownMenu({
   onClose,
   color= 'inherit'
 }){
-  console.log('menu', menu);
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuID = `menu-${id}`;
