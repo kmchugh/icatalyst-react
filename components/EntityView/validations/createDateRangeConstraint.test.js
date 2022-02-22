@@ -1,8 +1,18 @@
 import {createDateRangeConstraint} from './createDateRangeConstraint';
 
-const now = 1645502313515;
-const before = 1645102313515;
-const after = 1645702313515;
+const NOW = 1645502313515;
+const BEFORE = 1645102313515;
+const AFTER = 1645702313515;
+const DEFINITION = {
+  fields : {
+    'start' : {
+      'id' : 'start'
+    },
+    'end' : {
+      'id' : 'end'
+    }
+  }
+};
 
 describe('Field Validations: DateRange Constraint', ()=>{
 
@@ -36,11 +46,11 @@ describe('Field Validations: DateRange Constraint', ()=>{
 
     expect(sut({}, {
       id: 'start'
-    }, null)).toBe(null);
+    }, null, DEFINITION)).toBe(null);
 
     expect(sut({}, {
       id: 'end'
-    }, null)).toBe(null);
+    }, null, DEFINITION)).toBe(null);
   });
 
   it('will fail on a null value provided when not allowed', ()=>{
@@ -53,11 +63,11 @@ describe('Field Validations: DateRange Constraint', ()=>{
 
     expect(sut({}, {
       id: 'start'
-    }, null)).toBe('start is required');
+    }, null, DEFINITION)).toBe('start is required');
 
     expect(sut({}, {
       id: 'end'
-    }, null)).toBe('end is required');
+    }, null, DEFINITION)).toBe('end is required');
   });
 
 
@@ -71,7 +81,7 @@ describe('Field Validations: DateRange Constraint', ()=>{
 
     expect(sut({}, {
       id: 'start'
-    }, now)).toBe(null);
+    }, NOW, DEFINITION)).toBe(null);
   });
 
   it('will pass if an end date is passed and an start date is not required and not set', ()=>{
@@ -84,7 +94,7 @@ describe('Field Validations: DateRange Constraint', ()=>{
 
     expect(sut({}, {
       id: 'end'
-    }, now)).toBe(null);
+    }, NOW, DEFINITION)).toBe(null);
   });
 
   it('will fail if a start date is passed and an end date is set to before the start', ()=>{
@@ -96,11 +106,11 @@ describe('Field Validations: DateRange Constraint', ()=>{
     });
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
       id: 'start'
-    }, after)).toBe('start must be before end');
+    }, AFTER, DEFINITION)).toBe('start must be before end');
   });
 
   it('will display the display labels appropriately on failure', ()=>{
@@ -108,24 +118,46 @@ describe('Field Validations: DateRange Constraint', ()=>{
       startFieldID : 'start',
       endFieldID : 'end',
       requireStart : true,
-      requireEnd : false,
-      startFieldLabel : '[start]',
-      endFieldLabel : '[end]',
+      requireEnd : false
     });
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
-      id: 'end'
-    }, before)).toBe('end must be after [start]');
+      id: 'end',
+      label : 'END FIELD'
+    }, BEFORE, {
+      fields : {
+        start : {
+          id : 'start',
+          label : 'START FIELD'
+        },
+        end : {
+          id : 'end',
+          label : 'END FIELD'
+        }
+      }
+    })).toBe('END FIELD must be after START FIELD');
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
-      id: 'start'
-    }, after)).toBe('start must be before [end]');
+      id: 'start',
+      label : 'START FIELD'
+    }, AFTER, {
+      fields : {
+        start : {
+          id : 'start',
+          label : 'START FIELD'
+        },
+        end : {
+          id : 'end',
+          label : 'END FIELD'
+        }
+      }
+    })).toBe('START FIELD must be before END FIELD');
   });
 
   it('will fail if an end date is passed and a start date is set to before the start', ()=>{
@@ -137,11 +169,11 @@ describe('Field Validations: DateRange Constraint', ()=>{
     });
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
       id: 'end'
-    }, before)).toBe('end must be after start');
+    }, BEFORE, DEFINITION)).toBe('end must be after start');
   });
 
 
@@ -154,18 +186,18 @@ describe('Field Validations: DateRange Constraint', ()=>{
     });
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
       id: 'end'
-    }, now)).toBe(null);
+    }, NOW, DEFINITION)).toBe(null);
 
     expect(sut({
-      start : before,
-      end : after,
+      start : BEFORE,
+      end : AFTER,
     }, {
       id: 'start'
-    }, now)).toBe(null);
+    }, NOW, DEFINITION)).toBe(null);
   });
 
 });
