@@ -173,7 +173,7 @@ export function createModel(model){
         .reduce((acc, fieldName)=>{
           const fieldDef = definition.fields[fieldName];
           acc[fieldName] = fieldDef.validations.map((validate)=>{
-            return validate(entity, fieldDef, entity[fieldDef.id]);
+            return validate(entity, fieldDef, entity[fieldDef.id], definition);
           }).filter(error=>error);
           return acc;
         }, errors);

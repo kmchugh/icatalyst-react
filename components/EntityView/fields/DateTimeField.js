@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+const NEVER = 9223372036854776000;
 
 const DateTimeField = (props) => {
 
@@ -66,7 +67,7 @@ const DateTimeField = (props) => {
       }
 
       <DateTimePicker
-        value={value}
+        value={value >= NEVER ? null : value}
         variant="inline"
         readOnly={readonly}
         inputVariant="outlined"
@@ -76,7 +77,7 @@ const DateTimeField = (props) => {
             [id] : date.valueOf()
           });
         }}
-        labelFunc={(date, invalid) =>
+        labelFunc={(date, invalid = '') =>
           date ? date.toString() : invalid
         }
       />

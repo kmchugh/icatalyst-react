@@ -304,8 +304,8 @@ const DetailContent = ({
                       model={form || entity}
                       readonly={readonly || !auth || !auth.update || (!auth.create /* && !isNew */)}
                       errors={errors}
-                      onChange={(e)=>{
-                        handleChange(e);
+                      onChange={(e, valueMap)=>{
+                        handleChange(e, valueMap);
                         setModified(true);
                         onChange && onChange(form);
                       }}

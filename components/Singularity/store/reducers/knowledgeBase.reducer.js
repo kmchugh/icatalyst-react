@@ -1,6 +1,7 @@
 import * as Actions from '../actions/knowledgeBase.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
+import { createDateRangeConstraint } from '../../../EntityView/validations/createDateRangeConstraint';
 
 const definition = createModel({
   name: 'knowledgeBaseItem',
@@ -55,12 +56,23 @@ const definition = createModel({
       id: 'start',
       type: 'date',
       label: 'Start Date',
-      onChange:[(data)=>data.start]
+      validations : [
+        createDateRangeConstraint({
+          startFieldID : 'start',
+          endFieldID : 'expiry'
+        })
+      ]
     },
     {
       id: 'expiry',
       type: 'date',
       label: 'Expiry Date',
+      validations : [
+        createDateRangeConstraint({
+          startFieldID : 'start',
+          endFieldID : 'expiry'
+        })
+      ]
     },
     {
       id: 'enabled',
@@ -150,7 +162,7 @@ const definition = createModel({
     {
       id: 'authroles',
       label: 'Authorisation Roles',
-      description: 'The roles that can see this feature, empty for all',
+      description: 'The roles that can see this feature, leave empty for everyone to see',
       required: false,
       minLength: 1,
       maxLength: 1024,
