@@ -87,6 +87,9 @@ export const ModelPropTypes = PropTypes.shape({
  * @returns {type} the list of validation functions for this field
  */
 function normaliseValidations(field) {
+  if (field.validations && !Array.isArray(field.validations)) {
+    console.error('Validations on field is not an array', field);
+  }
   const validations = [
     ...(field.validations || [])
   ];
