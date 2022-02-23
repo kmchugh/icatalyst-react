@@ -1,6 +1,7 @@
 import {createRouteConfig} from '../../utilities';
 import {createModule as manageKnowledgeBase} from './Administration';
 import {createModule as displayKnowledgeBase} from './KnowledgeBase';
+import FAQComponent from './KnowledgeBase/FAQComponent';
 
 export function createModule(config={}){
 
@@ -19,7 +20,8 @@ export function createModule(config={}){
     paths : [
       display && display.visible === false ? null : {
         ...createRouteConfig(displayKnowledgeBase(display)),
-        path : 'kb'
+        path : 'knowledge-base-faq',
+        component : FAQComponent,
       },
       admin && admin.visible === false ? null : {
         ...createRouteConfig(manageKnowledgeBase(admin)),
