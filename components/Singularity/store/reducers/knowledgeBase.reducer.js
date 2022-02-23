@@ -24,13 +24,21 @@ const definition = createModel({
       id: 'clientid',
       readonly: true,
       display: false,
+      excludeFromModel : true,
     },
     {
       id: 'title',
-      type: 'string',
+      type: 'richtext',
       required: true,
       minLength: 1,
       maxLength: 256,
+      rteConfig : {
+        multiline : false,
+        buttons: [
+          'bold',
+          'italic'
+        ]
+      }
     },{
       id: 'category',
       type: 'string',
@@ -40,7 +48,7 @@ const definition = createModel({
     },
     {
       id: 'excerpt',
-      type: 'string',
+      type: 'richtext',
       required: true,
       minLength: 1,
       maxLength: 2048,
@@ -82,7 +90,7 @@ const definition = createModel({
     },
     {
       id: 'content',
-      type: 'string',
+      type: 'richtext',
       required: false,
       minLength: 1,
       maxLength: 65535,
@@ -171,6 +179,7 @@ const definition = createModel({
       id: 'keywords',
       readonly: true,
       required: false,
+      excludeFromModel : true,
     },
     {
       id: 'additionaldata',

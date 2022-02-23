@@ -16,6 +16,7 @@ export {default as Image} from './Image';
 export {default as Logo} from './Logo';
 export {default as MasterDetail} from './MasterDetail';
 export * from './Menus';
+export {default as RichTextEditor} from './RichTextEditor';
 export {SessionPanel} from './Session';
 export {default as Singularity} from './Singularity';
 export { SingularityContext } from './Singularity';
