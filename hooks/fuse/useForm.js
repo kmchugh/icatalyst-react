@@ -7,7 +7,6 @@ function useForm(initialState, onSubmit) {
   const handleChange = useCallback((event, valueMap) => {
     if (event) {
       event.persist && event.persist();
-
       let value = event.target.value;
       // Checkboxes and dates are handled differently
       if (event.target.type === 'checkbox') {

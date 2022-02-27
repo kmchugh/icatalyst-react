@@ -1,6 +1,7 @@
 import * as Actions from '../actions/knowledgeBase.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
+import { createDateRangeConstraint } from '../../../EntityView/validations/createDateRangeConstraint';
 
 const definition = createModel({
   name: 'knowledgeBaseItem',
@@ -20,20 +21,34 @@ const definition = createModel({
       readonly: true,
     },
     {
-      id: 'clientId',
+      id: 'clientid',
       readonly: true,
       display: false,
+      excludeFromModel : true,
     },
     {
       id: 'title',
-      type: 'string',
+      type: 'richtext',
       required: true,
+      minLength: 1,
+      maxLength: 256,
+      rteConfig : {
+        multiline : false,
+        buttons: [
+          'bold',
+          'italic'
+        ]
+      }
+    },{
+      id: 'category',
+      type: 'string',
+      required: false,
       minLength: 1,
       maxLength: 256,
     },
     {
       id: 'excerpt',
-      type: 'string',
+      type: 'richtext',
       required: true,
       minLength: 1,
       maxLength: 2048,
@@ -49,27 +64,41 @@ const definition = createModel({
       id: 'start',
       type: 'date',
       label: 'Start Date',
-      onChange:[(data)=>data.start]
+      validations : [
+        createDateRangeConstraint({
+          startFieldID : 'start',
+          endFieldID : 'expiry'
+        })
+      ]
     },
     {
       id: 'expiry',
       type: 'date',
       label: 'Expiry Date',
+      validations : [
+        createDateRangeConstraint({
+          startFieldID : 'start',
+          endFieldID : 'expiry'
+        })
+      ]
     },
     {
       id: 'enabled',
       type: 'boolean',
       default: true,
+      description: 'Include or exclude this feature from displaying in results'
     },
     {
       id: 'content',
-      type: 'string',
+      type: 'richtext',
       required: false,
       minLength: 1,
       maxLength: 65535,
     },
     {
-      id: 'featureImageURL',
+      id: 'featureimageurl',
+      label : 'Feature Image URL',
+      description: 'Link to an image representing this feature',
       type: 'string',
       required: false,
       minLength: 1,
@@ -81,8 +110,10 @@ const definition = createModel({
       ],
     },
     {
-      id: 'mediaURL',
+      id: 'mediaurl',
       type: 'string',
+      label : 'Media URL',
+      description: 'Link to a demonstration of this feature',
       required: false,
       minLength: 1,
       maxLength: 1024,
@@ -93,28 +124,53 @@ const definition = createModel({
       ],
     },
     {
-      id: 'includeInTip',
+      id: 'includeintips',
+      label: 'Include in Tips',
+      description: 'Show this feature in popup tips',
       type: 'boolean',
       default: false,
     },
     {
-      id: 'includeInKB',
+      id: 'includeinkb',
+      label: 'Make searchable',
+      description: 'Show this feature in the search results',
       type: 'boolean',
       default: false,
     },
     {
-      id: 'includeInTour',
+      id: 'includeintour',
+      label: 'Include in Tour',
+      description : 'Include this feature in onboarding tours',
       type: 'boolean',
       default: false,
+      validations : [(model, field, value)=>{
+        // This is only required if include in tour is set
+        if (model.tourcontrolid && !value) {
+          return 'required when tour control is set';
+        } else if (!model.tourcontrolid && value) {
+          return 'not allowed if tour control is not set';
+        }
+      }]
     },
     {
-      id: 'tourControlID',
-      required: true,
+      id: 'tourcontrolid',
+      label: 'Tour Control ID',
+      description: 'The programmatic identifier of an element to link this feature to',
       minLength: 1,
       maxLength: 256,
+      validations : [(model, field, value)=>{
+        // This is only required if include in tour is set
+        if (model.includeintour && !value) {
+          return 'required when included in tour';
+        } else if (!model.includeintour && value) {
+          return 'not allowed if not including in tour';
+        }
+      }]
     },
     {
-      id: 'authRoles',
+      id: 'authroles',
+      label: 'Authorisation Roles',
+      description: 'The roles that can see this feature, leave empty for everyone to see',
       required: false,
       minLength: 1,
       maxLength: 1024,
@@ -123,28 +179,29 @@ const definition = createModel({
       id: 'keywords',
       readonly: true,
       required: false,
+      excludeFromModel : true,
     },
     {
-      id: 'additionalData',
+      id: 'additionaldata',
+      label: 'Additional Data',
+      display: false,
       required: false,
       minLength: 1,
       maxLength: 65535,
     },
   ],
   layout: [
-    [
-      ['title', ['tourControlID', 'keywords']],
-      [['enabled', 'includeInTip'], ['includeInKB', 'includeInTour']]
-    ],
-    [
-      [['start', 'expiry']],
-      []
-    ],
-    ['featureImageURL', 'mediaURL'],
+    'title',
     ['excerpt', 'tags'],
     'content',
-    'authRoles',
-    'additionalData',
+    ['featureimageurl', 'mediaurl'],
+    ['start', 'expiry', 'category'],
+    [
+      ['enabled', 'includeintips'],
+      ['includeinkb'],
+      ['includeintour', 'tourcontrolid']
+    ],
+    'authroles',
   ],
   listLayout: ['title'],
   getReducerRoot: ({ icatalyst }) => {

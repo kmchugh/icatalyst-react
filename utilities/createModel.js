@@ -87,6 +87,9 @@ export const ModelPropTypes = PropTypes.shape({
  * @returns {type} the list of validation functions for this field
  */
 function normaliseValidations(field) {
+  if (field.validations && !Array.isArray(field.validations)) {
+    console.error('Validations on field is not an array', field);
+  }
   const validations = [
     ...(field.validations || [])
   ];
@@ -170,7 +173,7 @@ export function createModel(model){
         .reduce((acc, fieldName)=>{
           const fieldDef = definition.fields[fieldName];
           acc[fieldName] = fieldDef.validations.map((validate)=>{
-            return validate(entity, fieldDef, entity[fieldDef.id]);
+            return validate(entity, fieldDef, entity[fieldDef.id], definition);
           }).filter(error=>error);
           return acc;
         }, errors);

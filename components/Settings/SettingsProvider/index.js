@@ -55,7 +55,7 @@ export function useSettingsContext(id, instanceProps) {
       // override with the user set defaults
       settings.defaultValues,
       // override with the specified instance values
-      instanceID ?
+      instanceID && settings.instanceValues ?
         settings.instanceValues[instanceID] : {}
     );
 
