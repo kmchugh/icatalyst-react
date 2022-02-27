@@ -11,7 +11,7 @@ import {useSettingsContext} from '../../components/Settings/SettingsProvider';
 import {registerSettings} from '../../components/Settings';
 
 import ThemeSelector from '../components/ThemeSelector';
-const SINGULARITY_THEME_SETTINGS_ID = 'singularity_theme';
+export const SINGULARITY_THEME_SETTINGS_ID = 'singularity_theme';
 
 /**
  * Register the User Settings with the settings provider

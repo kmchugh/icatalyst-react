@@ -7,6 +7,7 @@ import { SingularityContext } from '../../Singularity';
 
 let registeredSettings = {};
 const settingsLayout = {};
+const overrides = {};
 
 export function useSettingsContext(id, instanceProps) {
   const {clientData, setClientData} = useContext(SingularityContext);
@@ -136,23 +137,41 @@ function updateLayout(settings){
       settings[key].sectionIndex :
       999;
 
-    if (!settingsLayout[sectionID]) {
-      settingsLayout[sectionID] = {
-        name : sectionID,
-        label: _.startCase(sectionID),
-        index: index,
-        settings: {}
-      };
-    }
+    settingsLayout[sectionID] = {
+      ...(settingsLayout[sectionID] || {}),
+      name : sectionID,
+      label: _.startCase(sectionID),
+      index: index,
+      auth : settings[key].auth,
+      settings: {
+        ...(
+          settingsLayout[sectionID] && settingsLayout[sectionID].settings || {}
+        )
+      }
+    };
+
     settingsLayout[sectionID].settings[section.name] = {
       name : section.name,
       label : section.label,
-      index: section.index !== undefined ? section.index : 999,
+      index : section.index !== undefined ? section.index : 999,
       visible : section.visible === undefined ? true : section.visible,
-      values: section.values,
+      values : section.values,
       component : section.component,
     };
   }, {});
+}
+
+export function updateRegisteredSettings(settingsid, updateSettings) {
+  // If the settings are already registered then update now otherwise
+  // update when they are registered
+  if (registeredSettings[settingsid]) {
+    registeredSettings[settingsid] = updateSettings(registeredSettings[settingsid]);
+    updateLayout({
+      [settingsid] : registeredSettings[settingsid]
+    });
+  } else {
+    overrides[settingsid] = updateSettings;
+  }
 }
 
 export function registerSettings(config) {
@@ -161,8 +180,10 @@ export function registerSettings(config) {
   }
 
   config.forEach((config)=>{
-    const definition = createModel(config);
-    const {name} = definition;
+    const {name} = config;
+    const definition = overrides[name] ?
+      overrides[name](createModel(config)) :
+      createModel(config);
     registeredSettings[name] = definition;
 
     // Update the layout

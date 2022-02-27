@@ -11,6 +11,7 @@ import clsx from 'clsx';
 import EnitityView from '../EntityView';
 import {useSettingsContext} from './SettingsProvider';
 import _ from 'lodash';
+import { SingularityContext } from '../Singularity';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -54,20 +55,24 @@ function SettingsComponent({
 }){
 
   const settingsContext = useContext(SettingsContext);
+  const {isInRole} = useContext(SingularityContext);
   const classes = useStyles();
   const {
     getRegisteredSettings,
     getSettingsLayout
   } = settingsContext;
-  const layout = getSettingsLayout().filter((setting)=>{
-    if (!settingsWhitelist && !settingsBlacklist) {
-      return true;
-    } else if (settingsWhitelist) {
-      return settingsWhitelist.includes(setting.name);
-    } else if (settingsBlacklist) {
-      return !settingsBlacklist.includes(setting.name);
-    }
-  });
+  const layout = getSettingsLayout()
+    .filter((setting)=>{
+      if (!settingsWhitelist && !settingsBlacklist) {
+        return true;
+      } else if (settingsWhitelist) {
+        return settingsWhitelist.includes(setting.name);
+      } else if (settingsBlacklist) {
+        return !settingsBlacklist.includes(setting.name);
+      }
+    })
+    .filter((setting)=>isInRole(setting.auth));
+
   const definitions = getRegisteredSettings();
   const [modified, setModified] = useState(false);
   const [errors, setErrors] = useState({});
