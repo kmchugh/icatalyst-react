@@ -38,6 +38,9 @@ const definition = createModel({
           'bold',
           'italic'
         ]
+      },
+      format : (value)=>{
+        return value && value.replace(/<\/?[^>]+(>|$)/g, '');
       }
     },{
       id: 'category',

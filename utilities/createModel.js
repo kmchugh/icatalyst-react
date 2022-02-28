@@ -138,10 +138,14 @@ export function createModel(model){
       return entity[definition.identityFieldName];
     }),
     getPrimaryText : ((entity)=>{
-      return entity[definition.primaryTextField];
+      const field = definition.fields[definition.primaryTextField];
+      let textValue = entity[definition.primaryTextField];
+      return (field && field.format) ? field.format(textValue) : textValue;
     }),
     getSecondaryText : ((entity)=>{
-      return entity[definition.secondaryTextField];
+      const field = definition.fields[definition.secondaryTextField];
+      let textValue = entity[definition.secondaryTextField];
+      return (field && field.format) ? field.format(textValue) : textValue;
     }),
     getFeatureImage : ((entity)=>{
       return definition.featureImageField && entity[definition.featureImageField];
