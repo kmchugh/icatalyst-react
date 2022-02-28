@@ -33,7 +33,8 @@ const TitledPage = ({
   children,
   headerSize = 'medium',
   title,
-  headerClassName
+  headerClassName,
+  actions
 })=>{
   const styles = useStyles();
 
@@ -43,6 +44,7 @@ const TitledPage = ({
         title={title}
         size={headerSize}
         className={clsx(styles.header, headerClassName)}
+        actions={actions}
       />
       <div className={clsx(styles.pageContent)}>
         {children}
@@ -69,7 +71,20 @@ TitledPage.propTypes={
     'medium',
     'large'
   ]),
-  title : PropTypes.string.isRequired
+  title : PropTypes.string.isRequired,
+  actions : PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.shape({
+        className : PropTypes.string,
+        title : PropTypes.string.isRequired,
+        onClick : PropTypes.func.isRequired,
+        icon : PropTypes.string.isRequired,
+        disabled : PropTypes.bool,
+        color : PropTypes.string
+      })
+    ])
+  ),
 };
 
 export default TitledPage;
