@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {
       // width: 'auto',
+      ['& .ck'] : {
+        minHeight: 'inherit'
+      },
       ['& .ck.ck-editor__editable_inline>:last-child'] : {
         marginTop: 0,
         marginBottom: 0

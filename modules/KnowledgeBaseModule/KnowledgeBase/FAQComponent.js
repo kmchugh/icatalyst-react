@@ -2,11 +2,11 @@ import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { SingularityContext } from '../../../components/Singularity';
 import {
   Typography,
-  Divider,
+  Box,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -33,31 +33,53 @@ const useStyles = makeStyles((theme) => {
       minHeight: '600px',
     },
     searchWrapper: {
-      width: '60%',
       margin: theme.spacing(2),
       height: theme.spacing(8),
       '& input': {
         fontSize: theme.spacing(4),
+        [theme.breakpoints.down('sm')]: {
+          fontSize: theme.spacing(2),
+        },
       },
       '& .MuiIcon-root': {
         fontSize: theme.spacing(4),
+        [theme.breakpoints.down('sm')]: {
+          fontSize: theme.spacing(2),
+        },
       },
     },
     accordion: {
-      width: '60%',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '80%',
+      },
+      [theme.breakpoints.up('md')]: {
+        width: '60%',
+      },
     },
     accordionSummary: {
-      margin: theme.spacing(1),
+      maxWidth: '100%',
+      overflow: 'hidden',
+      [theme.breakpoints.down('xs')]: {
+        padding: 0,
+      },
+      '& .MuiAccordionSummary-content': {
+        maxWidth: 'calc(100% - 40px)',
+      },
     },
     title: {
-      width: 'fit-content',
-      maxWidth: 700,
+      maxWidth: '100%',
       textTransform: 'capitalize',
       padding: `${theme.spacing(0)}px ${theme.spacing(3)}px`,
       fontSize: theme.spacing(2.5),
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      [theme.breakpoints.down('xs')]: {
+        paddingLeft: theme.spacing(0.75),
+      },
       '& :first-child': {
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -83,29 +105,69 @@ const useStyles = makeStyles((theme) => {
     chip: {
       marginLeft: theme.spacing(3),
       // background: '#6f4021'
-      background: theme.palette.primary[500] ? theme.palette.primary[500] : theme.palette.primary.main,
-      color: theme.palette.getContrastText(theme.palette.primary[500] ? theme.palette.primary[500] : theme.palette.primary.main),
+      background: theme.palette.primary[500]
+        ? theme.palette.primary[500]
+        : theme.palette.primary.main,
+      color: theme.palette.getContrastText(
+        theme.palette.primary[500]
+          ? theme.palette.primary[500]
+          : theme.palette.primary.main
+      ),
     },
     accordionVideo: {
-      width: 390,
-      height: 225,
+      width: '50%',
+      height: 200,
       marginTop: theme.spacing(2),
+      marginRight: theme.spacing(1),
       background: 'black',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        height: '300px',
+      },
     },
     iconButton: {
       width: theme.spacing(4),
       height: theme.spacing(4),
       margin: `auto ${theme.spacing(1)}px`,
+      cursor: 'default',
     },
     featureImg: {
       width: 80,
       height: 50,
-      // imageRendering: 'pixelated',
       objectFit: 'cover',
+      [theme.breakpoints.down('xs')]: {
+        height: 40,
+        width: 40,
+      },
     },
     heading: {
-      color: theme.palette.secondary[500] ? theme.palette.secondary[500] : theme.palette.secondary.main,
-    }
+      color: theme.palette.secondary[500]
+        ? theme.palette.secondary[500]
+        : theme.palette.secondary.main,
+    },
+    headerTitle: {
+      width: 'calc(100% - 80px)',
+      [theme.breakpoints.down('xs')]: {
+        width: 'calc(100% - 40px)',
+      },
+    },
+    headTitle: {
+      display: 'flex',
+      whiteSpace: 'nowrap',
+    },
+    titleContainer: {
+      maxWidth: 'calc(100% - 30px)',
+      alignItems: 'center',
+      [theme.breakpoints.down('xs')]: {
+        marginLeft: 15,
+      },
+    },
+    contentDetail: {
+      marginLeft: '25px',
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 0,
+      },
+    },
   };
 });
 
@@ -117,10 +179,10 @@ const FAQComponent = ({ className }) => {
 
   const dispatch = useDispatch();
 
-  const reducer = useSelector(kbdefinition.getReducerRoot);
+  // const reducer = useSelector(kbdefinition.getReducerRoot);
   const { accessToken } = useContext(SingularityContext);
 
-  console.log(reducer);
+  // console.log(reducer);
 
   useEffect(() => {
     dispatch(
@@ -154,12 +216,17 @@ const FAQComponent = ({ className }) => {
 
     return false;
   };
-
+  const FAQData = data.filter((item) =>
+    applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
+  );
   return hasAccess ? (
     <FuseLoading title='Loading...' />
   ) : (
     <div className={clsx(classes.root, className)}>
-      <Typography variant='h4' className={clsx((className = 'text-center'))}>
+      <Typography
+        variant='h4'
+        className={clsx(('text-center', classes.headTitle))}
+      >
         <IconButton
           className={clsx(classes.iconButton)}
           size='large'
@@ -174,70 +241,72 @@ const FAQComponent = ({ className }) => {
           title='Top Questions'
         />
       </Typography>
-      <Divider style={{ color: 'red' }} />
-      <div className={clsx(classes.searchWrapper)}>
+      <Box
+        sx={{
+          width: { xs: '100%', sm: '80%', md: '60%' },
+        }}
+        className={clsx(classes.searchWrapper)}
+      >
         <ClearableInput
           label='Search with Keywords.'
           icon='search'
           onChange={(searchValue) => setSearchData(searchValue)}
           value={searchData || ''}
         />
-      </div>
-      {data
-        .filter((item) =>
-          applyFilter(item?.title, item?.content, item?.excerpt)
-        )
-        .map((element) => {
+      </Box>
+
+      {FAQData && FAQData.length > 0 ? (
+        FAQData.map((element) => {
           return (
             <Accordion
               key={element.clientid}
-              className={clsx(classes.accordion, className)}
+              className={clsx(classes.accordion)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls='panel1a-content'
                 id='panel1a-header'
+                className={clsx(classes.accordionSummary)}
               >
-                <div className={clsx(classes.accordionSummary)}>
-                  <Grid container spacing={4}>
-                    <Image
-                      className={classes.featureImg}
-                      src={element.featureimageurl}
-                      defaultSrc='assets/images/placeholders/PlaceholderImage.jpg'
+                <Grid container className={classes.titleContainer}>
+                  <Image
+                    className={classes.featureImg}
+                    src={element.featureimageurl}
+                    defaultSrc='assets/images/placeholders/PlaceholderImage.jpg'
+                  />
+                  <Grid className={classes.headerTitle}>
+                    <Typography
+                      className={clsx(classes.title)}
+                      dangerouslySetInnerHTML={{
+                        __html: element.title,
+                      }}
                     />
-                    <Grid>
-                      <Typography
-                        className={clsx(classes.title)}
-                        dangerouslySetInnerHTML={{
-                          __html: element.title,
-                        }}
-                      />
-                      <Typography
-                        className={clsx(classes.title, classes.excerpt)}
-                        dangerouslySetInnerHTML={{
-                          __html: element.excerpt,
-                        }}
-                      />
-                    </Grid>
+                    <Typography
+                      className={clsx(classes.title, classes.excerpt)}
+                      dangerouslySetInnerHTML={{
+                        __html: element.excerpt,
+                      }}
+                    />
                   </Grid>
-                </div>
+                </Grid>
               </AccordionSummary>
               <AccordionDetails>
                 <div className={clsx(classes.accordionContent)}>
                   <Grid container>
                     {element.mediaurl && (
-                      <Grid xs={6}>
-                        <video
-                          className={clsx(classes.accordionVideo)}
-                          controls
-                        >
-                          <source src={element.mediaurl} type='video/mp4' />
-                        </video>
-                      </Grid>
+                      <video className={clsx(classes.accordionVideo)} controls>
+                        <source src={element.mediaurl} type='video/mp4' />
+                      </video>
                     )}
                     {element.content && (
-                      <Grid xs={element.mediaurl ? 6 : 10}>
-                        <Typography variant='h6' className={classes.heading}>Content Details</Typography>
+                      <Grid
+                        sm={12}
+                        md={element.mediaurl ? 5 : 10}
+                        className={clsx(classes.contentDetail)}
+                      >
+                        <Typography variant='h6' className={classes.heading}>
+                          Content Details
+                        </Typography>
                         <Typography
                           dangerouslySetInnerHTML={{
                             __html: element.content,
@@ -250,18 +319,29 @@ const FAQComponent = ({ className }) => {
                   {element.tags && (
                     <div className={clsx(classes.accordionChip)}>
                       <Typography variant='subtitle2'>Tags :</Typography>
-                      <Chip
-                        //  key={email}
-                        label={element.tags}
-                        className={clsx(classes.chip)}
-                      />
+                      {element.tags.split(',').map((item) => (
+                        <Chip
+                          key={item}
+                          label={item}
+                          className={clsx(classes.chip)}
+                          onClick={() => setSearchData(item)}
+                        />
+                      ))}
                     </div>
                   )}
                 </div>
               </AccordionDetails>
             </Accordion>
           );
-        })}
+        })
+      ) : (
+        <Typography variant='h4'>
+          No results
+          <Typography variant='body1'>
+            Please check your spelling or try another term
+          </Typography>
+        </Typography>
+      )}
     </div>
   );
 };
