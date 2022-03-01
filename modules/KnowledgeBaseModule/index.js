@@ -1,7 +1,8 @@
+import React from 'react';
 import {createRouteConfig} from '../../utilities';
 import {createModule as manageKnowledgeBase} from './Administration';
 import {createModule as displayKnowledgeBase} from './KnowledgeBase';
-import FAQComponent from './KnowledgeBase/FAQComponent';
+import FAQComponent from './KnowledgeBase/components/FAQComponent';
 
 export function createModule(config={}){
 
@@ -9,6 +10,8 @@ export function createModule(config={}){
   const {
     admin, display
   } = modules;
+
+  console.log(display);
 
   return createRouteConfig({
     name: 'knowledgeBase',
@@ -21,7 +24,9 @@ export function createModule(config={}){
       display && display.visible === false ? null : {
         ...createRouteConfig(displayKnowledgeBase(display)),
         path : 'knowledge-base-faq',
-        component : FAQComponent,
+        component : display.placeholderImage ?
+          ()=>(<FAQComponent placeholderImage={display.placeholderImage}/>) :
+          FAQComponent,
       },
       admin && admin.visible === false ? null : {
         ...createRouteConfig(manageKnowledgeBase(admin)),
