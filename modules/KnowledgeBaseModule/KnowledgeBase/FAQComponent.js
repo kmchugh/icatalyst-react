@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import {alpha} from '@material-ui/core/styles/colorManipulator';
-import { ClearableInput, IconButton, Image } from '../../../components';
+import { ClearableInput, Icon, Image } from '../../../components';
 
 import { definition as kbdefinition } from '../../../components/Singularity/store/reducers/knowledgeBase.reducer.js';
 import { FuseLoading } from '../../../components/fuse';
@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => {
       width: theme.spacing(4),
       height: theme.spacing(4),
       margin: `auto ${theme.spacing(1)}px`,
-      cursor: 'default',
+      marginTop: theme.spacing(1.75),
     },
     featureImg: {
       width: 80,
@@ -217,7 +217,7 @@ const FAQComponent = ({ className }) => {
     return false;
   };
   const FAQData = data.filter((item) =>
-    applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
+    item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
   );
   return hasAccess ? (
     <FuseLoading title='Loading...' />
@@ -227,19 +227,17 @@ const FAQComponent = ({ className }) => {
         variant='h4'
         className={clsx(('text-center', classes.headTitle))}
       >
-        <IconButton
+        <Icon
           className={clsx(classes.iconButton)}
           size='large'
-          icon='question_answer'
           title='Top Questions'
-        />
-        Top Questions
-        <IconButton
+        >question_answer</Icon>
+        Top QuestionsT 
+        <Icon
           className={clsx(classes.iconButton)}
           size='large'
-          icon='question_answer'
           title='Top Questions'
-        />
+        >question_answer</Icon>
       </Typography>
       <Box
         sx={{
