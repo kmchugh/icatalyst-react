@@ -216,7 +216,7 @@ const FAQComponent = ({
     }
     return false;
   };
-  const FAQData = data.filter((item) =>
+  const faqData = data.filter((item) =>
     item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
   );
 
@@ -265,8 +265,8 @@ const FAQComponent = ({
         />
       </Box>
 
-      {FAQData && FAQData.length > 0 ? (
-        FAQData.map((element) => {
+      {faqData && faqData.length > 0 ? (
+        faqData.map((element) => {
           return (
             <Accordion
               key={element.clientid}
