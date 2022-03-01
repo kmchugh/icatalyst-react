@@ -43,8 +43,6 @@ const RichTextField = ({
     rteConfig = {}
   } = field;
 
-  const displayValue = value || '';
-
   const hasErrors = errors && errors.length > 0;
 
   const multiline = rteConfig.multiline !== undefined ?
@@ -83,7 +81,7 @@ const RichTextField = ({
       }}
       multiline={multiline}
       rows={multiline ? Math.min(maxLength/256, 20) : 1}
-      value={field.format ? field.format(displayValue) : displayValue}
+      value={value || ''}
 
     />
   );

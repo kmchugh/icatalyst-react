@@ -38,6 +38,9 @@ const definition = createModel({
           'bold',
           'italic'
         ]
+      },
+      format : (value)=>{
+        return value && value.replace(/<\/?[^>]+(>|$)/g, '');
       }
     },{
       id: 'category',
@@ -135,7 +138,7 @@ const definition = createModel({
       label: 'Make searchable',
       description: 'Show this feature in the search results',
       type: 'boolean',
-      default: false,
+      default: true,
     },
     {
       id: 'includeintour',
