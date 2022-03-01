@@ -1,6 +1,6 @@
-import {createRouteConfig} from '../../../utilities';
-import {definition} from '../../../components/Singularity/store/reducers/knowledgeBase.reducer';
-import _ from '../../../@lodash';
+import {createRouteConfig} from '@icatalyst/utilities';
+import {definition} from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer';
+import _ from '@icatalyst/@lodash';
 
 export function createModule(config={
   auth : 'everyone'
