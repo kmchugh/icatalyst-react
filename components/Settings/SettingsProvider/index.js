@@ -7,6 +7,7 @@ import { SingularityContext } from '../../Singularity';
 
 let registeredSettings = {};
 const settingsLayout = {};
+const overrides = {};
 
 export function useSettingsContext(id, instanceProps) {
   const {clientData, setClientData} = useContext(SingularityContext);
@@ -25,6 +26,7 @@ export function useSettingsContext(id, instanceProps) {
     // Get the settings from the reducer
     let settings = {
       defaultValues : {},
+      instanceValues : {},
       ...(clientData[id] || {})
     };
     // Settings is broken down into instanceValues which are values specifically
@@ -84,7 +86,12 @@ export function useSettingsContext(id, instanceProps) {
      * @param  {string} instanceID The instanceid of the settings to update or null for updating defaults
      */
     const updateSettings = (updateFn, instanceID)=>{
-      const updatedValues = updateFn(collapsedValues);
+      const updatedValues = updateFn(_.merge({},
+        defaults,
+        settings.defaultValues,
+        instanceID ?
+          settings.instanceValues[instanceID] : {}
+      ));
       const originalValues = instanceID ?
         settings.instanceValues[instanceID] :
         settings.defaultValues;
@@ -130,23 +137,41 @@ function updateLayout(settings){
       settings[key].sectionIndex :
       999;
 
-    if (!settingsLayout[sectionID]) {
-      settingsLayout[sectionID] = {
-        name : sectionID,
-        label: _.startCase(sectionID),
-        index: index,
-        settings: {}
-      };
-    }
+    settingsLayout[sectionID] = {
+      ...(settingsLayout[sectionID] || {}),
+      name : sectionID,
+      label: _.startCase(sectionID),
+      index: index,
+      auth : settings[key].auth,
+      settings: {
+        ...(
+          settingsLayout[sectionID] && settingsLayout[sectionID].settings || {}
+        )
+      }
+    };
+
     settingsLayout[sectionID].settings[section.name] = {
       name : section.name,
       label : section.label,
-      index: section.index !== undefined ? section.index : 999,
+      index : section.index !== undefined ? section.index : 999,
       visible : section.visible === undefined ? true : section.visible,
-      values: section.values,
+      values : section.values,
       component : section.component,
     };
   }, {});
+}
+
+export function updateRegisteredSettings(settingsid, updateSettings) {
+  // If the settings are already registered then update now otherwise
+  // update when they are registered
+  if (registeredSettings[settingsid]) {
+    registeredSettings[settingsid] = updateSettings(registeredSettings[settingsid]);
+    updateLayout({
+      [settingsid] : registeredSettings[settingsid]
+    });
+  } else {
+    overrides[settingsid] = updateSettings;
+  }
 }
 
 export function registerSettings(config) {
@@ -155,8 +180,10 @@ export function registerSettings(config) {
   }
 
   config.forEach((config)=>{
-    const definition = createModel(config);
-    const {name} = definition;
+    const {name} = config;
+    const definition = overrides[name] ?
+      overrides[name](createModel(config)) :
+      createModel(config);
     registeredSettings[name] = definition;
 
     // Update the layout

@@ -3,22 +3,23 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
-import { SingularityContext } from '../../../components/Singularity';
-import {
-  Typography,
-  Box,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Grid,
-  Chip,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import {alpha} from '@material-ui/core/styles/colorManipulator';
-import { ClearableInput, Icon, Image } from '../../../components';
+import { SingularityContext } from '@icatalyst/components/Singularity';
 
-import { definition as kbdefinition } from '../../../components/Singularity/store/reducers/knowledgeBase.reducer.js';
-import { FuseLoading } from '../../../components/fuse';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Grid from '@material-ui/core/Grid';
+import Chip from '@material-ui/core/Chip';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ClearableInput from '@icatalyst/components/ClearableInput';
+import Icon from '@icatalyst/components/Icon';
+import Image from '@icatalyst/components/Image';
+
+import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
+import { FuseLoading } from '@icatalyst/components/fuse';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -104,7 +105,6 @@ const useStyles = makeStyles((theme) => {
 
     chip: {
       marginLeft: theme.spacing(3),
-      // background: '#6f4021'
       background: theme.palette.primary[500]
         ? theme.palette.primary[500]
         : theme.palette.primary.main,
@@ -126,10 +126,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
     iconButton: {
-      width: theme.spacing(4),
-      height: theme.spacing(4),
-      margin: `auto ${theme.spacing(1)}px`,
-      marginTop: theme.spacing(1.75),
+      marginTop: theme.spacing(1),
     },
     featureImg: {
       width: 80,
@@ -154,6 +151,7 @@ const useStyles = makeStyles((theme) => {
     headTitle: {
       display: 'flex',
       whiteSpace: 'nowrap',
+      alignItems : 'center'
     },
     titleContainer: {
       maxWidth: 'calc(100% - 30px)',
@@ -171,24 +169,26 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const FAQComponent = ({ className }) => {
+const FAQComponent = ({
+  className,
+  placeholderImage = 'assets/images/placeholders/PlaceholderImage.jpg'
+}) => {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const [hasAccess, setHasAccess] = useState(true);
   const [searchData, setSearchData] = useState('');
 
   const dispatch = useDispatch();
-
-  // const reducer = useSelector(kbdefinition.getReducerRoot);
   const { accessToken } = useContext(SingularityContext);
 
-  // console.log(reducer);
+  console.log(placeholderImage);
+
 
   useEffect(() => {
     dispatch(
       kbdefinition.operations['RETRIEVE_ENTITIES'](
         (err, res) => {
-          setData(res);
+          setData(res || []);
           setHasAccess(false);
         },
         {
@@ -203,42 +203,54 @@ const FAQComponent = ({ className }) => {
 
     const str = toSearch.reduce((acc, item) => {
       if (!item) {
-        return '';
+        return acc;
       }
       const htmlEscapedStr = item.replace(regex, '');
       return `${acc} ${htmlEscapedStr}`;
     }, '');
+
     const index = str.toLowerCase().search(searchData.toLocaleLowerCase());
 
     if (index > -1) {
       return true;
     }
-
     return false;
   };
   const FAQData = data.filter((item) =>
     item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
   );
+
   return hasAccess ? (
     <FuseLoading title='Loading...' />
   ) : (
     <div className={clsx(classes.root, className)}>
-      <Typography
+      <div
         variant='h4'
-        className={clsx(('text-center', classes.headTitle))}
+        className={clsx(classes.headTitle)}
       >
         <Icon
-          className={clsx(classes.iconButton)}
           size='large'
           title='Top Questions'
-        >question_answer</Icon>
-        Top QuestionsT 
+          className={clsx(classes.iconButton)}
+        >
+          question_answer
+        </Icon>
+
+        <Typography
+          variant='h4'
+          className="text-center ml-16 mr-16"
+        >
+          Top Questions
+        </Typography>
+
         <Icon
-          className={clsx(classes.iconButton)}
           size='large'
           title='Top Questions'
-        >question_answer</Icon>
-      </Typography>
+          className={clsx(classes.iconButton)}
+        >
+          question_answer
+        </Icon>
+      </div>
       <Box
         sx={{
           width: { xs: '100%', sm: '80%', md: '60%' },
@@ -270,7 +282,7 @@ const FAQComponent = ({ className }) => {
                   <Image
                     className={classes.featureImg}
                     src={element.featureimageurl}
-                    defaultSrc='assets/images/placeholders/PlaceholderImage.jpg'
+                    defaultSrc={placeholderImage}
                   />
                   <Grid className={classes.headerTitle}>
                     <Typography
@@ -349,6 +361,7 @@ FAQComponent.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
+  placeholderImage: PropTypes.string
 };
 
 export default FAQComponent;

@@ -380,6 +380,9 @@ function Singularity({
       //  resourceID : 'local resource id'
       // }
       // can be a list or individual resource
+      if (resources.length === 0) {
+        return new Promise((resolve)=>resolve({}));
+      }
       return singularity.getResourcePermissions(
         accessToken, resources
       ).catch((error)=>{

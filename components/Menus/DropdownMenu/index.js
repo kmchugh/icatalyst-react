@@ -62,6 +62,7 @@ function DropdownMenu({
   label,
   secondaryLabel,
   onClose,
+  color= 'inherit'
 }){
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -91,6 +92,7 @@ function DropdownMenu({
         )}
         <IconButton
           title={title}
+          color={color}
           className={clsx(styles.menuIcon, classes.menuIcon)}
           component="div"
           size={size}
@@ -119,7 +121,9 @@ function DropdownMenu({
               onClick,
               icon,
               subtitle,
-              menu
+              menu,
+              iconColor = 'inherit',
+              showLabel = true
             } = menuitem;
 
             return (
@@ -144,10 +148,11 @@ function DropdownMenu({
                         styles.sublistItem,
                         classes.sublistItem
                       )}
+                      component="div"
                       aria-label={title}
                     >
                       <ListItemIcon>
-                        <Icon>{icon}</Icon>
+                        <Icon color={iconColor}>{icon}</Icon>
                       </ListItemIcon>
                       <ListItemText
                         primary={title}
@@ -179,14 +184,17 @@ function DropdownMenu({
                       <ListItem
                         className={clsx(styles.listItem, classes.listItem)}
                         aria-label={title}
+                        component="div"
                       >
                         <ListItemIcon>
-                          <Icon>{icon}</Icon>
+                          <Icon color={iconColor}>{icon}</Icon>
                         </ListItemIcon>
-                        <ListItemText
-                          primary={title}
-                          secondary={subtitle}
-                        />
+                        {
+                          showLabel && (<ListItemText
+                            primary={title}
+                            secondary={subtitle}
+                          />)
+                        }
                       </ListItem>
                     )
                   )
@@ -207,18 +215,20 @@ DropdownMenu.propTypes = {
   secondaryLabel : PropTypes.string,
   icon : PropTypes.string,
   id : PropTypes.string,
+  color : PropTypes.string,
   menu : PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.node,
+    PropTypes.oneOfType([
+      PropTypes.node,
       PropTypes.shape({
         title : PropTypes.string.isRequired,
         subtitle : PropTypes.string,
         key : PropTypes.string,
-        onClick : PropTypes.func.isRequired,
+        onClick : PropTypes.func,
         icon : PropTypes.string,
         disabled : PropTypes.bool,
         selected : PropTypes.bool,
         iconColor : PropTypes.string,
-        menu : PropTypes.object
+        menu : PropTypes.array
       })
     ])
   ).isRequired,

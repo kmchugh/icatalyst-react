@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
+import IconButton from '../IconButton';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -32,6 +33,19 @@ const useStyles = makeStyles((theme)=>{
     mobileNavButton : {
       width: theme.spacing(6),
       height: theme.spacing(6)
+    },
+    spacer : {
+      flexGrow: 1,
+      minWidth: theme.spacing(1),
+      height: '100%'
+    },
+    actions : {
+      display: 'flex',
+      flexDirection: 'column',
+
+      [theme.breakpoints.up('sm')]: {
+        flexDirection: 'row',
+      }
     }
   };
 });
@@ -41,6 +55,7 @@ const PageHeader = ({
   size = 'medium',
   title = 'Header',
   showMenuNav = true,
+  actions
 })=>{
   const styles = useStyles();
 
@@ -73,6 +88,39 @@ const PageHeader = ({
       >
         {title}
       </Typography>
+      <div className={styles.spacer}/>
+      {actions && (
+        <div className={styles.actions}>
+          {
+            actions.map((action)=>{
+              const isElement = React.isValidElement(action);
+              if (!isElement) {
+                const {
+                  className,
+                  title,
+                  onClick,
+                  icon,
+                  color = 'primary',
+                  size = 'small',
+                  disabled = false
+                } = action;
+                return (<IconButton
+                  className={clsx(className)}
+                  title={clsx(title)}
+                  key={action.title}
+                  onClick={onClick}
+                  icon={icon}
+                  color={color}
+                  size={size}
+                  disabled={disabled}
+                />);
+              } else {
+                return action;
+              }
+            }).filter(i=>i)
+          }
+        </div>
+      )}
     </div>
   );
 };
@@ -84,7 +132,20 @@ PageHeader.propTypes={
   ]),
   size : PropTypes.oneOf(['small', 'medium', 'large']),
   title : PropTypes.string,
-  showMenuNav : PropTypes.bool
+  showMenuNav : PropTypes.bool,
+  actions : PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.shape({
+        className : PropTypes.string,
+        title : PropTypes.string.isRequired,
+        onClick : PropTypes.func.isRequired,
+        icon : PropTypes.string.isRequired,
+        disabled : PropTypes.bool,
+        color : PropTypes.string
+      })
+    ])
+  ),
 };
 
 export default PageHeader;

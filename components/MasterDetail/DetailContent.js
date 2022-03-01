@@ -119,7 +119,7 @@ const DetailContent = ({
   const [errors, setErrors] = useState({});
   const [updating, setUpdating] = useState(false);
   const [responseErrors, setResponseErrors] = useState(null);
-  const { form, handleChange, resetForm, setForm } = useForm(entity || definition.generateModel());
+  const { form, handleChange, resetForm, setForm } = useForm(null);
   const theme = useTheme();
   const transitionLength = theme.transitions.duration.shortest;
   const {/*isInRole,*/ accessToken} = singularityContext;
@@ -142,7 +142,9 @@ const DetailContent = ({
   }, [form]);
 
   useEffect(()=>{
-    setForm(entity || definition.generateModel());
+    setForm(
+      entity || definition.generateModel()
+    );
   }, [entity]);
 
   const [tabs, setTabs] = useState([]);
@@ -298,7 +300,7 @@ const DetailContent = ({
                     }}
                   >
                     {updating && <FuseLoading title="Updating..."/>}
-                    {!updating && <EntityView
+                    {(!updating && form) && <EntityView
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}

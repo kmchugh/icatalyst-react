@@ -138,10 +138,14 @@ export function createModel(model){
       return entity[definition.identityFieldName];
     }),
     getPrimaryText : ((entity)=>{
-      return entity[definition.primaryTextField];
+      const field = definition.fields[definition.primaryTextField];
+      let textValue = entity[definition.primaryTextField];
+      return (field && field.format) ? field.format(textValue) : textValue;
     }),
     getSecondaryText : ((entity)=>{
-      return entity[definition.secondaryTextField];
+      const field = definition.fields[definition.secondaryTextField];
+      let textValue = entity[definition.secondaryTextField];
+      return (field && field.format) ? field.format(textValue) : textValue;
     }),
     getFeatureImage : ((entity)=>{
       return definition.featureImageField && entity[definition.featureImageField];
@@ -152,17 +156,19 @@ export function createModel(model){
     generateModel: (overrides)=>{
       const identityField = definition.identityFieldName;
       return Object.keys(definition.fields)
-        .filter(f=>f!==identityField)
-        .filter(f=>f.excludeFromModel === true)
-        .reduce((acc, fieldName)=>{
-          const field = definition.fields[fieldName];
-          // If there is a default, check if it is a function
-          acc[field.id] = field.default ?
+        .filter(fieldName=>fieldName!==identityField)
+        .map(fieldName=>definition.fields[fieldName])
+        .filter(i=>i)
+        .filter(field=>field.excludeFromModel !== true)
+        .reduce((acc, field)=>{
+          acc[field.id] = (field.default === undefined || field.default === null) ?
+            // There was not default value, so use the overrides or null
+            ((overrides && overrides[field.id]) || null) :
+            // Use the default, if a function call with overrides
             ((typeof field.default === 'function') ?
               field.default(overrides) :
-              field.default) :
-            // There was not default value, so use the overrides or null
-            ((overrides && overrides[fieldName]) || null);
+              field.default
+            );
           return acc;
         }, {});
     },
