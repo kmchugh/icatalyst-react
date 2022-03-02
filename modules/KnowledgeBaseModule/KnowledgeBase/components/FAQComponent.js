@@ -125,6 +125,9 @@ const useStyles = makeStyles((theme) => {
         height: '300px',
       },
     },
+    iconButton: {
+      marginTop: theme.spacing(1),
+    },
     featureImg: {
       width: 80,
       height: 50,
@@ -210,9 +213,8 @@ const FAQComponent = ({
     }
     return false;
   };
-
   const faqData = data.filter((item) =>
-    applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
+    item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
   );
 
   return hasAccess ? (
@@ -226,13 +228,14 @@ const FAQComponent = ({
         <Icon
           size='large'
           title='Top Questions'
+          className={clsx(classes.iconButton)}
         >
           question_answer
         </Icon>
 
         <Typography
           variant='h4'
-          className="text-center pl-16 pr-16"
+          className="text-center ml-16 mr-16"
         >
           Top Questions
         </Typography>
@@ -240,6 +243,7 @@ const FAQComponent = ({
         <Icon
           size='large'
           title='Top Questions'
+          className={clsx(classes.iconButton)}
         >
           question_answer
         </Icon>
