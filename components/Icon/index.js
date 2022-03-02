@@ -33,27 +33,33 @@ const fa_font_map = {
 const Icon = ({
   children = 'fa question',
   color,
+  // TODO: consolidate fontSize and size to size only
   fontSize = 'medium',
+  size = 'medium',
   ...rest
 })=>{
   const theme = useTheme();
   const classes = useStyles();
+  const definedSize = size || fontSize;
+  // if (fontSize) {
+  //   console.warn('fontSize has been deprecated on Icon, use size instead');
+  // }
 
   if (children.startsWith('fa ')) {
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
-      className={clsx(classes[`font-${fontSize}`])}
+      className={clsx(classes[`font-${definedSize}`])}
       style={color ? {
         color : color === 'action' ?
           theme.palette[color].active :
           theme.palette[color].main
       } : null}
       {...rest}
-      size={fa_font_map[fontSize] || fa_font_map['inherit']}
+      size={fa_font_map[definedSize] || fa_font_map['inherit']}
       icon={icon}/>;
   } else {
-    return (<MUIIcon color={color} {...rest} fontSize={fontSize}>{children}</MUIIcon>);
+    return (<MUIIcon color={color} {...rest} fontSize={definedSize}>{children}</MUIIcon>);
   }
 };
 
@@ -61,6 +67,12 @@ Icon.propTypes = {
   children: PropTypes.string,
   color : PropTypes.string,
   fontSize : PropTypes.oneOf([
+    'inherit',
+    'default',
+    'small',
+    'large'
+  ]),
+  size : PropTypes.oneOf([
     'inherit',
     'default',
     'small',

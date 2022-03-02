@@ -178,9 +178,6 @@ const FAQComponent = ({
   const dispatch = useDispatch();
   const { accessToken } = useContext(SingularityContext);
 
-  console.log(placeholderImage);
-
-
   useEffect(() => {
     dispatch(
       kbdefinition.operations['RETRIEVE_ENTITIES'](

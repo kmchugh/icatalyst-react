@@ -22,12 +22,19 @@ const useStyles = makeStyles(()=>{
   };
 });
 
-function FuseLoading(props)
+function FuseLoading({
+  className,
+  style,
+  delay,
+  color,
+  title = 'Loading...',
+  id,
+})
 {
   const classes = useStyles();
   const theme = useTheme();
 
-  const color = props.color || mostReadable(
+  color = color || mostReadable(
     tinycolor(theme.palette.background.paper),
     [
       theme.palette.primary.main,
@@ -35,11 +42,11 @@ function FuseLoading(props)
     ]
   ).toHex8String() === theme.palette.primary.main ? 'primary' : 'secondary';
 
-  const [showLoading, setShowLoading] = useState(!props.delay);
-  let title = props.title != null ? (props.title || 'Loading...') : null;
+  const [showLoading, setShowLoading] = useState(!delay);
+
   useTimeout(() => {
     setShowLoading(true);
-  }, props.delay);
+  }, delay);
 
   if ( !showLoading )
   {
@@ -47,13 +54,16 @@ function FuseLoading(props)
   }
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <div
+      className={clsx(classes.root, className)}
+      style={{...style}}
+    >
       {title && <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>}
       <LinearProgress
         aria-label={title || 'Loading...'}
         className="mb-32 w-xs"
         color={color}
-        id={props.id}
+        id={id}
       />
     </div>
   );
@@ -64,7 +74,8 @@ FuseLoading.propTypes = {
   className : PropTypes.string,
   title : PropTypes.string,
   color: PropTypes.oneOf(['primary', 'secondary']),
-  id: PropTypes.string
+  id: PropTypes.string,
+  style: PropTypes.object
 };
 
 FuseLoading.defaultProps = {

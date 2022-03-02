@@ -34,6 +34,7 @@ const TitledPage = ({
   headerSize = 'medium',
   title,
   headerClassName,
+  contentClassName,
   actions
 })=>{
   const styles = useStyles();
@@ -46,7 +47,7 @@ const TitledPage = ({
         className={clsx(styles.header, headerClassName)}
         actions={actions}
       />
-      <div className={clsx(styles.pageContent)}>
+      <div className={clsx(styles.pageContent, contentClassName)}>
         {children}
       </div>
     </div>
@@ -59,6 +60,10 @@ TitledPage.propTypes={
     PropTypes.arrayOf(PropTypes.string)
   ]),
   headerClassName : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
+  contentClassName : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),

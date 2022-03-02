@@ -11,8 +11,6 @@ export function createModule(config={}){
     admin, display
   } = modules;
 
-  console.log(display);
-
   return createRouteConfig({
     name: 'knowledgeBase',
     title: 'KnowledgeBase',
@@ -24,8 +22,8 @@ export function createModule(config={}){
       display && display.visible === false ? null : {
         ...createRouteConfig(displayKnowledgeBase(display)),
         path : 'knowledge-base-faq',
-        component : display.placeholderImage ?
-          ()=>(<FAQComponent placeholderImage={display.placeholderImage}/>) :
+        component : display.componentProps ?
+          ()=>(<FAQComponent {...display.componentProps}/>) :
           FAQComponent,
       },
       admin && admin.visible === false ? null : {
