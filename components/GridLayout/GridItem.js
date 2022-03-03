@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme)=>{
       fontWeight: 'bold',
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
-      paddingTop : 2
+      paddingTop : theme.spacing(.5)
     },
   };
 });
@@ -101,11 +101,11 @@ const GridItem = React.forwardRef(({
                 title :
                 <Tooltip title={title || ''}>
                   <Typography
-                    variant="h2"
+                    variant="subtitle1"
                     style={isCompact ? {
-                      fontSize : theme.spacing(2)
+                      fontSize : theme.spacing(1.5)
                     } : {
-                      fontSize : theme.spacing(3),
+                      fontSize : theme.spacing(2),
                     }}
                     className={clsx(styles.title)}
                     noWrap
