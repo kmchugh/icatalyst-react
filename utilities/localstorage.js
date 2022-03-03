@@ -3,11 +3,11 @@
 
 
 
-export function getFromLocalStore(key){
+export function getFromLocalStore(key, def = {}){
   let ls = {};
   if (global.localStorage) {
     try {
-      ls = JSON.parse(global.localStorage.getItem(key)) || {};
+      ls = JSON.parse(global.localStorage.getItem(key)) || def;
     } catch (e) {
       /*Ignore*/
     }

@@ -164,6 +164,11 @@ export function createURI(path, params = {}) {
     return '/' + param;
   });
 
+  if (params && params.parseURL) {
+    uri = params.parseURL(uri);
+    delete params.parseURL;
+  }
+
   // Add any query parameters
   let query = Object.keys(params)
     .filter(key=>params[key] !== undefined && params[key] !== null)

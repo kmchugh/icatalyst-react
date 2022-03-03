@@ -92,8 +92,14 @@ const GridLayout = React.forwardRef(({
   }, [data]);
 
   const gridLayout = useMemo(()=>{
-    return layoutRef.current.length === data.children.length ?
-      layoutRef.current : parseLayout(data.layout);
+
+    const childKeys = data.children.map(c=>c.key).sort();
+    const layoutKeys = layoutRef.current.map(l=>l.i).sort();
+    // If there is a mismatch between the layout and children
+    // then we need to update the layout
+    return _.isEqual(childKeys, layoutKeys) ?
+      layoutRef.current :
+      parseLayout(data.layout);
   }, [data]);
 
   useLayoutEffect(()=>{
