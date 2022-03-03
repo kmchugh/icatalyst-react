@@ -81,7 +81,7 @@ const GridItem = React.forwardRef(({
         <div className={clsx(styles.contentHeader)}>
           <span className={clsx(styles.dragHandle, 'dragHandle')}>
             <Icon
-              size={isCompact ? 'small' : 'default'}
+              size={isCompact ? 'small' : 'medium'}
               title="drag"
               component="div"
               style={{
