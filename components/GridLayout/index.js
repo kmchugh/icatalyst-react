@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useLayoutEffect, useRef, useMemo} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -67,8 +67,6 @@ const GridLayout = React.forwardRef(({
     saveToLocalStore(localStorageKey, value);
   };
 
-  const [initialised, setInitialised] = useState(false);
-
   const layoutRef = useRef(
     parseLayout(data.layout ? data.layout : (
       localStorageKey ? getFromLS(localStorageKey) : {}
@@ -81,13 +79,11 @@ const GridLayout = React.forwardRef(({
     } else {
       layoutRef.current = parseLayout(data.layout);
     }
-    setInitialised(false);
   }, [localStorageKey]);
 
   useEffect(()=>{
     if (data.layout) {
       layoutRef.current = parseLayout(data.layout);
-      setInitialised(false);
     }
   }, [data]);
 
@@ -138,18 +134,13 @@ const GridLayout = React.forwardRef(({
             return acc;
           }, {});
           layoutRef.current = layoutData;
-          if (initialised && !_.isEqual(parsedLayout, data.layout)) {
-            setInitialised(false);
+          if (!_.isEqual(parsedLayout, data.layout)) {
             if (localStorageKey) {
               saveToLS(layoutData);
             }
             onLayoutChange && onLayoutChange(parsedLayout);
-          } else {
-            // Skip the first layout change
-            setInitialised(true);
           }
         }}
-        // layout={stateLayout}
         layouts={{
           lg : gridLayout
         }}
