@@ -12,7 +12,6 @@ import DropdownMenu from '../Menus/DropdownMenu';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      padding: theme.spacing(.5),
       overflow : 'hidden',
       display : 'flex',
       flexDirection : 'column'
@@ -22,7 +21,8 @@ const useStyles = makeStyles((theme)=>{
       flexGrow : 0,
       display: 'flex',
       flexDirection : 'row',
-      alignItems : 'center'
+      alignItems : 'center',
+      minHeight : theme.spacing(3)
     },
     content : {
       overflow : 'hidden',
@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme)=>{
       fontWeight: 'bold',
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
+      paddingTop : 2
     },
   };
 });
@@ -105,7 +106,6 @@ const GridItem = React.forwardRef(({
                       fontSize : theme.spacing(2)
                     } : {
                       fontSize : theme.spacing(3),
-                      paddingTop : 1
                     }}
                     className={clsx(styles.title)}
                     noWrap
