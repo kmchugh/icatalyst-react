@@ -31,6 +31,7 @@ const IconButton = (props)=>{
     onClick,
     className,
     id,
+    size,
     ...rest
   } = props;
 
@@ -44,9 +45,11 @@ const IconButton = (props)=>{
           color={color}
           aria-label={title}
           onClick={onClick}
+          size={size}
           {...rest}
         >
           <Icon
+            size={size}
             className={clsx(classes.icon)}
           >{icon}</Icon>
         </NativeButton>
@@ -65,7 +68,12 @@ IconButton.propTypes = {
     PropTypes.string,
     PropTypes.array
   ]),
-  id : PropTypes.string
+  id : PropTypes.string,
+  size : PropTypes.oneOf([
+    'small',
+    'medium',
+    'large'
+  ])
 };
 
 export default IconButton;

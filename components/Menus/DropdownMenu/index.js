@@ -214,6 +214,7 @@ DropdownMenu.propTypes = {
   label : PropTypes.string,
   secondaryLabel : PropTypes.string,
   icon : PropTypes.string,
+  iconSize : PropTypes.string,
   id : PropTypes.string,
   color : PropTypes.string,
   menu : PropTypes.arrayOf(
