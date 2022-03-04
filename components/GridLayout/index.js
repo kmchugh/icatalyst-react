@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {
       height: '100%',
-      overflow : 'auto',
+      overflowX : 'hidden',
+      overflowY : 'auto'
     },
     gridRoot : {
       ['& .react-grid-item.react-grid-placeholder'] : {

@@ -70,13 +70,15 @@ Icon.propTypes = {
     'inherit',
     'default',
     'small',
-    'large'
+    'large',
+    'medium'
   ]),
   size : PropTypes.oneOf([
     'inherit',
     'default',
     'small',
-    'large'
+    'large',
+    'medium'
   ])
 };
 

@@ -118,7 +118,7 @@ const GridItem = React.forwardRef(({
             {icon && (
               <Icon
                 color={iconColor}
-                size={isCompact ? 'small' : 'default'}>
+                size={isCompact ? 'small' : 'medium'}>
                 {icon}
               </Icon>
             )}
@@ -153,10 +153,10 @@ GridItem.propTypes={
     'compact'
   ]),
   title : PropTypes.string,
-  icon : PropTypes.oneOfType(
+  icon : PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.string
-  ),
+  ]),
   iconColor : PropTypes.string,
   menuTitle : PropTypes.string,
   menu : PropTypes.arrayOf(
