@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useRef, useMemo} from 'react';
+import React, {useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -89,7 +89,12 @@ const GridLayout = React.forwardRef(({
   }, [data]);
 
   const gridLayout = useMemo(()=>{
-
+    setTimeout(
+      ()=>{
+        window.dispatchEvent(new Event('resize'));
+      },
+      1000
+    );
     const childKeys = data.children.map(c=>c.key).sort();
     const layoutKeys = layoutRef.current.map(l=>l.i).sort();
     // If there is a mismatch between the layout and children
@@ -99,10 +104,6 @@ const GridLayout = React.forwardRef(({
       parseLayout(data.layout);
   }, [data]);
 
-  useLayoutEffect(()=>{
-    window.dispatchEvent(new Event('resize'));
-  }, []);
-
   return (
     <div
       ref={ref}
@@ -111,7 +112,7 @@ const GridLayout = React.forwardRef(({
     >
       <ResponsiveGridLayout
         style={{
-          height : '100vh'
+          height : '100vh',
         }}
         margin={margin}
         containerPadding={containerPadding}
