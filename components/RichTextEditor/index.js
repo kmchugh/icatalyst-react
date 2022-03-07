@@ -4,6 +4,7 @@ import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from '@ckeditor/ckeditor5-build-balloon';
+import _ from '@icatalyst/@lodash';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -54,6 +55,7 @@ const RichTextEditor = (
     // variant = 'contained',
     config = {},
     rows = 5,
+    debounce = 500,
     ...rest
   }
 )=>{
@@ -80,10 +82,6 @@ const RichTextEditor = (
     }
   }, [value]);
 
-  const updateContent = (e, updatedContent)=>{
-    onChange && onChange(e, updatedContent);
-  };
-
   const derivedConfig = useMemo(()=>{
     return !multiline ? {
       toolbar: ['bold', 'italic'],
@@ -93,6 +91,12 @@ const RichTextEditor = (
       }
     } : {};
   }, [config]);
+
+  const updateContent = useMemo(()=>{
+    return _.debounce((e, value)=>{
+      onChange && onChange(e, value);
+    }, debounce);
+  }, [onChange, debounce]);
 
   // const derivedConfig = useMemo(()=>{
   //   return {
@@ -206,7 +210,8 @@ RichTextEditor.propTypes={
     'contained'
   ]),
   rows : PropTypes.number,
-  config : PropTypes.object
+  config : PropTypes.object,
+  debounce : PropTypes.number
 };
 
 export default RichTextEditor;
