@@ -37,7 +37,7 @@ const IconButton = (props)=>{
 
   return (
     <Tooltip
-      title={title}
+      title={title || ''}
     >
       <span id={id} className={clsx(classes.root)}>
         <NativeButton

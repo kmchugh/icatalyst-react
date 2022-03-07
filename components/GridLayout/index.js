@@ -89,19 +89,21 @@ const GridLayout = React.forwardRef(({
   }, [data]);
 
   const gridLayout = useMemo(()=>{
-    setTimeout(
-      ()=>{
-        window.dispatchEvent(new Event('resize'));
-      },
-      1000
-    );
     const childKeys = data.children.map(c=>c.key).sort();
     const layoutKeys = layoutRef.current.map(l=>l.i).sort();
     // If there is a mismatch between the layout and children
     // then we need to update the layout
-    return _.isEqual(childKeys, layoutKeys) ?
-      layoutRef.current :
-      parseLayout(data.layout);
+    if (_.isEqual(childKeys, layoutKeys)) {
+      return layoutRef.current;
+    } else {
+      setTimeout(
+        ()=>{
+          window.dispatchEvent(new Event('resize'));
+        },
+        1000
+      );
+      return parseLayout(data.layout);
+    }
   }, [data]);
 
   return (

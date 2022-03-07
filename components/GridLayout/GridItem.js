@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme)=>{
       flexGrow : 1,
       flexShrink : 1,
       alignItems : 'center',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      minHeight: theme.spacing(4)
     },
     title : {
       fontWeight: 'bold',
