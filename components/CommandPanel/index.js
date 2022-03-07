@@ -153,6 +153,32 @@ const CommandPanel = ({
     });
   }, [secondaryMenus]);
 
+  const renderMenu = (menu)=>{
+    return menu.map((item, i)=>{
+      if (Array.isArray(item)) {
+        return (<div
+          key={i}
+          className={clsx(styles.menuWrapper)}
+          id={i}
+        >
+          {renderMenu(item)}
+        </div>);
+      } else {
+        return item.component ? item.component : (
+          <IconButton
+            className={clsx(styles.iconButton)}
+            key={item.key || item.title}
+            color={item.color}
+            size="small"
+            icon={item.icon}
+            title={item.title}
+            onClick={item.onClick}
+          />
+        );
+      }
+    });
+  };
+
   return (
     <Paper
       style={style}
@@ -162,21 +188,7 @@ const CommandPanel = ({
         className
       )}>
       <div ref={contentRef} className={clsx(styles.content)}>
-        {hasPrimary && (
-          primary.map((i)=>{
-            return (
-              <IconButton
-                className={clsx(styles.iconButton)}
-                key={i.title}
-                color={i.color}
-                size="small"
-                icon={i.icon}
-                title={i.title}
-                onClick={i.onClick}
-              />
-            );
-          })
-        )}
+        {hasPrimary && (renderMenu(primary))}
         <div className={clsx(styles.spacer)}/>
         { (secondaryMenus && secondaryMenus.length > 0) && (
         // Filter to the number of items with combined width less than overflow
@@ -268,7 +280,7 @@ CommandPanel.propTypes={
     PropTypes.arrayOf(PropTypes.object)
   ]),
   elevation : PropTypes.number,
-  primary : PropTypes.arrayOf(MenuItemPropTypes),
+  primary : PropTypes.array,
   secondary : PropTypes.arrayOf(
     PropTypes.arrayOf(MenuItemPropTypes)
   )
