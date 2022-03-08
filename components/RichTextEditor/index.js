@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useImperativeHandle, useMemo} from 'react';
+import React, {useEffect, useRef, useImperativeHandle, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -55,7 +55,7 @@ const RichTextEditor = (
     // variant = 'contained',
     config = {},
     rows = 5,
-    debounce = 500,
+    debounce = 750,
     ...rest
   }
 )=>{
@@ -65,6 +65,7 @@ const RichTextEditor = (
   });
   const editorRef = useRef(null);
   const valueRef = useRef(value);
+  const [pendingUpdate, setPendingUpdate] = useState(null);
 
   useImperativeHandle(rest.inputRef, ()=>{
     return {
@@ -76,8 +77,8 @@ const RichTextEditor = (
 
   useEffect(()=>{
     if (editorRef.current) {
-      if (value !== editorRef.current.getData()) {
-        editorRef.current.setData(value);
+      if (value !== editorRef.current.getData() && value !== pendingUpdate) {
+        editorRef.current.setData(value || '');
       }
     }
   }, [value]);
@@ -94,6 +95,7 @@ const RichTextEditor = (
 
   const updateContent = useMemo(()=>{
     return _.debounce((e, value)=>{
+      setPendingUpdate(value);
       onChange && onChange(e, value);
     }, debounce);
   }, [onChange, debounce]);
@@ -175,7 +177,7 @@ const RichTextEditor = (
         isReadOnly={true}
         onReady={(editor)=>{
           editorRef.current = editor;
-          editor.setData(value);
+          editor.setData(value || '');
         }}
         onChange={
           (e, editor)=>{
@@ -183,7 +185,9 @@ const RichTextEditor = (
             valueRef.current = v;
             if (v !== value) {
               const isEmpty = !v || v.trim() === '';
-              updateContent(e, isEmpty ? null : v);
+              if (v !== pendingUpdate) {
+                updateContent(e, isEmpty ? null : v);
+              }
             }
           }
         }
