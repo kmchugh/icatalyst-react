@@ -37,6 +37,10 @@ const GridLayout = React.forwardRef(({
   onLayoutChange,
   compactType = 'vertical',
   localStorageKey = null,
+  isDroppable = false,
+  onDrop,
+  onDrag,
+  onDragStart,
 }, ref)=>{
   const styles = useStyles();
 
@@ -120,6 +124,10 @@ const GridLayout = React.forwardRef(({
         containerPadding={containerPadding}
         className={clsx(styles.gridRoot)}
         draggableHandle={`.${dragHandleClass}`}
+        isDroppable={isDroppable}
+        onDrop={onDrop}
+        onDrag={onDrag}
+        onDragStart={onDragStart}
         rowHeight={rowHeight}
         autoSize={false}
         isBounded={false}
@@ -195,7 +203,11 @@ GridLayout.propTypes = {
     'horizontal',
     'none'
   ]),
-  localStorageKey : PropTypes.string
+  localStorageKey : PropTypes.string,
+  isDroppable : PropTypes.bool,
+  onDrop : PropTypes.func,
+  onDrag : PropTypes.func,
+  onDragStart : PropTypes.func
 };
 
 export default GridLayout;

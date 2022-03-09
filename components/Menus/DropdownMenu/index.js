@@ -21,7 +21,8 @@ const styles = (theme) => {
     },
     primaryItem : {
       display : 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      alignItems : 'center',
     },
     menuIcon : {
       marginLeft : theme.spacing(1),
@@ -38,7 +39,7 @@ const styles = (theme) => {
     },
     sublistItemText : {
       flexGrow: 1
-    }
+    },
   };
 };
 
@@ -46,7 +47,7 @@ const useStyles = makeStyles(styles);
 
 function DropdownMenu({
   size = 'small',
-  title = 'menu',
+  title = '',
   id = 'menu',
   icon = 'more_vertical',
   menu,
@@ -62,7 +63,8 @@ function DropdownMenu({
   label,
   secondaryLabel,
   onClose,
-  color= 'inherit'
+  color= 'inherit',
+  className,
 }){
   const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -81,7 +83,7 @@ function DropdownMenu({
   };
 
   return (
-    <div className={clsx(styles.root, classes.root)}>
+    <div className={clsx(styles.root, className, classes.root)}>
       <div className={clsx(styles.primaryItem)}>
         { label && (
           <ListItemText
@@ -129,7 +131,7 @@ function DropdownMenu({
             return (
               <MenuItem
                 className={clsx(isElement ? styles.customItemWrapper : '')}
-                key={menuitem.title || menuitem.key || menuitem.id}
+                key={menuitem.key || menuitem.id || menuitem.title}
                 disabled={menuitem.disabled}
                 selected={menuitem.selected}
                 onClick={(e)=>{
@@ -209,9 +211,16 @@ function DropdownMenu({
 }
 
 DropdownMenu.propTypes = {
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   size : PropTypes.oneOf(['small', 'medium', 'large']),
   title : PropTypes.string,
-  label : PropTypes.string,
+  label : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+  ]),
   secondaryLabel : PropTypes.string,
   icon : PropTypes.string,
   iconSize : PropTypes.string,
