@@ -153,9 +153,12 @@ function DropdownMenu({
                       component="div"
                       aria-label={title}
                     >
-                      <ListItemIcon>
-                        <Icon color={iconColor}>{icon}</Icon>
-                      </ListItemIcon>
+                      {icon && (
+                        <ListItemIcon>
+                          <Icon color={iconColor}>{icon}</Icon>
+                        </ListItemIcon>
+                      )}
+
                       <ListItemText
                         primary={title}
                         secondary={subtitle}
@@ -188,9 +191,12 @@ function DropdownMenu({
                         aria-label={title}
                         component="div"
                       >
-                        <ListItemIcon>
-                          <Icon color={iconColor}>{icon}</Icon>
-                        </ListItemIcon>
+                        {icon && (
+                          <ListItemIcon>
+                            <Icon color={iconColor}>{icon}</Icon>
+                          </ListItemIcon>
+                        )}
+
                         {
                           showLabel && (<ListItemText
                             primary={title}

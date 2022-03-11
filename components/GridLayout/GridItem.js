@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme)=>{
     dragHandle : {
       overflow : 'hidden',
       cursor : 'pointer',
-      width: theme.spacing(2.5),
-      height: theme.spacing(2.5),
-      color : 'transparent'
+      color : 'transparent',
+      marginLeft : theme.spacing(.5),
+      marginRight : theme.spacing(1),
     },
     titleWrapper : {
       display: 'flex',
@@ -153,7 +153,10 @@ GridItem.propTypes={
     'default',
     'compact'
   ]),
-  title : PropTypes.string,
+  title : PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string
+  ]),
   icon : PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.string
