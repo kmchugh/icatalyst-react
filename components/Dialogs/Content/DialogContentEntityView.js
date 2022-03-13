@@ -30,6 +30,7 @@ const DialogContentEntityView = ({
   entity,
   onSaved,
   updatingTitle = 'Saving',
+  onChange,
   ...rest
 })=>{
 
@@ -139,7 +140,12 @@ const DialogContentEntityView = ({
           model={form}
           errors={errors}
           onChange={(e, value)=>{
-            handleChange(e, value);
+            const interceptChange = (onChange && onChange(
+              e, value, form
+            )) || null;
+            handleChange(interceptChange ? null : e,
+              interceptChange || value
+            );
           }}
         />
       }
@@ -149,13 +155,14 @@ const DialogContentEntityView = ({
 
 DialogContentEntityView.propTypes = {
   ...DialogContent.propTypes,
-  definition : PropTypes.object,
+  definition : PropTypes.object.isRequired,
   entityViewClassName : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
   updatingTitle : PropTypes.string,
-  entity : PropTypes.object
+  entity : PropTypes.object,
+  onChange : PropTypes.func
 };
 
 export default DialogContentEntityView;

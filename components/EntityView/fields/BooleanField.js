@@ -1,6 +1,8 @@
 import React from 'react';
-import {FormControl, FormControlLabel,
-  FormHelperText, Checkbox} from '@material-ui/core';
+import FormControl  from '@material-ui/core/FormControl';
+import FormControlLabel  from '@material-ui/core/FormControlLabel';
+import FormHelperText  from '@material-ui/core/FormHelperText';
+import Checkbox  from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';

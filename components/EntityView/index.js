@@ -3,7 +3,7 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
@@ -56,7 +56,9 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(2),
       }
     }
-  }
+  },
+  entityField : {
+  },
 }));
 
 const EntityView = ({
@@ -71,6 +73,7 @@ const EntityView = ({
 }) => {
   const dispatch = useDispatch;
   const classes = useStyles();
+  const theme = useTheme();
 
   if (!model) {
     console.error('A model has not been passed to the entity view, this is most likely an error');
@@ -116,6 +119,9 @@ const EntityView = ({
             }
             errors={errors && errors[field]}
             className={clsx(classes.entityField)}
+            style={{
+              paddingLeft : theme.spacing(fieldDef.indent || 0)
+            }}
           />;
         };
       return renderFunction(model, fieldProps, dispatch);
