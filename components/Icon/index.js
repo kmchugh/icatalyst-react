@@ -32,7 +32,7 @@ const fa_font_map = {
 
 const Icon = ({
   children = 'fa question',
-  color,
+  color = 'inherit',
   // TODO: consolidate fontSize and size to size only
   fontSize = 'medium',
   size = 'medium',
@@ -50,11 +50,18 @@ const Icon = ({
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
       className={clsx(classes[`font-${definedSize}`])}
-      style={color ? {
-        color : color === 'action' ?
-          theme.palette[color].active :
-          theme.palette[color].main
-      } : null}
+      style={(color && [
+        'action',
+        'primary',
+        'secondary',
+        'success',
+        'error',
+        'info'
+      ].indexOf(color) > 0) ? {
+          color : color === 'action' ?
+            theme.palette[color].active :
+            theme.palette[color].main
+        } : null}
       {...rest}
       size={fa_font_map[definedSize] || fa_font_map['inherit']}
       icon={icon}/>;
