@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme)=>{
       color : 'transparent',
       marginLeft : theme.spacing(.5),
       marginRight : theme.spacing(1),
+      marginTop : theme.spacing(-0.5),
     },
     titleWrapper : {
       display: 'flex',

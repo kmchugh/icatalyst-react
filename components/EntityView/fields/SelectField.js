@@ -1,8 +1,9 @@
 import React from 'react';
-import {FormControl,
-  InputLabel, FormHelperText} from '@material-ui/core';
-import {Select as NativeSelectField} from '@material-ui/core';
-import {MenuItem} from '@material-ui/core';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import NativeSelectField from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
@@ -60,7 +61,7 @@ const SelectField = (props) => {
         value={value || ''}
         onChange={(e)=>{
           if (e.target.value !== value) {
-            onChange && onChange(e, value);
+            onChange && onChange(e, e.target.value);
           }
         }}
         required={required}
