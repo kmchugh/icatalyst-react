@@ -71,7 +71,9 @@ const InfoPage = ({
   title = 'Title',
   info = 'info text',
   action = null,
-  className
+  className,
+  style,
+  renderNavigation = true,
 })=>{
   const classes = useStyles();
   const iconText = typeof icon === 'string';
@@ -82,11 +84,11 @@ const InfoPage = ({
   const {toolbar} = config;
 
   return (
-    <div className={clsx(classes.root, 'max-w-md text-center', className)}>
+    <div style={style} className={clsx(classes.root, 'max-w-md text-center', className)}>
       {
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
-        !toolbar.display && (
+        (!toolbar.display && renderNavigation) && (
           <Hidden lgUp>
             <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
           </Hidden>
@@ -124,6 +126,7 @@ InfoPage.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
+  style : PropTypes.object,
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
@@ -136,7 +139,8 @@ InfoPage.propTypes = {
   info: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node
-  ])
+  ]),
+  renderNavigation: PropTypes.bool
 };
 
 export default InfoPage;
