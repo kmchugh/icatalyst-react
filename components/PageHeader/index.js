@@ -131,7 +131,10 @@ PageHeader.propTypes={
     PropTypes.arrayOf(PropTypes.string)
   ]),
   size : PropTypes.oneOf(['small', 'medium', 'large']),
-  title : PropTypes.string,
+  title : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]).isRequired,
   showMenuNav : PropTypes.bool,
   actions : PropTypes.arrayOf(
     PropTypes.oneOfType([

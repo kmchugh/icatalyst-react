@@ -76,7 +76,10 @@ TitledPage.propTypes={
     'medium',
     'large'
   ]),
-  title : PropTypes.string.isRequired,
+  title : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+  ]).isRequired,
   actions : PropTypes.arrayOf(
     PropTypes.oneOfType([
       PropTypes.node,
