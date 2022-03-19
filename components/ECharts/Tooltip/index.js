@@ -17,9 +17,9 @@ const cssStyles = {
     lineHeight: 1,
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    margin: '0 0 10px 0',
   },
   content : {
-    margin: '10px 0 0',
     lineHeight: 1,
     display : 'flex',
     flexDirection : 'row',
@@ -29,12 +29,12 @@ const cssStyles = {
     flexShrink: 0,
   },
   name : {
+    margin: '0 0 10px 0',
     paddingBottom: '2px',
     fontSize: '14px',
     color: '#666',
     fontWeight: 400,
     lineHeight: 1,
-    margin: '10px 0 0',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
@@ -49,6 +49,7 @@ const cssStyles = {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
+    paddingBottom: '2px',
   },
   value : {
     fontWeight: 900,
@@ -73,22 +74,32 @@ const Tooltip = (params)=>{
 
   const {
     trigger = 'item',
-    title = null,
+    title = '',
     width = 200,
     total = null,
+    showCount = true,
+    showValue = true,
+    showPercent = true,
     getCount = (value)=>{
-      return Array.isArray(value) ? value[value.length-1] : value.count;
+      return Array.isArray(value) ?
+        value[value.length-1] :
+        (
+          value.count ?
+            value.count :
+            value
+        );
     },
-    getDisplayValue = (value)=>{
+    getDisplayValue = (value/*, data*/)=>{
       return Array.isArray(value) ?
         value.slice(0, value.length-1) :
         value;
-    }
+    },
+    ...tooltipConfig
   } = config;
 
   const percentString = (count)=>{
     return (total && count) ? (
-      `(${Math.round((count/total)*10000)/100}%)`
+      ` (${Math.round((count/(total+Number.EPSILON))*10000)/100}%)`
     ) : '';
   };
 
@@ -100,26 +111,31 @@ const Tooltip = (params)=>{
   };
 
   return {
+    ...tooltipConfig,
     trigger: trigger,
     extraCssText: `width:${width}px; white-space:pre-wrap;`,
-    formatter: ({marker, seriesName, value})=>{
+    formatter: (params)=>{
+      const {data, marker, seriesName, value} = Array.isArray(params) ? params[0] : params;
       const count = getCount(value);
-      const displayValue = getDisplayValue(value);
+      const displayValue = getDisplayValue(value, data);
 
-      return `<div style="${styleString(cssStyles.title)}">` +
-                (title || '') +
-              '</div>' +
-              (seriesName ?
-                `<div style="${styleString(cssStyles.name)}">${seriesName}</div>`:
-                ''
-              ) +
-              `<div style="${styleString(cssStyles.content)}">` +
-                `<span style="${styleString(cssStyles.marker)}">${marker}</span>` +
-                `<span style="${styleString(cssStyles.valueWrapper)}">` +
-                  `<span style="${styleString(cssStyles.value)}">${valueString(displayValue)}</span>` +
-                  `<span style="${styleString(cssStyles.summary)}">${count}${percentString(count)}</span>` +
-                '</span>' +
-              '</div>';
+      return (title ?
+        `<div style="${styleString(cssStyles.title)}">${title}</div>` :
+        ''
+      ) +
+
+      (seriesName ?
+        `<div style="${styleString(cssStyles.name)}">${seriesName}</div>`:
+        ''
+      ) +
+
+      `<div style="${styleString(cssStyles.content)}">` +
+        `<span style="${styleString(cssStyles.marker)}">${marker}</span>` +
+        `<span style="${styleString(cssStyles.valueWrapper)}">` +
+          (showValue ? `<span style="${styleString(cssStyles.value)}">${valueString(displayValue)}</span>` : '') +
+          `<span style="${styleString(cssStyles.summary)}">${showCount ? count : ''}${showPercent ? percentString(count) : ''}</span>` +
+        '</span>' +
+      '</div>';
     }
   };
 };
