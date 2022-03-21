@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme)=>{
       marginLeft : theme.spacing(.5),
       marginRight : theme.spacing(1),
       marginTop : theme.spacing(-0.5),
+      flexShrink: 0
     },
     titleWrapper : {
       display: 'flex',
