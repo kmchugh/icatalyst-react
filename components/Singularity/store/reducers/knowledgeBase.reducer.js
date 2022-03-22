@@ -60,15 +60,13 @@ const definition = createModel({
           }
         };
       }
-    },
-    {
+    },{
       id: 'excerpt',
       type: 'richtext',
       required: true,
       minLength: 1,
       maxLength: 2048,
-    },
-    {
+    },{
       id: 'tags',
       type: 'tags',
       required: false,

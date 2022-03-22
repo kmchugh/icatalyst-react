@@ -6,6 +6,9 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from '@ckeditor/ckeditor5-build-balloon';
 import _ from '@icatalyst/@lodash';
 
+// Uncomment this to quickly see a list of plugins
+// console.log(Editor.builtinPlugins.map( plugin => plugin.pluginName ));
+
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
@@ -84,13 +87,24 @@ const RichTextEditor = (
   }, [value]);
 
   const derivedConfig = useMemo(()=>{
-    return !multiline ? {
+    return _.merge({
+      // By default remove the following plugins
+      removePlugins : [
+        'CKFinder',
+        'CKFinderUploadAdapter',
+        'CloudServices',
+        'EasyImage',
+        'ImageUpload',
+        'TableToolbar',
+        'Table'
+      ]
+    }, !multiline ? {
       toolbar: ['bold', 'italic'],
       restrictedEditing: {
         allowedCommands: ['bold', 'italic'],
         allowedAttributes: []
       }
-    } : {};
+    } : {}, config);
   }, [config]);
 
   const updateContent = useMemo(()=>{
@@ -99,69 +113,6 @@ const RichTextEditor = (
       onChange && onChange(e, value);
     }, debounce);
   }, [onChange, debounce]);
-
-  // const derivedConfig = useMemo(()=>{
-  //   return {
-  //     editorCssClass : clsx(styles.rte),
-  //     buttons : config.buttons || undefined,
-  //     enter : blockWrapper,
-  //     readonly,
-  //     inline : inline,
-  //     toolbarInlineForSelection : inline,
-  //     toolbar : !inline,
-  //     showCharsCounter : !inline,
-  //     showWordsCounter : !inline,
-  //     showXPathInStatusbar : !inline,
-  //     popup : {
-  //       selection : ['bold']
-  //     },
-  //     showPlaceholder: false,
-  //     spellcheck : false,
-  //     useSearch : false,
-  //     cleanHTML : {
-  //       denyTags : config.multiline === false ? {
-  //         p: true,
-  //         br: true,
-  //         span: true,
-  //         table: true,
-  //         img: true,
-  //         a: true,
-  //         tr: true,
-  //         td: true,
-  //         ol : true,
-  //         ul : true,
-  //         iframe: true
-  //       } : undefined
-  //     },
-  //     events : {
-  //       keydown : (e)=>{
-  //         // Specific check for false, as it could be null or undefined
-  //         console.log(e.key, config.multiline === false, e.key === 'Enter');
-  //         if (config.multiline === false && e.key === 'Enter') {
-  //           e.stopPropagation();
-  //           return false;
-  //         }
-  //       },
-  //       focus : (e)=>{
-  //         onFocus && onFocus(e);
-  //       },
-  //       // There is a bug in the jodit-react onBlur so use this instead
-  //       blur : (e)=>{
-  //         const v = textRef.current.value;
-  //         const isEmpty = !v || v.trim() === '';
-  //         // Makes sure we only run updates if the
-  //         // value has actually changed.
-  //         // JODIT will update null to '' so we also
-  //         // need to handle that case
-  //         if (v !== value) {
-  //           updateContent(e, isEmpty ? null : v);
-  //         }
-  //         onBlur && onBlur(e);
-  //       }
-  //     }
-  //   };
-  // }, [value, config]);
-  //
 
   return (
     <div className={clsx(
