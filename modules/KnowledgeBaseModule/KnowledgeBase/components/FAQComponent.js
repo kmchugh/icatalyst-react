@@ -102,17 +102,10 @@ const useStyles = makeStyles((theme) => {
       alignItems: 'center',
       marginTop: 10,
     },
-
     chip: {
-      marginLeft: theme.spacing(3),
-      background: theme.palette.primary[500]
-        ? theme.palette.primary[500]
-        : theme.palette.primary.main,
-      color: theme.palette.getContrastText(
-        theme.palette.primary[500]
-          ? theme.palette.primary[500]
-          : theme.palette.primary.main
-      ),
+      marginLeft: theme.spacing(1),
+      background: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
     },
     accordionVideo: {
       width: '50%',
@@ -325,7 +318,7 @@ const FAQComponent = ({
                   {element.tags && (
                     <div className={clsx(classes.accordionChip)}>
                       <Typography variant='subtitle2'>Tags :</Typography>
-                      {element.tags.split(',').map((item) => (
+                      {element.tags.split('|').map((item) => (
                         <Chip
                           key={item}
                           label={item}
