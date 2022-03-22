@@ -171,7 +171,8 @@ const useStyles = makeStyles((theme) => {
 
 const FAQComponent = ({
   className,
-  placeholderImage = 'assets/images/placeholders/PlaceholderImage.jpg'
+  placeholderImage = 'assets/images/placeholders/PlaceholderImage.jpg',
+  title
 }) => {
   const classes = useStyles();
   const [data, setData] = useState([]);
@@ -236,7 +237,7 @@ const FAQComponent = ({
           variant='h4'
           className="text-center ml-16 mr-16"
         >
-          {kbdefinition.labelPlural}
+          {title || kbdefinition.labelPlural}
         </Typography>
 
         <Icon
@@ -264,7 +265,7 @@ const FAQComponent = ({
         faqData.map((element) => {
           return (
             <Accordion
-              key={element.clientid}
+              key={element.guid}
               className={clsx(classes.accordion)}
             >
               <AccordionSummary
@@ -356,7 +357,8 @@ FAQComponent.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
-  placeholderImage: PropTypes.string
+  placeholderImage: PropTypes.string,
+  title : PropTypes.string
 };
 
 export default FAQComponent;
