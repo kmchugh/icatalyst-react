@@ -41,6 +41,7 @@ const GridLayout = React.forwardRef(({
   onDrop,
   onDrag,
   onDragStart,
+  gridClassName
 }, ref)=>{
   const styles = useStyles();
 
@@ -112,17 +113,17 @@ const GridLayout = React.forwardRef(({
 
   return (
     <div
-      ref={ref}
       className={clsx(styles.root, className)}
       style={{...style}}
     >
       <ResponsiveGridLayout
+        ref={ref}
         style={{
           height : '100vh',
         }}
         margin={margin}
         containerPadding={containerPadding}
-        className={clsx(styles.gridRoot)}
+        className={clsx(styles.gridRoot, gridClassName)}
         draggableHandle={`.${dragHandleClass}`}
         isDroppable={isDroppable}
         onDrop={onDrop}
@@ -188,6 +189,10 @@ GridLayout.propTypes = {
     PropTypes.arrayOf(PropTypes.string)
   ]),
   style: PropTypes.object,
+  gridClassName : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   data : PropTypes.shape({
     children : PropTypes.arrayOf(PropTypes.node).isRequired,
     layout : PropTypes.object.isRequired

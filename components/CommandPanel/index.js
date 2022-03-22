@@ -168,6 +168,7 @@ const CommandPanel = ({
           <IconButton
             className={clsx(styles.iconButton)}
             key={item.key || item.title}
+            disabled={item.disabled}
             color={item.color}
             size="small"
             icon={item.icon}
@@ -205,6 +206,7 @@ const CommandPanel = ({
                       <IconButton
                         id={i.id}
                         className={clsx(styles.iconButton)}
+                        disabled={i.disabled}
                         key={i.title}
                         color={i.color}
                         size="small"
