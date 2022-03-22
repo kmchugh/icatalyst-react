@@ -125,7 +125,7 @@ const definition = createModel({
       id: 'featureimageurl',
       label : 'Feature Image URL',
       description: 'Link to an image representing this feature',
-      type: 'string',
+      type: 'imageuri',
       required: false,
       minLength: 1,
       maxLength: 1024,
@@ -196,10 +196,24 @@ const definition = createModel({
     {
       id: 'authroles',
       label: 'Authorisation Roles',
+      type: 'tags',
       description: 'The roles that can see this feature, leave empty for everyone to see',
       required: false,
       minLength: 1,
       maxLength: 1024,
+      delimiter : ';',
+      getOptions : ()=>{
+        return {
+          definition,
+          extractOptions : (entities)=>{
+            return entities
+              .map(e=>e.authroles)
+              .filter(i=>i)
+              .flatMap(i=>i.split(';'))
+              .filter((v, i, a)=>a.indexOf(v) === i);
+          }
+        };
+      }
     },
     {
       id: 'keywords',
@@ -218,10 +232,10 @@ const definition = createModel({
   ],
   layout: [
     'title',
-    ['excerpt', 'tags'],
+    ['excerpt', ['tags', 'category']],
     'content',
     ['featureimageurl', 'mediaurl'],
-    ['start', 'expiry', 'category'],
+    ['start', 'expiry'],
     [
       ['enabled', 'includeintips'],
       ['includeinkb'],

@@ -97,7 +97,13 @@ const RichTextEditor = (
         'ImageUpload',
         'TableToolbar',
         'Table'
-      ]
+      ],
+      toolbar : {
+        removeItems : [
+          'uploadImage',
+          'insertTable'
+        ]
+      }
     }, !multiline ? {
       toolbar: ['bold', 'italic'],
       restrictedEditing: {

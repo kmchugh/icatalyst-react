@@ -1,9 +1,10 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Icon from '../Icon';
 import clsx from 'clsx';
+import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 
 const useStyles = makeStyles((theme) => ({
   loadingWrapper  : {
@@ -31,8 +32,6 @@ function Image(props) {
   const theme = useTheme();
   const classes = useStyles();
 
-  const [loaded, setLoaded] = useState(false);
-
   const {
     backgroundColor = theme.palette.secondary.main,
     defaultSrc = mostReadable(
@@ -46,25 +45,63 @@ function Image(props) {
     ...rest
   } = props;
 
+  const [bgColor, setBGColor] = useState(tinycolor(backgroundColor));
+  const [source, setSource] = useState(props.src);
+
+  const [imageRef] = useHookWithRefCallback((ref)=>{
+    if (ref) {
+      const color = tinycolor(getComputedStyle(ref).backgroundColor);
+      if (color.getAlpha() > 0) {
+        setBGColor(getComputedStyle(ref).backgroundColor);
+      }
+    }
+  }, []);
+
+  useEffect(()=>{
+    setSource(props.src ? props.src : defaultImage);
+  }, [props.src]);
+
+
+
+  const [loaded, setLoaded] = useState(false);
+  const [defaultImage, setDefaultImage] = useState(defaultSrc);
+
+
+  useEffect(()=>{
+    if (bgColor) {
+      setDefaultImage(
+        mostReadable(
+          bgColor, ['#fff', '#000'], {}
+        ).toHexString() === '#000000' ?
+          'assets/images/placeholders/image_dark.svg' :
+          'assets/images/placeholders/image_light.svg'
+      );
+    }
+  }, [bgColor]);
+
   const image = useMemo(()=>{
     return (
       <img
+        ref={imageRef}
         {...rest}
-        src={rest.src || defaultSrc}
+        src={source}
         onLoad={(e)=>{
           setLoaded(true);
-          props.onLoad && props.onLoad(e);
+          if (!e.target.src.endsWith(defaultImage)) {
+            props.onLoad && props.onLoad(e);
+          }
         }}
         onError={(e)=>{
-          if (!e.target.src.endsWith(defaultSrc)) {
+          if (!e.target.src.endsWith(defaultImage)) {
             setLoaded(false);
-            e.target.src=defaultSrc;
+            e.target.src=defaultImage;
+            setSource(defaultImage);
           }
           props.onError && props.onError(e);
         }}
       />
     );
-  }, [props]);
+  }, [props, source, bgColor]);
 
   return !loaded ? (
     <div className={clsx(classes.loadingWrapper)}
