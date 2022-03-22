@@ -227,7 +227,6 @@ const FAQComponent = ({
       >
         <Icon
           size='large'
-          title='Top Questions'
           className={clsx(classes.iconButton)}
         >
           question_answer
@@ -237,12 +236,11 @@ const FAQComponent = ({
           variant='h4'
           className="text-center ml-16 mr-16"
         >
-          Top Questions
+          {kbdefinition.labelPlural}
         </Typography>
 
         <Icon
           size='large'
-          title='Top Questions'
           className={clsx(classes.iconButton)}
         >
           question_answer
@@ -255,7 +253,7 @@ const FAQComponent = ({
         className={clsx(classes.searchWrapper)}
       >
         <ClearableInput
-          label='Search with Keywords.'
+          label='Search with Keywords'
           icon='search'
           onChange={(searchValue) => setSearchData(searchValue)}
           value={searchData || ''}

@@ -9,6 +9,7 @@ import {fieldBuilder as entitySelectFieldBuilder} from './EntitySelectField';
 import {fieldBuilder as richTextFieldBuilder} from './RichTextField';
 import {fieldBuilder as paletteSelectFieldBuilder} from './PaletteSelectField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
+import {fieldBuilder as tagFieldBuilder} from './TagField';
 
 
 
@@ -24,6 +25,7 @@ const fieldMap = [
   entitySelectFieldBuilder,
   customFieldBuilder,
   richTextFieldBuilder,
+  tagFieldBuilder,
 
   // Default to TextField if no other matches
   {

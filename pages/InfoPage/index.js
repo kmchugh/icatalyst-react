@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Icon from '../../components/Icon';
 import {Typography} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import Hidden from '@material-ui/core/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
-
+import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
+import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -76,15 +77,36 @@ const InfoPage = ({
   renderNavigation = true,
 })=>{
   const classes = useStyles();
+  const theme = useTheme();
+
   const iconText = typeof icon === 'string';
   const infoText = typeof info === 'string';
   const actionText = typeof action === 'string';
+  const [bgColor, setBGColor] = useState(null);
+
+  const [pageRef] = useHookWithRefCallback((ref)=>{
+    if (ref) {
+      const color = tinycolor(getComputedStyle(ref).backgroundColor);
+      if (color.getAlpha() > 0) {
+        setBGColor(getComputedStyle(ref).backgroundColor);
+      }
+    }
+  }, []);
 
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {toolbar} = config;
 
+  const textColor = bgColor && mostReadable(bgColor, [
+    theme.palette.primary.contrastText,
+    theme.palette.secondary.contrastText
+  ]).toHex8String();
+
   return (
-    <div style={style} className={clsx(classes.root, 'max-w-md text-center', className)}>
+    <div
+      ref={pageRef}
+      style={style}
+      className={clsx(classes.root, 'max-w-md text-center', className)}
+    >
       {
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
@@ -101,10 +123,28 @@ const InfoPage = ({
         ) : icon
       }
 
-      <Typography variant="h4" component="h1" className={clsx(classes.title)}>{title}</Typography>
+
+
+      <Typography
+        variant="h4"
+        component="h1"
+        className={clsx(classes.title)}
+        style={textColor ? {
+          color : textColor
+        } : undefined}
+      >
+        {title}
+      </Typography>
       {
         infoText ? (
-          <Typography variant="subtitle1" component="div" className={clsx(classes.info)}>
+          <Typography
+            variant="subtitle1"
+            component="div"
+            className={clsx(classes.info)}
+            style={textColor ? {
+              color : textColor
+            } : undefined}
+          >
             {info}
           </Typography>
         ) : info
@@ -112,7 +152,14 @@ const InfoPage = ({
 
       {
         actionText ? (
-          <Typography variant="caption" component="div" className={clsx(classes.action)}>
+          <Typography
+            variant="caption"
+            component="div"
+            className={clsx(classes.action)}
+            style={textColor ? {
+              color : textColor
+            } : undefined}
+          >
             {action}
           </Typography>
         ) : action

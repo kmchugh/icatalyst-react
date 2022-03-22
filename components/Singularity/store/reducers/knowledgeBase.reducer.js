@@ -58,10 +58,24 @@ const definition = createModel({
     },
     {
       id: 'tags',
-      type: 'string',
+      type: 'tags',
       required: false,
       minLength: 1,
       maxLength: 2048,
+      delimiter : '|',
+      getOptions : ()=>{
+        return {
+          definition,
+          extractOptions : (entities)=>{
+            console.log(entities);
+            return entities
+              .map(e=>e.tags)
+              .filter(i=>i)
+              .flatMap(i=>i.split('|'));
+          }
+        };
+      }
+
     },
     {
       id: 'start',
