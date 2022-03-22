@@ -67,7 +67,6 @@ const definition = createModel({
         return {
           definition,
           extractOptions : (entities)=>{
-            console.log(entities);
             return entities
               .map(e=>e.tags)
               .filter(i=>i)
