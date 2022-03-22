@@ -44,10 +44,22 @@ const definition = createModel({
       }
     },{
       id: 'category',
-      type: 'string',
+      type: 'tags',
       required: false,
       minLength: 1,
       maxLength: 256,
+      multiple: false,
+      getOptions : ()=>{
+        return {
+          definition,
+          extractOptions : (entities)=>{
+            return entities
+              .map(e=>e.category)
+              .filter(i=>i)
+              .filter((v, i, a)=>a.indexOf(v) === i);
+          }
+        };
+      }
     },
     {
       id: 'excerpt',
@@ -70,11 +82,11 @@ const definition = createModel({
             return entities
               .map(e=>e.tags)
               .filter(i=>i)
-              .flatMap(i=>i.split(';'));
+              .flatMap(i=>i.split(';'))
+              .filter((v, i, a)=>a.indexOf(v) === i);
           }
         };
       }
-
     },
     {
       id: 'start',

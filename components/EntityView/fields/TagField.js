@@ -43,10 +43,12 @@ const TagField = ({
     autoFocus = false,
     description,
     delimiter = '|',
-    getOptions = null
+    getOptions = null,
+    multiple = true,
+    freeSolo = true
   } = field;
 
-  const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedValues, setSelectedValues] = useState(multiple ? [] : '');
   const [options, setOptions] = useState([]);
 
   const tagOptions = getOptions && getOptions();
@@ -55,9 +57,13 @@ const TagField = ({
     null;
 
   useEffect(()=>{
-    setSelectedValues(
-      value ? value.split(delimiter) : []
-    );
+    if (multiple) {
+      setSelectedValues(
+        value ? value.split(delimiter) : []
+      );
+    } else {
+      setSelectedValues(value ? value : '');
+    }
   }, [value]);
 
   useDeepCompareEffect(()=>{
@@ -73,11 +79,16 @@ const TagField = ({
   const hasErrors = errors && errors.length > 0;
 
   const cleanTags = (tags)=>{
-    return tags.length > 0 ?
-      tags.map(t=>t.toLowerCase().trim())
-        .filter((v, i, a)=>a.indexOf(v)===i)
-        .join(delimiter) :
-      null;
+    if (multiple) {
+      return tags.length > 0 ?
+        tags.map(t=>t.toLowerCase().trim())
+          .filter((v, i, a)=>a.indexOf(v)===i)
+          .join(delimiter) :
+        null;
+    } else {
+      const cleaned = tags ? tags.toLowerCase().trim() : null;
+      return cleaned ? cleaned : null;
+    }
   };
 
   return (
@@ -96,8 +107,8 @@ const TagField = ({
         disabled={readonly}
         autoHighlight={true}
         autoSelect={true}
-        multiple={true}
-        freeSolo={true}
+        multiple={multiple}
+        freeSolo={freeSolo}
         className={clsx(styles.select)}
         fullWidth={true}
         options={options || []}
