@@ -318,7 +318,7 @@ const FAQComponent = ({
                   {element.tags && (
                     <div className={clsx(classes.accordionChip)}>
                       <Typography variant='subtitle2'>Tags :</Typography>
-                      {element.tags.split('|').map((item) => (
+                      {element.tags.split(';').map((item) => (
                         <Chip
                           key={item}
                           label={item}

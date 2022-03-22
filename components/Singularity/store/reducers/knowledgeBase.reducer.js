@@ -62,7 +62,7 @@ const definition = createModel({
       required: false,
       minLength: 1,
       maxLength: 2048,
-      delimiter : '|',
+      delimiter : ';',
       getOptions : ()=>{
         return {
           definition,
@@ -70,7 +70,7 @@ const definition = createModel({
             return entities
               .map(e=>e.tags)
               .filter(i=>i)
-              .flatMap(i=>i.split('|'));
+              .flatMap(i=>i.split(';'));
           }
         };
       }
