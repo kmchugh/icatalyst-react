@@ -65,9 +65,12 @@ const useStyles = makeStyles((theme) => {
       overflow: 'hidden',
       [theme.breakpoints.down('xs')]: {
         padding: 0,
+        '& .MuiIconButton-edgeEnd': {
+          marginRight: 0,
+        },
       },
       '& .MuiAccordionSummary-content': {
-        maxWidth: 'calc(100% - 40px)',
+        maxWidth: 'calc(100% - 56px)',
       },
     },
     title: {
@@ -100,7 +103,6 @@ const useStyles = makeStyles((theme) => {
     accordionChip: {
       display: 'flex',
       alignItems: 'center',
-      marginTop: 10,
     },
     chip: {
       marginLeft: theme.spacing(1),
@@ -154,11 +156,34 @@ const useStyles = makeStyles((theme) => {
       },
     },
     contentDetail: {
-      marginLeft: '25px',
+      marginLeft: theme.spacing(3),
+      marginTop: theme.spacing(1.5),
+
       [theme.breakpoints.down('sm')]: {
         marginLeft: 0,
       },
     },
+    tagArea : {
+      marginTop: theme.spacing(2),
+      display: 'flex',
+      flexDirection : 'column',
+
+      [theme.breakpoints.up('md')]: {
+        flexDirection : 'row',
+      },
+    },
+    category : {
+      marginTop: theme.spacing(1),
+      display: 'flex',
+      alignItems: 'center',
+      flexGrow: 1,
+      justifyContent: 'flex-start',
+
+      [theme.breakpoints.up('md')]: {
+        justifyContent: 'flex-end',
+        marginTop: 0,
+      },
+    }
   };
 });
 
@@ -208,7 +233,7 @@ const FAQComponent = ({
     return false;
   };
   const faqData = data.filter((item) =>
-    item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags)
+    item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags, item?.category)
   );
 
   return hasAccess ? (
@@ -303,9 +328,6 @@ const FAQComponent = ({
                         md={element.mediaurl ? 5 : 10}
                         className={clsx(classes.contentDetail)}
                       >
-                        <Typography variant='h6' className={classes.heading}>
-                          Content Details
-                        </Typography>
                         <Typography
                           dangerouslySetInnerHTML={{
                             __html: element.content,
@@ -315,19 +337,32 @@ const FAQComponent = ({
                     )}
                   </Grid>
 
-                  {element.tags && (
-                    <div className={clsx(classes.accordionChip)}>
-                      <Typography variant='subtitle2'>Tags :</Typography>
-                      {element.tags.split(';').map((item) => (
+                  <div className={clsx(classes.tagArea)}>
+                    {element.tags && (
+                      <div className={clsx(classes.accordionChip)}>
+                        <Typography variant='subtitle2'>Tags :</Typography>
+                        {element.tags.split(';').map((item) => (
+                          <Chip
+                            key={item}
+                            label={item}
+                            className={clsx(classes.chip)}
+                            onClick={() => setSearchData(item)}
+                          />
+                        ))}
+                      </div>
+                    )}
+
+                    {element.category && (
+                      <div className={clsx(classes.category)}>
+                        <Typography variant='subtitle2'>Category :</Typography>
                         <Chip
-                          key={item}
-                          label={item}
+                          label={element.category}
                           className={clsx(classes.chip)}
-                          onClick={() => setSearchData(item)}
+                          onClick={() => setSearchData(element.category)}
                         />
-                      ))}
-                    </div>
-                  )}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </AccordionDetails>
             </Accordion>

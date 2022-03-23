@@ -137,7 +137,7 @@ const definition = createModel({
     },
     {
       id: 'mediaurl',
-      type: 'string',
+      type: 'mediauri',
       label : 'Media URL',
       description: 'Link to a demonstration of this feature',
       required: false,

@@ -7,6 +7,7 @@ import {fieldBuilder as dateTimeFieldBuilder} from './DateTimeField';
 import {fieldBuilder as emailListFieldBuilder} from './EmailListField';
 import {fieldBuilder as entitySelectFieldBuilder} from './EntitySelectField';
 import {fieldBuilder as imageURIFieldBuilder} from './ImageURIField';
+import {fieldBuilder as mediaURIFieldBuilder} from './MediaURIField';
 import {fieldBuilder as richTextFieldBuilder} from './RichTextField';
 import {fieldBuilder as paletteSelectFieldBuilder} from './PaletteSelectField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
@@ -18,15 +19,16 @@ const fieldMap = [
   textFieldBuilder,
   booleanFieldBuilder,
   colorFieldBuilder,
-  paletteSelectFieldBuilder,
-  selectFieldBuilder,
+  customFieldBuilder,
   dateTimeFieldBuilder,
   dateFieldBuilder,
   emailListFieldBuilder,
   entitySelectFieldBuilder,
   imageURIFieldBuilder,
-  customFieldBuilder,
+  mediaURIFieldBuilder,
+  paletteSelectFieldBuilder,
   richTextFieldBuilder,
+  selectFieldBuilder,
   tagFieldBuilder,
 
   // Default to TextField if no other matches
