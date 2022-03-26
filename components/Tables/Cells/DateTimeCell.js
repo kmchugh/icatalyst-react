@@ -11,7 +11,7 @@ const useStyles = makeStyles(()=>{
   };
 });
 
-const DefaultCell = ({
+const DateTimeCell = ({
   value,
   className
 })=>{
@@ -20,14 +20,14 @@ const DefaultCell = ({
   return (
     <div className={clsx(classes.root, className)}>
       {value === 9223372036854776000 ? 'Never' : (
-        new Date(value).toLocaleString()
+        value === null ? '' : new Date(value).toLocaleString()
       )}
     </div>
   );
 };
 
-DefaultCell.propTypes = {
-  value : PropTypes.any.isRequired,
+DateTimeCell.propTypes = {
+  value : PropTypes.any,
   row : PropTypes.shape({
     index : PropTypes.number.isRequired,
   }),
@@ -41,4 +41,4 @@ DefaultCell.propTypes = {
   ])
 };
 
-export default DefaultCell;
+export default DateTimeCell;

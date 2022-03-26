@@ -246,6 +246,9 @@ const MasterDetailPage = ({
                 (dispatch, getState)=>{
                   return dispatch(addOperation(data,
                     (err, res)=>{
+                      if (!err) {
+                        definition.onAdded && definition.onAdded(res, dispatch, getState);
+                      }
                       callback(err, res);
                     }, {
                       accessToken : accessToken,
