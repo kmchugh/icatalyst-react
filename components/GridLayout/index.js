@@ -94,11 +94,38 @@ const GridLayout = React.forwardRef(({
   }, [data]);
 
   const gridLayout = useMemo(()=>{
-    const childKeys = data.children.map(c=>c.key).sort();
-    const layoutKeys = layoutRef.current.map(l=>l.i).sort();
+    // Extract the properties so they are comparable
+    const childConfig = data.children.map(c=>{
+      const {config} = c.props;
+      return {
+        i : config.id,
+        h : config.h,
+        w : config.w,
+        maxH : config.maxH,
+        maxW : config.maxW,
+        minW : config.minW,
+        minH : config.minH
+      };
+    }).sort((a, b)=>a.i.localeCompare(b.i));
+    const layoutConfig = layoutRef.current.map(c=>{
+      return {
+        i : c.i,
+        h : c.h,
+        w : c.w,
+        maxH : c.maxH,
+        maxW : c.maxW,
+        minW : c.minW,
+        minH : c.minH
+      };
+    }).sort((a, b)=>a.i.localeCompare(b.i));
+
+    const firstDiff = childConfig.find((c, i)=>{
+      return !_.isEqual(c, layoutConfig[i]);
+    });
+
     // If there is a mismatch between the layout and children
     // then we need to update the layout
-    if (_.isEqual(childKeys, layoutKeys)) {
+    if (!firstDiff) {
       return layoutRef.current;
     } else {
       setTimeout(
