@@ -61,7 +61,8 @@ const ResourceSharingButton = ({
   onSaved,
   variant = 'iconbutton',
   accessTypeProps = {},
-  label
+  label,
+  open = false,
 })=>{
   const styles = useStyles();
   const history = useHistory();
@@ -72,7 +73,7 @@ const ResourceSharingButton = ({
     color : 'primary',
   };
   const iconProps = _.merge({}, iconButtonDefaults, iconButtonProps);
-  const [showWizard, setShowWizard] = useState(false);
+  const [showWizard, setShowWizard] = useState(open);
   const [resourceOwner, setResourceOwner] = useState(isOwner);
 
   const authContext = useContext(SingularityContext);
@@ -95,6 +96,12 @@ const ResourceSharingButton = ({
       });
     }
   }, [resource, isOwner]);
+
+  useEffect(()=>{
+    if (open !== showWizard) {
+      setShowWizard(open);
+    }
+  }, [open]);
 
   const handleClick = (e)=>{
     e.stopPropagation();
@@ -398,7 +405,8 @@ ResourceSharingButton.propTypes={
   onSaved : PropTypes.func,
   variant : PropTypes.oneOf(['button', 'iconbutton', 'listitem']),
   accessTypeProps : PropTypes.object,
-  label : PropTypes.string
+  label : PropTypes.string,
+  open : PropTypes.bool
 };
 
 export default ResourceSharingButton;
