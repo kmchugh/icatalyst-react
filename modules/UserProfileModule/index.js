@@ -1,13 +1,15 @@
+import {lazy} from 'react';
+
 import {createModule as profileConfig} from './Profile/ProfileConfig';
 import {createModule as settingsConfig} from './Settings/SettingsConfig';
 import {createModule as signoutConfig} from './Signout/SignoutConfig';
 import {createRouteConfig} from '../../utilities/createRouteConfig';
 import {registerSettings} from '@icatalyst/components/Settings';
 
-import ProfileAvatar from './components/ProfileAvatar';
-import ProfileDisplayName from './components/ProfileDisplayName';
-import ChangePassword from './components/ChangePassword';
-import DeleteUser from './components/DeleteUser';
+const ProfileAvatar = lazy(() => import('./components/ProfileAvatar'));
+const ProfileDisplayName = lazy(() => import('./components/ProfileDisplayName'));
+const ChangePassword = lazy(() => import('./components/ChangePassword'));
+const DeleteUser = lazy(() => import('./components/DeleteUser'));
 
 const SINGULARITY_SETTINGS_ID = 'singularity_user';
 
@@ -28,7 +30,7 @@ registerSettings([
       id : 'profileImage',
       type : 'avatar',
     }],
-    component : ProfileAvatar
+    component : ProfileAvatar,
   },
   {
     name : `${SINGULARITY_SETTINGS_ID}_displayname`,

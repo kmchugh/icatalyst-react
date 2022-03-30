@@ -1,7 +1,10 @@
+import {lazy} from 'react';
+
 import {createRouteConfig} from '@icatalyst/utilities';
 import {definition} from '@icatalyst/components/Singularity/store/reducers/invites.reducer';
 import _ from '../../../@lodash';
-import {CreateInvitation} from './components';
+
+const CreateInvitation = lazy(() => import('./components/CreateInvitation'));
 
 export function createModule(config={
   auth : 'admin'

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import {createRouteConfig} from '../../utilities';
 import {createModule as manageKnowledgeBase} from './Administration';
 import {createModule as displayKnowledgeBase} from './KnowledgeBase';
-import FAQComponent from './KnowledgeBase/components/FAQComponent';
+
+const FAQComponent = lazy(() => import('./KnowledgeBase/components/FAQComponent'));
 
 export function createModule(config={}){
 

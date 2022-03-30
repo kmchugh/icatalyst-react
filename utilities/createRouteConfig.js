@@ -1,6 +1,9 @@
+import {lazy} from 'react';
+
 import pluralize from 'pluralize';
 import _ from 'lodash';
-import MasterDetailPage from '../components/MasterDetail';
+
+const MasterDetailPage = lazy(() => import('../components/MasterDetail'));
 
 /**
  * Creates an Entity Configuration including all

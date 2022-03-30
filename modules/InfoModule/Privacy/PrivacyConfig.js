@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {lazy} from 'react';
 import {createRouteConfig} from '../../../utilities';
-import WebViewPage from '@icatalyst/pages/WebViewPage';
+
+const WebViewPage = lazy(() => import('@icatalyst/pages/WebViewPage'));
 
 import {useSelector} from 'react-redux';
 

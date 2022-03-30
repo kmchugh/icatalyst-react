@@ -1,4 +1,7 @@
-import OpenAccessComponent from './components/OpenAccessComponent';
+import {lazy} from 'react';
+
+const OpenAccessComponent = lazy(() => import('./components/OpenAccessComponent'));
+
 import {createRouteConfig} from '@icatalyst/utilities';
 
 export function createModule(overrides = {
