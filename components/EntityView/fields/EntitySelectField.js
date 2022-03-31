@@ -46,7 +46,7 @@ const DefaultListItem = ({
   const styles = useStyles();
 
   return (
-    <ListItem dense disableGutters>
+    <ListItem component="div">
       { !hideFeatureImage && (
         <Avatar className={clsx(styles.avatar)}>
           <Image
@@ -194,6 +194,8 @@ const EntitySelectField = (props) => {
               return (
                 <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
                   <ListItemComponent
+                    dense
+                    disableGutters
                     key={item[identityFieldName]}
                     item={item}
                     model={model}
