@@ -1,8 +1,17 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {FormControl, InputLabel,
-  CircularProgress, Select as NativeSelectField,
-  FormHelperText, MenuItem, ListItemText
-} from '@material-ui/core';
+
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelectField from '@material-ui/core/Select';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import ListItem from '@material-ui/core/ListItem';
+import Avatar from '@material-ui/core/Avatar';
+import Image from '../../Image';
+
+
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
@@ -19,6 +28,9 @@ const useStyles = makeStyles((theme) => {
     },
     select : {
       textAlign : 'left'
+    },
+    avatar : {
+      marginRight : theme.spacing(1),
     }
   };
 });
@@ -28,12 +40,25 @@ const DefaultListItem = ({
   getPrimaryText,
   hideSecondaryText,
   getSecondaryText,
+  hideFeatureImage = false,
+  getFeatureImage = null,
 })=>{
+  const styles = useStyles();
+
   return (
-    <ListItemText
-      primary={getPrimaryText(item)}
-      secondary={!hideSecondaryText && getSecondaryText(item)}
-    />
+    <ListItem dense disableGutters>
+      { !hideFeatureImage && (
+        <Avatar className={clsx(styles.avatar)}>
+          <Image
+            src={getFeatureImage(item)}
+          />
+        </Avatar>
+      )}
+      <ListItemText
+        primary={getPrimaryText(item)}
+        secondary={!hideSecondaryText && getSecondaryText(item)}
+      />
+    </ListItem>
   );
 };
 
@@ -43,6 +68,8 @@ DefaultListItem.propTypes = {
   getPrimaryText : PropTypes.func.isRequired,
   hideSecondaryText : PropTypes.bool.isRequired,
   getSecondaryText : PropTypes.func.isRequired,
+  hideFeatureImage : PropTypes.bool,
+  getFeatureImage : PropTypes.func
 };
 
 const LoadingIcon = ()=>{
@@ -81,6 +108,8 @@ const EntitySelectField = (props) => {
     primaryTextField,
     getPrimaryText,
     getSecondaryText,
+    featureImageField,
+    getFeatureImage
   } = model;
 
   const data = useSelector(getReducerRoot);
@@ -122,7 +151,8 @@ const EntitySelectField = (props) => {
   const items = [
     addNoneItem && {
       [identityFieldName]: '',
-      [primaryTextField]: 'Select ' + entityName + '...'
+      [primaryTextField]: 'Select ' + entityName + '...',
+      [featureImageField]: null
     },
     (!data.entities || data.entities.length === 0) && emptyItem,
     ...(data.entities || [])
@@ -160,7 +190,7 @@ const EntitySelectField = (props) => {
           }}
         >
           {
-            items.map((item) => {
+            items.map((item, index) => {
               return (
                 <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
                   <ListItemComponent
@@ -174,6 +204,12 @@ const EntitySelectField = (props) => {
                     getSecondaryText={getSecondaryText}
                     onChange={onChange}
                     selected={value}
+                    hideFeatureImage={
+                      addNoneItem && index === 0 ?
+                        true :
+                        !featureImageField
+                    }
+                    getFeatureImage={getFeatureImage}
                   />
                 </MenuItem>
               );

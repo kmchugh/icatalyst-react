@@ -178,80 +178,82 @@ const Wizard = React.forwardRef(({
     }
   }, [open]);
 
-  actions = (actions === undefined) ? [{
-    key : 'prev',
-    color : 'secondary',
-    disabled : false,
-    onClick : ()=>{
-      movePrevious();
+  actions = (actions === undefined) ? [
+    pageIndex > 0 && {
+      key : 'prev',
+      color : 'secondary',
+      disabled : false,
+      onClick : ()=>{
+        movePrevious();
+      },
+      icon : 'arrow_back',
+      title : 'Back'
     },
-    icon : 'arrow_back',
-    title : 'Back'
-  }, pageIndex === pageLayouts.length -1 ? {
-    key : 'finish',
-    color : 'primary',
-    disabled : !isValid || updating,
-    onClick : ()=>{
-      setUpdating(true);
-      setDialogErrors(null);
+    pageIndex === pageLayouts.length -1 ? {
+      key : 'finish',
+      color : 'primary',
+      disabled : !isValid || updating,
+      onClick : ()=>{
+        setUpdating(true);
+        setDialogErrors(null);
 
-      onSave && onSave(form, (err)=>{
-        setUpdating(false);
-        if (err) {
-          const layout = definition.layout.flat().map((field)=>{
-            return typeof field === 'string' ? field : field.id;
-          });
-          // Parse out definition errors from generic errors
-          const resultErrors = err.reduce((acc, error)=>{
-            const field = error.key;
-            if (field && layout.includes(field)) {
-              acc.definition[field] = [
-                ...(acc.definition[field] || []),
-                error.message
-              ];
-            } else if (field) {
-              acc.generic.push(`${error.message} (${field})`);
-            } else {
-              acc.generic.push(error);
+        onSave && onSave(form, (err)=>{
+          setUpdating(false);
+          if (err) {
+            const layout = definition.layout.flat().map((field)=>{
+              return typeof field === 'string' ? field : field.id;
+            });
+            // Parse out definition errors from generic errors
+            const resultErrors = err.reduce((acc, error)=>{
+              const field = error.key;
+              if (field && layout.includes(field)) {
+                acc.definition[field] = [
+                  ...(acc.definition[field] || []),
+                  error.message
+                ];
+              } else if (field) {
+                acc.generic.push(`${error.message} (${field})`);
+              } else {
+                acc.generic.push(error);
+              }
+              return acc;
+            }, {
+              definition : {},
+              generic : []
+            });
+
+            if (Object.keys(resultErrors.definition).length > 0) {
+              setErrors((errors)=>({
+                ...errors,
+                ...resultErrors.definition
+              }));
             }
-            return acc;
-          }, {
-            definition : {},
-            generic : []
-          });
 
-          if (Object.keys(resultErrors.definition).length > 0) {
-            setErrors((errors)=>({
-              ...errors,
-              ...resultErrors.definition
-            }));
+            if (resultErrors.generic.length > 0) {
+              setDialogErrors(resultErrors.generic);
+            }
+          } else {
+            resetForm();
+            setPageIndex(0);
+            setWizardOpen(false);
+            contentRef.current.closeDialog();
           }
+        });
+      },
+      icon : finishButtonIcon,
+      title : finishButtonText
+    } : {
+      key : 'next',
+      color : 'primary',
+      disabled : !isCurrentPageValid,
+      onClick : ()=>{
+        moveNext();
+      },
+      icon : 'arrow_forward',
+      title : 'Next'
+    }].filter(i=>i) : actions;
 
-          if (resultErrors.generic.length > 0) {
-            setDialogErrors(resultErrors.generic);
-          }
-        } else {
-          resetForm();
-          setPageIndex(0);
-          setWizardOpen(false);
-          contentRef.current.closeDialog();
-        }
-      });
-    },
-    icon : finishButtonIcon,
-    title : finishButtonText
-  } : {
-    key : 'next',
-    color : 'primary',
-    disabled : !isCurrentPageValid,
-    onClick : ()=>{
-      moveNext();
-    },
-    icon : 'arrow_forward',
-    title : 'Next'
-  }] : actions;
-
-  return (
+  return open && (
     <Dialog
       className={clsx(styles.root, className)}
       open={wizardOpen}
