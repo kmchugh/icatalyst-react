@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useMemo} from 'react';
 
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -115,7 +115,25 @@ const EntitySelectField = (props) => {
   const data = useSelector(getReducerRoot);
   const dispatch = useDispatch();
 
+  const {
+    id,
+    required,
+    label,
+    hideSecondaryText = false,
+    ListComponent = NativeSelectField,
+    ListItemComponent = DefaultListItem,
+    showLabel = true,
+    addNoneItem = true,
+    emptyItem,
+    entities = null
+  } = field;
+
   useEffect(()=>{
+    if (entities) {
+      // Nothing to do as we are using supplied entities
+      return;
+    }
+
     if (!data.loaded && !data.loading && (!data.entities || data.entities.length === 0)) {
       setLoading(true);
       const result = dispatch(operations['RETRIEVE_ENTITIES'](()=>{
@@ -134,29 +152,20 @@ const EntitySelectField = (props) => {
         }
       });
     }
-  }, [data]);
+  }, [data, entities]);
 
-  const {
-    id,
-    required,
-    label,
-    hideSecondaryText = false,
-    ListComponent = NativeSelectField,
-    ListItemComponent = DefaultListItem,
-    showLabel = true,
-    addNoneItem = true,
-    emptyItem
-  } = field;
-
-  const items = [
-    addNoneItem && {
-      [identityFieldName]: '',
-      [primaryTextField]: 'Select ' + entityName + '...',
-      [featureImageField]: null
-    },
-    (!data.entities || data.entities.length === 0) && emptyItem,
-    ...(data.entities || [])
-  ].filter(i=>i);
+  const items = useMemo(()=>{
+    const listItems = entities || data.entities;
+    return [
+      addNoneItem && {
+        [identityFieldName]: '',
+        [primaryTextField]: 'Select ' + entityName + '...',
+        [featureImageField]: null
+      },
+      (!listItems || listItems.length === 0) && emptyItem,
+      ...(listItems || [])
+    ].filter(i=>i);
+  }, [data, entities]);
 
   const hasErrors = errors && errors.length > 0;
 
