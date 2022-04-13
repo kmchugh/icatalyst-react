@@ -217,6 +217,7 @@ function Singularity({
     }
 
     const searchParams = getParams(location.search);
+    const hashParams = getParams(location.hash);
 
     // If we do not require auth then wait for the app to request auth
     if (!shouldForceAuth && !token && !searchParams.state) {
@@ -263,11 +264,35 @@ function Singularity({
                 message : t(error_description),
               });
             });
+        } else {
+          // There was no stored state, so something went wrong.
+          // Try again
+          setMessage(t('Requesting Authorisation...'));
+          // No token, no code, and no state, so redirect for login
+          console.log(redirect);
+          console.log('Request again');
+          // singularity.requestAuthorizationCode();
         }
+      } else if (hashParams.token) {
+        const token = singularity.hydrateToken(hashParams.token);
+        try {
+          singularity.validateToken(token);
+        } catch (e) {
+          throw {
+            error : 'Invalid Token',
+            error_description : e.getMessage()
+          };
+        }
+        
+        console.log(token, hashParams.token);
+        setAccessToken(hashParams.token);
+        setMessage(t('Retrieving Session...'));
+        setToken(token);
       } else {
         setMessage(t('Requesting Authorisation...'));
         // No token, no code, and no state, so redirect for login
         singularity.requestAuthorizationCode();
+
       }
     } else {
       handleToken(token);
