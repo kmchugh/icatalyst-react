@@ -124,7 +124,7 @@ const Tooltip = (params)=>{
         ''
       ) +
 
-      (seriesName ?
+      ((seriesName && seriesName !== title) ?
         `<div style="${styleString(cssStyles.name)}">${seriesName}</div>`:
         ''
       ) +
