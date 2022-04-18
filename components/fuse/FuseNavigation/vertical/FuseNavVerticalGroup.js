@@ -9,6 +9,7 @@ import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -38,6 +39,7 @@ function FuseNavVerticalGroup(props)
 {
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
+  const {t} = useContext(LocalizationContext);
 
   const classes = useStyles(props);
 
@@ -84,7 +86,7 @@ function FuseNavVerticalGroup(props)
           <Icon color="action" className={clsx(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
         )}
         <span className="list-subheader-text uppercase text-12">
-          {item.title}
+          {t(item.title)}
         </span>
       </ListSubheader>
 

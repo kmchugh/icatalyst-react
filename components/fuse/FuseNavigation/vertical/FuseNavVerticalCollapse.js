@@ -10,6 +10,7 @@ import FuseNavBadge from '../FuseNavBadge';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Icon from '@icatalyst/components/Icon';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -74,6 +75,7 @@ function FuseNavVerticalCollapse(props)
 {
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
+  const {t} = useContext(LocalizationContext);
   const {item, nestedLevel, active} = props;
 
   const classes = useStyles(props);
@@ -138,7 +140,11 @@ function FuseNavVerticalCollapse(props)
         {item.icon && (
           <Icon color="action" className="list-item-icon text-16 flex-shrink-0 mr-16">{item.icon}</Icon>
         )}
-        <ListItemText className="list-item-text" primary={item.title} classes={{primary: 'text-14'}}/>
+        <ListItemText
+          className="list-item-text"
+          primary={t(item.title)} 
+          classes={{primary: 'text-14'}}
+        />
         {item.badge && (
           <FuseNavBadge className="mr-4" badge={item.badge}/>
         )}

@@ -11,6 +11,7 @@ import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {mostReadable} from '@ctrl/tinycolor';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => {
 
@@ -77,6 +78,7 @@ function FuseNavVerticalItem(props)
   const dispatch = useDispatch();
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
+  const {t} = useContext(LocalizationContext);
 
   const classes = useStyles(props);
   const {item, active} = props;
@@ -106,7 +108,7 @@ function FuseNavVerticalItem(props)
       )}
       <ListItemText
         className="list-item-text"
-        primary={item.title}
+        primary={t(item.title)}
         classes={{primary: 'text-14 list-item-text-primary'}}
         primaryTypographyProps={{
           noWrap : true
