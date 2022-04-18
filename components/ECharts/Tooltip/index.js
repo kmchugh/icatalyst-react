@@ -80,6 +80,8 @@ const Tooltip = (params)=>{
     showCount = true,
     showValue = true,
     showPercent = true,
+    showTitle = true,
+    showSeriesTitle = true,
     getCount = (value)=>{
       return Array.isArray(value) ?
         value[value.length-1] :
@@ -119,12 +121,12 @@ const Tooltip = (params)=>{
       const count = getCount(value);
       const displayValue = getDisplayValue(value, data);
 
-      return (title ?
+      return ((showTitle && title) ?
         `<div style="${styleString(cssStyles.title)}">${title}</div>` :
         ''
       ) +
 
-      ((seriesName && seriesName !== title) ?
+      ((showSeriesTitle && seriesName && seriesName !== title) ?
         `<div style="${styleString(cssStyles.name)}">${seriesName}</div>`:
         ''
       ) +

@@ -76,7 +76,7 @@ export default function createApp({
           <StylesProvider jss={jss} generateClassName={generateClassName}>
             <Provider store={store}>
               <LocalizationProvider
-                debug={true}
+                debug={process.env.NODE_ENV !== 'production'}
                 loadLanguages={loadLanguages}
               >
                 <SettingsProvider getReducerRoot={({icatalyst})=>{
