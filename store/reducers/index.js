@@ -5,6 +5,7 @@ import message from './message.reducer';
 import navbar from './navbar.reducer';
 import navigation from './navigation.reducer';
 import singularity from '../../components/Singularity/store/reducers';
+import language from './language.reducer';
 
 const reducers = combineReducers({
   dialog,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   message,
   navbar,
   navigation,
-  singularity
+  singularity,
+  language
 });
 
 export default reducers;

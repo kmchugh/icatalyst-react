@@ -9,6 +9,7 @@ import { AppContext } from '../../contexts';
 import {useDispatch} from 'react-redux';
 export const SingularityContext = createContext();
 import {operations as CDOperations} from './store/actions/clientdata.actions';
+import {LocalizationContext} from '../../localization/LocalizationProvider';
 
 // TODO: Make this configurable per singularity install
 const SETTINGS_KEY = 'aefa26fc-6a47-4998-8d93-c4a18d8b9119';
@@ -61,7 +62,7 @@ const getParams = query => {
 };
 
 function Singularity({
-  location, t = (t)=>t, history, config,
+  location, t, history, config,
   children
 }) {
   const dispatch = useDispatch();
@@ -113,6 +114,11 @@ function Singularity({
   const shouldForceAuth = hasAuthenticated || requireAuth;
 
   const appContext = useContext(AppContext);
+  const vocabContext = useContext(LocalizationContext);
+
+  if (!t) {
+    t = vocabContext?.t || (text=>text);
+  }
 
   const {
     routes,
@@ -269,9 +275,7 @@ function Singularity({
           // Try again
           setMessage(t('Requesting Authorisation...'));
           // No token, no code, and no state, so redirect for login
-          console.log(redirect);
-          console.log('Request again');
-          // singularity.requestAuthorizationCode();
+          singularity.requestAuthorizationCode(undefined);
         }
       } else if (hashParams.token) {
         const token = singularity.hydrateToken(hashParams.token);
@@ -283,7 +287,7 @@ function Singularity({
             error_description : e.getMessage()
           };
         }
-        
+
         console.log(token, hashParams.token);
         setAccessToken(hashParams.token);
         setMessage(t('Retrieving Session...'));

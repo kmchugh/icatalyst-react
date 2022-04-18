@@ -1,7 +1,7 @@
 import * as Actions from '../actions/settings.actions';
 import _ from '../../@lodash';
 import CryptoJS from 'crypto-js';
-
+import { getPreferredLanguage } from '../../localization/languages';
 import { generateThemeVariants } from '../../utilities/generateThemeVariants';
 const LS_KEY = CryptoJS.MD5('app_settings').toString();
 
@@ -58,14 +58,19 @@ export const setLayouts = (applicationLayouts)=>{
   updateInitialState(defaultLayout, themeMap);
 };
 
-
 export const setThemes = (applicationThemes)=>{
   themes = applicationThemes;
   defaultTheme = _.cloneDeep(Object.values(themes).find(t=>t.default));
   themeMap = Object.keys(themes).reduce((acc, k)=>{
     acc = {
       ...acc,
-      ...generateThemeVariants(k, themes[k], defaultTheme, (themes[k].defaultColorTint || 0))
+      ...generateThemeVariants(
+        k,
+        themes[k],
+        defaultTheme,
+        (themes[k].defaultColorTint || 0),
+        getPreferredLanguage()
+      )
     };
     return acc;
   }, {});

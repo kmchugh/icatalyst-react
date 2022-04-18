@@ -1,20 +1,21 @@
 /*global gtag*/
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppContextComponent from '@icatalyst/contexts/App';
+import AppContextComponent from '../contexts/App';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
 import { Provider } from 'react-redux';
-import {SettingsProvider} from '@icatalyst/components/Settings';
-import  Theme from '@icatalyst/components/Theme';
-import  Singularity from '@icatalyst/components/Singularity';
-import  ErrorBoundary from '@icatalyst/components/Errors/ErrorBoundary';
+import {SettingsProvider} from '../components/Settings';
+import  Theme from '../components/Theme';
+import  Singularity from '../components/Singularity';
+import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
 import {CssBaseline} from '@material-ui/core';
-import { Layout } from '@icatalyst/layouts';
+import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
+import LocalizationProvider from '../localization/LocalizationProvider';
 
 import { create } from 'jss';
 
@@ -45,7 +46,8 @@ export default function createApp({
   themes,
   store,
   mapAuthRoles,
-  filterDisplayRoles
+  filterDisplayRoles,
+  loadLanguages,
 }){
   const {  singularity : singularityConfig, ga_tag_id, ...contextConfig } = applicationConfig;
   if (ga_tag_id){
@@ -73,25 +75,30 @@ export default function createApp({
         >
           <StylesProvider jss={jss} generateClassName={generateClassName}>
             <Provider store={store}>
-              <SettingsProvider getReducerRoot={({icatalyst})=>{
-                return icatalyst.settings;
-              }}>
-                <Theme>
-                  <ErrorBoundary>
-                    <Router history={history}>
-                      <Singularity config={{
-                        ...singularityConfig,
-                        mapRoles : mapAuthRoles,
-                        // Allows customisation of the roles that are displayed to the user
-                        filterDisplayRoles : filterDisplayRoles,
-                      }}>
-                        <CssBaseline/>
-                        <Layout/>
-                      </Singularity>
-                    </Router>
-                  </ErrorBoundary>
-                </Theme>
-              </SettingsProvider>
+              <LocalizationProvider
+                debug={true}
+                loadLanguages={loadLanguages}
+              >
+                <SettingsProvider getReducerRoot={({icatalyst})=>{
+                  return icatalyst.settings;
+                }}>
+                  <Theme>
+                    <ErrorBoundary>
+                      <Router history={history}>
+                        <Singularity config={{
+                          ...singularityConfig,
+                          mapRoles : mapAuthRoles,
+                          // Allows customisation of the roles that are displayed to the user
+                          filterDisplayRoles : filterDisplayRoles,
+                        }}>
+                          <CssBaseline/>
+                          <Layout/>
+                        </Singularity>
+                      </Router>
+                    </ErrorBoundary>
+                  </Theme>
+                </SettingsProvider>
+              </LocalizationProvider>
             </Provider>
           </StylesProvider>
         </AppContextComponent>
