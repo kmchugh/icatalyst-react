@@ -107,8 +107,6 @@ function Singularity({
   const [initialised, setInitialised] = useState(false);
   const [clientData, setClientData] = useState(false);
 
-  const [message, setMessage] = useState('Validating...');
-
   // Force the authentication if the user has previously authenticated
   const hasAuthenticated = singularity.hasAuthenticated();
   const shouldForceAuth = hasAuthenticated || requireAuth;
@@ -119,6 +117,9 @@ function Singularity({
   if (!t) {
     t = vocabContext?.t || (text=>text);
   }
+
+  const [message, setMessage] = useState(`${t('Validating')}...`);
+
 
   const {
     routes,
@@ -131,12 +132,13 @@ function Singularity({
     // We have a token, redirect the user if required
 
     // Validate the token
-    setMessage(t('Validating Token...'));
+    setMessage(`${t('Validating Token')}...`);
+
     try {
       singularity.validateToken(token);
 
       // The token is valid
-      setMessage(t('Validated Token...'));
+      setMessage(`${t('Validating Token')}...`);
 
       if (user && session) {
         // If we are supposed to redirect, then redirect
@@ -239,12 +241,12 @@ function Singularity({
       // this is the redirect from singularity so use the
       // code to request the actual access token
       if (searchParams.state) {
-        setMessage(t('Requesting Access...'));
+        setMessage(`${t('Requesting Access')}...`);
 
         const promise = singularity.requestAccessToken(searchParams);
         if (promise) {
           promise.then((response)=>{
-            setMessage(t('Parsing Token...'));
+            setMessage(`${t('Parsing Token')}...`);
             const { access_token, token } = response;
 
             try {
@@ -257,7 +259,7 @@ function Singularity({
             }
 
             setAccessToken(access_token);
-            setMessage(t('Retrieving Session...'));
+            setMessage(`${t('Retrieving Session')}...`);
             setToken(token);
           })
             .catch(({
@@ -273,7 +275,7 @@ function Singularity({
         } else {
           // There was no stored state, so something went wrong.
           // Try again
-          setMessage(t('Requesting Authorisation...'));
+          setMessage(`${t('Requesting Authorisation')}...`);
           // No token, no code, and no state, so redirect for login
           singularity.requestAuthorizationCode(undefined);
         }
@@ -288,12 +290,11 @@ function Singularity({
           };
         }
 
-        console.log(token, hashParams.token);
         setAccessToken(hashParams.token);
-        setMessage(t('Retrieving Session...'));
+        setMessage(`${t('Retrieving Session')}...`);
         setToken(token);
       } else {
-        setMessage(t('Requesting Authorisation...'));
+        setMessage(`${t('Requesting Authorisation')}...`);
         // No token, no code, and no state, so redirect for login
         singularity.requestAuthorizationCode();
 
@@ -355,7 +356,7 @@ function Singularity({
             }
           });
 
-          setMessage(t('Loading User information...'));
+          setMessage(`${t('Loading User information')}...`);
           setRedirect(token.redirect_uri);
           setSession({
             guid : guid,

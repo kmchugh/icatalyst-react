@@ -180,7 +180,6 @@ class SingularityService {
   requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href) {
     // Store the state so we can validate
     const state = this.localStore('state', generateUUID());
-    console.log('redirect_uri');
     this.localStore('redirect_uri', redirect_uri);
 
     this.redirectTo(this.uris.authorize, {

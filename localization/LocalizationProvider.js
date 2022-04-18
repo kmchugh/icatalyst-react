@@ -6,6 +6,14 @@ import {languages, getPreferredLanguage} from './languages';
 
 export const LocalizationContext = createContext();
 
+const formatString = (str, ...parameters)=>{
+  return str.replace(/{(\d+)}/g, function(match, number) {
+    return typeof parameters[number] !== 'undefined'
+      ? parameters[number]
+      : match;
+  });
+};
+
 const LocalizationProvider = ({
   children,
   loadLanguages = null,
@@ -47,7 +55,7 @@ const LocalizationProvider = ({
       // Get the most preferential match
       if (vocabs.length > 0) {
         const {
-          get = ()=>[],
+          get = ()=>{},
         }  = loadLanguages;
 
         get(dispatch, vocabs[0].id, (err, res)=>{
@@ -56,6 +64,8 @@ const LocalizationProvider = ({
           }
           setInitialised(true);
         });
+      } else {
+        setInitialised(true);
       }
     }
   }, [availableVocabularies, setSelectedVocabCode]);
@@ -70,20 +80,18 @@ const LocalizationProvider = ({
   };
 
   const t = useMemo(()=>{
-    return (text)=>{
-      if (initialised) {
-        return text;
+    return (value, ...parameters)=>{
+      if (!value) {
+        return value;
       }
-      if (!selectedVocabulary) {
-        return text;
-      } else {
-        if (debug && !selectedVocabulary.values[text]) {
-          console.debug(`'${text}' not found in lookup for ${selectedVocabulary}`);
-        }
-        return selectedVocabulary.values[text] || text;
+
+      const text = selectedVocabulary?.values[value.toLowerCase()];
+      if (!text && debug) {
+        console.info(`'${value}' not found in lookup for ${selectedVocabCode}`);
       }
+      return formatString(text || value, ...parameters);
     };
-  }, [selectedVocabulary]);
+  }, [initialised, selectedVocabulary]);
 
   return (
     <LocalizationContext.Provider value={{
