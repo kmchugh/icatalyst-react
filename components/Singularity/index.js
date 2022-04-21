@@ -277,7 +277,7 @@ function Singularity({
           // Try again
           setMessage(`${t('Requesting Authorisation')}...`);
           // No token, no code, and no state, so redirect for login
-          singularity.requestAuthorizationCode(undefined);
+          singularity.requestAuthorizationCode(undefined, `${window.location.origin}/`);
         }
       } else if (hashParams.token) {
         const token = singularity.hydrateToken(hashParams.token);

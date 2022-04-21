@@ -67,8 +67,12 @@ const LocalizationProvider = ({
       } else {
         setInitialised(true);
       }
+    } else {
+      setInitialised(true);
     }
   }, [availableVocabularies, setSelectedVocabCode]);
+
+  console.log(initialised);
 
   const setLocalisation = (name, translations)=>{
     dispatch(setLanguage({
