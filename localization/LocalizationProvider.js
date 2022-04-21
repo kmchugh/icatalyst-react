@@ -72,8 +72,6 @@ const LocalizationProvider = ({
     }
   }, [availableVocabularies, setSelectedVocabCode]);
 
-  console.log(initialised);
-
   const setLocalisation = (name, translations)=>{
     dispatch(setLanguage({
       selected : name,
