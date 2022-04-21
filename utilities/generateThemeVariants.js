@@ -8,7 +8,7 @@ import { isRTL } from '../localization/languages';
 
 export function generateThemeVariants(name, theme, defaults = {}, tint=0, preferredLanguage = 'en-US'){
   const preferredLocale = locale[preferredLanguage.replaceAll('-', '')] || locale['enUS'];
-  const isRTLLocale = isRTL(preferredLanguage);
+  const isRTLLocale = isRTL(preferredLanguage) ? 'rtl' : 'ltr';
 
   return {
     [name] :
