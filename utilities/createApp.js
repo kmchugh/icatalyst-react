@@ -64,6 +64,10 @@ export default function createApp({
     axe(React, ReactDOM, 3000);
   }
 
+  const showLocalizationLog = applicationConfig.showLocalizationLog === undefined ?
+    true :
+    applicationConfig.showLocalizationLog;
+
   const App = ()=>{
     return (
       <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -76,7 +80,7 @@ export default function createApp({
           <StylesProvider jss={jss} generateClassName={generateClassName}>
             <Provider store={store}>
               <LocalizationProvider
-                debug={process.env.NODE_ENV !== 'production'}
+                debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
                 loadLanguages={loadLanguages}
               >
                 <SettingsProvider getReducerRoot={({icatalyst})=>{
