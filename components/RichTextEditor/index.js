@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import Editor from '@ckeditor/ckeditor5-build-balloon';
+import Editor from 'ckeditor5-custom-build';
 import _ from '@icatalyst/@lodash';
 
 // Uncomment this to quickly see a list of plugins
@@ -14,7 +14,12 @@ const useStyles = makeStyles((theme)=>{
     root : {
       // width: 'auto',
       ['& .ck'] : {
-        minHeight: 'inherit'
+        minHeight: 'inherit',
+        ['& ol,ul'] : {
+          listStyle : 'revert',
+          margin: 'revert',
+          padding:'revert'
+        }
       },
       ['& .ck.ck-editor__editable_inline>:last-child'] : {
         marginTop: 0,
