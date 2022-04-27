@@ -14,7 +14,12 @@ const useStyles = makeStyles((theme)=>{
     root : {
       // width: 'auto',
       ['& .ck'] : {
-        minHeight: 'inherit'
+        minHeight: 'inherit',
+        ['& ol,ul'] : {
+          listStyle : 'revert',
+          margin: 'revert',
+          padding:'revert'
+        }
       },
       ['& .ck.ck-editor__editable_inline>:last-child'] : {
         marginTop: 0,
