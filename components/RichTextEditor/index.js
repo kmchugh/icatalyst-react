@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme)=>{
         marginTop: 0,
       },
       ['& .ck.ck-editor__editable:not(.ck-editor__nested_editable).ck-focused'] : {
-        border: 'none!important',
+        border: '1px solid transparent',
         boxShadow: 'none!important'
       }
     },
