@@ -54,7 +54,6 @@ const Media = ({
 
 
   useEffect(()=>{
-    console.log('settings source', src);
     setSource(src ? src : defaultSource);
   }, [src]);
 

@@ -12,7 +12,6 @@ import _ from '@icatalyst/@lodash';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      // width: 'auto',
       ['& .ck'] : {
         minHeight: 'inherit',
         ['& ol,ul'] : {
@@ -59,8 +58,7 @@ const RichTextEditor = (
     onChange,
     value,
     multiline = true,
-    // readonly = false,
-    // variant = 'contained',
+    readOnly = false,
     config = {},
     rows = 5,
     debounce = 750,
@@ -74,6 +72,12 @@ const RichTextEditor = (
   const editorRef = useRef(null);
   const valueRef = useRef(value);
   const [pendingUpdate, setPendingUpdate] = useState(null);
+
+  // The custom build ckeditor seems to have removed the disabled option
+  // This is a fix to ensure it is not passed through
+  /* eslint-disable no-unused-vars */
+  const {disabled, variant, ...editorProps} = rest;
+  /* eslint-enable no-unused-vars */
 
   useImperativeHandle(rest.inputRef, ()=>{
     return {
@@ -93,6 +97,7 @@ const RichTextEditor = (
 
   const derivedConfig = useMemo(()=>{
     return _.merge({
+      isReadOnly : true,
       // By default remove the following plugins
       removePlugins : [
         'CKFinder',
@@ -106,6 +111,7 @@ const RichTextEditor = (
       toolbar : {
         removeItems : [
           'uploadImage',
+          'imageUpload',
           'insertTable'
         ]
       }
@@ -133,13 +139,17 @@ const RichTextEditor = (
       className
     )}>
       <CKEditor
-        {...rest}
+        {...editorProps}
         editor={Editor}
         data={value}
-        isReadOnly={true}
         onReady={(editor)=>{
           editorRef.current = editor;
           editor.setData(value || '');
+
+          // This is a workaround for the custom build as the disabled property stopped working
+          if (readOnly) {
+            editor.enableReadOnlyMode(`rte-${editorProps.id || editorProps.name || 'readonly'}`);
+          }
         }}
         onChange={
           (e, editor)=>{
@@ -170,11 +180,7 @@ RichTextEditor.propTypes={
   onFocus : PropTypes.func,
   value : PropTypes.string,
   multiline : PropTypes.bool,
-  readonly : PropTypes.bool,
-  variant : PropTypes.oneOf([
-    'inline',
-    'contained'
-  ]),
+  readOnly : PropTypes.bool,
   rows : PropTypes.number,
   config : PropTypes.object,
   debounce : PropTypes.number
