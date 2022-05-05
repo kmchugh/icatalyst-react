@@ -51,19 +51,21 @@ const Icon = ({
   //   console.warn('fontSize has been deprecated on Icon, use size instead');
   // }
 
+  console.log(children, color, rest, theme);
+
   if (children.startsWith('fa ')) {
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
       className={clsx(classes[`font-${definedSize}`])}
-      style={(color && [
+      style={((color && color !== 'inherit') && [
         'action',
         'primary',
         'secondary',
         'success',
         'error',
-        'info'
-      ].indexOf(color) > 0) ? {
+        'info',
+      ].indexOf(color) >= 0) ? {
           color : color === 'action' ?
             theme.palette[color].active :
             theme.palette[color].main
