@@ -7,9 +7,10 @@ import {matchRoutes} from 'react-router-config';
 import {setClient, setSingularityClient} from './store/actions/client.actions';
 import { AppContext } from '../../contexts';
 import {useDispatch} from 'react-redux';
-export const SingularityContext = createContext();
 import {operations as CDOperations} from './store/actions/clientdata.actions';
 import {LocalizationContext} from '../../localization/LocalizationProvider';
+
+export const SingularityContext = createContext();
 
 // TODO: Make this configurable per singularity install
 const SETTINGS_KEY = 'aefa26fc-6a47-4998-8d93-c4a18d8b9119';

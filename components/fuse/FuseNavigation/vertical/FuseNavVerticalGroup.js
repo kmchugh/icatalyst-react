@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {ListSubheader} from '@material-ui/core';
-import {Icon} from '@icatalyst/components';
+import Icon from '../../../Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
-import {SingularityContext} from '@icatalyst/components/Singularity';
-import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import {SingularityContext} from '../../../Singularity';
+import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 
 const useStyles = makeStyles((theme)=>{
   return {

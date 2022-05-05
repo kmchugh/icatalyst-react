@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
-import {SingularityContext} from '@icatalyst/components/Singularity';
-import {FuseLoading} from '@icatalyst/components/fuse';
+import {SingularityContext} from '../../Singularity';
+import FuseLoading from '../../fuse/FuseLoading';
 import {ListItemText} from '@material-ui/core';
-import {ErrorWrapper} from '@icatalyst/components';
+import ErrorWrapper from '../../Errors/ErrorWrapper';
 
 const useStyles = makeStyles(()=>{
   return {

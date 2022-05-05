@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography, Link} from '@material-ui/core';
-import {Image} from '@icatalyst/components';
+import Image from '../../../components/Image';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import {useSelector} from 'react-redux';
