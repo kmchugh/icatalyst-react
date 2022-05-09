@@ -25,7 +25,7 @@ const CustomField = (props) => {
 
   const {readonly = false,
     onChange,
-    value,
+    value, entity,
     errors, field} = props;
 
   const {
@@ -59,9 +59,13 @@ const CustomField = (props) => {
         labelId={`${id}-label`}
         field={field}
         value={value || ''}
-        onChange={(e)=>{
-          if (e.target.value !== value) {
+        entity={entity}
+        onChange={(e, newValue)=>{
+          if (e && e.target.value !== value) {
             onChange && onChange(e, value);
+          }
+          if (!e && value !== newValue) {
+            onChange && onChange(null, newValue);
           }
         }}
         required={required}
@@ -86,6 +90,7 @@ CustomField.propTypes = {
   value : PropTypes.any,
   errors: PropTypes.array,
   field : PropTypes.object.isRequired,
+  entity : PropTypes.any,
 };
 
 export default React.memo(CustomField);

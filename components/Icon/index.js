@@ -51,8 +51,6 @@ const Icon = ({
   //   console.warn('fontSize has been deprecated on Icon, use size instead');
   // }
 
-  console.log(children, color, rest, theme);
-
   if (children.startsWith('fa ')) {
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
