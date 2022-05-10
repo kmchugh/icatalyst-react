@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { TextField,InputAdornment } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
@@ -18,6 +20,9 @@ const useStyles = makeStyles((theme) => {
     },
     select : {
       textAlign : 'left'
+    },
+    searchInput: {
+      padding: theme.spacing(1),
     }
   };
 });
@@ -38,6 +43,10 @@ const SelectField = (props) => {
     options,
     description
   } = field;
+  const [searchData, setSearchData] = useState('');
+  const applyFilter = (label) =>{
+    return label.toLowerCase().includes(searchData.trim().toLowerCase());
+  };
 
   const hasErrors = errors && errors.length > 0;
 
@@ -55,6 +64,7 @@ const SelectField = (props) => {
 
       <NativeSelectField
         className={clsx(classes.select)}
+        MenuProps={{ autoFocus: false }}
         labelId={`${id}-label`}
         id={id}
         name={id}
@@ -68,9 +78,29 @@ const SelectField = (props) => {
         inputProps={{
           readOnly: readonly
         }}
+        onClose={() => setSearchData('')}
       >
+        <TextField
+          autoFocus 
+          className={classes.searchInput}
+          placeholder='Search...'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+          onChange={(e) => setSearchData(e.target.value)} 
+          fullWidth 
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
+        />
         {
-          options.map((item) => {
+          options.filter((item) => 
+            item.label && applyFilter(item.label)
+          ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
               <MenuItem key={id} value={value}>
@@ -79,6 +109,7 @@ const SelectField = (props) => {
             );
           })
         }
+        
       </NativeSelectField>
 
       <FormHelperText error={hasErrors}>
