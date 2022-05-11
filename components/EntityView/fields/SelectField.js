@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 import _ from '../../../@lodash';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => {
 const SelectField = (props) => {
 
   const classes = useStyles();
+  const {t} = useContext(LocalizationContext);
 
   const {readonly = false,
     onChange,
@@ -81,9 +83,9 @@ const SelectField = (props) => {
         onClose={() => setSearchData('')}
       >
         <TextField
-          autoFocus 
+          autoFocus
           className={classes.searchInput}
-          placeholder='Search...'
+          placeholder={`${t('Search')}...`}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -91,14 +93,14 @@ const SelectField = (props) => {
               </InputAdornment>
             )
           }}
-          onChange={(e) => setSearchData(e.target.value)} 
-          fullWidth 
+          onChange={(e) => setSearchData(e.target.value)}
+          fullWidth
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
         />
         {
-          options.filter((item) => 
+          options.filter((item) =>
             item.label && applyFilter(item.label)
           ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
@@ -109,7 +111,7 @@ const SelectField = (props) => {
             );
           })
         }
-        
+
       </NativeSelectField>
 
       <FormHelperText error={hasErrors}>

@@ -10,7 +10,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
 import Image from '../../Image';
-
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Icon from '../../Icon';
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -18,6 +20,7 @@ import {makeStyles} from '@material-ui/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import {SingularityContext} from '@icatalyst/components/Singularity';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,6 +34,17 @@ const useStyles = makeStyles((theme) => {
     },
     avatar : {
       marginRight : theme.spacing(1),
+    },
+    searchInput: {
+      padding: theme.spacing(1),
+    },
+    listItem : {
+      overflow : 'hidden',
+      ['& .MuiListItemText-secondary'] : {
+        overflow: 'hidden',
+        width: '100%',
+        textOverflow : 'ellipsis'
+      }
     }
   };
 });
@@ -42,11 +56,12 @@ const DefaultListItem = ({
   getSecondaryText,
   hideFeatureImage = false,
   getFeatureImage = null,
+  className
 })=>{
   const styles = useStyles();
 
   return (
-    <ListItem component="div">
+    <ListItem className={className} component="div">
       { !hideFeatureImage && (
         <Avatar className={clsx(styles.avatar)}>
           <Image
@@ -63,6 +78,10 @@ const DefaultListItem = ({
 };
 
 DefaultListItem.propTypes = {
+  className : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string)
+  ]),
   item : PropTypes.object.isRequired,
   identityFieldName : PropTypes.string.isRequired,
   getPrimaryText : PropTypes.func.isRequired,
@@ -81,6 +100,7 @@ const LoadingIcon = ()=>{
 const EntitySelectField = (props) => {
 
   const classes = useStyles();
+  const {t} = useContext(LocalizationContext);
 
   const [loading, setLoading] = useState(false);
   const singularityContext = useContext(SingularityContext);
@@ -96,7 +116,9 @@ const EntitySelectField = (props) => {
 
   const {
     hideIfEmpty = false,
-    description
+    description,
+    autoFocus = false,
+    icon = 'search'
   } = field;
 
   const model = typeof field.model === 'function' ? field.model() : field.model;
@@ -128,6 +150,11 @@ const EntitySelectField = (props) => {
     entities = null
   } = field;
 
+  const [searchData, setSearchData] = useState('');
+  const applyFilter = (label) =>{
+    return label.toLowerCase().includes(searchData.trim().toLowerCase());
+  };
+
   useEffect(()=>{
     if (entities) {
       // Nothing to do as we are using supplied entities
@@ -154,12 +181,12 @@ const EntitySelectField = (props) => {
     }
   }, [data, entities]);
 
-  const items = useMemo(()=>{
+  const options = useMemo(()=>{
     const listItems = entities || data.entities;
     return [
       addNoneItem && {
         [identityFieldName]: '',
-        [primaryTextField]: 'Select ' + entityName + '...',
+        [primaryTextField]: t('Select {0}...', t(entityName)),
         [featureImageField]: null
       },
       (!listItems || listItems.length === 0) && emptyItem,
@@ -170,7 +197,7 @@ const EntitySelectField = (props) => {
   const hasErrors = errors && errors.length > 0;
 
   // Dont render if we haven't loaded any items and if hideIfEmpty is true;
-  return (hideIfEmpty && (!items || items.length === 1)) ? null : (
+  return (hideIfEmpty && (!options || options.length === 1)) ? null : (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
       variant="outlined"
@@ -184,50 +211,78 @@ const EntitySelectField = (props) => {
         </InputLabel>
       }
 
-      {
-        <ListComponent
-          className={clsx(classes.select)}
-          labelId={`${name}-label`}
-          id={id}
-          name={id}
-          value={value || ''}
-          onChange={onChange}
-          required={required}
-          inputProps={{
-            readOnly: readonly,
-            IconComponent: (loading && !data.loaded) ? LoadingIcon : ArrowDropDownIcon
-          }}
-        >
-          {
-            items.map((item, index) => {
-              return (
-                <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
-                  <ListItemComponent
-                    dense
-                    disableGutters
-                    key={item[identityFieldName]}
-                    item={item}
-                    model={model}
-                    field={field}
-                    identityFieldName={identityFieldName}
-                    getPrimaryText={getPrimaryText}
-                    hideSecondaryText={hideSecondaryText}
-                    getSecondaryText={getSecondaryText}
-                    onChange={onChange}
-                    selected={value}
-                    hideFeatureImage={
-                      addNoneItem && index === 0 ?
-                        true :
-                        !featureImageField
-                    }
-                    getFeatureImage={getFeatureImage}
-                  />
-                </MenuItem>
-              );
-            })
+      <ListComponent
+        className={clsx(classes.select)}
+        MenuProps={{ autoFocus: autoFocus }}
+        labelId={`${name}-label`}
+        id={id}
+        name={id}
+        value={value || ''}
+        onChange={(e)=>{
+          if (e.target.value !== value) {
+            onChange && onChange(e, e.target.value);
           }
-        </ListComponent>
-      }
+        }}
+        required={required}
+        IconComponent={(loading && !data.loaded) ? LoadingIcon : ArrowDropDownIcon}
+        inputProps={{
+          readOnly: readonly,
+        }}
+        onClose={() => setSearchData('')}
+      >
+        <TextField
+          autoFocus
+          className={classes.searchInput}
+          placeholder={`${t('Search')}...`}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Icon>{icon}</Icon>
+              </InputAdornment>
+            ),
+            readOnly: readonly,
+          }}
+          onChange={(e) => setSearchData(e.target.value)}
+          fullWidth
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
+        />
+
+        {
+          options.filter((item) =>
+            item[identityFieldName] && getPrimaryText(item) && applyFilter(getPrimaryText(item))
+          ).map((item, index) => {
+            const {id, value = id} = item;
+            return (
+              <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
+                <ListItemComponent
+                  className={clsx(classes.listItem)}
+                  dense
+                  disableGutters
+                  key={item[identityFieldName]}
+                  item={item}
+                  model={model}
+                  field={field}
+                  identityFieldName={identityFieldName}
+                  getPrimaryText={getPrimaryText}
+                  hideSecondaryText={hideSecondaryText}
+                  getSecondaryText={getSecondaryText}
+                  onChange={onChange}
+                  selected={value}
+                  hideFeatureImage={
+                    addNoneItem && index === 0 && !id ?
+                      true :
+                      !featureImageField
+                  }
+                  getFeatureImage={getFeatureImage}
+                />
+              </MenuItem>
+            );
+          })
+        }
+      </ListComponent>
+
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}
       </FormHelperText>
