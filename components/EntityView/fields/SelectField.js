@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme) => {
     },
     searchInput: {
       padding: theme.spacing(1),
+    },
+    listItem : {
+      display: 'block',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
     }
   };
 });
@@ -105,7 +110,7 @@ const SelectField = (props) => {
           ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
-              <MenuItem key={id} value={value}>
+              <MenuItem key={id} value={value} className={classes.listItem}>
                 {label}
               </MenuItem>
             );

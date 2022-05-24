@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   col : {
     display: 'flex',
     flexDirection: 'column',
+    maxWidth: '100%',
 
     '& > *' : {
       marginBottom: theme.spacing(1),
