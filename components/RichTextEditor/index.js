@@ -117,6 +117,9 @@ const RichTextEditor = (
           'mediaEmbed'
         ]
       },
+      link: {
+        addTargetToExternalLinks: true,
+      },
       htmlSupport: {
         allow: [
           {
