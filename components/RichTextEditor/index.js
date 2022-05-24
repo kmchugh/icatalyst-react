@@ -106,15 +106,27 @@ const RichTextEditor = (
         'EasyImage',
         'ImageUpload',
         'TableToolbar',
-        'Table'
+        'Table',
+        'MediaEmbed'
       ],
       toolbar : {
         removeItems : [
           'uploadImage',
           'imageUpload',
-          'insertTable'
+          'insertTable',
+          'mediaEmbed'
         ]
-      }
+      },
+      htmlSupport: {
+        allow: [
+          {
+            name: 'iframe',
+            attributes: true,
+            classes: true,
+            styles: true
+          }
+        ]
+      },
     }, !multiline ? {
       toolbar: ['bold', 'italic'],
       restrictedEditing: {
