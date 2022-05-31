@@ -28,7 +28,8 @@ const useStyles = makeStyles(()=>{
 const WebView = ({
   uri,
   title,
-  id = 'modalWrapper'
+  id = 'modalWrapper',
+  ...rest
 })=>{
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
@@ -60,6 +61,7 @@ const WebView = ({
           onLoad={()=>{
             setLoaded(true);
           }}
+          {...rest}
         />
       )
       }
