@@ -76,6 +76,7 @@ function Singularity({
       return role.displayable;
     },
     requireAuth = true,
+    publicRoutes = []
   } = config;
 
   // TODO: Make this configurable
@@ -110,7 +111,7 @@ function Singularity({
 
   // Force the authentication if the user has previously authenticated
   const hasAuthenticated = singularity.hasAuthenticated();
-  const shouldForceAuth = hasAuthenticated || requireAuth;
+  let shouldForceAuth = hasAuthenticated || requireAuth;
 
   const appContext = useContext(AppContext);
   const vocabContext = useContext(LocalizationContext);
@@ -121,13 +122,20 @@ function Singularity({
 
   const [message, setMessage] = useState(`${t('Validating')}...`);
 
-
   const {
     routes,
     onUserAuthenticated = ()=>{},
     onClientUpdated = ()=>{},
     onUserChange = ()=>{}
   } = appContext;
+
+  const isPublicRoute = ()=>{
+    return publicRoutes.some((r)=>location.pathname.startsWith(r));
+  };
+  if (isPublicRoute()) {
+    config.requireAuth = false;
+    shouldForceAuth = false;
+  }
 
   const handleToken = (token)=>{
     // We have a token, redirect the user if required
@@ -503,11 +511,12 @@ Singularity.propTypes = {
     settings : PropTypes.object,
     urls : PropTypes.object,
     requireAuth : PropTypes.bool,
-    onUserChange : PropTypes.func
+    onUserChange : PropTypes.func,
+    publicRoutes : PropTypes.arrayOf(PropTypes.string)
   }),
   history: PropTypes.object,
   location: PropTypes.object,
-  t : PropTypes.func,
+  t : PropTypes.func
 };
 
 
