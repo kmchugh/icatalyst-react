@@ -16,8 +16,10 @@ import { useDispatch, useSelector } from 'react-redux';
 // from 'app/auth/store/userSlice';
 // import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
 import PropTypes from 'prop-types';
-import {SingularityContext} from '@icatalyst/components/Singularity';
-import layoutDefaults from '@icatalyst/layouts/layoutDefaults';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../Singularity';
+// import layoutDefaults from '@icatalyst/layouts/layoutDefaults';
+import layoutDefaults from '../../../layouts/layoutDefaults';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -51,7 +53,6 @@ const useStyles = makeStyles(theme => ({
 
 function FuseSettings(props) {
   const dispatch = useDispatch();
-  console.log(dispatch);
   const singularityContext = useContext(SingularityContext);
   const {user} = singularityContext;
   const themes = useSelector(({ app }) => app.settings.themes);
@@ -276,8 +277,7 @@ function FuseSettings(props) {
     return getForm(definition);
   }
 
-  console.log(settings, themes);
-  console.log(layoutDefaults);
+ 
 
 
   return (

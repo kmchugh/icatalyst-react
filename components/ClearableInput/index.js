@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@icatalyst/components/Icon';
+import Icon from 'icatalyst/components/Icon';
 import {Paper, Input, InputAdornment} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';

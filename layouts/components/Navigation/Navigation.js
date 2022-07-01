@@ -1,5 +1,6 @@
 import React from 'react';
-import FuseNavigation from '@icatalyst/components/fuse/FuseNavigation';
+import FuseNavigation from 'icatalyst/components/fuse/FuseNavigation';
+// import FuseNavigation from '../../../components/fuse/FuseNavigation'
 import clsx from 'clsx';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';

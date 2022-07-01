@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
-import { SingularityContext } from '@icatalyst/components/Singularity';
+// import { SingularityContext } from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../../../components';
 
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -14,12 +15,18 @@ import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ClearableInput from '@icatalyst/components/ClearableInput';
-import Icon from '@icatalyst/components/Icon';
-import Image from '@icatalyst/components/Image';
+// import ClearableInput from '@icatalyst/components/ClearableInput';
+import { ClearableInput } from '../../../../components';
+// import Icon from '@icatalyst/components/Icon';
+import { Icon } from '../../../../components';
+// import Image from '@icatalyst/components/Image';
+import { Image } from '../../../../components';
+import { definition as kbdefinition } from '../../../../components/Singularity/store/reducers/knowledgeBase.reducer.js';
 
-import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
-import { FuseLoading } from '@icatalyst/components/fuse';
+
+// import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
+// import { FuseLoading } from '@icatalyst/components/fuse';
+import { FuseLoading } from '../../../../components/fuse';
 
 const useStyles = makeStyles((theme) => {
   return {

@@ -4,8 +4,8 @@ import {createModule as profileConfig} from './Profile/ProfileConfig';
 import {createModule as settingsConfig} from './Settings/SettingsConfig';
 import {createModule as signoutConfig} from './Signout/SignoutConfig';
 import {createRouteConfig} from '../../utilities/createRouteConfig';
-import {registerSettings} from '@icatalyst/components/Settings';
-
+import {registerSettings} from 'icatalyst/components/Settings';
+// import { registerSettings } from '../../components/Settings';
 const ProfileAvatar = lazy(() => import('./components/ProfileAvatar'));
 const ProfileDisplayName = lazy(() => import('./components/ProfileDisplayName'));
 const ChangePassword = lazy(() => import('./components/ChangePassword'));

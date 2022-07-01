@@ -2,9 +2,12 @@ import React, {useContext} from 'react';
 import {AppBar, Typography} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import UserRoles from '@icatalyst/components/UserRoles';
-import Avatar from '@icatalyst/components/Avatar';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+import UserRoles from 'icatalyst/components/UserRoles';
+// import { UserRoles } from '../../../components';
+// import {Avatar} from 'icatalyst';
+import Avatar from 'icatalyst/components/Avatar';
+import {SingularityContext} from 'icatalyst/components/Singularity';
+// import { SingularityContext } from '../../../components';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({

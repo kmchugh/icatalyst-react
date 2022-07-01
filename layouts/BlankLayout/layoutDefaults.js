@@ -1,7 +1,7 @@
 import Layout from './index';
 
 
-export const layoutDefaults = {
+ export const layoutDefaults = {
   style: 'blankLayout',
   component : ()=>Layout,
   customScrollbars : true,

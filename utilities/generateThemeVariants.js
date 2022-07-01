@@ -2,18 +2,11 @@ import {createTheme} from '@material-ui/core/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import _ from 'lodash';
 import {createColor} from './createPalette';
-import * as locale from '@material-ui/core/locale';
-import { isRTL } from '../localization/languages';
 
-
-export function generateThemeVariants(name, theme, defaults = {}, tint=0, preferredLanguage = 'en-US'){
-  const preferredLocale = locale[preferredLanguage.replaceAll('-', '')] || locale['enUS'];
-  const isRTLLocale = isRTL(preferredLanguage) ? 'rtl' : 'ltr';
-
+export function generateThemeVariants(name, theme, defaults = {}, tint=0){
   return {
     [name] :
       createTheme(_.merge({}, defaultThemeOptions, theme, {...requiredThemeOptions}, {
-        direction : isRTLLocale,
         ...defaults,
         palette : {
           background : {
@@ -37,7 +30,7 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
             'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
           }
         }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale),
+      }, {mixins: extendThemeWithMixins(theme)})),
     [name + 'Dark'] :
       createTheme(_.merge({}, defaultThemeOptions, {
         ...theme,
@@ -49,7 +42,6 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
           ]))
         }
       }, {palette: {type: 'dark'}, ...requiredThemeOptions}, {
-        direction : isRTLLocale,
         ...defaults,
         palette : {
           background : {
@@ -73,10 +65,9 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
             'A700': new tinycolor('#616161').mix(theme.palette.secondary.dark, tint).toHex8String()
           }
         }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale),
+      }, {mixins: extendThemeWithMixins(theme)})),
     [name + 'Light'] :
       createTheme(_.merge({}, defaultThemeOptions, theme, {palette: {type: 'light'}, ...requiredThemeOptions}, {
-        direction : isRTLLocale,
         ...defaults,
         palette : {
           background : {
@@ -100,7 +91,7 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
             'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
           }
         }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale)
+      }, {mixins: extendThemeWithMixins(theme)}))
   };
 }
 

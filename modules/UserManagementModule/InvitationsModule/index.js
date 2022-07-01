@@ -1,7 +1,9 @@
 import {lazy} from 'react';
 
-import {createRouteConfig} from '@icatalyst/utilities';
-import {definition} from '@icatalyst/components/Singularity/store/reducers/invites.reducer';
+// import {createRouteConfig} from '@icatalyst/utilities';
+import { createRouteConfig } from '../../../utilities';
+// import {definition} from '@icatalyst/components/Singularity/store/reducers/invites.reducer';
+import { definition } from '../../../../icatalyst/src/app/main/store/reducers/version.reducer';
 import _ from '../../../@lodash';
 
 const CreateInvitation = lazy(() => import('./components/CreateInvitation'));

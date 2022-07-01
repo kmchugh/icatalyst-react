@@ -1,6 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../../../components';
 
 
 const LogoutComponent = ()=>{

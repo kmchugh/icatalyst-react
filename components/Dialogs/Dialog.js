@@ -48,8 +48,7 @@ const Dialog = (props)=>{
     showTitle = true,
     titleVariant = 'default',
     classes,
-    style,
-    TransitionComponent,
+    style
   } = props;
   const styles = useStyles();
 
@@ -83,15 +82,13 @@ const Dialog = (props)=>{
   return (
     <NativeDialog
       className={clsx(styles.root, className)}
-      open={Boolean(open)}
+      open={open}
       fullWidth={fullWidth}
       fullScreen={fullScreen}
-      onClose={()=>{
-        onClose && onClose();
-      }}
+      onClose={onClose}
       aria-labelledby={title && 'alert-dialog-title'}
       aria-describedby={description && 'alert-dialog-description'}
-      TransitionComponent={TransitionComponent || (fullScreen ? TransitionFull : TransitionDialog)}
+      TransitionComponent={fullScreen ? TransitionFull : TransitionDialog}
       TransitionProps={{ role: 'presentation' }}
       keepMounted
       classes={classes}
@@ -179,7 +176,6 @@ Dialog.propTypes = {
     'default',
     'flat'
   ]),
-  TransitionComponent : PropTypes.node,
   style : PropTypes.object
 };
 

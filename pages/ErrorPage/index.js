@@ -1,6 +1,7 @@
 import React from 'react';
 import {Typography} from '@material-ui/core';
-import {FuseAnimate} from '@icatalyst/components/fuse';
+// import {FuseAnimate} from '@icatalyst/components/fuse';
+import { FuseAnimate } from '../../components/fuse';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';

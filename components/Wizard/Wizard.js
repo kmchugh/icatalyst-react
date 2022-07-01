@@ -126,54 +126,6 @@ const Wizard = React.forwardRef(({
     setPageIndex(Math.max(pageIndex-1, 0));
   };
 
-  const save = ()=>{
-    setUpdating(true);
-    setDialogErrors(null);
-
-    onSave && onSave(form, (err)=>{
-      setUpdating(false);
-      if (err) {
-        const layout = definition.layout.flat().map((field)=>{
-          return typeof field === 'string' ? field : field.id;
-        });
-        // Parse out definition errors from generic errors
-        const resultErrors = err.reduce((acc, error)=>{
-          const field = error.key;
-          if (field && layout.includes(field)) {
-            acc.definition[field] = [
-              ...(acc.definition[field] || []),
-              error.message
-            ];
-          } else if (field) {
-            acc.generic.push(`${error.message} (${field})`);
-          } else {
-            acc.generic.push(error);
-          }
-          return acc;
-        }, {
-          definition : {},
-          generic : []
-        });
-
-        if (Object.keys(resultErrors.definition).length > 0) {
-          setErrors((errors)=>({
-            ...errors,
-            ...resultErrors.definition
-          }));
-        }
-
-        if (resultErrors.generic.length > 0) {
-          setDialogErrors(resultErrors.generic);
-        }
-      } else {
-        resetForm();
-        setPageIndex(0);
-        setWizardOpen(false);
-        contentRef.current.closeDialog();
-      }
-    });
-  };
-
   useImperativeHandle(ref, () => ({
     isCurrentPageValid : ()=>{
       return true;
@@ -187,7 +139,6 @@ const Wizard = React.forwardRef(({
       setWizardOpen(false);
       contentRef.current.closeDialog();
     },
-    save : save,
     handleChange : handleChange
   }));
 
@@ -243,7 +194,51 @@ const Wizard = React.forwardRef(({
       color : 'primary',
       disabled : !isValid || updating,
       onClick : ()=>{
-        save();
+        setUpdating(true);
+        setDialogErrors(null);
+
+        onSave && onSave(form, (err)=>{
+          setUpdating(false);
+          if (err) {
+            const layout = definition.layout.flat().map((field)=>{
+              return typeof field === 'string' ? field : field.id;
+            });
+            // Parse out definition errors from generic errors
+            const resultErrors = err.reduce((acc, error)=>{
+              const field = error.key;
+              if (field && layout.includes(field)) {
+                acc.definition[field] = [
+                  ...(acc.definition[field] || []),
+                  error.message
+                ];
+              } else if (field) {
+                acc.generic.push(`${error.message} (${field})`);
+              } else {
+                acc.generic.push(error);
+              }
+              return acc;
+            }, {
+              definition : {},
+              generic : []
+            });
+
+            if (Object.keys(resultErrors.definition).length > 0) {
+              setErrors((errors)=>({
+                ...errors,
+                ...resultErrors.definition
+              }));
+            }
+
+            if (resultErrors.generic.length > 0) {
+              setDialogErrors(resultErrors.generic);
+            }
+          } else {
+            resetForm();
+            setPageIndex(0);
+            setWizardOpen(false);
+            contentRef.current.closeDialog();
+          }
+        });
       },
       icon : finishButtonIcon,
       title : finishButtonText

@@ -4,7 +4,9 @@ import _ from 'lodash';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import {generateUUID} from '../../utilities/generateUUID';
+// import {URIService} from '../URIService';
 import URIService from '../URIService';
+
 
 const LOGOUT_ACTION = 'LOGGING_OUT';
 const AUTHENTICATED_KEY = 'singularity_authenticated';
@@ -39,7 +41,6 @@ class SingularityService {
     personalAccessToken : 'api/personalToken',
     profile : 'api/profile',
     profileUpdate : 'api/me',
-    notification : 'v2/api/notification',
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
@@ -103,8 +104,8 @@ class SingularityService {
   handleLSMessage(event){
     if (event.key === this.#ls_comms_key && event.trusted) {
       const {type, payload} = JSON.parse(event.newValue);
-      console.log(type, payload);
-      console.log('EVENT HANDLING');
+      // console.log(type, payload);
+      // console.log('EVENT HANDLING');
     }
   }
 

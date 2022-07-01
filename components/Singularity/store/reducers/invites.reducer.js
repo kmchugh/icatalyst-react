@@ -4,7 +4,8 @@ import { createModel } from '../../../../utilities/createModel';
 import { generateReducer } from '../../../../utilities/generateReducer';
 
 import {Chip, Typography} from '@material-ui/core';
-import Icon from '../../../../components/Icon';
+// import {Icon} from '@icatalyst/components';
+import Icon from '../../../Icon';
 
 
 const definition = createModel({

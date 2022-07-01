@@ -4,6 +4,7 @@ import {
 import * as echarts from 'echarts/core';
 import _ from '../../../@lodash';
 
+
 // Register the required components
 echarts.use(
   [TooltipComponent]
@@ -80,8 +81,6 @@ const Tooltip = (params)=>{
     showCount = true,
     showValue = true,
     showPercent = true,
-    showTitle = true,
-    showSeriesTitle = true,
     getCount = (value)=>{
       return Array.isArray(value) ?
         value[value.length-1] :
@@ -121,12 +120,12 @@ const Tooltip = (params)=>{
       const count = getCount(value);
       const displayValue = getDisplayValue(value, data);
 
-      return ((showTitle && title) ?
+      return (title ?
         `<div style="${styleString(cssStyles.title)}">${title}</div>` :
         ''
       ) +
 
-      ((showSeriesTitle && seriesName && seriesName !== title) ?
+      (seriesName ?
         `<div style="${styleString(cssStyles.name)}">${seriesName}</div>`:
         ''
       ) +

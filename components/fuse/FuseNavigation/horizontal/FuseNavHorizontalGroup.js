@@ -1,7 +1,8 @@
 import React, {useState, useContext} from 'react';
 import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
+import useDebounce from 'icatalyst/hooks/fuse/useDebounce';
+// import { useDebounce } from '../../../../hooks/fuse';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -10,7 +11,8 @@ import * as ReactDOM from 'react-dom';
 import FuseNavHorizontalCollapse from './FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+import {SingularityContext} from 'icatalyst/components/Singularity';
+// import { SingularityContext } from '../../../Singularity';
 
 const useStyles = makeStyles(theme => ({
   root       : {

@@ -40,7 +40,8 @@ const RichTextField = ({
     maxLength,
     autoFocus = false,
     description,
-    rteConfig = {}
+    rteConfig = {
+    }
   } = field;
 
   const hasErrors = errors && errors.length > 0;

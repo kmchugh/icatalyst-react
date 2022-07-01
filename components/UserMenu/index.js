@@ -1,14 +1,18 @@
 import React, {useState, useContext} from 'react';
 import {Button, ListItemIcon, ListItemText,
   Popover, MenuItem, Typography} from '@material-ui/core';
-import Avatar from '@icatalyst/components/Avatar';
-import Icon from '@icatalyst/components/Icon';
+// import Avatar from 'icatalyst';
+import Avatar from '../Avatar';
+// import Icon from '@icatalyst/components/Icon';
+import Icon from '../Icon';
 import {Link} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
-import UserRoles from '@icatalyst/components/UserRoles';
+// import UserRoles from '@icatalyst/components/UserRoles';
+import UserRoles from '../UserRoles';
 import {SingularityContext} from '../Singularity';
 import {useDispatch} from 'react-redux';
-import {openUserSettings} from '@icatalyst/store/actions/settings.actions';
+// import {openUserSettings} from '@icatalyst/store/actions/settings.actions';
+import { openUserSettings } from '../../store/actions/settings.actions';
 import PropTypes from 'prop-types';
 
 function UserMenu({showSettings = false})

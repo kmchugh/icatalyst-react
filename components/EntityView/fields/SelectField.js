@@ -1,16 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import NativeSelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { TextField,InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
-import _ from '../../../@lodash';
-import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import _ from '../../../@lodash/@lodash';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -21,9 +18,6 @@ const useStyles = makeStyles((theme) => {
     },
     select : {
       textAlign : 'left'
-    },
-    searchInput: {
-      padding: theme.spacing(1),
     }
   };
 });
@@ -31,7 +25,6 @@ const useStyles = makeStyles((theme) => {
 const SelectField = (props) => {
 
   const classes = useStyles();
-  const {t} = useContext(LocalizationContext);
 
   const {readonly = false,
     onChange,
@@ -45,10 +38,6 @@ const SelectField = (props) => {
     options,
     description
   } = field;
-  const [searchData, setSearchData] = useState('');
-  const applyFilter = (label) =>{
-    return label.toLowerCase().includes(searchData.trim().toLowerCase());
-  };
 
   const hasErrors = errors && errors.length > 0;
 
@@ -66,7 +55,6 @@ const SelectField = (props) => {
 
       <NativeSelectField
         className={clsx(classes.select)}
-        MenuProps={{ autoFocus: false }}
         labelId={`${id}-label`}
         id={id}
         name={id}
@@ -80,29 +68,9 @@ const SelectField = (props) => {
         inputProps={{
           readOnly: readonly
         }}
-        onClose={() => setSearchData('')}
       >
-        <TextField
-          autoFocus
-          className={classes.searchInput}
-          placeholder={`${t('Search')}...`}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-          onChange={(e) => setSearchData(e.target.value)}
-          fullWidth
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-        />
         {
-          options.filter((item) =>
-            item.label && applyFilter(item.label)
-          ).map((item) => {
+          options.map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
               <MenuItem key={id} value={value}>
@@ -111,7 +79,6 @@ const SelectField = (props) => {
             );
           })
         }
-
       </NativeSelectField>
 
       <FormHelperText error={hasErrors}>

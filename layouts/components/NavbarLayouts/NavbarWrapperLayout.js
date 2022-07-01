@@ -5,13 +5,14 @@ import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
 import NavbarLayout from './NavbarLayout';
 import {useDispatch, useSelector} from 'react-redux';
-import {useSettingsContext} from '../../../components/Settings/SettingsProvider';
-import {registerSettings} from '../../../components/Settings/SettingsProvider';
+// import {useSettingsContext} from '../../../components/Settings/SettingsProvider';
+import { useSettingsContext } from 'icatalyst/components/Settings/SettingsProvider';
+import {registerSettings} from 'icatalyst/components/Settings/SettingsProvider';
 import _ from '../../../@lodash';
 
-const NAVBAR_SETTINGS_ID = 'icat_navbar';
+const NAVBAR_SETTINGS_ID = "icat_navbar";
 
-/**
+/** 
  * Register the NavBar Settings with the settings provider
  * so they can be managed by the user
  * @type {[type]}
@@ -222,7 +223,7 @@ function NavbarWrapper()
     navbarWidth,
     navbarFoldedWidth
   });
-
+ 
   useEffect(()=>{
     return dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
   }, []);

@@ -1,7 +1,10 @@
 import React, {useContext} from 'react';
-import {FuseAnimate} from '@icatalyst/components/fuse';
-import Icon from '@icatalyst/components/Icon';
-import Image from '@icatalyst/components/Image';
+// import {FuseAnimate} from '@icatalyst/components/fuse';
+import { FuseAnimate } from '../fuse';
+// import Icon from '@icatalyst/components/Icon';
+import Icon from '../Icon';
+// import Image from '@icatalyst/components/Image';
+import Image from '../Image';
 import {Typography, Hidden} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';

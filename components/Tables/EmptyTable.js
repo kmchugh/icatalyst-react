@@ -1,6 +1,8 @@
 import React from 'react';
-import Icon from '@icatalyst/components/Icon';
-import IconButton from '@icatalyst/components/IconButton';
+// import Icon from '@icatalyst/components/Icon';
+import Icon from '../Icon';
+// import IconButton from '@icatalyst/components/IconButton';
+import IconButton from '../IconButton';
 import {Typography} from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';

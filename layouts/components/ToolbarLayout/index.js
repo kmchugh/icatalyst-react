@@ -2,8 +2,10 @@ import React from 'react';
 import {AppBar, Hidden, Toolbar} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton';
-import UserMenu from '@icatalyst/components/UserMenu';
-import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
+// import UserMenu from '@icatalyst/components/UserMenu';
+import { UserMenu } from '../../../components';
+// import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
+import { FuseShortcuts } from '../../../components/fuse';
 import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

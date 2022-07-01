@@ -109,7 +109,6 @@ const EntityView = ({
           return (hideReadOnly && fieldDef.readonly) ? null : <Component
             value={fieldDef.getValue ? fieldDef.getValue(model) : model[field]}
             field={fieldDef}
-            entity={model}
             key={`${key}_${fieldDef.id}`}
             readonly={readonly || fieldDef.readonly}
             onChange={fieldDef.setValue ?

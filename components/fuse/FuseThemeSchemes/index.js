@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings } from 'app/auth/store/userSlice';
 // import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
 import PropTypes from 'prop-types';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../Singularity';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -86,7 +87,6 @@ SchemePreview.propTypes = {
 
 function FuseThemeSchemes(props) {
   const dispatch = useDispatch();
-  console.log(dispatch);
   const singularityContext = useContext(SingularityContext);
   const {user} = singularityContext;
   const themes = useSelector(({ app }) => app.settings.themes);
@@ -105,7 +105,6 @@ function FuseThemeSchemes(props) {
       }
     };
 
-    console.log(newSettings);
 
     if (user.role === 'guest') {
       // dispatch(setDefaultSettings(newSettings));

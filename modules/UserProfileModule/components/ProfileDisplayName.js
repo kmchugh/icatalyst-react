@@ -2,13 +2,17 @@ import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../../components';
 import IconButton from '../../../components/IconButton';
 import Typography from '@material-ui/core/Typography';
-import ErrorWrapper from '@icatalyst/components/Errors/ErrorWrapper';
-import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
+// import ErrorWrapper from '@icatalyst/components/Errors/ErrorWrapper';
+import { ErrorWrapper } from '../../../components';
+// import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
+import { FuseLoading } from '../../../components/fuse';
 import TextField from '@material-ui/core/TextField';
-import {isName} from '@icatalyst/components/EntityView/validations/isName';
+// import {isName} from '@icatalyst/components/EntityView/validations/isName';
+import { isName } from '../../../utilities/validations';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{

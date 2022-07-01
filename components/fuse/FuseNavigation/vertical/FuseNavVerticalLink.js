@@ -1,15 +1,17 @@
 import React, {useContext} from 'react';
 import {ListItem, ListItemText} from '@material-ui/core';
-import Icon from '@icatalyst/components/Icon';
+// import Icon from '@icatalyst/components/Icon';
+import Icon from '../../../Icon';
 import {makeStyles} from '@material-ui/styles';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+import * as Action from '../../../../store/actions'
 import FuseNavBadge from './../FuseNavBadge';
-import {SingularityContext} from '@icatalyst/components/Singularity';
-import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../../Singularity';
 
 const useStyles = makeStyles(theme => ({
   itemFn: ({nestedLevel})=>{
@@ -53,7 +55,6 @@ function FuseNavVerticalLink(props)
   const dispatch = useDispatch();
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
-  const {t} = useContext(LocalizationContext);
 
   const classes = useStyles(props);
   const {item, active} = props;
@@ -75,11 +76,7 @@ function FuseNavVerticalLink(props)
       {item.icon && (
         <Icon className="list-item-icon text-16 flex-shrink-0 mr-16" color="action">{item.icon}</Icon>
       )}
-      <ListItemText
-        className="list-item-text"
-        primary={t(item.title)}
-        classes={{primary: 'text-14 list-item-text-primary'}}
-      />
+      <ListItemText className="list-item-text" primary={item.title} classes={{primary: 'text-14 list-item-text-primary'}}/>
       {item.badge && (
         <FuseNavBadge badge={item.badge}/>
       )}

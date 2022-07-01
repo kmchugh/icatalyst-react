@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles, useTheme} from '@material-ui/styles';
 import clsx from 'clsx';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+import {SingularityContext} from 'icatalyst/components/Singularity';
 import { useLocation } from 'react-router-dom';
 import { getParams } from '../../../utilities/getParams';
 import FuseLoading from '../../../components/fuse/FuseLoading';
@@ -78,6 +78,7 @@ const OpenAccessComponent = ({
   });
 
   const authContext = singularityContext;
+  console.log("context",authContext);
   const {login, register, session} = authContext;
   const location = useLocation();
   const {

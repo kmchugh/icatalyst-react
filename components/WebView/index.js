@@ -34,6 +34,7 @@ const WebView = ({
   const [loaded, setLoaded] = useState(false);
 
   return (
+    <>
     <div
       id={id}
       className={clsx(classes.root)}
@@ -64,6 +65,7 @@ const WebView = ({
       )
       }
     </div>
+    </>
   );
 };
 

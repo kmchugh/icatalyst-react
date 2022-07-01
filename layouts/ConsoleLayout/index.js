@@ -193,7 +193,7 @@ function Layout(props) {
   return (
     <div id="fuse-layout" className={clsx(classes.root, config.className, config.mode, `scroll-${scroll}`)}>
       {config.leftSidePanel.display && <SidePanelLayout />}
-      <div className="flex flex-1 flex-col overflow-hidden relative h-full">
+      <div className="flex flex-1 flex-col overflow-hidden relative h-full" style={{width:'100%'}}>
         {scroll === 'content' && config.toolbar.display && config.toolbar.position === 'outside' && (
           <ThemeProvider theme={themes.toolbarTheme}>
             <ToolbarLayout />

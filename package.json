@@ -1,0 +1,13 @@
+{
+  "name": "icatalyst",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "jest "
+
+  },
+  "dependencies": {
+    "react": "^17.0.1"
+  }
+}

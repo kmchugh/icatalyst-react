@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import Editor from 'ckeditor5-custom-build';
-import _ from '@icatalyst/@lodash';
+import Editor from '@ckeditor/ckeditor5-build-balloon';
+// import _ from '@icatalyst/@lodash';
+import _ from '../../@lodash/@lodash';
 
 // Uncomment this to quickly see a list of plugins
 // console.log(Editor.builtinPlugins.map( plugin => plugin.pluginName ));
@@ -12,13 +13,9 @@ import _ from '@icatalyst/@lodash';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
+      // width: 'auto',
       ['& .ck'] : {
-        minHeight: 'inherit',
-        ['& ol,ul'] : {
-          listStyle : 'revert',
-          margin: 'revert',
-          padding:'revert'
-        }
+        minHeight: 'inherit'
       },
       ['& .ck.ck-editor__editable_inline>:last-child'] : {
         marginTop: 0,
@@ -29,7 +26,7 @@ const useStyles = makeStyles((theme)=>{
         marginTop: 0,
       },
       ['& .ck.ck-editor__editable:not(.ck-editor__nested_editable).ck-focused'] : {
-        border: '1px solid transparent',
+        border: 'none!important',
         boxShadow: 'none!important'
       }
     },
@@ -58,7 +55,8 @@ const RichTextEditor = (
     onChange,
     value,
     multiline = true,
-    readOnly = false,
+    // readonly = false,
+    // variant = 'contained',
     config = {},
     rows = 5,
     debounce = 750,
@@ -72,12 +70,6 @@ const RichTextEditor = (
   const editorRef = useRef(null);
   const valueRef = useRef(value);
   const [pendingUpdate, setPendingUpdate] = useState(null);
-
-  // The custom build ckeditor seems to have removed the disabled option
-  // This is a fix to ensure it is not passed through
-  /* eslint-disable no-unused-vars */
-  const {disabled, variant, ...editorProps} = rest;
-  /* eslint-enable no-unused-vars */
 
   useImperativeHandle(rest.inputRef, ()=>{
     return {
@@ -97,7 +89,6 @@ const RichTextEditor = (
 
   const derivedConfig = useMemo(()=>{
     return _.merge({
-      isReadOnly : true,
       // By default remove the following plugins
       removePlugins : [
         'CKFinder',
@@ -106,30 +97,14 @@ const RichTextEditor = (
         'EasyImage',
         'ImageUpload',
         'TableToolbar',
-        'Table',
-        'MediaEmbed'
+        'Table'
       ],
       toolbar : {
         removeItems : [
           'uploadImage',
-          'imageUpload',
-          'insertTable',
-          'mediaEmbed'
+          'insertTable'
         ]
-      },
-      link: {
-        addTargetToExternalLinks: true,
-      },
-      htmlSupport: {
-        allow: [
-          {
-            name: 'iframe',
-            attributes: true,
-            classes: true,
-            styles: true
-          }
-        ]
-      },
+      }
     }, !multiline ? {
       toolbar: ['bold', 'italic'],
       restrictedEditing: {
@@ -154,17 +129,13 @@ const RichTextEditor = (
       className
     )}>
       <CKEditor
-        {...editorProps}
+        {...rest}
         editor={Editor}
         data={value}
+        isReadOnly={true}
         onReady={(editor)=>{
           editorRef.current = editor;
           editor.setData(value || '');
-
-          // This is a workaround for the custom build as the disabled property stopped working
-          if (readOnly) {
-            editor.enableReadOnlyMode(`rte-${editorProps.id || editorProps.name || 'readonly'}`);
-          }
         }}
         onChange={
           (e, editor)=>{
@@ -195,7 +166,11 @@ RichTextEditor.propTypes={
   onFocus : PropTypes.func,
   value : PropTypes.string,
   multiline : PropTypes.bool,
-  readOnly : PropTypes.bool,
+  readonly : PropTypes.bool,
+  variant : PropTypes.oneOf([
+    'inline',
+    'contained'
+  ]),
   rows : PropTypes.number,
   config : PropTypes.object,
   debounce : PropTypes.number

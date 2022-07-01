@@ -500,7 +500,6 @@ const Table = ({
               onRefresh={onRefresh}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
-              title={title}
             />
           </ThemeProvider>
         </TableContainer>

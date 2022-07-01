@@ -70,8 +70,7 @@ const TablePagination = ({
   rowsPerPage,
   onRefresh,
   onChangePage,
-  onChangeRowsPerPage,
-  title='Rows'
+  onChangeRowsPerPage
 })=>{
   const classes = useStyles();
 
@@ -87,7 +86,9 @@ const TablePagination = ({
       count={count}
       rowsPerPage={rowsPerPage}
       page={page}
-      labelRowsPerPage={`${title} per page`}
+      SelectProps={{
+        inputProps: {'aria-label': 'rows per page'},
+      }}
       onPageChange={onChangePage}
       onRowsPerPageChange={onChangeRowsPerPage}
       ActionsComponent={(props)=>(
@@ -104,7 +105,6 @@ TablePagination.propTypes = {
   onRefresh : PropTypes.func.isRequired,
   onChangePage : PropTypes.func.isRequired,
   onChangeRowsPerPage : PropTypes.func.isRequired,
-  title : PropTypes.string
 };
 
 export default TablePagination;

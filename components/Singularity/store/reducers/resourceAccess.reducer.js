@@ -1,5 +1,6 @@
 import * as Actions from '../actions/resourceAccess.actions';
-import {createModel, generateReducer} from '@icatalyst/utilities';
+// import {createModel, generateReducer} from '@icatalyst/utilities';
+import { createModel,generateReducer } from '../../../../utilities';
 import moment from '../../../../@moment';
 
 import {definition as edgeTypeDefinition} from './edgeType.reducer';

@@ -17,7 +17,8 @@ import { Link } from 'react-router-dom';
 // import { updateUserShortcuts } from 'app/auth/store/userSlice';
 // import { selectNavigation } from 'app/store/fuse/navigationSlice';
 import PropTypes from 'prop-types';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../../Singularity';
 
 import { amber } from '@material-ui/core/colors';
 
@@ -86,7 +87,6 @@ function FuseShortcuts(props) {
   function toggleInShortcuts(id) {
     let newShortcuts = [...shortcuts];
     newShortcuts = newShortcuts.includes(id) ? newShortcuts.filter(_id => id !== _id) : [...newShortcuts, id];
-    console.log(newShortcuts);
     // dispatch(updateUserShortcuts(newShortcuts));
   }
 

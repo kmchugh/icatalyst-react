@@ -7,7 +7,7 @@ as creating a generator for the application skeleton, the steps required to crea
 
 1. create a new repository for the application.
 2. add the required files to the application structure.
-3. Include the icatalyst react library as a submodule ```git submodule add https://github.com/kmchugh/icatalyst-react.git src/@icatalyst```
+3. Include the icatalyst react library as a submodule ```git submodule add https://github.com/kmchugh/icatalyst-react.git packages/@icatalyst```
 3. ```yarn install```
 
 The initial structure of the application should be as follows:

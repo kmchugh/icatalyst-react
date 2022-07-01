@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {ListSubheader} from '@material-ui/core';
-import Icon from '../../../Icon';
+import {Icon} from 'icatalyst/components';
+// import Icon from '../../../Icon';
 import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
@@ -8,8 +9,8 @@ import PropTypes from 'prop-types';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
-import {SingularityContext} from '../../../Singularity';
-import {LocalizationContext} from '../../../../localization/LocalizationProvider';
+import {SingularityContext} from 'icatalyst/components/Singularity';
+// import { SingularityContext } from '../../../Singularity';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -39,7 +40,6 @@ function FuseNavVerticalGroup(props)
 {
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
-  const {t} = useContext(LocalizationContext);
 
   const classes = useStyles(props);
 
@@ -86,7 +86,7 @@ function FuseNavVerticalGroup(props)
           <Icon color="action" className={clsx(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
         )}
         <span className="list-subheader-text uppercase text-12">
-          {t(item.title)}
+          {item.title}
         </span>
       </ListSubheader>
 

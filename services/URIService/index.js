@@ -1,6 +1,6 @@
 const uris = {};
 
-const URIService = {
+ const URIService = {
   registerURI : (service, key, uri)=>{
     if (!uris[service]) {
       uris[service] = {};

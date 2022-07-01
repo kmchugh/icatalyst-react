@@ -1,4 +1,5 @@
-import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
+// import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
+import { FuseUtils } from '../../components/fuse';
 
 export const GET_NAVIGATION = '[NAVIGATION] GET NAVIGATION';
 export const SET_NAVIGATION = '[NAVIGATION] SET NAVIGATION';

@@ -2,7 +2,8 @@ import {lazy} from 'react';
 
 const OpenAccessComponent = lazy(() => import('./components/OpenAccessComponent'));
 
-import {createRouteConfig} from '@icatalyst/utilities';
+import {createRouteConfig} from 'icatalyst/utilities';
+// import { createRouteConfig } from '../../utilities';
 
 export function createModule(overrides = {
   auth : 'guest'

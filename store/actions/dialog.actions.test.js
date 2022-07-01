@@ -1,4 +1,5 @@
-import * as actions from './dialog.actions';
+// import * as actions from './dialog.actions';
+import  actions  from 'icatalyst/store/actions/dialog.actions';
 import {OPEN_DIALOG, CLOSE_DIALOG} from './dialog.actions';
 
 

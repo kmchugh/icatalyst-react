@@ -1,5 +1,7 @@
-import {createRouteConfig} from '@icatalyst/utilities';
-import {definition} from '@icatalyst/components/Singularity/store/reducers/users.reducer';
+// import {createRouteConfig} from '@icatalyst/utilities';
+import { createRouteConfig } from '../../../utilities';
+// import {definition} from '@icatalyst/components/Singularity/store/reducers/users.reducer';
+import { definition } from '../../../components/Singularity/store/reducers/version.reducer';
 import _ from '../../../@lodash';
 
 export function createModule(config={

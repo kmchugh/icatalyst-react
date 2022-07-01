@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import {Typography, Tooltip} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import {SingularityContext} from '@icatalyst/components/Singularity';
+// import {SingularityContext} from '@icatalyst/components/Singularity';
+import { SingularityContext } from '../Singularity';
 
 function UserRoles(props){
   const singularityContext = useContext(SingularityContext);

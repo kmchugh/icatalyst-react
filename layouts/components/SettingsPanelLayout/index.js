@@ -1,4 +1,5 @@
-import { FuseScrollbars, FuseSettings, FuseThemeSchemes } from '@icatalyst/components/fuse';
+// import { FuseScrollbars, FuseSettings, FuseThemeSchemes } from '@icatalyst/components/fuse';
+import { FuseScrollbars,FuseSettings, FuseThemeSchemes  } from '../../../components/fuse';
 import Button from '@material-ui/core/Button';
 import { red } from '@material-ui/core/colors';
 import Dialog from '@material-ui/core/Dialog';

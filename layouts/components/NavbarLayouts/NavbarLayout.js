@@ -1,10 +1,13 @@
 import React from 'react';
 import {AppBar, Hidden} from '@material-ui/core';
-import Icon from '@icatalyst/components/Icon';
+import Icon from 'icatalyst/components/Icon';
+// import { Icon } from '../../../components';
 import PropTypes from 'prop-types';
-import FuseScrollbars from '@icatalyst/components/fuse/FuseScrollbars';
+import FuseScrollbars from 'icatalyst/components/fuse/FuseScrollbars';
+// import { FuseScrollbars } from '../../../components/fuse';
 import clsx from 'clsx';
-import Logo from '@icatalyst/components/Logo';
+import Logo from 'icatalyst/components/Logo';
+// import { Logo } from '../../../components';
 import NavbarMobileToggleButton from './NavbarMobileToggleButton';
 import NavbarFoldedToggleButton from './NavbarFoldedToggleButton';
 import UserNavbarHeader from '../Headers/UserNavbarHeader';

@@ -1,12 +1,14 @@
 import React from 'react';
 import {Icon, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
+// import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
+import FuseUtils from '../../FuseUtils';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+import * as Action from '../../../../store/actions'
 import FuseNavBadge from './../FuseNavBadge';
 
 const useStyles = makeStyles(theme => ({

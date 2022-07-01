@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Typography, LinearProgress} from '@material-ui/core';
-import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
+// import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
+import { useTimeout } from '../../../hooks/fuse';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/styles';

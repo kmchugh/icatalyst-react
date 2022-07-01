@@ -42,8 +42,8 @@ function handlePromise(promise, dispatch, transform, successAction, failureActio
     if (response.data && !response.data.error) {
       const data = transform(response.data);
       if (
-        response.headers['content-type'].includes('application/json') ||
-        response.headers['content-type'].includes('text/json')
+        response.headers['content-type'] === 'application/json' ||
+        response.headers['content-type'] === 'text/json'
       ) {
         dispatch({
           type : successAction,

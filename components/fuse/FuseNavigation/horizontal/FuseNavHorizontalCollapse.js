@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
-import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
-import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
+// import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
+import FuseUtils from '../../FuseUtils';
+// import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
+import { useDebounce } from '../../../../hooks/fuse';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';

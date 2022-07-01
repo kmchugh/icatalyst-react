@@ -1,4 +1,5 @@
-import {createRouteConfig} from '@icatalyst/utilities';
+// import {createRouteConfig} from '@icatalyst/utilities';
+import { createRouteConfig } from '../../utilities';
 import {createModule as manageGroupsConfig} from './GroupsModule';
 import {createModule as manageUsersConfig} from './UsersModule';
 import {createModule as manageRolesConfig} from './RolesModule';

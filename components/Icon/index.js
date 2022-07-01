@@ -1,9 +1,3 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-library.add(fas, far, fab);
-
 import React from 'react';
 import {Icon as MUIIcon} from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,14 +50,14 @@ const Icon = ({
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
       className={clsx(classes[`font-${definedSize}`])}
-      style={((color && color !== 'inherit') && [
+      style={(color && [
         'action',
         'primary',
         'secondary',
         'success',
         'error',
-        'info',
-      ].indexOf(color) >= 0) ? {
+        'info'
+      ].indexOf(color) > 0) ? {
           color : color === 'action' ?
             theme.palette[color].active :
             theme.palette[color].main

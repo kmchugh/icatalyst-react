@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
-import _ from '../@lodash';
+// import _ from '../@lodash';
+import _ from '../@lodash/@lodash';
 
 const defaultSettings = {
   interval : 0.1,
@@ -8,7 +9,7 @@ const defaultSettings = {
   initial_zoom: 1,
 };
 
-const useZoom = (ref, config)=>{
+ export const useZoom = (ref, config)=>{
   const {
     interval,
     min_zoom,
@@ -40,7 +41,7 @@ const useZoom = (ref, config)=>{
     });
   };
 
-  const updateZoom = ({direction, interval})=>{
+ const updateZoom = ({direction, interval})=>{
     setZoom((state)=>{
       if (direction === 'up' && state + interval < max_zoom) {
         // Okay to increment
@@ -138,4 +139,3 @@ const useZoom = (ref, config)=>{
 
 };
 
-export default useZoom;

@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import {FormControl, InputLabel, FormHelperText} from '@material-ui/core';
 import {DateTimePicker, MuiPickersContext} from '@material-ui/pickers';
 import {makeStyles} from '@material-ui/styles';
-import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
-import moment from '@icatalyst/@moment';
+// import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
+import patchPicker from 'icatalyst/utilities/monkeyPatch_MUIPICKERS'
+// import moment from '@icatalyst/@moment';
+import moment from '../../../@moment'
 
 const useStyles = makeStyles((theme) => {
   return {

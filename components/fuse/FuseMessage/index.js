@@ -3,7 +3,8 @@ import {Snackbar, IconButton, Icon, SnackbarContent} from '@material-ui/core';
 import {green, amber, blue} from '@material-ui/core/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import clsx from 'clsx';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+import * as Actions from '../../../store/actions'
 import {makeStyles} from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({

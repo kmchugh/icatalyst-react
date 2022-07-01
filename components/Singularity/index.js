@@ -2,20 +2,18 @@ import React, {useState, createContext, useEffect, useContext} from 'react';
 import PropTypes from 'prop-types';
 import FuseSplashScreen from '../fuse/FuseSplashScreen';
 import SingularityService from '../../services/Singularity';
-import {withRouter} from 'react-router';
+import {withRouter} from 'react-router'
 import {matchRoutes} from 'react-router-config';
 import {setClient, setSingularityClient} from './store/actions/client.actions';
 import { AppContext } from '../../contexts';
 import {useDispatch} from 'react-redux';
-import {operations as CDOperations} from './store/actions/clientdata.actions';
-import {LocalizationContext} from '../../localization/LocalizationProvider';
-
 export const SingularityContext = createContext();
+import {operations as CDOperations} from './store/actions/clientdata.actions';
 
 // TODO: Make this configurable per singularity install
 const SETTINGS_KEY = 'aefa26fc-6a47-4998-8d93-c4a18d8b9119';
 
-/**
+/**Home
  * Checks if the auth array contains the role,
  * or any of the roles in the specified role.
  *
@@ -63,7 +61,7 @@ const getParams = query => {
 };
 
 function Singularity({
-  location, t, history, config,
+  location, t = (t)=>t, history, config,
   children
 }) {
   const dispatch = useDispatch();
@@ -81,18 +79,7 @@ function Singularity({
   // TODO: Make this configurable
   const errorRoute = '/errors/';
 
-  const [token, setUpdatedToken] = useState(null);
-
-  // The token needs to be udpated with the correct date format
-  const setToken = (token)=>{
-    setUpdatedToken({
-      ...token,
-      exp : token.exp < 9999999999 ? token.exp * 1000 : token.exp,
-      iat : token.iat < 9999999999 ? token.iat * 1000 : token.iat,
-    });
-  };
-
-
+  const [token, setToken] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState({
     roles : [],
@@ -108,19 +95,13 @@ function Singularity({
   const [initialised, setInitialised] = useState(false);
   const [clientData, setClientData] = useState(false);
 
+  const [message, setMessage] = useState('Validating...');
+
   // Force the authentication if the user has previously authenticated
   const hasAuthenticated = singularity.hasAuthenticated();
   const shouldForceAuth = hasAuthenticated || requireAuth;
 
   const appContext = useContext(AppContext);
-  const vocabContext = useContext(LocalizationContext);
-
-  if (!t) {
-    t = vocabContext?.t || (text=>text);
-  }
-
-  const [message, setMessage] = useState(`${t('Validating')}...`);
-
 
   const {
     routes,
@@ -133,13 +114,12 @@ function Singularity({
     // We have a token, redirect the user if required
 
     // Validate the token
-    setMessage(`${t('Validating Token')}...`);
-
+    setMessage(t('Validating Token...'));
     try {
       singularity.validateToken(token);
 
       // The token is valid
-      setMessage(`${t('Validating Token')}...`);
+      setMessage(t('Validated Token...'));
 
       if (user && session) {
         // If we are supposed to redirect, then redirect
@@ -175,7 +155,7 @@ function Singularity({
 
         if (!singularityDetails) {
           setSingularityDetails({});
-          singularity.getSingularityDetails(accessToken, token.client_id).then((client)=>{
+          singularity.getSingularityDetails(accessToken, token.iss).then((client)=>{
             dispatch(setSingularityClient(client));
           }).catch((error)=>{
             console.error(error);
@@ -226,7 +206,6 @@ function Singularity({
     }
 
     const searchParams = getParams(location.search);
-    const hashParams = getParams(location.hash);
 
     // If we do not require auth then wait for the app to request auth
     if (!shouldForceAuth && !token && !searchParams.state) {
@@ -242,12 +221,12 @@ function Singularity({
       // this is the redirect from singularity so use the
       // code to request the actual access token
       if (searchParams.state) {
-        setMessage(`${t('Requesting Access')}...`);
+        setMessage(t('Requesting Access...'));
 
         const promise = singularity.requestAccessToken(searchParams);
         if (promise) {
           promise.then((response)=>{
-            setMessage(`${t('Parsing Token')}...`);
+            setMessage(t('Parsing Token...'));
             const { access_token, token } = response;
 
             try {
@@ -260,7 +239,7 @@ function Singularity({
             }
 
             setAccessToken(access_token);
-            setMessage(`${t('Retrieving Session')}...`);
+            setMessage(t('Retrieving Session...'));
             setToken(token);
           })
             .catch(({
@@ -273,32 +252,11 @@ function Singularity({
                 message : t(error_description),
               });
             });
-        } else {
-          // There was no stored state, so something went wrong.
-          // Try again
-          setMessage(`${t('Requesting Authorisation')}...`);
-          // No token, no code, and no state, so redirect for login
-          // singularity.requestAuthorizationCode(undefined, `${window.location.origin}/`);
         }
-      } else if (hashParams.token) {
-        const token = singularity.hydrateToken(hashParams.token);
-        try {
-          singularity.validateToken(token);
-        } catch (e) {
-          throw {
-            error : 'Invalid Token',
-            error_description : e.getMessage()
-          };
-        }
-
-        setAccessToken(hashParams.token);
-        setMessage(`${t('Retrieving Session')}...`);
-        setToken(token);
       } else {
-        setMessage(`${t('Requesting Authorisation')}...`);
+        setMessage(t('Requesting Authorisation...'));
         // No token, no code, and no state, so redirect for login
         singularity.requestAuthorizationCode();
-
       }
     } else {
       handleToken(token);
@@ -357,7 +315,7 @@ function Singularity({
             }
           });
 
-          setMessage(`${t('Loading User information')}...`);
+          setMessage(t('Loading User information...'));
           setRedirect(token.redirect_uri);
           setSession({
             guid : guid,
@@ -411,9 +369,6 @@ function Singularity({
       //  resourceID : 'local resource id'
       // }
       // can be a list or individual resource
-      if (resources.length === 0) {
-        return new Promise((resolve)=>resolve({}));
-      }
       return singularity.getResourcePermissions(
         accessToken, resources
       ).catch((error)=>{
@@ -442,20 +397,6 @@ function Singularity({
       setSession(null);
       setAccessToken(null);
       singularity.requestAuthorizationCode('registration', redirectURI);
-    },
-    changePassword : (callback)=>{
-      singularity.changePassword(accessToken, callback);
-    },
-    deleteUser : ()=>{
-      return singularity.deleteUser(accessToken)
-        .then(()=>{
-          setSession(null);
-          setAccessToken(null);
-        })
-        .catch((error)=>{
-          console.error(error);
-          return {};
-        });
     },
     updateProfile : (profile, callback)=>{
       singularity.updateProfile(profile, accessToken)

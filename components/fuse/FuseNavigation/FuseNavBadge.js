@@ -1,6 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/styles';
-import Icon from '@icatalyst/components/Icon';
+// import Icon from '@icatalyst/components/Icon';
+import Icon from '../../Icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 

@@ -2,10 +2,12 @@ import * as reduxModule from 'redux';
 import {applyMiddleware, compose, createStore as createReduxStore} from 'redux';
 import thunk from 'redux-thunk';
 import _ from '../@lodash';
-import { setInitialNavigation } from '@icatalyst/store/actions';
+// import { setInitialNavigation } from '@icatalyst/store/actions';
+import { setInitialNavigation } from '../store';
+import icatalyst from '../store/reducers'
 import { setLayouts, setThemes } from '../store/reducers/settings.reducer';
 
-import icatalyst from '@icatalyst/store/reducers';
+// import icatalyst from '@icatalyst/store/reducers';
 
 import {rehydrateStore} from '../store/middlewares/localstorage';
 import * as Actions from '../store/middlewares/localstorage/constants';
