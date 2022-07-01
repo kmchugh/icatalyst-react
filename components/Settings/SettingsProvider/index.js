@@ -75,7 +75,7 @@ export function useSettingsContext(id, instanceProps) {
         instanceValues : {}
       };
 
-      setClientData(id, payload);
+      setClientData(id, payload, true);
     };
 
     /**
@@ -84,6 +84,7 @@ export function useSettingsContext(id, instanceProps) {
      * @param  {(values)=>updatedValues} updateFn   A function that recieves the current values and creates
      *                                              an updated set of values for storage
      * @param  {string} instanceID The instanceid of the settings to update or null for updating defaults
+     * @param  {(r)=>r} updateInstanceValues Function to update the values before they are sent to the server
      */
     const updateSettings = (updateFn, instanceID, updateInstanceValues = i=>i)=>{
       const updatedValues = updateFn(_.merge({},
@@ -111,7 +112,7 @@ export function useSettingsContext(id, instanceProps) {
             [instanceID] : {...updatedValues}
           }
         };
-        setClientData(id, updateInstanceValues(payload));
+        setClientData(id, updateInstanceValues(payload), true);
       }
     };
 

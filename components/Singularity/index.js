@@ -323,7 +323,7 @@ function Singularity({
     }
   }, [accessToken]);
 
-  const updateClientData = ((id, data)=>{
+  const updateClientData = ((id, data, overwrite)=>{
     const payload = {
       ...clientData,
       [id] : data,
@@ -335,7 +335,10 @@ function Singularity({
     });
     // Fire and forget as we have already locally updated
     dispatch(CDOperations['UPDATE_ENTITY'](payload, null, {
-      accessToken: accessToken
+      accessToken: accessToken,
+      params : overwrite ? {
+        merge : false
+      } : undefined
     }));
   });
 
