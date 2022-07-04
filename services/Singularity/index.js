@@ -48,6 +48,8 @@ class SingularityService {
     users : 'api/user',
     version : 'version',
 
+    reports_users : 'v2/api/reports/users',
+
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',

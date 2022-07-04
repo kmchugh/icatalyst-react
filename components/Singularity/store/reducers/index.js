@@ -14,6 +14,7 @@ import clientdata from './clientdata.reducer';
 import resourceInvite from './resourceInvite.reducer';
 import knowledgeBase from './knowledgeBase.reducer';
 import personalAccessToken from './personalAccessToken.reducer';
+import usersReport from './userReports.reducer';
 
 const reducers = combineReducers({
   client,
@@ -30,7 +31,9 @@ const reducers = combineReducers({
   resourceAccess,
   resourceInvite,
   clientdata,
-  knowledgeBase
+  knowledgeBase,
+
+  usersReport,
 });
 
 export default reducers;
