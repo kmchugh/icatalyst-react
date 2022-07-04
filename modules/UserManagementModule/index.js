@@ -3,12 +3,13 @@ import {createModule as manageGroupsConfig} from './GroupsModule';
 import {createModule as manageUsersConfig} from './UsersModule';
 import {createModule as manageRolesConfig} from './RolesModule';
 import {createModule as manageInvitationsConfig} from './InvitationsModule';
+import {createModule as viewReportsConfig} from './ReportsModule';
 
 export function createModule(config={}){
 
   const { modules = {}, ...rest } = config;
   const {
-    users, groups, roles, invites
+    users, groups, roles, invites, reports
   } = modules;
 
   return createRouteConfig({
@@ -23,6 +24,7 @@ export function createModule(config={}){
       groups && groups.visible === false ? null : createRouteConfig(manageGroupsConfig(groups)),
       users && users.visible === false ? null : createRouteConfig(manageUsersConfig(users)),
       invites && invites.visible === false ? null : createRouteConfig(manageInvitationsConfig(invites)),
+      reports && reports.visible === false ? null : createRouteConfig(viewReportsConfig(reports)),
     ].filter(i=>i)
   }, rest);
 }
