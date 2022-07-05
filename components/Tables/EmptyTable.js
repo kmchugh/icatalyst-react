@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Icon from '@icatalyst/components/Icon';
 import IconButton from '@icatalyst/components/IconButton';
 import {Typography} from '@material-ui/core';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -70,6 +72,7 @@ const EmptyTable = ({
   NavigationComponent
 })=>{
   const classes = useStyles();
+  const {t} = useContext(LocalizationContext);
 
 
   return (
@@ -91,7 +94,7 @@ const EmptyTable = ({
         {
           onRefresh && <IconButton
             className={clsx(classes.refreshButton)}
-            title="refresh"
+            title={t('refresh')}
             icon="refresh"
             onClick={onRefresh}
           />

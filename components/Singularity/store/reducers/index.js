@@ -15,6 +15,7 @@ import resourceInvite from './resourceInvite.reducer';
 import knowledgeBase from './knowledgeBase.reducer';
 import personalAccessToken from './personalAccessToken.reducer';
 import usersReport from './userReports.reducer';
+import organisations from './organisations.reducer';
 
 const reducers = combineReducers({
   client,
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   users,
   groups,
   edgetypes,
+  organisations,
   personalAccessToken,
   resourceAccess,
   resourceInvite,

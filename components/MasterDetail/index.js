@@ -21,6 +21,7 @@ import { useHistory } from 'react-router-dom';
 import * as DialogActions from '../../store/actions/dialog.actions';
 import {DialogContentEntityView} from '../Dialogs/Content';
 import {DialogContentEntityList} from '../Dialogs/Content';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const pageConfigKey = 'masterdetail';
 export const NEW_ID = 'new';
@@ -33,6 +34,7 @@ const MasterDetailPage = ({
   contained = false,
   definition = null
 })=>{
+  const {t} = useContext(LocalizationContext);
   const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
@@ -135,7 +137,7 @@ const MasterDetailPage = ({
   const loadEntities = ()=>{
     if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
-        setErrors(['You do not have access to this operation']);
+        setErrors([t('You do not have access to this operation')]);
         return;
       }
       setUpdating(true);
@@ -232,7 +234,7 @@ const MasterDetailPage = ({
     if (definition.addInline === true) {
       // Definition specifies to add inline so pop up a dialog
       dispatch(DialogActions.openDialog({
-        title : `Add ${definition.label}`,
+        title : t('Add {0}', t(definition.label)),
         children : <DialogContentEntityView
           definition={definition}
           onSaved={(data, callback)=>{
@@ -280,12 +282,16 @@ const MasterDetailPage = ({
 
   const handleDelete = (entities)=>{
     dispatch(DialogActions.openDialog({
-      title : `Delete ${entities.length === 1 ? definition.label : definition.labelPlural} `,
+      title : t('Delete {0}', t(entities.length === 1 ? definition.label : definition.labelPlural)),
       children : <DialogContentEntityList
         entities={entities}
-        message={`This will delete the following ${entities.length} ${definition.labelPlural}, this action is not recoverable.`}
-        confirmation="Are you sure?"
-        updatingTitle="Deleting..."
+        message={t(
+          'This will delete the following {0} {1}, this action is not recoverable.',
+          entities.length,
+          t(entities.length === 1 ? definition.label : definition.labelPlural)
+        )}
+        confirmation={t('Are you sure?')}
+        updatingTitle={`${t('Deleting')}...`}
         definition={definition}
         onSaved={(data, callback)=>{
           const deleteOperation = operations['DELETE_ENTITIES'];
@@ -335,7 +341,7 @@ const MasterDetailPage = ({
               config={config}
               backUrl={match.url}
               updateEntity={setSelectedDetailEntity}/>
-          ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
+          ) : <FuseLoading title={`${t('Loading {0}', t(definition.label))}...`}/>;
         }}/>
         <Route render={()=>{
           // Only show when both the data and the auth have been resolved
@@ -354,7 +360,7 @@ const MasterDetailPage = ({
               onAdd={canAdd ? handleAdd : null}
               onDelete={canDelete ? handleDelete : null}
             />
-          ) : <FuseLoading title={`Loading ${definition.labelPlural}...`}/>;
+          ) : <FuseLoading title={`${t('Loading {0}', t(definition.label))}...`}/>;
         }}/>
       </Switch>
     );
@@ -405,7 +411,7 @@ const MasterDetailPage = ({
             }}
           >
             {
-              (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={`The following errors occurred when trying to retrieve ${definition.labelPlural}`}/>
+              (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={t('The following errors occurred when trying to retrieve {0}', t(definition.labelPlural))}/>
             }
 
             {

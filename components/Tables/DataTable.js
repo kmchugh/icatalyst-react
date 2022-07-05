@@ -1,10 +1,11 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useContext} from 'react';
 import Table from './Table';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EmptyTable from './EmptyTable';
 import {Button} from '@material-ui/core';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const DataTable = ({
   definition,
@@ -19,6 +20,8 @@ const DataTable = ({
   onDeleteClicked,
   PrependHeaderComponent
 })=>{
+
+  const {t} = useContext(LocalizationContext);
 
   const columns = useMemo(()=>{
     const order = (definition.listLayout || definition.fieldOrder).map((fieldID)=>{
@@ -66,9 +69,9 @@ const DataTable = ({
         <EmptyTable
           NavigationComponent={PrependHeaderComponent}
           icon={definition.icon || 'fa search'}
-          title={`No ${definition.labelPlural} found`}
+          title={t('No {0} found', t(definition.labelPlural))}
           action={
-            onAddClicked && canAdd ? '' : 'You may not have access or may not have created any yet'
+            onAddClicked && canAdd ? '' : t('You may not have access or may not have created any yet')
           }
           help={
             onAddClicked && canAdd ? (<Button
@@ -76,7 +79,7 @@ const DataTable = ({
               variant="contained"
               onClick={onAddClicked}
             >
-              {`Add a ${definition.label}`}
+              {t('Create {0}', t(definition.label))}
             </Button>) : ''
           }
           onRefresh={onRefresh}
