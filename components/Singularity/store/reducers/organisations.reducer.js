@@ -1,7 +1,7 @@
 import * as Actions from '../actions/organisations.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
-import OrganisationWizard from '../../../../modules/UserManagementModule/OrganisationModule/components/OrganisationWizard';
+import OrganisationWizard from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/OrganisationWizard';
 
 const definition = createModel({
   name: 'organisation',
