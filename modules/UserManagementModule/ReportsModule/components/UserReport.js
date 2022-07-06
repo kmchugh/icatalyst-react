@@ -69,6 +69,7 @@ const UserReport = ({
             updating={false}
             canAdd={false}
             canDelete={false}
+            onRefresh={()=>{}}
             onRowClicked={(row)=>{
               dispatch(DialogActions.openDialog({
                 title : 'User Details',

@@ -1,6 +1,6 @@
-import {createRouteConfig} from '../../../utilities';
-import {definition as organisationDefinition} from '../../../components/Singularity/store/reducers/organisations.reducer';
-import _ from '../../../@lodash';
+import {createRouteConfig} from '../../../../utilities';
+import {definition as licenceDefinition} from '../../../../components/Singularity/store/reducers/licences.reducer';
+import _ from '../../../../@lodash';
 
 export function createModule(config={
   auth : 'admin'
@@ -19,5 +19,5 @@ export function createModule(config={
     });
   }
 
-  return createRouteConfig(_.merge({}, organisationDefinition, config));
+  return createRouteConfig(_.merge({}, licenceDefinition, config));
 }

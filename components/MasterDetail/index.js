@@ -56,6 +56,7 @@ const MasterDetailPage = ({
   const [headerHeight, setHeaderHeight] = useState(isDetail ? 72 : 64);
   const [detailID, setDetailID] = useState(null);
   const [selectedDetailEntity, setSelectedDetailEntity] = useState(null);
+  const [isWizardOpen, setWizardOpen] = useState(false);
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
@@ -230,55 +231,67 @@ const MasterDetailPage = ({
     location.pathname.replace(match.path, '').split('/')[1]
   ]);
 
-  const handleAdd = ()=>{
-    if (definition.addInline === true) {
-      // Definition specifies to add inline so pop up a dialog
-      dispatch(DialogActions.openDialog({
-        title : t('Add {0}', t(definition.label)),
-        children : <DialogContentEntityView
-          definition={definition}
-          onSaved={(data, callback)=>{
-            const addOperation = operations['ADD_ENTITY'];
-            if (!addOperation) {
-              callback([{
-                message : 'Operation not accessible'
-              }]);
-            } else {
-              dispatch(
-                (dispatch, getState)=>{
-                  return dispatch(addOperation(data,
-                    (err, res)=>{
-                      if (!err) {
-                        definition.onAdded && definition.onAdded(res, dispatch, getState);
-                      }
-                      callback(err, res);
-                    }, {
-                      accessToken : accessToken,
-                      params : definition.getAddParams ?
-                        definition.getAddParams(getState, data, definition, {
-                          ...match.params,
-                          [definition.identityFieldName] : match.params.id
-                        }, parentMasterDetailContext) :
-                        parentMasterDetailContext
-                    }
-                  ));
-                }
-              );
-            }
-          }}
-        />
-      }));
-    } else {
-      // Browse to the create entity path
-      let pathFn = (()=>`${window.location.pathname}/${NEW_ID}`);
-      if (definition.createEntityPath) {
-        pathFn = typeof definition.createEntityPath === 'function' ?
-          definition.createEntityPath :
-          ()=>definition.createEntityPath;
-      }
-      history.push(pathFn());
+  const WizardComponent = useMemo(()=>{
+    return definition.wizardComponent;
+  }, [definition]);
+
+  const handleAdd = useMemo(()=>{
+    if (WizardComponent) {
+      return ()=>{
+        setWizardOpen(true);
+      };
     }
-  };
+
+    return definition.onHandleAdd || ((definition, dispatch)=>{
+      if (definition.addInline === true || definition.wizardComponent) {
+        // Definition specifies to add inline so pop up a dialog
+        dispatch(DialogActions.openDialog({
+          title : t('Add {0}', t(definition.label)),
+          children : <DialogContentEntityView
+            definition={definition}
+            onSaved={(data, callback)=>{
+              const addOperation = operations['ADD_ENTITY'];
+              if (!addOperation) {
+                callback([{
+                  message : 'Operation not accessible'
+                }]);
+              } else {
+                dispatch(
+                  (dispatch, getState)=>{
+                    return dispatch(addOperation(data,
+                      (err, res)=>{
+                        if (!err) {
+                          definition.onAdded && definition.onAdded(res, dispatch, getState);
+                        }
+                        callback(err, res);
+                      }, {
+                        accessToken : accessToken,
+                        params : definition.getAddParams ?
+                          definition.getAddParams(getState, data, definition, {
+                            ...match.params,
+                            [definition.identityFieldName] : match.params.id
+                          }, parentMasterDetailContext) :
+                          parentMasterDetailContext
+                      }
+                    ));
+                  }
+                );
+              }
+            }}
+          />
+        }));
+      } else {
+        // Browse to the create entity path
+        let pathFn = (()=>`${window.location.pathname}/${NEW_ID}`);
+        if (definition.createEntityPath) {
+          pathFn = typeof definition.createEntityPath === 'function' ?
+            definition.createEntityPath :
+            ()=>definition.createEntityPath;
+        }
+        history.push(pathFn());
+      }
+    });
+  }, [definition]);
 
   const handleDelete = (entities)=>{
     dispatch(DialogActions.openDialog({
@@ -357,7 +370,9 @@ const MasterDetailPage = ({
               onRefresh={()=>{
                 loadEntities();
               }}
-              onAdd={canAdd ? handleAdd : null}
+              onAdd={canAdd ? ()=>{
+                return handleAdd(definition, dispatch);
+              } : null}
               onDelete={canDelete ? handleDelete : null}
             />
           ) : <FuseLoading title={`${t('Loading {0}', t(definition.label))}...`}/>;
@@ -392,6 +407,14 @@ const MasterDetailPage = ({
           config={config}
           header={header}
         >
+          { WizardComponent && (
+            <WizardComponent
+              open={isWizardOpen}
+              onClosed={()=>{
+                setWizardOpen(false);
+              }}
+            />
+          )}
 
           <FuseAnimateGroup
             className="w-full h-full relative flex-1 flex"

@@ -36,6 +36,7 @@ class SingularityService {
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
     knowledgeBase : 'api/knowledgeBase',
+    licences : 'v2/api/licences',
     organisations : 'v2/api/organisations',
     personalAccessToken : 'api/personalToken',
     profile : 'api/profile',
