@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import Icon from '../../../../components/Icon';
-import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import Button from '@material-ui/core/Button';
+import {definition as licenceKeysDefinition} from '../../../../components/Singularity/store/reducers/licenceKeys.reducer';
+import { useDispatch } from 'react-redux';
+import {SingularityContext} from '../../../../components/Singularity';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -21,10 +24,25 @@ const GenerateLicenceKey = ({
   licence
 })=>{
   const styles = useStyles();
+  const dispatch = useDispatch();
   const {t} = useContext(LocalizationContext);
+  const {accessToken} = useContext(SingularityContext);
 
   const handleCreateLicence = ()=>{
-    console.log('creating licence', {licence});
+    dispatch(
+      licenceKeysDefinition.operations['ADD_ENTITY'](
+        {},
+        (err, res)=>{
+          console.log({err, res});
+        },
+        {
+          accessToken,
+          params : {
+            licenceID : licence.guid
+          }
+        }
+      )
+    );
   };
 
   return (

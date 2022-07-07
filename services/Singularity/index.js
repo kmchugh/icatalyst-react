@@ -37,6 +37,7 @@ class SingularityService {
     invites : 'api/invite',
     knowledgeBase : 'api/knowledgeBase',
     licences : 'v2/api/licences',
+    licenceKeys : 'v2/api/licences/:licenceID/keys',
     organisations : 'v2/api/organisations',
     personalAccessToken : 'api/personalToken',
     profile : 'api/profile',
