@@ -36,7 +36,6 @@ const definition = createModel({
       maxLength: 2048,
     }, {
       id : 'duration',
-      label : 'Duration',
       type: 'number',
       description : 'Number of days a licence is valid when applied',
       required: true,

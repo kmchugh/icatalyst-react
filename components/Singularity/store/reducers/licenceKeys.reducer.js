@@ -19,10 +19,26 @@ const definition = createModel({
       id: 'guid',
       label: 'Key',
       readonly: true,
+    },
+    {
+      id: 'applied',
+      readonly: true,
+      type: 'datetime'
+    },
+    {
+      id: 'organisation',
+      readonly: true,
+      type: 'json'
+    }, {
+      id: 'duration',
+      type: 'number',
+      minValue: 1,
+      maxValue: 3065,
+      description: 'The number of days this key will be valid after it is applied'
     }
   ],
-  layout: ['guid'],
-  listLayout: ['guid'],
+  layout: ['duration'],
+  listLayout: ['guid', 'duration', 'applied', 'organisation'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.licenceKeys;
   },
