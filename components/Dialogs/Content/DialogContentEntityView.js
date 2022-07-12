@@ -83,7 +83,9 @@ const DialogContentEntityView = ({
         onSaved(form, (err)=>{
           setUpdating(false);
           if (err) {
-            const layout = definition.layout.flat().map((field)=>{
+            const definitionLayout = typeof(definition.layout) !== 'function' ?
+              definition.layout : definition.layout(definition, form);
+            const layout = definitionLayout.flat().map((field)=>{
               return typeof field === 'string' ? field : field.id;
             });
             // Parse out definition errors from generic errors

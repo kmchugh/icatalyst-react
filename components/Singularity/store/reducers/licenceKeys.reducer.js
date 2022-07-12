@@ -6,6 +6,7 @@ const definition = createModel({
   icon: 'key',
   primaryTextField: 'name',
   secondaryTextField: 'description',
+  onEntityClicked: ()=>{},
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
@@ -26,9 +27,16 @@ const definition = createModel({
       type: 'datetime'
     },
     {
+      id: 'organisationID',
+      readonly: true,
+      type: 'string'
+    }, {
       id: 'organisation',
       readonly: true,
-      type: 'json'
+      type: 'string',
+      getValue(entity) {
+        return entity.Organisation?.name;
+      }
     }, {
       id: 'duration',
       type: 'number',

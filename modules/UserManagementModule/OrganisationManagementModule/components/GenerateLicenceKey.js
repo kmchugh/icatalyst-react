@@ -44,7 +44,7 @@ const GenerateLicenceKey = ({
 
   const displayResult  = (data)=>{
     dispatch(DialogActions.openDialog({
-      title : t(licenceKeysDefinition.label),
+      title : t('Key for {0}', licenceKeysDefinition.label),
       showTitle : false,
       children : (
         <DialogContent closeText={t('Close')}>
@@ -56,7 +56,10 @@ const GenerateLicenceKey = ({
               {licence.name}
             </Typography>
             <div className={clsx(styles.licenceWrapper)}>
-              <Typography>{data.licenceID}</Typography>
+              <Typography variant="body1">
+                {data.guid}
+              </Typography>
+
               <CopyToClipboard onCopy={(text,result)=>{
                 dispatch(MessageActions.showMessage({
                   message: (
@@ -69,7 +72,7 @@ const GenerateLicenceKey = ({
                   },
                   variant: result ? 'success' : 'error'
                 }));
-              }} text={data.licenceID}>
+              }} text={data.guid}>
                 <IconButton
                   boxShadow={3}
                   color="primary"
@@ -89,7 +92,6 @@ const GenerateLicenceKey = ({
       licenceKeysDefinition.operations['ADD_ENTITY'](
         {},
         (err, res)=>{
-          setUpdating(false);
           callback && callback(err);
           if (!err) {
             displayResult(res);
@@ -107,6 +109,9 @@ const GenerateLicenceKey = ({
 
   const showLicenceKeyUI = ()=>{
     dispatch(DialogActions.openDialog({
+      onClose : ()=>{
+        setUpdating(false);
+      },
       title : t(licenceKeysDefinition.label),
       children : (
         <DialogContentEntityView
@@ -120,9 +125,11 @@ const GenerateLicenceKey = ({
           onSaved={(licenceKey, callback)=>{
             createKey(licenceKey, callback);
           }}
+          onClose={()=>{
+            setUpdating(false);
+          }}
         />
       )
-
     }));
   };
 

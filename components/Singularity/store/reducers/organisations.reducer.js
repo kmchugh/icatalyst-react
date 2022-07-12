@@ -1,15 +1,14 @@
 import * as Actions from '../actions/organisations.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
-import OrganisationWizard from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/OrganisationWizard';
 
 const definition = createModel({
   name: 'organisation',
   icon: 'warehouse',
+  addInline : true,
   primaryTextField: 'name',
   secondaryTextField: 'tagline',
   featureImageField: 'featureImageURI',
-  wizardComponent: OrganisationWizard,
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
@@ -93,13 +92,25 @@ const definition = createModel({
           requireHTTPS: true,
         }),
       ],
+    },{
+      id: 'licence',
+      label: 'Licence Key',
+      type: 'string',
+      required: true,
+      minLength : 1,
+      maxLength : 256,
     }
   ],
-  layout: [
-    [['name','description', 'tagline']],
-    ['websiteURI', 'privacyURI'],
-    ['logoURI', 'featureImageURI']
-  ],
+  layout: (definition, entity)=>{
+    return (entity.guid) ? [
+      [['name','description', 'tagline']],
+      ['websiteURI', 'privacyURI'],
+      ['logoURI', 'featureImageURI']
+    ] : [
+      'licence',
+      'name', 'tagline', 'description'
+    ];
+  },
   listLayout: ['name'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.organisations;
