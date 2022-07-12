@@ -96,9 +96,19 @@ const definition = createModel({
       id: 'licence',
       label: 'Licence Key',
       type: 'string',
-      required: true,
       minLength : 1,
       maxLength : 256,
+      validations: [
+        (model, field, value) => {
+          // If a new record then licence is required, otherwise not required
+          if (model?.guid) {
+            return null;
+          }
+          if (value === null || value === undefined) {
+            return `${field.label} is required`;
+          }
+        }
+      ],
     }
   ],
   layout: (definition, entity)=>{
