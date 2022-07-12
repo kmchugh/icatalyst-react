@@ -1,14 +1,20 @@
 import React, {useState} from 'react';
 import Icon from '../../components/Icon';
 import {Typography} from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/styles'
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import Hidden from '@material-ui/core/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
-import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+// import tinycolor from '@ctrl/tinycolor';
+// import { mostReadable } from '@ctrl/tinycolor';
+import tinycolor, { mostReadable } from '@ctrl/tinycolor';
+
+import { TinyColor } from '@ctrl/tinycolor';
+// import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme) => {
   return {

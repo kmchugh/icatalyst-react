@@ -1,10 +1,13 @@
 import React from 'react';
 import {IconButton} from '@material-ui/core';
 import Icon from 'icatalyst/components/Icon';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {makeStyles} from '@material-ui/styles';
+import  * as Actions from '../../../../icatalyst/src/app/store/actions';
+
 import clsx from 'clsx';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 

@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import {Drawer, Hidden} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+import * as Actions from '../../../../icatalyst/src/app/store/actions'
 import NavbarLayout from './NavbarLayout';
 import {useDispatch, useSelector} from 'react-redux';
 // import {useSettingsContext} from '../../../components/Settings/SettingsProvider';

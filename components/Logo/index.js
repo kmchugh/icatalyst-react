@@ -1,7 +1,7 @@
 import React from 'react';
 import {Typography} from '@material-ui/core';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Image from 'icatalyst/components/Image';
 // import Image from '../Image';
 import {useSelector} from 'react-redux';

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {AppBar, Typography} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import UserRoles from 'icatalyst/components/UserRoles';
 // import { UserRoles } from '../../../components';
@@ -71,6 +71,7 @@ function UserNavbarHeader({className})
 
 UserNavbarHeader.propTypes = {
   className : PropTypes.string
+
 };
 
 

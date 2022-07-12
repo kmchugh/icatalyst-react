@@ -7,7 +7,8 @@ import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useDispatch} from 'react-redux';
-import * as Actions from 'app/store/actions';
+// import * as Actions from 'app/store/actions';
+import * as Actions from '../../../../../icatalyst/src/app/store/actions'
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from 'icatalyst/components/Singularity';
 import {mostReadable} from '@ctrl/tinycolor';

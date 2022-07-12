@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
+
+
 import clsx from 'clsx';
-import PageHeader from '../../components/PageHeader';
+
+import PageHeader from '../../components/PageHeader/index';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -27,7 +30,6 @@ const useStyles = makeStyles((theme)=>{
     }
   };
 });
-
 const TitledPage = ({
   className,
   children,

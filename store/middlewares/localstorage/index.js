@@ -1,4 +1,5 @@
-import config from 'app/settings/config';
+// import config from 'app/settings/config';
+import config from '../../../../icatalyst/src/app/settings/config'
 import * as Actions from './constants';
 import _ from '../../../@lodash';
 

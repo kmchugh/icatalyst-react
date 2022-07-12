@@ -1,6 +1,7 @@
 import React from 'react';
 import {AppBar, Toolbar,Typography} from '@material-ui/core';
-import config from 'app/settings/config';
+// import config from 'app/settings/config';
+import config from '../../../../icatalyst/src/app/settings/config'
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/styles';
 

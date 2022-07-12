@@ -2,8 +2,8 @@ import React from 'react';
 import IconButton from '../../../components/IconButton';
 import _ from '../../../@lodash';
 // import * as Actions from 'app/store/actions';
-// import  Actions from '../../../../icatalyst/src/app/store';
-import * as Actions from 'app/store/actions';
+import  * as Actions from '../../../../icatalyst/src/app/store/actions';
+// import * as Actions from 'app/store/actions';
 
 
 import {useDispatch, useSelector} from 'react-redux';

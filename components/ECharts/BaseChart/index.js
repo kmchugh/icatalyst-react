@@ -4,7 +4,7 @@ import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { useResizeDetector } from 'react-resize-detector';
-import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
+import useDebounce from 'icatalyst/hooks/fuse/useDebounce';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {Icon} from '@material-ui/core';
 // import _ from '@icatalyst/@lodash';
 import _ from 'icatalyst/@lodash';

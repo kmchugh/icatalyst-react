@@ -1,9 +1,13 @@
 import React, {useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import clsx from 'clsx';
-import {getFromLocalStore, saveToLocalStore} from '@icatalyst/utilities/localstorage';
-import _ from '@icatalyst/@lodash';
+import getFromLocalStore  from 'icatalyst/utilities/localstorage';
+import saveToLocalStore  from 'icatalyst/utilities/localstorage';
+
+
+// import {getFromLocalStore, saveToLocalStore} from 'icatalyst/utilities/localstorage';
+import _ from 'icatalyst/@lodash';
 
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import GridItem from './GridItem';
@@ -24,6 +28,7 @@ const useStyles = makeStyles((theme)=>{
     }
   };
 });
+console.log(GridLayout);
 
 const GridLayout = React.forwardRef(({
   className,
