@@ -1,11 +1,12 @@
 module.exports = {
   "stories": [
-    "../packages/**/*.stories.@(js|jsx|ts|tsx|mdx)"
+    "../packages/**/*.stories.mdx",
+    "../packages/**/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
   ],
   "staticDirs": [
     '../public'
