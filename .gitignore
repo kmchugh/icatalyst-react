@@ -108,6 +108,9 @@ out/
 .env.development.local
 .env.test.local
 .env.production.local
+*.log
+.cache
+storybook-static
 
 // As this contains keys it is not included in the project files
 sonar-project.properties

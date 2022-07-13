@@ -1,28 +1,67 @@
 {
   "name": "icatalyst",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "main": "index.js",
+  "license": "UNLICENSED",
   "scripts": {
-    "test": "jest ",
+    "lerna": "./node_modules/lerna/cli.js",
+    "start": "./node_modules/lerna/cli.js run start --stream --parallel",
+    "test": "./node_modules/lerna/cli.js run test --",
+    "lint": "./node_modules/lerna/cli.js run lint -- --fix",
+    "build": "./node_modules/lerna/cli.js run build",
+    "prepublish": "./node_modules/lerna/cli.js run prepublish",
+    "start:app": "npm run build && npm --cwd example && npm --cwd example start",
+    "changeset": "changeset",
+    "release": "changeset publish",
+    "version:canary": "changeset version --snapshot canary",
+    "release:canary": "changeset publish --tag canary",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-    "@babel/core": "^7.18.6",
-    "react": "^17.0.1"
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
   },
   "devDependencies": {
-   "babel-loader": "^8.2.5",
-   "@storybook/addon-actions": "^6.5.9",
-   "@storybook/addon-essentials": "^6.5.9",
-   "@storybook/addon-interactions": "^6.5.9",
-   "@storybook/addon-links": "^6.5.9",
-   "@storybook/builder-webpack4": "^6.5.9",
-   "@storybook/manager-webpack4": "^6.5.9",
-   "@storybook/node-logger": "^6.5.9",
-   "@storybook/preset-create-react-app": "^3.2.0",
-   "@storybook/react": "^6.5.9",
-   "@storybook/testing-library": "^0.0.13"
+    "@babel/core": "^7.18.6",
+    "@changesets/changelog-github": "^0.4.5",
+    "@changesets/cli": "^2.23.1",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-regular-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.0",
+    "@mui/styles": "^5.9.0",
+    "@mui/types": "^7.1.4",
+    "@size-limit/preset-small-lib": "^7.0.8",
+    "@storybook/addon-actions": "^6.5.9",
+    "@storybook/addon-essentials": "^6.5.9",
+    "@storybook/addon-interactions": "^6.5.9",
+    "@storybook/addon-links": "^6.5.9",
+    "@storybook/builder-webpack4": "^6.5.9",
+    "@storybook/manager-webpack4": "^6.5.9",
+    "@storybook/react": "^6.5.9",
+    "@storybook/testing-library": "^0.0.13",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "babel-loader": "^8.2.5",
+    "husky": "^8.0.1",
+    "lerna": "^5.1.8",
+    "nx": "^14.4.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "size-limit": "^7.0.8",
+    "typescript": "^4.7.4"
   }
 }

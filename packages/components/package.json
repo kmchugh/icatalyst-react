@@ -1,0 +1,44 @@
+{
+  "name": "@icatalyst/components",
+  "version": "0.0.1",
+  "description": "core elements for the @icatalyst/react mvp framework",
+  "author": "ICatalyst Pte. Ltd.",
+  "homepage": "https://github.com/kmchugh/icatalyst-react#readme",
+  "license": "UNLICENSED",
+  "main": "lib/index.js",
+  "directories": {
+    "src": "src",
+    "test": "__tests__"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmchugh/icatalyst-react.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "test": "jest"
+  },
+  "bugs": {
+    "url": "https://github.com/kmchugh/icatalyst-react/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@icatalyst/core": "0.0.1"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "outputs": [
+          "{projectRoot}/build",
+          "{projectRoot}/public/build"
+        ]
+      }
+    }
+  }
+}

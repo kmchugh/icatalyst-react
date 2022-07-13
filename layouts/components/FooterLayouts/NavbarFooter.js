@@ -1,20 +1,20 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Link} from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Link } from '@material-ui/core';
 // import {Image} from '@icatalyst/components';
-import { Image } from '../../../components';
-import {makeStyles} from '@material-ui/styles';
+import { Image } from '../components';
+import { makeStyles } from '@material-ui/styles';
 import clsx from 'clsx';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const useStyles = makeStyles((theme) => ({
-  root        : {
+  root: {
   },
-  link : {
+  link: {
     display: 'flex',
-    flex : '1 0 0%',
+    flex: '1 0 0%',
   },
-  logo : {
+  logo: {
     width: 'auto',
     height: 'auto',
     maxWidth: theme.spacing(4),
@@ -22,14 +22,14 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(.5),
     paddingBottom: theme.spacing(.5),
     paddingRight: theme.spacing(1),
-    transition   : theme.transitions.create(['padding', 'width', 'height'], {
-      easing  : theme.transitions.easing.sharp,
+    transition: theme.transitions.create(['padding', 'width', 'height'], {
+      easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.shorter
     }),
   },
-  text : {
-    transition   : theme.transitions.create(['opacity'], {
-      easing  : theme.transitions.easing.sharp,
+  text: {
+    transition: theme.transitions.create(['opacity'], {
+      easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.shorter
     }),
     opacity: 1,
@@ -39,21 +39,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Footer()
-{
+function Footer() {
   const classes = useStyles();
 
-  const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+  const config = useSelector(({ icatalyst }) => icatalyst.settings.current.layout);
 
   return (
-    <AppBar component="div" id="nav-footer" className={clsx(classes.root, 'relative',  'z-10')} color="default">
+    <AppBar component="div" id="nav-footer" className={clsx(classes.root, 'relative', 'z-10')} color="default">
       <Toolbar className="px-16 py-0 flex items-center min-h-32">
         <Link className={clsx(classes.link, 'nav-footer-link')} href={config.companyUrl} target="_blank">
           <Image
             className={clsx(classes.logo, 'nav-footer-icon')}
             defaultSrc="static/backgrounds/150.png"
             alt={`${config.companyName} Logo`}
-            src={config.companyLogo}/>
+            src={config.companyLogo} />
           <Typography color="textPrimary" variant="caption" className={clsx(classes.text, 'nav-footer-text')}>
             {config.companyName}
           </Typography>
