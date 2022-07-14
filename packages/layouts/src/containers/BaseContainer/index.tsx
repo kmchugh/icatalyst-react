@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme: any) => {
             display: 'flex',
             height: '100%',
             flexDirection: 'column',
-            padding: theme.spacing(3)
+            padding: theme.spacing(3),
+            boxSizing: 'border-box'
         },
         contentAlignFn: ({
             verticalAlign,

@@ -12,7 +12,10 @@ const useStyles = makeStyles((theme: any) => {
             paddingRight: 0,
             paddingTop: 0,
             paddingBottom: 0,
-            display: 'flex'
+            display: 'flex',
+            height: '100%',
+            flexDirection: 'column',
+            boxSizing: 'border-box'
         },
         opacityWrapperFn: ({ imageAlpha }: any) => {
             return {

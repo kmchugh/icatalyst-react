@@ -29,7 +29,4 @@ const Template: Story<CoverImageContainerProps> = args => (
 export const Default = Template.bind({});
 Default.args = {
     image: 'assets/images/backgrounds/steampunk.jpg',
-    style: {
-        height: '80vh'
-    }
 };

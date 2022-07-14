@@ -28,7 +28,4 @@ const Template: Story<BaseContainerProps> = args => (
 
 export const Default = Template.bind({});
 Default.args = {
-    style: {
-        height: '80vh'
-    }
 };
