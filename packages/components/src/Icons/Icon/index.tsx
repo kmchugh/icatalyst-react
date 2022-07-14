@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import MUIIcon from '@mui/material/Icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core';
-import { BaseComponent, ComponentColor, ComponentSize } from 'types';
+import { BaseComponent, ComponentColor, ComponentSize } from '../../types';
 // TODO: https://mui.com/material-ui/customization/theming/#custom-variables
 const useStyles = makeStyles((theme: any) => {
   return {
