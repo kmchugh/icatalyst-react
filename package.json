@@ -10,7 +10,6 @@
     "lint": "./node_modules/lerna/cli.js run lint -- --fix",
     "build": "./node_modules/lerna/cli.js run build",
     "prepublish": "./node_modules/lerna/cli.js run prepublish",
-    "start:app": "npm run build && npm --cwd example && npm --cwd example start",
     "changeset": "changeset",
     "release": "changeset publish",
     "version:canary": "changeset version --snapshot canary",
@@ -18,7 +17,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "cypress": "cypress run",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "start:app": "npm run build && npm --cwd example && npm --cwd example start"
   },
   "peerDependencies": {
     "react": ">=18"
