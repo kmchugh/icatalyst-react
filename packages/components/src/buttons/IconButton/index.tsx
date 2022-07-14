@@ -7,39 +7,23 @@ import { Icon } from '../../icons/Icon';
 
 const useStyles = makeStyles((theme: any) => {
   return {
-    root: {},
-    // @ts-expect-error
-    iconBtn: ({ size }) => {
-      const StateSize = {
-        inherit: 'inherit',
-        small: theme.typography.pxToRem(20),
-        medium: theme.typography.pxToRem(24),
-        large: theme.typography.pxToRem(36)
+    root: {
+    },
+    icon: {},
+    iconBtn: ({ size }: any) => {
+      // As we want width and height to be equal same we need to parse size
+      const stateSize = {
+        inherit: '1.3em',
+        small: theme.typography.pxToRem(20 + 8),
+        medium: theme.typography.pxToRem(24 + 8),
+        large: theme.typography.pxToRem(36 + 8)
       }[size];
 
       return {
-        fontSize: StateSize
-      }
-    },
-    // @ts-expect-error  
-    colorFn: ({ color }) => {
-      const stateColour = {
-        primary: theme.palette.primary.main,
-        secondary: theme.palette.secondary.main,
-        info: theme.palette.info.main,
-        success: theme.palette.success.main,
-        warning: theme.palette.warning.main,
-        action: theme.palette.action.active,
-        error: theme.palette.error.main,
-        disabled: theme.palette.action.disabled,
-        inherit: undefined
-      }[color];
-
-      return {
-        color: stateColour
+        width: stateSize,
+        height: stateSize,
       };
     }
-
   };
 });
 
@@ -48,9 +32,6 @@ export type IconButtonProps = {
   color?: ComponentColor,
   size?: ComponentSize,
   icon?: string,
-  // onClick?:Function,
-  id?: string
-
 } & BaseComponent<"button">
 
 export const IconButton: FunctionComponent<IconButtonProps> = ({
@@ -58,41 +39,40 @@ export const IconButton: FunctionComponent<IconButtonProps> = ({
   title,
   icon,
   style,
-  //  onClick,
-  color = 'inherit',
+  // Let Icon sort out the default color
+  color,
   size = 'medium',
-  id
-
-
+  id,
+  ...rest
 }) => {
   const styles = useStyles({
-    size,
-    color
+    size
   });
 
   return (
-
     <Tooltip title={title || ""}>
-      <span id={id}
+      {
+        // Span is required here for the tooltip to work correctly 
+      }
+      <span
+        id={id}
         className={clsx(styles.root)}
-
-
       >
-        <NativeButton className={clsx(styles.root, styles.colorFn, styles.iconBtn, className)}
+        <NativeButton
+          className={clsx(styles.iconBtn, className)}
           aria-label={title}
           style={style}
-        // onClick={onClick}
+          {...rest}
         >
           <Icon
-            className={clsx(styles.root, styles.iconBtn, className)}
+            size={size}
+            color={color}
+            className={clsx(styles.icon)}
           >{icon}</Icon>
         </NativeButton>
-
       </span>
-    </Tooltip >
-
-
-  )
+    </Tooltip>
+  );
 }
 
 

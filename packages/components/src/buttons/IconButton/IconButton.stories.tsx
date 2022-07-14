@@ -7,11 +7,6 @@ const meta: Meta = {
     title: 'Buttons/IconButton',
     component: IconButton,
     argTypes: {
-        children: {
-            control: {
-                type: 'text',
-            },
-        },
     },
     parameters: {
         controls: { expanded: true },
