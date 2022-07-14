@@ -1,7 +1,7 @@
 import { SxProps, Theme } from "@mui/material";
-import { CSSProperties } from "react";
+import React, { CSSProperties, ElementType } from "react";
 
-export type BaseComponent = {
+export type BaseComponent<T extends ElementType> = React.ComponentPropsWithRef<T> & {
     className?: string,
     style?: CSSProperties,
     sx?: SxProps<Theme>;
