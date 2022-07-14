@@ -1,5 +1,5 @@
 {
-  "name": "@icatalyst/components",
+  "name": "@icatalyst/layouts",
   "version": "0.0.1",
   "description": "core elements for the @icatalyst/react mvp framework",
   "author": "ICatalyst Pte. Ltd.",
@@ -28,7 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@icatalyst/core": "0.0.1"
+    "@icatalyst/components": "0.0.1"
   },
   "nx": {
     "targets": {

@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "outDir": "lib",
+        "module": "esnext",
+        "target": "esnext",
+        "declaration": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        // https://create-react-app.dev/docs/importing-a-component/#absolute-imports
+        "baseUrl": "src"
+    },
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "lib"
+    ]
+}
