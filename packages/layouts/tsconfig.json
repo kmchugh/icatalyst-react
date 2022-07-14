@@ -11,10 +11,15 @@
         "baseUrl": "src"
     },
     "include": [
-        "src"
+        "src",
+        "../components/src/static-init.ts"
     ],
     "exclude": [
         "node_modules",
-        "lib"
+        "lib",
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.stories.ts",
+        "**/*.stories.tsx"
     ]
 }

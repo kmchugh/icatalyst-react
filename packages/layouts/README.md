@@ -14,30 +14,30 @@ const core = require('@react/components');
 import React, { FunctionComponent } from 'react';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import { BaseComponent } from '@icatalyst/components/base-component';
+import { ContainerComponent } from '@icatalyst/components';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root: {}
-  };
+const useStyles = makeStyles((/*theme*/) => {
+    return {
+        root: {}
+    };
 });
 
-export type ComponentProps = {
-} & CoreComponent;
+export type BoilerplateProps = {
+    // TODO Custom Props HERE
+} & ContainerComponent<"div">;
 
-export const Component: FunctionComponent<ComponentProps> = ({
-  className,
-  style,
+export const Boilerplate: FunctionComponent<BoilerplateProps> = ({
+    className,
+    style,
 }) => {
-  const styles = useStyles();
-  
-  return (
-    <div
-      className={clsx(styles.root, className)}
-      style={style}
-    >
-      BOILERPLATE
-    </div>
-  );
+    const styles = useStyles();
+    return (
+        <div
+            className={clsx(styles.root, className)}
+            style={style}
+        >
+            BOILERPLATE
+        </div>
+    );
 }
 ```

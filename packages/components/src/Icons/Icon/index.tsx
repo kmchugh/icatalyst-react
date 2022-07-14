@@ -47,7 +47,7 @@ export type IconProps = {
   children?: string
   color?: ComponentColor,
   size?: ComponentSize,
-} & BaseComponent;
+} & BaseComponent<"span">;
 
 export const Icon: FunctionComponent<IconProps> = ({
   className,

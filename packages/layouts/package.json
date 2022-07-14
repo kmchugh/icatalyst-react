@@ -28,6 +28,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@icatalyst/core": "0.0.1",
     "@icatalyst/components": "0.0.1"
   },
   "nx": {
