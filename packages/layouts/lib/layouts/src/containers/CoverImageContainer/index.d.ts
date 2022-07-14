@@ -4,6 +4,6 @@ export declare type CoverImageContainerProps = {
     image: string;
     imagePosition?: 'top' | 'bottom' | 'center';
     imageFit?: 'cover' | 'contain' | 'fill';
-    opacity: number;
+    imageAlpha: number;
 } & BaseContainerProps;
 export declare const CoverImageContainer: FunctionComponent<CoverImageContainerProps>;

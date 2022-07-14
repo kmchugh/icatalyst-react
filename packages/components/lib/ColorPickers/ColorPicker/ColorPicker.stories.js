@@ -1,11 +1,8 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
-import { IconButton,IconButtonProps } from '.';
-
-
-const meta: Meta = {
-    title: 'IconsButton/IconButton',
-    component: IconButton,
+import { ColorPicker } from '.';
+const meta = {
+    title: 'Pickers/ColorPicker',
+    component: ColorPicker,
     argTypes: {
         children: {
             control: {
@@ -17,11 +14,8 @@ const meta: Meta = {
         controls: { expanded: true },
     },
 };
-
 export default meta;
-
-const Template: Story<IconButtonProps> = args => <IconButton {...args} />;
-
+const Template = args => React.createElement(ColorPicker, { ...args });
 // By passing using the Args format for exported stories, you can control the props for a component for reuse in a test
 // https://storybook.js.org/docs/react/workflows/unit-testing
 export const Default = Template.bind({});

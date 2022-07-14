@@ -39,5 +39,9 @@
         ]
       }
     }
+  },
+  "devDependencies": {
+    "@material-ui/core": "^4.12.4",
+    "material-ui-color": "^1.2.0"
   }
 }

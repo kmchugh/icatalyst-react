@@ -2,20 +2,28 @@ import React from 'react';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { BaseContainer } from '../BaseContainer';
-import * as ICATALYST from '@icatalyst/core';
-const useStyles = makeStyles(( /*theme: any*/) => {
+import { tinycolor } from '@icatalyst/core';
+const useStyles = makeStyles((theme) => {
     return {
-        root: {},
-        opacityWrapperFn: ({ opacity }) => {
+        root: {
+            padding: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            display: 'flex',
+            height: '100%',
+            flexDirection: 'column',
+            boxSizing: 'border-box'
+        },
+        opacityWrapperFn: ({ imageAlpha }) => {
             return {
                 width: '100%',
                 height: '100%',
-                background: 'red',
+                background: tinycolor.tinycolor(theme.palette.background.default).setAlpha(1 - (imageAlpha / 100)).toHex8String(),
             };
         },
-        // @ts-expect-error
         containerImageFn: ({ image, imageFit, imagePosition }) => {
-            console.log(image);
             return {
                 backgroundImage: `url('${image}')`,
                 objectFit: imageFit,
@@ -25,14 +33,13 @@ const useStyles = makeStyles(( /*theme: any*/) => {
         }
     };
 });
-export const CoverImageContainer = ({ className, children, image, imageFit = 'cover', imagePosition = 'center', opacity = 1, ...rest }) => {
+export const CoverImageContainer = ({ className, children, image, imageFit = 'cover', imagePosition = 'center', imageAlpha = 75, ...rest }) => {
     const styles = useStyles({
         image,
         imageFit,
         imagePosition,
-        opacity
+        imageAlpha
     });
-    console.log(ICATALYST);
-    return (React.createElement(BaseContainer, { className: clsx(styles.root, styles.containerImageFn, className), ...rest },
-        React.createElement("div", { className: clsx(styles.opacityWrapperFn) }, children)));
+    return (React.createElement("div", { className: clsx(styles.root, styles.containerImageFn, className) },
+        React.createElement(BaseContainer, { className: clsx(styles.opacityWrapperFn), ...rest }, children)));
 };

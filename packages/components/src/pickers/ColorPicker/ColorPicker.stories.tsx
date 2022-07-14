@@ -1,9 +1,9 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { ColorPicker, ColorPickerProps} from '.';
+import { ColorPicker, ColorPickerProps } from '.';
 
 const meta: Meta = {
-    title: 'ColorPickers/ColorPicker',
+    title: 'Pickers/ColorPicker',
     component: ColorPicker,
     argTypes: {
         children: {
