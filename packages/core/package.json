@@ -7,8 +7,7 @@
   "license": "UNLICENSED",
   "main": "lib/index.js",
   "directories": {
-    "src": "src",
-    "test": "__tests__"
+    "src": "src"
   },
   "files": [
     "src"
@@ -20,7 +19,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage"
   },
   "bugs": {
     "url": "https://github.com/kmchugh/icatalyst-react/issues"
