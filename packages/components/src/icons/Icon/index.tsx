@@ -5,26 +5,31 @@ import MUIIcon from '@mui/material/Icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core';
 import { BaseComponent, ComponentColor, ComponentSize } from '../../types';
+
 // TODO: https://mui.com/material-ui/customization/theming/#custom-variables
 const useStyles = makeStyles((theme: any) => {
   return {
     root: {},
-    // @ts-expect-error
-    sizeFn: ({ size }) => {
-      const stateSize = {
+
+    sizeFn: ({ size }: any) => {
+      const sizes: {
+        [key: string]: string
+      } = {
         inherit: 'inherit',
         small: theme.typography.pxToRem(20),
-        medium: theme.typography.pxToRem(24),
-        large: theme.typography.pxToRem(36)
-      }[size];
+        medium: theme.typography.pxToRem(20),
+        large: theme.typography.pxToRem(20),
+      };
 
       return {
-        fontSize: stateSize
+        fontSize: sizes[size]
       };
     },
-    // @ts-expect-error
-    colorFn: ({ color }) => {
-      const stateColour = {
+
+    colorFn: ({ color }: any) => {
+      const colors: {
+        [key: string]: string | undefined
+      } = {
         primary: theme.palette.primary.main,
         secondary: theme.palette.secondary.main,
         info: theme.palette.info.main,
@@ -34,10 +39,10 @@ const useStyles = makeStyles((theme: any) => {
         error: theme.palette.error.main,
         disabled: theme.palette.action.disabled,
         inherit: undefined
-      }[color];
+      };
 
       return {
-        color: stateColour
+        color: colors[color]
       };
     }
   };

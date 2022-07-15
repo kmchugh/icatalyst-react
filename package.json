@@ -2,8 +2,11 @@
   "name": "icatalyst",
   "version": "0.2.0",
   "private": true,
+  "description": "@icatalyst/react library components",
+  "author": "ICatalyst Pte. Ltd.",
   "license": "UNLICENSED",
   "scripts": {
+    "prepare": "node ./configure-references.js",
     "lerna": "./node_modules/lerna/cli.js",
     "start": "./node_modules/lerna/cli.js run start --stream --parallel",
     "test": "./node_modules/lerna/cli.js run test --",

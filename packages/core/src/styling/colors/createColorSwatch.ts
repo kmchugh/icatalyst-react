@@ -1,3 +1,4 @@
+import { TinyColor } from "@ctrl/tinycolor";
 import { tinycolor, mostReadable, ColorInput } from "../../libs/@tinycolor";
 import { ColorSwatch } from "./types/color-swatch.type";
 
@@ -25,7 +26,7 @@ export function createColorSwatch(color: ColorInput): ColorSwatch {
         light: variants['200'],
         dark: variants['700'],
         compliment: tc.clone().mix(tc.clone().spin(180), 80).toHex8String(),
-        contrastText: mostReadable(tc, ['#fff', '#000'], {}).toHex8String(),
+        contrastText: mostReadable(tc, ['#fff', '#000'])?.toHex8String() || '#fff',
         variants
     };
 }

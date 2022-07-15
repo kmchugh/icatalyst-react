@@ -1,6 +1,7 @@
 {
     // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
     "include": [
+        "packages/core",
         "packages/components",
         "packages/layouts"
     ],
@@ -37,6 +38,17 @@
         "forceConsistentCasingInFileNames": true,
         // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
         "noEmit": true,
-        "baseUrl": "packages"
+        "baseUrl": "./packages",
+        "paths": {
+            "@icatalyst/core/*": [
+                "core/src/*"
+            ],
+            "@icatalyst/components/*": [
+                "components/src/*"
+            ],
+            "@icatalyst/layouts/*": [
+                "layouts/src/*"
+            ]
+        }
     }
 }

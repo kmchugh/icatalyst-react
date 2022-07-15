@@ -1,5 +1,7 @@
 import { ColorSwatch } from "./color-swatch.type";
 
+
+
 export type ColorPalette = {
     primary: ColorSwatch,
     secondary: ColorSwatch,
@@ -7,5 +9,6 @@ export type ColorPalette = {
     error?: ColorSwatch,
     success?: ColorSwatch,
     info?: ColorSwatch,
-    [key: string]: ColorSwatch
+
+    [key: string]: ColorSwatch | undefined
 };

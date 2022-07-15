@@ -16,19 +16,25 @@ const useStyles = makeStyles((theme: any) => {
             verticalAlign,
             horizontalAlign
         }: any) => {
-            const vertical = {
+
+            const vertical: {
+                [key: string]: string
+            } = {
                 top: 'flex-start',
                 center: 'center',
                 bottom: 'flex-end'
-            }[verticalAlign];
-            const horizontal = {
+            };
+            const horizontal: {
+                [key: string]: string
+            } = {
                 left: 'flex-start',
                 center: 'center',
                 right: 'flex-end'
-            }[horizontalAlign];
+            };
+
             return {
-                justifyContent: vertical,
-                alignItems: horizontal
+                justifyContent: vertical[verticalAlign],
+                alignItems: horizontal[horizontalAlign]
             };
         }
     };

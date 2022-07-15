@@ -12,26 +12,36 @@ export const ColorPicker = ({ className, style = {}, value = null, onChange, hid
     const [colorValue, setColorValue] = useState();
     const handleChange = (color = null) => {
         if (!color) {
+            // @ts-expect-error
             setColorValue(color);
         }
         else {
+            // @ts-expect-error
             if (!color.raw) {
+                // @ts-expect-error
                 color = createColor(color);
             }
+            // @ts-expect-error
             if (!color.error) {
+                // @ts-expect-error
                 setColorValue(color);
             }
         }
+        // @ts-expect-error
         if (value !== color && value !== `#${color?.hex}`) {
             // @ts-expect-error
             onChange && onChange(color ? `#${color?.hex}` : null);
         }
     };
     useEffect(() => {
+        // @ts-expect-error
         handleChange(value);
     }, [value]);
     return (React.createElement("div", { className: clsx(styles.root, className), style: { ...style } },
-        React.createElement(NativeComponent, { hideTextfield: hideTextfield, defaultValue: defaultColor, 
+        React.createElement(NativeComponent, { hideTextfield: hideTextfield, 
+            // @ts-expect-error
+            defaultValue: defaultColor, 
             //className={clsx(styles.colorPicker)}
+            // @ts-expect-error
             onChange: handleChange, value: colorValue })));
 };

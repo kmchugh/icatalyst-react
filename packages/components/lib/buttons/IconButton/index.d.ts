@@ -1,5 +1,5 @@
-import { FunctionComponent } from 'react';
 import { IconButtonProps as NativeProps } from '@mui/material';
+import { FunctionComponent } from 'react';
 import { ComponentColor, ComponentSize } from '../../types';
 export declare type IconButtonProps = {
     title?: string;

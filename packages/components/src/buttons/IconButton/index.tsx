@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
-import { Tooltip, IconButton as NativeButton, IconButtonProps as NativeProps } from '@mui/material';
-import clsx from 'clsx';
+import { IconButton as NativeButton, IconButtonProps as NativeProps, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { BaseComponent, ComponentColor, ComponentSize } from '../../types';
+import clsx from 'clsx';
+import React, { FunctionComponent } from 'react';
 import { Icon } from '../../icons/Icon';
+import { ComponentColor, ComponentSize } from '../../types';
 
 const useStyles = makeStyles((theme: any) => {
   return {
@@ -12,16 +12,18 @@ const useStyles = makeStyles((theme: any) => {
     icon: {},
     iconBtn: ({ size }: any) => {
       // As we want width and height to be equal same we need to parse size
-      const stateSize = {
+      const sizes: {
+        [key: string]: string
+      } = {
         inherit: '1.3em',
         small: theme.typography.pxToRem(20 + 8),
         medium: theme.typography.pxToRem(24 + 8),
         large: theme.typography.pxToRem(36 + 8)
-      }[size];
+      };
 
       return {
-        width: stateSize,
-        height: stateSize,
+        width: sizes[size],
+        height: sizes[size],
       };
     }
   };

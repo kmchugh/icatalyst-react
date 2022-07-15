@@ -8,5 +8,5 @@ export type PaletteInput = {
     success?: ColorInput,
     info?: ColorInput,
     tint?: number,
-    [key: string]: ColorInput
+    [key: string]: ColorInput | undefined
 };

@@ -32,15 +32,21 @@ export const ColorPicker: FunctionComponent<ColorPickerProps> = ({
 
   const handleChange = (color = null) => {
     if (!color) {
+      // @ts-expect-error
       setColorValue(color);
     } else {
+      // @ts-expect-error
       if (!color.raw) {
+        // @ts-expect-error
         color = createColor(color);
       }
+      // @ts-expect-error
       if (!color.error) {
+        // @ts-expect-error
         setColorValue(color);
       }
     }
+    // @ts-expect-error
     if (value !== color && value !== `#${color?.hex}`) {
       // @ts-expect-error
       onChange && onChange(color ? `#${color?.hex}` : null);
@@ -48,6 +54,7 @@ export const ColorPicker: FunctionComponent<ColorPickerProps> = ({
   };
 
   useEffect(() => {
+    // @ts-expect-error
     handleChange(value);
   }, [value]);
   return (
@@ -57,8 +64,10 @@ export const ColorPicker: FunctionComponent<ColorPickerProps> = ({
     >
       <NativeComponent
         hideTextfield={hideTextfield}
+        // @ts-expect-error
         defaultValue={defaultColor}
         //className={clsx(styles.colorPicker)}
+        // @ts-expect-error
         onChange={handleChange}
         value={colorValue}
       />

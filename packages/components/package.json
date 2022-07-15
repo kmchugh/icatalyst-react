@@ -6,20 +6,28 @@
   "homepage": "https://github.com/kmchugh/icatalyst-react#readme",
   "license": "UNLICENSED",
   "main": "lib/index.js",
+  "module": "src/index.js",
   "directories": {
-    "src": "src"
+    "lib": "src"
   },
   "files": [
-    "src"
+    "dist",
+    "es",
+    "esm",
+    "lib"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kmchugh/icatalyst-react.git"
   },
   "scripts": {
-    "build": "tsc",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "prepack": "yarn build",
+    "build": "yarn clean && yarn compile",
+    "compile": "tsc --build && cp \"./package.json\" ./lib/",
     "dev": "tsc -w",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint \"./src/**/*.{ts,tsx}\" --max-warnings=0"
   },
   "bugs": {
     "url": "https://github.com/kmchugh/icatalyst-react/issues"
@@ -28,7 +36,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@icatalyst/core": "0.0.1"
+    "@icatalyst/core": "^0.0.1"
   },
   "nx": {
     "targets": {

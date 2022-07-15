@@ -1,6 +1,7 @@
 import { tinycolor } from "../../libs/@tinycolor";
 import { createColorSwatch } from "./createColorSwatch";
 import { ColorPalette } from "./types/color-palette.type";
+import { ColorSwatch } from "./types/color-swatch.type";
 import { PaletteInput } from "./types/palette-input.type";
 
 export function createColorPalette({
@@ -17,7 +18,9 @@ export function createColorPalette({
         const colour = rest[key];
         acc[key] = createColorSwatch(tinycolor(colour).toHex8String());
         return acc;
-    }, {});
+    }, {} as {
+        [key: string]: ColorSwatch
+    });
 
     return {
         primary: createColorSwatch(primary),

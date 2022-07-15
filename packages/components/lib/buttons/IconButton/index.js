@@ -1,7 +1,7 @@
-import React from 'react';
-import { Tooltip, IconButton as NativeButton } from '@mui/material';
-import clsx from 'clsx';
+import { IconButton as NativeButton, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import clsx from 'clsx';
+import React from 'react';
 import { Icon } from '../../icons/Icon';
 const useStyles = makeStyles((theme) => {
     return {
@@ -9,15 +9,15 @@ const useStyles = makeStyles((theme) => {
         icon: {},
         iconBtn: ({ size }) => {
             // As we want width and height to be equal same we need to parse size
-            const stateSize = {
+            const sizes = {
                 inherit: '1.3em',
                 small: theme.typography.pxToRem(20 + 8),
                 medium: theme.typography.pxToRem(24 + 8),
                 large: theme.typography.pxToRem(36 + 8)
-            }[size];
+            };
             return {
-                width: stateSize,
-                height: stateSize,
+                width: sizes[size],
+                height: sizes[size],
             };
         }
     };
