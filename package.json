@@ -15,7 +15,7 @@
     "version:canary": "changeset version --snapshot canary",
     "release:canary": "changeset publish --tag canary",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -o docs-build -s ./public",
     "cypress": "cypress run",
     "cypress:open": "cypress open",
     "start:app": "npm run build && npm --cwd example && npm --cwd example start"
