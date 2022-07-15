@@ -5,14 +5,6 @@ import staticInit from '../packages/components/src/static-init';
 
 staticInit();
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: red[500],
-    },
-  },
-});
-
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
 // TODO: Look at using this for theme generation
 export const parameters = {
@@ -25,6 +17,14 @@ export const parameters = {
     },
   },
 }
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: red[500],
+    },
+  },
+});
 
 export const decorators = [
   (Story) => (
