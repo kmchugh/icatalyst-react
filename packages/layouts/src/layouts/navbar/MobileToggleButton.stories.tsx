@@ -1,16 +1,11 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { BaseContainer, BaseContainerProps } from './';
+import { MobileToggleButton, MobileToggleButtonProps } from './MobileToggleButton';
 import { Typography } from '@mui/material';
 
 const meta: Meta = {
-    component: BaseContainer,
+    component: MobileToggleButton,
     argTypes: {
-        children: {
-            control: {
-                type: '',
-            },
-        },
     },
     parameters: {
         controls: { expanded: true },
@@ -19,10 +14,10 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<BaseContainerProps> = args => (
-    <BaseContainer {...args}>
+const Template: Story<MobileToggleButtonProps> = args => (
+    <MobileToggleButton {...args}>
         <Typography>CONTENT</Typography>
-    </BaseContainer>
+    </MobileToggleButton>
 );
 
 export const Default = Template.bind({});

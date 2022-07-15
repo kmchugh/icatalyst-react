@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Tooltip, IconButton as NativeButton } from '@mui/material';
+import { Tooltip, IconButton as NativeButton, IconButtonProps as NativeProps } from '@mui/material';
 import clsx from 'clsx';
 import { makeStyles } from '@mui/styles';
 import { BaseComponent, ComponentColor, ComponentSize } from '../../types';
@@ -32,7 +32,7 @@ export type IconButtonProps = {
   color?: ComponentColor,
   size?: ComponentSize,
   icon?: string,
-} & BaseComponent<"button">
+} & NativeProps
 
 export const IconButton: FunctionComponent<IconButtonProps> = ({
   className,

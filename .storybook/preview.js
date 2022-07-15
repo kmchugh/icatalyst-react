@@ -1,7 +1,10 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import staticInit from '../packages/components/src/static-init';
 import { createColorPalette } from '../packages/core/src/styling/colors';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
+
 staticInit();
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
@@ -21,6 +24,30 @@ export const parameters = {
   }
 }
 
+const icatalystSlice = createSlice({
+  name: 'icatalyst',
+  initialState: {
+    settings: {
+      current: {
+        layout: {
+          navbar: {
+            folded: false
+          }
+        }
+      }
+    }
+  },
+  reducers: {}
+});
+
+// TODO: Update the createStore to use slices
+const store = configureStore({
+  reducer: {
+    icatalyst: icatalystSlice.reducer
+  },
+});
+
+
 export const decorators = [
   (Story, options) => {
     const { theme } = options.parameters;
@@ -35,9 +62,11 @@ export const decorators = [
     });
 
     return (
-      <ThemeProvider theme={themeBase}>
-        <Story />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={themeBase}>
+          <Story />
+        </ThemeProvider>
+      </Provider>
     );
   }
 ];
