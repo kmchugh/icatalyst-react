@@ -9,12 +9,12 @@ const core = require('@react/components');
 ```
 
 
-## BOILERPLATE COMPONENT
+## BOILERPLATE CONTAINER COMPONENT
 ```jsx
 import React, { FunctionComponent } from 'react';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import { ContainerComponent } from '@icatalyst/components';
+import { BaseContainer, BaseContainerProps } from 'containers/BaseContainer';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
@@ -22,17 +22,53 @@ const useStyles = makeStyles((/*theme*/) => {
     };
 });
 
-export type BoilerplateProps = {
+export type BoilerplateContainerProps = {
     // TODO Custom Props HERE
-} & ContainerComponent<"div">;
+} & BaseContainerProps;
 
-export const Boilerplate: FunctionComponent<BoilerplateProps> = ({
+export const BoilerplateContainer: FunctionComponent<BoilerplateContainerProps> = ({
     className,
     style,
+    sx,
+    children
 }) => {
     const styles = useStyles();
     return (
-        <div
+        <BaseContainer 
+            className={clsx(styles.root, className)}
+            style={style}
+            sx={sx}
+        >
+            {children}
+        </BaseContainer>
+    );
+}
+```
+
+## BOILERPLATE COMPONENT
+```jsx
+import React, { FunctionComponent } from 'react';
+import { makeStyles } from '@mui/styles';
+import clsx from 'clsx';
+import { BaseComponent } from '@icatalyst/components';
+
+const useStyles = makeStyles((/*theme*/) => {
+    return {
+        root: {}
+    };
+});
+
+export type BoilerplateComponentProps = {
+    // TODO Custom Props HERE
+} & BaseComponent<"div">;
+
+export const BoilerplateComponent: FunctionComponent<BoilerplateComponentProps> = ({
+    className,
+    style
+}) => {
+    const styles = useStyles();
+    return (
+        <div 
             className={clsx(styles.root, className)}
             style={style}
         >
