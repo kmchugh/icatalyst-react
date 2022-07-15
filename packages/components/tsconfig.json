@@ -16,7 +16,8 @@
     "exclude": [
         "node_modules",
         "lib",
-        "**/*.spec.@(ts|js|tsx|jsx|mdx)",
-        "**/*.stories.@(ts|js|tsx|jsx|mdx)"
+        "**/*.spec.*",
+        "**/*.test.*",
+        "**/*.stories.*",
     ]
 }

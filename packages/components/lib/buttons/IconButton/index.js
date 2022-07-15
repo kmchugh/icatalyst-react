@@ -1,50 +1,35 @@
 import React from 'react';
-import { Tooltip, IconButton as NativeButton, Icon } from '@mui/material';
+import { Tooltip, IconButton as NativeButton } from '@mui/material';
 import clsx from 'clsx';
 import { makeStyles } from '@mui/styles';
+import { Icon } from '../../icons/Icon';
 const useStyles = makeStyles((theme) => {
     return {
         root: {},
-        // @ts-expect-error
+        icon: {},
         iconBtn: ({ size }) => {
-            const StateSize = {
-                inherit: 'inherit',
-                small: theme.typography.pxToRem(20),
-                medium: theme.typography.pxToRem(24),
-                large: theme.typography.pxToRem(36)
+            // As we want width and height to be equal same we need to parse size
+            const stateSize = {
+                inherit: '1.3em',
+                small: theme.typography.pxToRem(20 + 8),
+                medium: theme.typography.pxToRem(24 + 8),
+                large: theme.typography.pxToRem(36 + 8)
             }[size];
             return {
-                fontSize: StateSize
-            };
-        },
-        // @ts-expect-error  
-        colorFn: ({ color }) => {
-            const stateColour = {
-                primary: theme.palette.primary.main,
-                secondary: theme.palette.secondary.main,
-                info: theme.palette.info.main,
-                success: theme.palette.success.main,
-                warning: theme.palette.warning.main,
-                action: theme.palette.action.active,
-                error: theme.palette.error.main,
-                disabled: theme.palette.action.disabled,
-                inherit: undefined
-            }[color];
-            return {
-                color: stateColour
+                width: stateSize,
+                height: stateSize,
             };
         }
     };
 });
 export const IconButton = ({ className, title, icon, style, 
-//  onClick,
-color = 'inherit', size = 'medium', id }) => {
+// Let Icon sort out the default color
+color, size = 'medium', id, ...rest }) => {
     const styles = useStyles({
-        size,
-        color
+        size
     });
     return (React.createElement(Tooltip, { title: title || "" },
         React.createElement("span", { id: id, className: clsx(styles.root) },
-            React.createElement(NativeButton, { className: clsx(styles.root, styles.colorFn, styles.iconBtn, className), "aria-label": title, style: style },
-                React.createElement(Icon, { className: clsx(styles.root, styles.iconBtn, className) }, icon)))));
+            React.createElement(NativeButton, { className: clsx(styles.iconBtn, className), "aria-label": title, style: style, ...rest },
+                React.createElement(Icon, { size: size, color: color, className: clsx(styles.icon) }, icon)))));
 };

@@ -5,6 +5,5 @@ export declare type IconButtonProps = {
     color?: ComponentColor;
     size?: ComponentSize;
     icon?: string;
-    id?: string;
 } & BaseComponent<"button">;
 export declare const IconButton: FunctionComponent<IconButtonProps>;
