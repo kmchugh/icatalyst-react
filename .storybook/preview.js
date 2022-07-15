@@ -14,6 +14,7 @@ const theme = createTheme({
 });
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
+// TODO: Look at using this for theme generation
 export const parameters = {
   // https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args
   actions: { argTypesRegex: "^on[A-Z].*" },
