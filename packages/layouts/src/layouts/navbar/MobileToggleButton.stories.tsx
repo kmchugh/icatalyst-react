@@ -6,11 +6,6 @@ import { Typography } from '@mui/material';
 const meta: Meta = {
     component: MobileToggleButton,
     argTypes: {
-        children: {
-            control: {
-                type: '',
-            },
-        },
     },
     parameters: {
         controls: { expanded: true },

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React, { ComponentProps, FunctionComponent } from 'react';
 import { makeStyles, useTheme } from '@mui/styles';
-import { ComponentColor } from '@icatalyst/components';
+import { BaseComponent, ComponentColor } from '@icatalyst/components';
 import { useDispatch, useSelector } from 'react-redux';
 
 // TODO : Should not be /lib;
@@ -13,9 +13,9 @@ const useStyles = makeStyles((/*theme*/) => {
     };
 });
 
-export type MobileToggleButtonProps = {
+export type MobileToggleButtonProps = Omit<IconButtonProps, 'children'> & {
     icon?: string
-} & IconButtonProps;
+} & BaseComponent<"div">;
 
 export const MobileToggleButton: FunctionComponent<MobileToggleButtonProps> = ({
     icon = 'menu',
