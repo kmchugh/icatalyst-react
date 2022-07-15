@@ -26,11 +26,6 @@
   "workspaces": [
     "packages/*"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  },
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@changesets/changelog-github": "^0.4.5",
