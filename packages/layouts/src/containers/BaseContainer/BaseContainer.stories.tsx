@@ -4,7 +4,6 @@ import { BaseContainer, BaseContainerProps } from './';
 import { Typography } from '@mui/material';
 
 const meta: Meta = {
-    title: 'Containers/BaseContainer',
     component: BaseContainer,
     argTypes: {
         children: {

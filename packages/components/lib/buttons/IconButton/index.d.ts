@@ -1,9 +1,10 @@
 import { FunctionComponent } from 'react';
-import { BaseComponent, ComponentColor, ComponentSize } from '../../types';
+import { IconButtonProps as NativeProps } from '@mui/material';
+import { ComponentColor, ComponentSize } from '../../types';
 export declare type IconButtonProps = {
     title?: string;
     color?: ComponentColor;
     size?: ComponentSize;
     icon?: string;
-} & BaseComponent<"button">;
+} & NativeProps;
 export declare const IconButton: FunctionComponent<IconButtonProps>;

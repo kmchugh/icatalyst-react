@@ -1,11 +1,10 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
+import { MobileToggleButton, MobileToggleButtonProps } from './MobileToggleButton';
 import { Typography } from '@mui/material';
-import { InfoContainer, InfoContainerProps } from './';
 
 const meta: Meta = {
-    // title: 'Containers/CoverImageContainer',
-    component: InfoContainer,
+    component: MobileToggleButton,
     argTypes: {
         children: {
             control: {
@@ -20,13 +19,12 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<InfoContainerProps> = args => (
-    <InfoContainer {...args}>
-        <Typography color="white">CONTENT</Typography>
-    </InfoContainer>
+const Template: Story<MobileToggleButtonProps> = args => (
+    <MobileToggleButton {...args}>
+        <Typography>CONTENT</Typography>
+    </MobileToggleButton>
 );
 
 export const Default = Template.bind({});
 Default.args = {
-    image: 'assets/images/backgrounds/steampunk.jpg',
 };

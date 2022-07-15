@@ -4,7 +4,6 @@ import { CoverImageContainer, CoverImageContainerProps } from '.';
 import { Typography } from '@mui/material';
 
 const meta: Meta = {
-    title: 'Containers/CoverImageContainer',
     component: CoverImageContainer,
     argTypes: {
         children: {
