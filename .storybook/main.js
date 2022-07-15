@@ -10,8 +10,8 @@ module.exports = {
   "staticDirs": [
     '../public'
   ],
-  "typescript": {
-    "check": true,
-  },
+  // "typescript": {
+  //   "check": true,
+  // },
   "framework": "@storybook/react"
 }
