@@ -1,8 +1,7 @@
 import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { red } from '@mui/material/colors';
 import staticInit from '../packages/components/src/static-init';
-
+import { createColorPalette } from '../packages/core/src/styling/colors';
 staticInit();
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
@@ -16,20 +15,29 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  theme: {
+    primary: '#239ddb',
+    secondary: '#191b21',
+  }
 }
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: red[500],
-    },
-  },
-});
-
 export const decorators = [
-  (Story) => (
-    <ThemeProvider theme={theme}>
-      <Story />
-    </ThemeProvider>
-  )
+  (Story, options) => {
+    const { theme } = options.parameters;
+
+    const palette = createColorPalette({
+      primary: theme.primary,
+      secondary: theme.secondary,
+    });
+
+    const themeBase = createTheme({
+      palette: palette,
+    });
+
+    return (
+      <ThemeProvider theme={themeBase}>
+        <Story />
+      </ThemeProvider>
+    );
+  }
 ];
