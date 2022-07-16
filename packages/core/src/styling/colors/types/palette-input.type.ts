@@ -1,4 +1,4 @@
-import { ColorInput } from "libs/@tinycolor";
+import { ColorInput } from "../../../libs";
 
 export type PaletteInput = {
     primary: ColorInput,

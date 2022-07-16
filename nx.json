@@ -1,44 +1,13 @@
 {
-    "$schema": "node_modules/nx/schemas/nx-schema.json",
+    "extends": "nx/presets/npm.json",
     "tasksRunnerOptions": {
         "default": {
             "runner": "nx/tasks-runners/default",
             "options": {
                 "cacheableOperations": [
-                    "build",
-                    "test"
+                    "build"
                 ]
             }
-        }
-    },
-    "namedInputs": {
-        "default": [
-            "{projectRoot}/**/*"
-        ],
-        "prod": [
-            "!{projectRoot}/**/*.spec.tsx"
-        ]
-    },
-    "targetDefaults": {
-        "build": {
-            "inputs": [
-                "prod",
-                "^prod"
-            ],
-            "dependsOn": [
-                "^build"
-            ]
-        },
-        "test": {
-            "inputs": [
-                "default",
-                "^prod"
-            ]
-        },
-        "dev": {
-            "dependsOn": [
-                "^build"
-            ]
         }
     }
 }

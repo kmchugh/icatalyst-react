@@ -7,4 +7,5 @@ export declare type IconButtonProps = {
     size?: ComponentSize;
     icon?: string;
 } & NativeProps;
-export declare const IconButton: FunctionComponent<IconButtonProps>;
+declare const IconButton: FunctionComponent<IconButtonProps>;
+export default IconButton;

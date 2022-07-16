@@ -2,7 +2,7 @@ import { IconButton as NativeButton, IconButtonProps as NativeProps, Tooltip } f
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import React, { FunctionComponent } from 'react';
-import { Icon } from '../../icons/Icon';
+import Icon from 'icons/Icon';
 import { ComponentColor, ComponentSize } from '../../types';
 
 const useStyles = makeStyles((theme: any) => {
@@ -36,7 +36,7 @@ export type IconButtonProps = {
   icon?: string,
 } & NativeProps
 
-export const IconButton: FunctionComponent<IconButtonProps> = ({
+const IconButton: FunctionComponent<IconButtonProps> = ({
   className,
   title,
   icon,
@@ -76,6 +76,8 @@ export const IconButton: FunctionComponent<IconButtonProps> = ({
     </Tooltip>
   );
 }
+
+export default IconButton;
 
 
 

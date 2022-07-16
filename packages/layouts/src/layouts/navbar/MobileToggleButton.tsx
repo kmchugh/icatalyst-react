@@ -1,15 +1,14 @@
-import { BaseComponent, ComponentColor } from '@icatalyst/components';
+import { BaseComponent, ComponentColor, IconButtonProps } from '@icatalyst/components';
+import { mostReadable, tinycolor } from '@icatalyst/core';
 import { makeStyles, useTheme } from '@mui/styles';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { IconButton, IconButtonProps } from '@icatalyst/components/buttons/IconButton';
-import { mostReadable, tinycolor } from '@icatalyst/core/libs/@tinycolor';
+import IconButton from '@icatalyst/components/src/buttons/IconButton';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
         root: {}
-    };
+    }; ˇ
 });
 
 export type MobileToggleButtonProps = Omit<IconButtonProps, 'children'> & {
@@ -34,7 +33,7 @@ export const MobileToggleButton: FunctionComponent<MobileToggleButtonProps> = ({
             theme.palette.secondary.main,
             theme.palette.primary.main
         ], {}
-    ).toHex8String() === 'theme.palette.secondary.main' ? 'secondary' : 'primary';
+    )?.toHex8String() === 'theme.palette.secondary.main' ? 'secondary' : 'primary';
 
     return (
         <IconButton

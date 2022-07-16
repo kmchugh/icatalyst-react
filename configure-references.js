@@ -19,6 +19,8 @@ config.references = [];
         return;
     }
 
+    console.log('Preparing configuration references');
+
     const { stdout, stderr } = await exec('yarn workspaces info --json');
 
     const lines = stdout.split('\n');
@@ -26,9 +28,11 @@ config.references = [];
     const workspaces = JSON.parse(depthTree);
 
     for (const name in workspaces) {
+        console.log(`Processing - ${name}`);
         const workspace = workspaces[name];
         const location = path.resolve(process.cwd(), workspace.location);
         const tsconfigPath = path.resolve(location, 'tsconfig.json');
+        console.log(`Extracting tsconfig - ${tsconfigPath}`);
         if (fs.existsSync(tsconfigPath)) {
             config.references.push({
                 path: workspace.location,

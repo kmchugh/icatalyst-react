@@ -5,4 +5,5 @@ export declare type IconProps = {
     color?: ComponentColor;
     size?: ComponentSize;
 } & BaseComponent<"span">;
-export declare const Icon: FunctionComponent<IconProps>;
+declare const Icon: FunctionComponent<IconProps>;
+export default Icon;

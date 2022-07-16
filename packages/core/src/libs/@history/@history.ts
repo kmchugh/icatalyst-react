@@ -1,2 +1,1 @@
-const createHistory = require('history').createBrowserHistory;
-export default createHistory();
+export const createHistory = require('history').createBrowserHistory;

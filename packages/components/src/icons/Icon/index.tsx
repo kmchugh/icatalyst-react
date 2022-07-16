@@ -54,7 +54,7 @@ export type IconProps = {
   size?: ComponentSize,
 } & BaseComponent<"span">;
 
-export const Icon: FunctionComponent<IconProps> = ({
+const Icon: FunctionComponent<IconProps> = ({
   className,
   style,
   sx,
@@ -99,3 +99,5 @@ export const Icon: FunctionComponent<IconProps> = ({
     );
   }
 }
+
+export default Icon;

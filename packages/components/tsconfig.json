@@ -2,10 +2,9 @@
     "extends": "../../tsconfig.build.json",
     "compilerOptions": {
         "composite": true,
-        "rootDir": "./src",
+        "rootDir": "src",
         "outDir": "lib",
-        // https://create-react-app.dev/docs/importing-a-component/#absolute-imports
-        "baseUrl": "./src",
+        "baseUrl": "./src"
     },
     "references": [
         {
@@ -13,13 +12,12 @@
         }
     ],
     "include": [
-        "src"
+        "src/**/*",
     ],
     "exclude": [
         "node_modules",
-        "lib",
         "**/*.spec.*",
         "**/*.test.*",
-        "**/*.stories.*",
+        "**/*.stories.*"
     ]
 }

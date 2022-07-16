@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { BaseContainer, BaseContainerProps } from '../BaseContainer';
 import { tinycolor } from '@icatalyst/core';
 
+
 const useStyles = makeStyles((theme: any) => {
     return {
         root: {
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme: any) => {
             return {
                 width: '100%',
                 height: '100%',
-                background: tinycolor.tinycolor(
+                background: tinycolor(
                     theme.palette.background.default
                 ).setAlpha(1 - (imageAlpha / 100)).toHex8String(),
             }
