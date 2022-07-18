@@ -1,4 +1,4 @@
-import { makeStyles, useTheme } from '@mui/styles';
+import { CSSProperties, makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { BaseComponent, ComponentSize } from '../../types';
@@ -9,11 +9,11 @@ import { Icon } from '../../icons';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 import { tinycolor, mostReadable } from '@icatalyst/react/core';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useStyles = makeStyles((theme: any) => {
-    console.log(theme);
     return {
         root: {
-            position: 'relative',
+            position: 'relative'
         },
         image: {
             opacity: 0,
@@ -34,7 +34,10 @@ const useStyles = makeStyles((theme: any) => {
         spinnerFn({
             spinnerSize,
             spinnerColor
-        }: any) {
+        }: {
+            spinnerSize : ComponentSize,
+            spinnerColor? : string | null
+        }) {
             const sizes: {
                 [key: string]: string
             } = {
@@ -49,7 +52,7 @@ const useStyles = makeStyles((theme: any) => {
                 height: calcSize,
                 top: `calc(50% - ${calcSize})`,
                 left: `calc(50% - ${calcSize})`,
-                color: spinnerColor
+                color: spinnerColor || 'initial'
             };
         },
         '@keyframes rotating': {
@@ -63,12 +66,14 @@ const useStyles = makeStyles((theme: any) => {
     };
 });
 
-export interface ImageProps extends BaseComponent<"img"> {
-    // TODO Custom Props HERE
+export interface ImageProps extends BaseComponent<"span"> {
     src: string,
+    alt: string,
     defaultSrc?: string,
     spinnerSize?: ComponentSize,
-    spinnerColor?: string
+    spinnerColor?: string,
+    imageClassName? : string,
+    imageStyle? : CSSProperties
 };
 
 export function Image({
@@ -77,9 +82,14 @@ export function Image({
     src,
     defaultSrc,
     spinnerSize = 'medium',
-    spinnerColor
+    spinnerColor,
+    alt,
+    imageClassName,
+    imageStyle
 }: ImageProps) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const theme: any = useTheme();
+
     const styles = useStyles({
         spinnerSize,
         spinnerColor
@@ -87,9 +97,9 @@ export function Image({
 
     const [source, setSource] = useState<string>(src);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<any>(!src);
+    const [error, setError] = useState<unknown>(!src);
     const [backgroundColor, setBackgroundColor] = useState<string | null>(null);
-
+    
     if (!defaultSrc) {
         defaultSrc = mostReadable(backgroundColor || theme.palette.background.default,
             ['#fff', '#000'], {}
@@ -104,6 +114,7 @@ export function Image({
             setLoading(true);
             setSource(src);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [src]);
 
     const [backgroundRef] = useHookWithRefCallback((ref) => {
@@ -116,16 +127,19 @@ export function Image({
     }, []);
 
     return (
-        <div
+        <span
             className={clsx(styles.root, className)}
-            style={style}
             ref={backgroundRef}
+            style={style}
         >
             <img
+                alt={alt}
                 className={clsx(
                     styles.image,
-                    !loading && styles.image_loaded
+                    !loading && styles.image_loaded,
+                    imageClassName
                 )}
+                style={imageStyle}
                 src={error ? defaultSrc : source}
                 onLoad={() => {
                     // Set timeout here to ensure the state of loading has time to change
@@ -147,7 +161,7 @@ export function Image({
             )}>
                 fa spinner
             </Icon>
-        </div>
+        </span>
     );
 }
 
