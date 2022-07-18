@@ -9,7 +9,8 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "storybook": "nx run storybook:storybook"
+    "storybook": "nx run storybook:storybook",
+    "build-storybook": "yarn nx run storybook:build-storybook"
   },
   "devDependencies": {
     "@babel/core": "7.12.13",
@@ -34,6 +35,7 @@
     "@svgr/webpack": "^5.4.0",
     "@testing-library/react": "13.3.0",
     "@types/jest": "27.4.1",
+    "@types/lodash": "^4.14.182",
     "@types/node": "16.11.7",
     "@types/react": "18.0.14",
     "@types/react-dom": "18.0.5",
@@ -60,6 +62,7 @@
     "url-loader": "^3.0.0"
   },
   "dependencies": {
+    "@ctrl/tinycolor": "^3.4.1",
     "@emotion/react": "11.9.3",
     "@emotion/styled": "11.9.3",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
@@ -74,7 +77,10 @@
     "@mui/types": "^7.1.4",
     "@reduxjs/toolkit": "^1.8.3",
     "core-js": "^3.6.5",
+    "history": "^5.3.0",
+    "lodash": "^4.17.21",
     "material-ui-color": "^1.2.0",
+    "moment": "^2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.2",

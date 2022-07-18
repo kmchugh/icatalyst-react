@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import CommandPanel from './CommandPanel';
+import Image from './Image';
 
-describe(CommandPanel.name, () => {
+describe(Image.name, () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<CommandPanel />);
+        const { baseElement } = render(<Image src="." />);
         expect(baseElement).toBeTruthy();
     });
 });

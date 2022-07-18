@@ -3,8 +3,7 @@ import clsx from 'clsx';
 import { BaseComponent } from '../../types';
 import { Color, ColorPicker as NativeComponent, createColor, Raw } from 'material-ui-color';
 import { useState } from 'react';
-
-// TODO: Add debounce on handleChange so dragging in the UI will not cause so many updates
+import useDebounce from '../../hooks/useDebounce';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
@@ -41,6 +40,19 @@ export function ColorPicker({
 
     const [colorValue, setColorValue] = useState<Color | null>(getColor(value || defaultColor));
 
+    const debouncedOnChange = useDebounce(
+        (
+            e: React.ChangeEvent<HTMLElement> | React.MouseEvent<HTMLButtonElement> | null,
+            color: Color
+        ) => {
+            if (!(color as any)?.error &&
+                (color as any)?.format !== 'unknown' &&
+                value !== `#${color?.hex}`
+            ) {
+                onChange && onChange(e, color?.hex || null);
+            }
+        }, 100);
+
     const handleChange = (
         e: React.ChangeEvent<HTMLElement> | React.MouseEvent<HTMLButtonElement> | null,
         color: Raw | Color | null = null
@@ -53,15 +65,8 @@ export function ColorPicker({
                 setColorValue(parsedColor);
             }
         }
-
-        if (!(parsedColor as any)?.error &&
-            (parsedColor as any)?.format !== 'unknown' &&
-            value !== `#${parsedColor?.hex}`) {
-            onChange && onChange(e, parsedColor?.hex || null);
-        }
+        debouncedOnChange(e, parsedColor);
     };
-
-
 
     return (
         <div

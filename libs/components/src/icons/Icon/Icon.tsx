@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme?: any) => {
       } = {
         inherit: 'inherit',
         small: theme.typography.pxToRem(20),
-        medium: theme.typography.pxToRem(20),
-        large: theme.typography.pxToRem(20),
+        medium: theme.typography.pxToRem(24),
+        large: theme.typography.pxToRem(36),
       };
 
       return {
