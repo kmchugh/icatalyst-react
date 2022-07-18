@@ -13,8 +13,10 @@ function useHookWithRefCallback<T = null>(
         }
         ref.current = node;
         setRef.current = node;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps) as unknown as MutableRefObject<T>;
     return [setRef];
 }
+
 
 export default useHookWithRefCallback;

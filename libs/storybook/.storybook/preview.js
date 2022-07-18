@@ -1,6 +1,5 @@
-import React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 // import { staticInit } from '@icatalyst/react/components';
 // import { createColorPalette } from '../packages/core/src/styling/colors';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
