@@ -1,4 +1,4 @@
-import { ColorInput } from "libs/@tinycolor";
+import { ColorInput } from "../../../libs";
 export declare type PaletteInput = {
     primary: ColorInput;
     secondary: ColorInput;
@@ -7,5 +7,5 @@ export declare type PaletteInput = {
     success?: ColorInput;
     info?: ColorInput;
     tint?: number;
-    [key: string]: ColorInput;
+    [key: string]: ColorInput | undefined;
 };

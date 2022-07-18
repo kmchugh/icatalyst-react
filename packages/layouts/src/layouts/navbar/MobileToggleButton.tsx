@@ -1,11 +1,9 @@
-import React, { ComponentProps, FunctionComponent } from 'react';
+import { BaseComponent, ComponentColor, IconButtonProps } from '@icatalyst/components';
+import { mostReadable, tinycolor } from '@icatalyst/core';
 import { makeStyles, useTheme } from '@mui/styles';
-import { BaseComponent, ComponentColor } from '@icatalyst/components';
+import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-// TODO : Should not be /lib;
-import { IconButton, IconButtonProps } from '@icatalyst/components/lib/buttons/IconButton';
-import { mostReadable, tinycolor } from '@icatalyst/core/lib/libs/@tinycolor';
+import IconButton from '@icatalyst/components';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
@@ -26,7 +24,8 @@ export const MobileToggleButton: FunctionComponent<MobileToggleButtonProps> = ({
     const theme: any = useTheme();
 
     const dispatch = useDispatch();
-    const layout = useSelector(({ icatalyst }) => icatalyst.settings.current.layout);
+    // @ts-expect-error
+    const layout: any = useSelector(({ icatalyst }) => icatalyst.settings.current.layout);
 
     const color: ComponentColor = mostReadable(
         tinycolor(theme.palette.background.paper),
@@ -34,11 +33,11 @@ export const MobileToggleButton: FunctionComponent<MobileToggleButtonProps> = ({
             theme.palette.secondary.main,
             theme.palette.primary.main
         ], {}
-    ).toHex8String() === 'theme.palette.secondary.main' ? 'secondary' : 'primary';
+    )?.toHex8String() === 'theme.palette.secondary.main' ? 'secondary' : 'primary';
 
     return (
         <IconButton
-            onClick={(e) => {
+            onClick={(e: any) => {
                 onClick && ((onClick as any)(e, !layout.navbar.folded));
                 // TODO : Use the correct action here
                 return dispatch({

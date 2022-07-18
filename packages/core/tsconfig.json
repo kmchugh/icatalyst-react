@@ -1,23 +1,19 @@
 {
+    "extends": "../../tsconfig.build.json",
     "compilerOptions": {
+        "rootDir": "src",
         "outDir": "lib",
-        "module": "esnext",
-        "target": "esnext",
-        "declaration": true,
-        "moduleResolution": "node",
-        "allowSyntheticDefaultImports": true,
-        "jsx": "react",
-        // https://create-react-app.dev/docs/importing-a-component/#absolute-imports
-        "baseUrl": "src"
+        "baseUrl": "./src"
     },
+    "references": [],
     "include": [
-        "src"
+        "src/**/*"
     ],
     "exclude": [
         "node_modules",
-        "lib",
+        "lib/",
         "**/*.spec.*",
         "**/*.test.*",
-        "**/*.stories.*",
+        "**/*.stories.*"
     ]
 }

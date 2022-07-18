@@ -1,7 +1,8 @@
 import { tinycolor, mostReadable } from "../../libs/@tinycolor";
 export function createColorSwatch(color) {
-    const tc = tinycolor(color);
-    const variants = {
+    var _a;
+    var tc = tinycolor(color);
+    var variants = {
         '50': tc.clone().lighten(52).toHex8String(),
         '100': tc.clone().lighten(37).toHex8String(),
         '200': tc.clone().lighten(26).toHex8String(),
@@ -22,7 +23,7 @@ export function createColorSwatch(color) {
         light: variants['200'],
         dark: variants['700'],
         compliment: tc.clone().mix(tc.clone().spin(180), 80).toHex8String(),
-        contrastText: mostReadable(tc, ['#fff', '#000'], {}).toHex8String(),
-        variants
+        contrastText: ((_a = mostReadable(tc, ['#fff', '#000'])) === null || _a === void 0 ? void 0 : _a.toHex8String()) || '#fff',
+        variants: variants
     };
 }

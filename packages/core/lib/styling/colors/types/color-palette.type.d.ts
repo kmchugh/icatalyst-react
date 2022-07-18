@@ -6,5 +6,5 @@ export declare type ColorPalette = {
     error?: ColorSwatch;
     success?: ColorSwatch;
     info?: ColorSwatch;
-    [key: string]: ColorSwatch;
+    [key: string]: ColorSwatch | undefined;
 };

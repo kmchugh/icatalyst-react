@@ -1,34 +1,21 @@
-const path = require('path');
-
 module.exports = {
-  stories: [
-    '../packages/components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../packages/layouts/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
-  ],
+  stories: [],
   addons: [
-    '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@storybook/addon-links',
     '@storybook/addon-interactions'
   ],
   staticDirs: [
-    '../public'
+    '../../../public'
   ],
-  // 'typescript': {
-  //   'check': true,
-  // },
-  framework: '@storybook/react',
-  webpackFinal: async (config) => {
-    if (!config.resolve) {
-      config.resolve = {};
-    }
+  features: {
+    storyStoreV7: true
+  }
+  // uncomment the property below if you want to apply some webpack config globally
+  // webpackFinal: async (config, { configType }) => {
+  //   // Make whatever fine-grained changes you need that should apply to all storybook configs
 
-    // Allows Storybook to pick up modules from absolute references
-    config.resolve.modules = [
-      ...(config.resolve.modules || []),
-      path.resolve(__dirname, "../packages/core/src"),
-      path.resolve(__dirname, "../packages/components/src"),
-      path.resolve(__dirname, "../packages/layouts/src"),
-    ];
-    return config;
-  },
-}
+  //   // Return the altered config
+  //   return config;
+  // },
+};

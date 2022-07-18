@@ -1,1 +1,1 @@
-export { default } from './@moment';
+export { default as moment } from './@moment';

@@ -1,2 +1,2 @@
-export { default } from './@tinycolor';
-export { tinycolor, mostReadable } from './@tinycolor';
+export { default as tinycolor } from './@tinycolor';
+export * from './@tinycolor';

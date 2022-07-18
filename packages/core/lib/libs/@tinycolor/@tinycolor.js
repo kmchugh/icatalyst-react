@@ -1,4 +1,4 @@
 import * as tcLib from '@ctrl/tinycolor';
-export default tcLib;
-export const tinycolor = tcLib.tinycolor;
-export const mostReadable = tcLib.mostReadable;
+export { default } from '@ctrl/tinycolor';
+export var tinycolor = tcLib.tinycolor;
+export var mostReadable = tcLib.mostReadable;

@@ -10,6 +10,6 @@ var URI_PATTERN = new RegExp('^(https?:\\/\\/)?' + // protocol
  * @param  {String}   value The URL to check
  * @return {Boolean}        true if valid, false otherwise
  */
-export const isURL = (value) => {
+export var isURL = function (value) {
     return !!URI_PATTERN.test(value);
 };
