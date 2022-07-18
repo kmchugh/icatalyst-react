@@ -3,12 +3,12 @@ import { mostReadable, tinycolor } from '@icatalyst/core';
 import { makeStyles, useTheme } from '@mui/styles';
 import React, { FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import IconButton from '@icatalyst/components/src/buttons/IconButton';
+import IconButton from '@icatalyst/components';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
         root: {}
-    }; ˇ
+    };
 });
 
 export type MobileToggleButtonProps = Omit<IconButtonProps, 'children'> & {
