@@ -18,7 +18,6 @@
     "**/*.spec.js",
     "**/*.test.jsx",
     "**/*.spec.jsx",
-    "**/*.d.ts",
-    "src/buttons/icon/Icon.stories.tsx"
+    "**/*.d.ts"
   ]
 }
