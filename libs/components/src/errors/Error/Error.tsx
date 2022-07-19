@@ -15,7 +15,7 @@ type Error = {
 };
 
 export interface ErrorProps extends Omit<BaseComponent<'span'>, 'children'>{
-  children : string | ReactNode | Error
+  children : ReactNode | Error
 }
 
 export function Error({
@@ -25,7 +25,7 @@ export function Error({
 }: ErrorProps) {
   const styles = useStyles();
 
-  const message = typeof children === 'string' ? children : (children as Error).message;
+  const message = children && (typeof children === 'string' ? children : (children as Error).message);
   
   return (
     <div className={clsx(styles.root, className)} style={style}>

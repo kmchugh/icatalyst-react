@@ -9,8 +9,6 @@ import { Error } from '../Error/Error';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useStyles = makeStyles((theme : any) => {
-    console.log({theme});
-    
     const background : string = mostReadable(tinycolor(theme.palette.background.default), [
         theme.palette.error.dark,
         theme.palette.error.main,
