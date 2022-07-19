@@ -1,70 +1,154 @@
-# @icatalyst/react
+<br />
+<div align="center">
+  <a href="https://singularity.com" target="blank">
+    <img src="./public/static/images/logos/vertical-mid.png?raw=true" width="101" height="128" alt="ICatalyst Logo" />
+  </a>
+  
+  <h3 align="center">@icatalyst/react</h3>
+
+  <p align="center">
+    MVP Library
+    <br />
+    <a href="https://github.com/ICatalyst-Pte-Ltd/com.icatalyst.singularity.api"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://api-dev.singularity.icatalyst.com/openapi">OpenAPI Docs</a>
+    ·
+    <a href="https://app.singularity.icatalyst.com">View Application</a>
+    ·
+    <a href="https://github.com/ICatalyst-Pte-Ltd/com.icatalyst.singularity.api/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/ICatalyst-Pte-Ltd/com.icatalyst.singularity.api/issues">Request Feature</a>
+  </p>
+</div>
+<br />
+
+# About @icatalyst/react
 > Opinionated Library for rapid application development
 
-## Creating the application
-The application defines a default directory structure.  While this is under the control of the developer it is an easy way to organise files and function.
+This library is intended to allow focus on the primary purpose of an application and let the library take care of all of the secondary tasks.
 
-* **src/** - The source directory for all custom app code
-  * **@icatalyst/** - The icatalyst react library, linked as a submodule
-  * **app/** - Application specific source code
-    * **main/** - The main application, contains the [module](#main_modules) definitions
-    * **settings/** - Application [configuration and settings](#app_configuration)
-    * **store/** - [Application state](#app_store) configuration
-    * **App.js** - Application initialisation, usually calls createApp
-    * **index.js** - Standard React entry point
-  * **styles/** - [global styles](#global_styles) that are applied to the entire app
+This library makes heavy use of Singularity to offload identity and responsibility related tasks such as RBAC.
 
-### <a name="app_configuration">Configuration and Settings</a>
+## Installation
 
-### <a name="main_modules">Modules</a>
-Modules are intended to encapsulate responsibilities within the application.
-Modules can refer to other modules and be embedded inside other modules.
-Modules created directly under the /main folder are intended to contain functionality
-that can be shared across the application, while modules created inside a module folder
-should generally only be used by the containing module.
 
-If you find yourself linking to modules that are contained within another module, you
-should consider moving the contained module to a higher level.
+## Developing
 
-Generally a module folder should have the name of the intent followed by module.
-e.g. DashboardModule, UserManagementModule.
-The folder should be structured as follows:
-
-* MyModule - The root of the module
-  * index.js - exports the route configuration for the module
-  * store - the module redux store
-    * actions - actions for this module
-    * reducers - reducers for this module
-  * components/ - contains any components that are specific to the module
-  * +<Contained>Module - child modules that are only used by this module
-
-If your module does have a store, it is typical to link that store in the
-/src/main/store/index.js
-
-This allows for separating modules functionally and only loading the required
-modules when the application loads in the browser
-
-### <a name="app_store">Application State</a>
-
-### <a name="global_styles">Global Styles</a>
-
-## Generating Navigation and Routes
-
-### <a name="route_configuration">Route Configuration</a>
-
-```
-  {
-    icon : <icon> (Optional), // Primary icon for this route
-    name : <String>, // The name of this route
-    title : <String> (Optional), // The name to display on links to this route
-    component : <Component || Functional Component> (Optional), // The component to render for this route, if not defined, defaults to MasterDetail.  Use null for no compnent.
-    path : <String> (Optional), // The path to get to this route
-    paths : [<routeConfigurations>] (Optional), // The child paths for this route
-    visible : <boolean || boolean:()=>{}> (Optional), // Function to determine if this route is visible, or boolean to hide in navigation
-    defaultRoute : <boolean> (Optional), if set to true will navigate the user to this route on accessing the root url, see [Default Route](#default_route)
-    auth : <String> || [<String>], The authorisation role or roles that have access to this route
-  }
+Install all dependencies
+```bash
+$ yarn install
 ```
 
-#### <a name="default_route">Default Route</a>
-The initial Route is derived from the routes that are available to the user.  When the user enters the application through the default route, i.e. '/', the @icatalyst/components/Root component will redirect the user to the first route available to the user that has been marked as a defaultRoute, if no available routes are marked as a defaultRoute then the user will be directed to the first available route.  For information on Routes and configuration of routes see [route configuration](#route_configuration)
+View the project graph
+```bash
+$ npx nx graph
+```
+
+```
+# Start storybook
+$ yarn storybook
+```
+
+
+
+## Contributing
+
+# TODO UPDATE DOCEMENTATION FROM HERE
+
+
+
+
+
+# TestNx
+
+This project was generated using [Nx](https://nx.dev).
+
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+
+🔎 **Smart, Fast and Extensible Build System**
+
+## Adding capabilities to your workspace
+
+Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+
+These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+
+Below are our core plugins:
+
+- [React](https://reactjs.org)
+  - `npm install --save-dev @nrwl/react`
+- Web (no framework frontends)
+  - `npm install --save-dev @nrwl/web`
+- [Angular](https://angular.io)
+  - `npm install --save-dev @nrwl/angular`
+- [Nest](https://nestjs.com)
+  - `npm install --save-dev @nrwl/nest`
+- [Express](https://expressjs.com)
+  - `npm install --save-dev @nrwl/express`
+- [Node](https://nodejs.org)
+  - `npm install --save-dev @nrwl/node`
+
+There are also many [community plugins](https://nx.dev/community) you could add.
+
+## Generate an application
+
+Run `nx g @nrwl/react:app my-app` to generate an application.
+
+> You can use any of the plugins above to generate applications as well.
+
+When using Nx, you can create multiple applications and libraries in the same workspace.
+
+## Generate a library
+
+Run `nx g @nrwl/react:lib my-lib` to generate a library.
+
+> You can also use any of the plugins above to generate libraries as well.
+
+Libraries are shareable across libraries and applications. They can be imported from `@icatalyst/react/mylib`.
+
+## Development server
+
+Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+
+## Build
+
+Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+
+## Running unit tests
+
+Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+
+Run `nx affected:test` to execute the unit tests affected by a change.
+
+## Running end-to-end tests
+
+Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+
+Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+
+## Understand your workspace
+
+Run `nx graph` to see a diagram of the dependencies of your projects.
+
+## Further help
+
+Visit the [Nx Documentation](https://nx.dev) to learn more.
+
+
+
+## ☁ Nx Cloud
+
+### Distributed Computation Caching & Distributed Task Execution
+
+<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+
+Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+
+Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+
+Visit [Nx Cloud](https://nx.app/) to learn more.
