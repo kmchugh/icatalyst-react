@@ -123,7 +123,7 @@ export function Image({
         return spinnerColor || mostReadable(derivedBackground || theme.palette.background.default,
             ['#fff', '#000'], {}
         )?.toHexString();
-    }, [spinnerColor, derivedBackground]);
+    }, [spinnerColor, derivedBackground, theme]);
 
     const styles = useStyles({
         spinnerSize,
