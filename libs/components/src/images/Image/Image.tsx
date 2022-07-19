@@ -29,10 +29,13 @@ const useStyles = makeStyles((theme: any) => {
         root: {
             position: 'relative',
             display: 'inline-block',
+            overflow: 'hidden'
         },
         image: {
             opacity: 0,
-            transition: `opacity ${theme.transitions.duration.shortest}ms linear`
+            transition: `opacity ${theme.transitions.duration.shortest}ms linear`,
+            height: '100%',
+            width: '100%'
         },
         image_loaded: {
             opacity: 1,

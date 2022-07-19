@@ -1,8 +1,9 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'react-redux';
 // import { staticInit } from '@icatalyst/react/components';
-// import { createColorPalette } from '../packages/core/src/styling/colors';
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import { createColorPalette } from '@icatalyst/react/core';
+import { Paper } from '@mui/material';
 
 // staticInit();
 
@@ -51,21 +52,34 @@ export const decorators = [
     (Story, options) => {
         const { theme } = options.parameters;
 
-        // const palette = createColorPalette({
-        //     primary: theme.primary,
-        //     secondary: theme.secondary,
-        // });
+        const palette = createColorPalette({
+            primary: theme.primary,
+            secondary: theme.secondary,
+        });
 
-        // const themeBase = createTheme({
-        //     palette: palette,
-        // });
-
-        const themeBase = createTheme({});
+        const themeBase = createTheme({
+            palette: palette,
+        });
 
         return (
             <Provider store={store}>
                 <ThemeProvider theme={themeBase}>
-                    <Story />
+                    <div style={{
+                        display: 'flex',
+                        flexDirection : 'column',
+                        flexGrow: 1,
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '16px',
+                        background : '#a3a3a3'
+                    }}>
+                        <Paper sx={{
+                            padding: '16px'
+                        }}>
+                            <Story />
+                        </Paper>
+                    </div>
                 </ThemeProvider>
             </Provider>
         );

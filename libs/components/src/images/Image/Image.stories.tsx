@@ -17,5 +17,5 @@ const Template: Story<ImageProps> = args => <Component {...args} />;
 
 export const Image = Template.bind({});
 Image.args = {
-    src: 'https://cdn.icatalyst.com/wp-content/uploads/sites/5/2014/02/27000520/gear-banner-1920x500.png'
+    src: 'https://cdn.icatalyst.com/wp-content/uploads/sites/5/2014/02/27000520/gear-banner-1920x500.png',
 };
