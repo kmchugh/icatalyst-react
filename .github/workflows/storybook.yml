@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - '@icatalyst/lerna-implement'
+      - 'main'
     paths: ['packages/**', '.storybook/**']
 jobs:
   build-and-deploy:
