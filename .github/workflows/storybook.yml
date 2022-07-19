@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - 'main'
+      - main
     paths: ['packages/**', '.storybook/**']
 jobs:
   build-and-deploy:
@@ -21,7 +21,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: 'docs' # The branch the action should deploy to.
+          BRANCH: docs # The branch the action should deploy to.
           FOLDER: dist/storybook/storybook # The folder that the build-storybook script generates files.
           CLEAN: true # Automatically remove deleted files from the deploy branch
           TARGET_FOLDER: docs # The folder that we serve our Storybook files from
