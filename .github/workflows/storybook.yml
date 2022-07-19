@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-    paths: ['packages/**', '.storybook/**']
+    paths: ['libs/**', '.storybook/**']
 jobs:
   build-and-deploy:
     concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
