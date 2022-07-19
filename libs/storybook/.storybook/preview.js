@@ -75,7 +75,7 @@ export const decorators = [
                         background : '#a3a3a3'
                     }}>
                         <Paper sx={{
-                            padding: '16px'
+                            padding: '16px',
                         }}>
                             <Story />
                         </Paper>

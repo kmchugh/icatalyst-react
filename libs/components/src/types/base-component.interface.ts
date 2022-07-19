@@ -15,6 +15,6 @@ export interface BaseComponent<T extends ElementType> extends
     onChange?: (e:
         React.ChangeEvent<HTMLElement> | React.MouseEvent<HTMLButtonElement> | null,
         value: any
-    ) => {}
+    ) => void
 };
 

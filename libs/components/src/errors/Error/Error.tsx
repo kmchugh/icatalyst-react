@@ -10,10 +10,6 @@ const useStyles = makeStyles((/*theme*/) => {
   };
 });
 
-type Error = {
-    message : string
-};
-
 export interface ErrorProps extends Omit<BaseComponent<'span'>, 'children'>{
   children : ReactNode | Error
 }
