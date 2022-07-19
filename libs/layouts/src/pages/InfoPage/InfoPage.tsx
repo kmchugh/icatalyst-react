@@ -11,7 +11,6 @@ type StyleProps = {
 };
 
 const useStyles = makeStyles((theme : any) => {
-  console.log(theme);
   return {
     root: {
       alignItems: 'center',
@@ -36,17 +35,17 @@ const useStyles = makeStyles((theme : any) => {
       )?.toHex8String() || theme.palette.primary.main;
 
       return {
-        width: theme.spacing(12),
-        height: theme.spacing(12),
-        fontSize: theme.spacing(12),
+        width: `${theme.spacing(12)}!important`,
+        height: `${theme.spacing(12)}!important`,
+        fontSize: `${theme.spacing(12)}!important`,
 
         [theme.breakpoints.up('md')]: {
-          width: theme.spacing(16),
-          height: theme.spacing(16),
-          fontSize: theme.spacing(16),
+          width:  `${theme.spacing(16)}!important`,
+          height: `${theme.spacing(16)}!important`,
+          fontSize: `${theme.spacing(16)}!important`,
         },
         marginBottom: theme.spacing(4),
-        color : iconColor
+        color : backgroundColor ? iconColor : theme.palette.primary.main
       };
     },
     contentWrapper : {
@@ -84,7 +83,7 @@ export interface InfoPageProps extends Omit<PageProps, 'children'> {
    * Can be the string for the content box or a component to render
    */
   content? : ReactNode;
-  children? : ReactNode
+  children? : ReactNode;
 }
 
 export function InfoPage({

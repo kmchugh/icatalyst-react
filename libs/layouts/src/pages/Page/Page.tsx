@@ -12,42 +12,57 @@ type StyleProps = {
 };
 
 const useStyles = makeStyles((theme : any) => {
-  return {
-    root: {
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      width: '100%',
-      textAlign: 'center',
-      position: 'relative',
-      flexShrink: 0
-    },
-    mobileNavButton : {
-      position: 'absolute',
-      top: 0,
-      left: 0
-    },
-    backgroundFn : ({backgroundColor} : StyleProps)=>{
-        return backgroundColor ? {
-            backgroundColor
-        } : {};
-    },
-    colorFn : ({backgroundColor} : StyleProps)=>{
-      const textColor : string = mostReadable(
-        backgroundColor || theme.palette.background.default,
-        [
-          theme.palette.text.primary,
-          theme.palette.primary.contrastText,
-          theme.palette.secondary.contrastText,
-        ]
-      )?.toHex8String() || theme.palette.text.primary;
+    const transparentPrimary = tinycolor(theme.palette.primary.main).setAlpha(.6).toHex8String();
+    const transparentSecondary = tinycolor(theme.palette.secondary.main).setAlpha(.6).toHex8String();
+    return {
+        root: {
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        width: '100%',
+        textAlign: 'center',
+        position: 'relative',
+        flexShrink: 0
+        },
+        mobileNavButton : {
+        position: 'absolute',
+        top: 0,
+        left: 0
+        },
+        backgroundFn : ({backgroundColor} : StyleProps)=>{
+            return backgroundColor ? {
+                backgroundColor
+            } : {};
+        },
+        iconColorFn : ({backgroundColor} : StyleProps)=>{
+            const textColor : string = mostReadable(
+            backgroundColor || theme.palette.background.default,
+            [
+                transparentPrimary,
+                transparentSecondary
+            ]
+            )?.toHex8String() || theme.palette.action.active;
+    
+            return {
+                color : textColor
+            };
+        },
+        colorFn : ({backgroundColor} : StyleProps)=>{
+        const textColor : string = mostReadable(
+            backgroundColor || theme.palette.background.default,
+            [
+            theme.palette.text.primary,
+            theme.palette.primary.contrastText,
+            theme.palette.secondary.contrastText,
+            ]
+        )?.toHex8String() || theme.palette.text.primary;
 
-      return {
-        color : textColor
-      };
-    }
-  };
+        return {
+            color : textColor
+        };
+        }
+    };
 });
 
 export interface PageProps extends ContainerComponent<'div'> {
@@ -113,12 +128,20 @@ export const Page = forwardRef(({
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
         (!toolbar.display && renderNavigation) && (
-          <Hidden lgUp>
-            <NavigationToggleButton className={clsx(
-                styles.mobileNavButton,
-                styles.colorFn
-            )}/>
-          </Hidden>
+            <div style={{
+                minHeight : 10,
+                minWidth: 10,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+            }}>
+                <Hidden lgUp>
+                    <NavigationToggleButton className={clsx(
+                        styles.mobileNavButton,
+                        styles.iconColorFn
+                    )}/>
+                </Hidden>
+            </div>
         )
       }
         {children}
