@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: any) => {
             display: 'none',
 
             [theme.breakpoints.down('lg')]: {
-                display: 'block'
+                display: 'inline-flex'
             }
         },
         navigationFn: ({ renderNavigation }: StyleProps) => {
