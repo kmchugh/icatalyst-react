@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme: any) => {
             flexShrink: 0,
         },
         mobileNavButton: {
-            position: 'absolute!important',
+            position: 'absolute!important' as 'absolute',
             top: theme.spacing(.5),
             left: theme.spacing(1),
             display: 'none',
 
             [theme.breakpoints.down('lg')]: {
-                display: 'block'
+                display: 'inline-flex'
             }
         },
         navigationFn: ({ renderNavigation }: StyleProps) => {
