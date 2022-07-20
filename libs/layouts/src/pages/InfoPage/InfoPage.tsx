@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme : any) => {
     root: {
       alignItems: 'center',
       justifyContent: 'center',
+      textAlign: 'center',
     },
     title : {
       marginBottom: theme.spacing(2),
@@ -94,7 +95,8 @@ export function InfoPage({
   icon,
   excerpt,
   content,
-  backgroundColor
+  backgroundColor,
+  ...rest
 }: InfoPageProps) {
   
   // icon could be the icon text, or could be a full node
@@ -132,6 +134,7 @@ export function InfoPage({
         backgroundColor={backgroundColor}
         style={style}
         ref={pageRef}
+        {...rest}
     >
       {
         // Render the IconName or the specified icon Component

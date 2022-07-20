@@ -21,7 +21,8 @@ export const parameters = {
     theme: {
         primary: '#239ddb',
         secondary: '#191b21',
-    }
+    },
+    storyPadding : '16px'
 }
 
 const icatalystSlice = createSlice({
@@ -75,7 +76,8 @@ export const decorators = [
                         background : '#a3a3a3'
                     }}>
                         <Paper sx={{
-                            padding: '16px',
+                            padding: options.parameters.storyPadding,
+                            overflow: 'hidden'
                         }}>
                             <Story />
                         </Paper>
