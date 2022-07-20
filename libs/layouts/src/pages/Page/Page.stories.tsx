@@ -8,6 +8,7 @@ const meta: Meta = {
     },
     parameters: {
         controls: { expanded: true },
+        storyPadding: '0'
     },
 };
 
@@ -21,5 +22,6 @@ Page.args = {
         minWidth: '80vw',
         minHeight: '70vh'
     },
-    children : 'child content'
+    children : 'child content',
+    imageSrc : 'https://cdn.icatalyst.com/wp-content/uploads/sites/5/2014/02/27000520/gear-banner-1920x500.png'
 };

@@ -1,19 +1,22 @@
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { ComponentAlignmentHorizontal, ComponentAlignmentVertical, ContainerComponent, ImageFit } from '../../types';
-import {tinycolor} from '@icatalyst/react/core';
+import { tinycolor } from '@icatalyst/react/core';
+import { ForwardedRef, forwardRef, RefObject, useEffect, useState } from 'react';
+import { useHookWithRefCallback } from '../../hooks';
 
 type StyleArgs = {
-    verticalAlign : ComponentAlignmentVertical,
-    horizontalAlign : ComponentAlignmentHorizontal,
-    imageSrc? : string,
-    imageFit? : ImageFit,
-    imagePosition? : ComponentAlignmentVertical,
-    imageAlpha? : number
+    verticalAlign: ComponentAlignmentVertical,
+    horizontalAlign: ComponentAlignmentHorizontal,
+    imageSrc?: string,
+    imageFit?: ImageFit,
+    imagePosition?: ComponentAlignmentVertical,
+    imageAlpha?: number,
+    backgroundColor?: string
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const useStyles = makeStyles((theme : any) => {
+const useStyles = makeStyles((theme: any) => {
     return {
         root: {
             display: 'flex',
@@ -29,17 +32,17 @@ const useStyles = makeStyles((theme : any) => {
             padding: theme.spacing(3)
         },
         containerImageFn: ({ imageSrc, imageFit, imagePosition }: StyleArgs) => {
-            return {
+            return imageSrc ? {
                 backgroundImage: `url('${imageSrc}')`,
                 objectFit: imageFit,
                 backgroundSize: imageFit === 'fill' ? 'auto' : imageFit,
                 backgroundPosition: imagePosition
-            };
+            } : {};
         },
-        opacityFn: ({ imageSrc, imageAlpha = 1 }: StyleArgs) => {
+        opacityFn: ({ imageSrc, imageAlpha = 1, backgroundColor }: StyleArgs) => {
             return imageSrc ? {
                 background: tinycolor(
-                    theme.palette.background.default
+                    backgroundColor || theme.palette.background.default
                 ).setAlpha(1 - imageAlpha).toHex8String(),
             } : {};
         },
@@ -71,16 +74,21 @@ const useStyles = makeStyles((theme : any) => {
     };
 });
 
-export interface ContainerProps extends ContainerComponent<"div">{
+export interface ContainerProps extends ContainerComponent<"div"> {
     verticalAlign?: ComponentAlignmentVertical,
     horizontalAlign?: ComponentAlignmentHorizontal,
+    /**
+     * Sets the background color and text updates to reflect most readable
+     */
+    backgroundColor?: string,
     imageSrc?: string,
     imagePosition?: ComponentAlignmentVertical,
     imageFit?: ImageFit,
-    imageAlpha?: number
+    imageAlpha?: number,
+    ref?: RefObject<HTMLElement>;
 };
 
-export function Container({
+export const Container = forwardRef(({
     className,
     style,
     children,
@@ -89,17 +97,38 @@ export function Container({
     imageSrc,
     imageFit = 'cover',
     imagePosition = 'center',
-    imageAlpha = .1,
+    imageAlpha = .05,
+    backgroundColor,
     ...rest
-}: ContainerProps) {
+}: ContainerProps, ref) => {
+    // TODO: Create a useBackgroundColor hook which will get the parent element with a background set and extract the color
+    const [derivedBackground, setDerivedBackground] = useState<string | undefined>(backgroundColor);
+
+    useEffect(() => {
+        setDerivedBackground(backgroundColor);
+    }, [backgroundColor]);
+
     const styles = useStyles({
         verticalAlign,
         horizontalAlign,
         imageSrc,
         imageFit,
         imagePosition,
-        imageAlpha
+        imageAlpha,
+        backgroundColor
     });
+
+    // TODO: Update ref handling
+
+    const [pageRef] = useHookWithRefCallback((newRef) => {
+        if (newRef && !derivedBackground) {
+            const color = tinycolor(getComputedStyle(newRef).backgroundColor);
+            if (color.getAlpha() > 0) {
+                setDerivedBackground(color.toHex8String());
+            }
+        }
+    }, []);
+
 
     return (
         <div
@@ -108,11 +137,12 @@ export function Container({
                 !imageSrc && styles.containerRoot,
                 !imageSrc && styles.contentAlignFn,
                 styles.containerImageFn,
-                className
+                // className
             )}
+            ref={pageRef}
             style={style}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            {...((!imageSrc ? {} : {...rest}) as any)}
+            {...((!imageSrc ? {} : { ...rest }) as any)}
         >
             {imageSrc && (
                 <div
@@ -135,6 +165,6 @@ export function Container({
             )}
         </div>
     );
-}
+});
 
 export default Container;
