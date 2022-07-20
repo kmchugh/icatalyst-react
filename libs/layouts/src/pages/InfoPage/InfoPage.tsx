@@ -1,14 +1,14 @@
-import { ComponentColor, Icon, useHookWithRefCallback } from '@icatalyst/react/components';
-import { mostReadable, tinycolor } from '@icatalyst/react/core';
+import { ComponentColor, ContainerRef, Icon } from '@icatalyst/react/components';
+import { mostReadable } from '@icatalyst/react/core';
 import { Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
-import { ReactNode, useEffect, useState } from 'react';
+import { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
 import Page, { PageProps } from '../Page';
 
 type StyleProps = {
-  backgroundColor?: string;
-  iconColor?: string;
+  backgroundColor: string;
+  iconColor: string;
 };
 
 const useStyles = makeStyles((theme: any) => {
@@ -25,41 +25,29 @@ const useStyles = makeStyles((theme: any) => {
     content: {
       marginBottom: theme.spacing(2),
     },
-    iconFn: ({ backgroundColor, iconColor }: StyleProps) => {
-      // If an icon color is specified then choose the best variant
-      let color: string | undefined = theme.palette.primary.main;
-      const derivedBackground: string = backgroundColor || theme.palette.background.default;
+    icon: {
+      width: `${theme.spacing(12)}!important`,
+      height: `${theme.spacing(12)}!important`,
+      fontSize: `${theme.spacing(12)}!important`,
 
-      if (iconColor) {
-        color = mostReadable(
-          derivedBackground,
-          [
-            theme.palette[iconColor].main,
-            theme.palette[iconColor].light,
-            theme.palette[iconColor].dark,
-          ]
-        )?.toHex8String();
-      } else {
-        color = backgroundColor ? mostReadable(
-          derivedBackground,
-          [
-            theme.palette.primary.main,
-            theme.palette.secondary.main
-          ]
-        )?.toHex8String() : theme.palette.primary.main;
-      }
+      [theme.breakpoints.up('md')]: {
+        width: `${theme.spacing(16)}!important`,
+        height: `${theme.spacing(16)}!important`,
+        fontSize: `${theme.spacing(16)}!important`,
+      },
+      marginBottom: theme.spacing(4),
+    },
+    iconColorFn: ({ backgroundColor, iconColor }: StyleProps) => {
+      const color = mostReadable(
+        backgroundColor,
+        [
+          theme.palette[iconColor].main,
+          theme.palette[iconColor].light,
+          theme.palette[iconColor].dark,
+        ]
+      )?.toHex8String();
 
       return {
-        width: `${theme.spacing(12)}!important`,
-        height: `${theme.spacing(12)}!important`,
-        fontSize: `${theme.spacing(12)}!important`,
-
-        [theme.breakpoints.up('md')]: {
-          width: `${theme.spacing(16)}!important`,
-          height: `${theme.spacing(16)}!important`,
-          fontSize: `${theme.spacing(16)}!important`,
-        },
-        marginBottom: theme.spacing(4),
         color: color
       };
     },
@@ -68,7 +56,7 @@ const useStyles = makeStyles((theme: any) => {
     },
     captionColorFn: ({ backgroundColor }: StyleProps) => {
       const textColor: string = mostReadable(
-        backgroundColor || theme.palette.background.default,
+        backgroundColor,
         [
           theme.palette.text.disabled,
           theme.palette.text.secondary,
@@ -102,7 +90,7 @@ export interface InfoPageProps extends Omit<PageProps, 'children'> {
   children?: ReactNode;
 }
 
-export function InfoPage({
+export const InfoPage = forwardRef(({
   className,
   style,
   children,
@@ -111,36 +99,40 @@ export function InfoPage({
   excerpt,
   content,
   backgroundColor,
-  iconColor,
+  iconColor = 'primary',
   ...rest
-}: InfoPageProps) {
+}: InfoPageProps, ref) => {
+  const theme: any = useTheme();
 
   // icon could be the icon text, or could be a full node
   const iconName = typeof icon === 'string' ? icon : null;
   const excerptText = typeof excerpt === 'string' ? excerpt : null;
   const contentText = typeof content === 'string' ? content : null;
 
-  // TODO: Create a useBackgroundColor hook which will get the parent element with a background set and extract the color
-  const [derivedBackground, setDerivedBackground] = useState<string | undefined>(backgroundColor);
+  const [derivedBackground, setDerivedBackground] = useState<string>();
+  const [innerRef, setInnerRef] = useState<ContainerRef>();
 
-  useEffect(() => {
-    setDerivedBackground(backgroundColor);
-  }, [backgroundColor]);
+  const containerRef = useCallback((node: ContainerRef) => {
+    setDerivedBackground(node?.backgroundColor || theme.palette.background.default);
+    setInnerRef(node);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const styles = useStyles({
-    backgroundColor,
+    backgroundColor: derivedBackground || theme.palette.background.default,
     iconColor
   });
 
-  const [pageRef] = useHookWithRefCallback((ref) => {
-    if (ref && !derivedBackground) {
-      const color = tinycolor(getComputedStyle(ref).backgroundColor);
-      if (color.getAlpha() > 0) {
-        setDerivedBackground(color.toHex8String());
-      }
+  useEffect(() => {
+    if (!containerRef || !ref) {
+      return;
     }
-  }, []);
-
+    if (typeof ref === 'function') {
+      ref(innerRef);
+    } else {
+      ref.current = innerRef;
+    }
+  }, [innerRef, containerRef, ref]);
 
   return (
     <Page
@@ -152,14 +144,17 @@ export function InfoPage({
       style={style}
       verticalAlign="center"
       horizontalAlign="center"
-      ref={pageRef}
+      ref={containerRef}
       {...rest}
     >
       {
         // Render the IconName or the specified icon Component
         iconName ? (
           <Icon
-            className={clsx(styles.iconFn)}
+            className={clsx(
+              styles.icon,
+              styles.iconColorFn
+            )}
             color={iconColor}
           >
             {iconName}
@@ -211,6 +206,6 @@ export function InfoPage({
 
     </Page>
   );
-}
+});
 
 export default InfoPage;

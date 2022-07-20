@@ -1,12 +1,12 @@
-import { Container, ContainerProps, NavigationToggleButton, useHookWithRefCallback } from '@icatalyst/react/components';
+import { Container, ContainerProps, ContainerRef, NavigationToggleButton } from '@icatalyst/react/components';
 import { mostReadable, tinycolor } from '@icatalyst/react/core';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 type StyleProps = {
-    backgroundColor?: string;
+    backgroundColor: string;
     renderNavigation?: boolean;
 };
 
@@ -40,14 +40,9 @@ const useStyles = makeStyles((theme: any) => {
                 }
             } : {};
         },
-        backgroundFn: ({ backgroundColor }: StyleProps) => {
-            return backgroundColor ? {
-                backgroundColor
-            } : {};
-        },
         iconColorFn: ({ backgroundColor }: StyleProps) => {
             const textColor: string = mostReadable(
-                backgroundColor || theme.palette.background.default,
+                backgroundColor,
                 [
                     transparentPrimary,
                     transparentSecondary
@@ -60,7 +55,7 @@ const useStyles = makeStyles((theme: any) => {
         },
         colorFn: ({ backgroundColor }: StyleProps) => {
             const textColor: string = mostReadable(
-                backgroundColor || theme.palette.background.default,
+                backgroundColor,
                 [
                     theme.palette.text.primary,
                     theme.palette.primary.contrastText,
@@ -68,6 +63,10 @@ const useStyles = makeStyles((theme: any) => {
                 ]
             )?.toHex8String() || theme.palette.text.primary;
 
+            // console.log('textcolor', {
+            //     backgroundColor,
+            //     textColor
+            // });
             return {
                 color: textColor
             };
@@ -90,15 +89,20 @@ export const Page = forwardRef(({
     renderNavigation = true,
     ...rest
 }: PageProps, ref) => {
-    // TODO: Create a useBackgroundColor hook which will get the parent element with a background set and extract the color
-    const [derivedBackground, setDerivedBackground] = useState<string | undefined>(backgroundColor);
 
-    useEffect(() => {
-        setDerivedBackground(backgroundColor);
-    }, [backgroundColor]);
+    const theme: any = useTheme();
+    const [derivedBackground, setDerivedBackground] = useState<string>();
+    const [innerRef, setInnerRef] = useState<ContainerRef>();
+
+    // const containerRef = useRef<ContainerRef | undefined | null>();
+    const containerRef = useCallback((node: ContainerRef) => {
+        setDerivedBackground(node?.backgroundColor || theme.palette.background.default);
+        setInnerRef(node);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const styles = useStyles({
-        backgroundColor,
+        backgroundColor: derivedBackground || theme.palette.background.default,
         renderNavigation
     });
 
@@ -110,27 +114,28 @@ export const Page = forwardRef(({
         }
     }>(({ icatalyst }) => icatalyst.settings.current.layout);
 
-    const [pageRef] = useHookWithRefCallback((ref) => {
-        if (ref && !derivedBackground) {
-            const color = tinycolor(getComputedStyle(ref).backgroundColor);
-            if (color.getAlpha() > 0) {
-                setDerivedBackground(color.toHex8String());
-            }
+    useEffect(() => {
+        if (!containerRef || !ref) {
+            return;
         }
-    }, []);
-
+        if (typeof ref === 'function') {
+            ref(innerRef);
+        } else {
+            ref.current = innerRef;
+        }
+    }, [innerRef, containerRef, ref]);
 
     return (
         <Container
             className={clsx(
                 styles.root,
                 styles.colorFn,
-                styles.backgroundFn,
                 styles.navigationFn,
                 className
             )}
             style={style}
-            ref={pageRef}
+            ref={containerRef}
+            backgroundColor={backgroundColor}
             {...rest}
         >
             {

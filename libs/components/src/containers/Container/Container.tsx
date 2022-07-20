@@ -1,18 +1,18 @@
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
 import { ComponentAlignmentHorizontal, ComponentAlignmentVertical, ContainerComponent, ImageFit } from '../../types';
 import { tinycolor } from '@icatalyst/react/core';
-import { ForwardedRef, forwardRef, RefObject, useEffect, useState } from 'react';
+import { forwardRef, Ref, RefObject, useEffect, useImperativeHandle, useState } from 'react';
 import { useHookWithRefCallback } from '../../hooks';
 
 type StyleArgs = {
-    verticalAlign: ComponentAlignmentVertical,
-    horizontalAlign: ComponentAlignmentHorizontal,
-    imageSrc?: string,
-    imageFit?: ImageFit,
-    imagePosition?: ComponentAlignmentVertical,
-    imageAlpha?: number,
-    backgroundColor?: string
+    verticalAlign: ComponentAlignmentVertical;
+    horizontalAlign: ComponentAlignmentHorizontal;
+    imageSrc?: string;
+    imageFit?: ImageFit;
+    imagePosition?: ComponentAlignmentVertical;
+    imageAlpha?: number;
+    backgroundColor?: string | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: any) => {
         },
         opacityFn: ({ imageSrc, imageAlpha = 1, backgroundColor }: StyleArgs) => {
             return imageSrc ? {
-                background: tinycolor(
+                backgroundColor: tinycolor(
                     backgroundColor || theme.palette.background.default
                 ).setAlpha(1 - imageAlpha).toHex8String(),
             } : {};
@@ -75,37 +75,60 @@ const useStyles = makeStyles((theme: any) => {
 });
 
 export interface ContainerProps extends ContainerComponent<"div"> {
-    verticalAlign?: ComponentAlignmentVertical,
-    horizontalAlign?: ComponentAlignmentHorizontal,
+    verticalAlign?: ComponentAlignmentVertical;
+    horizontalAlign?: ComponentAlignmentHorizontal;
     /**
      * Sets the background color and text updates to reflect most readable
      */
-    backgroundColor?: string,
-    imageSrc?: string,
-    imagePosition?: ComponentAlignmentVertical,
-    imageFit?: ImageFit,
-    imageAlpha?: number,
-    ref?: RefObject<HTMLElement>;
+    backgroundColor?: string;
+    imageSrc?: string;
+    imagePosition?: ComponentAlignmentVertical;
+    imageFit?: ImageFit;
+    imageAlpha?: number;
+    ref?: RefObject<ContainerRef>;
 };
 
-export const Container = forwardRef(({
-    className,
-    style,
-    children,
-    verticalAlign = 'top',
-    horizontalAlign = 'left',
-    imageSrc,
-    imageFit = 'cover',
-    imagePosition = 'center',
-    imageAlpha = .05,
-    backgroundColor,
-    ...rest
-}: ContainerProps, ref) => {
+export interface ContainerRef {
+    component: HTMLDivElement;
+    backgroundColor: string | null;
+};
+
+export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRef>) => {
+    const {
+        className,
+        style,
+        children,
+        verticalAlign = 'top',
+        horizontalAlign = 'left',
+        imageSrc,
+        imageFit = 'cover',
+        imagePosition = 'center',
+        imageAlpha = .05,
+        backgroundColor = null,
+        ...rest
+    } = props;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const theme: any = useTheme();
+
     // TODO: Create a useBackgroundColor hook which will get the parent element with a background set and extract the color
-    const [derivedBackground, setDerivedBackground] = useState<string | undefined>(backgroundColor);
+    const [derivedBackground, setDerivedBackground] = useState<string | null>(null);
 
     useEffect(() => {
-        setDerivedBackground(backgroundColor);
+        let color = backgroundColor;
+        if (color) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const parsedColor = tinycolor(backgroundColor!);
+            color = parsedColor.isValid ? parsedColor.toHex8String() : null;
+        }
+        if (color !== derivedBackground) {
+            // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
+            if (ref.current) {
+                // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
+                ref.current.backgroundColor = color;
+            }
+            setDerivedBackground(color);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [backgroundColor]);
 
     const styles = useStyles({
@@ -115,20 +138,31 @@ export const Container = forwardRef(({
         imageFit,
         imagePosition,
         imageAlpha,
-        backgroundColor
+        backgroundColor: derivedBackground || theme.palette.background.primary
     });
 
-    // TODO: Update ref handling
-
-    const [pageRef] = useHookWithRefCallback((newRef) => {
+    const [pageRef] = useHookWithRefCallback<HTMLDivElement>((newRef) => {
         if (newRef && !derivedBackground) {
             const color = tinycolor(getComputedStyle(newRef).backgroundColor);
             if (color.getAlpha() > 0) {
-                setDerivedBackground(color.toHex8String());
+                const extractedColor = color.toHex8String();
+                setDerivedBackground(extractedColor);
+                // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
+                if (ref?.current) {
+                    // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
+                    ref.current.backgroundColor = extractedColor;
+                }
             }
         }
     }, []);
 
+    useImperativeHandle(ref, () => {
+        return {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            component: pageRef.current!,
+            backgroundColor: derivedBackground
+        };
+    }, [pageRef, derivedBackground]);
 
     return (
         <div
@@ -137,7 +171,7 @@ export const Container = forwardRef(({
                 !imageSrc && styles.containerRoot,
                 !imageSrc && styles.contentAlignFn,
                 styles.containerImageFn,
-                // className
+                !imageSrc && className
             )}
             ref={pageRef}
             style={style}
@@ -166,5 +200,6 @@ export const Container = forwardRef(({
         </div>
     );
 });
+Container.displayName = 'Container';
 
 export default Container;

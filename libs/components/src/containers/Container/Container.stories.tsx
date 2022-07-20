@@ -5,6 +5,11 @@ import { Container as Component, ContainerProps } from './Container';
 const meta: Meta = {
     component: Component,
     argTypes: {
+        backgroundColor: {
+            control: {
+                type: 'color',
+            },
+        },
     },
     parameters: {
         controls: { expanded: true },
