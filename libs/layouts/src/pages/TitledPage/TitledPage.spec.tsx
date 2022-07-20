@@ -4,7 +4,7 @@ import TitledPage from './TitledPage';
 
 describe(TitledPage.name, () => {
     it('should render successfully', () => {
-        const { baseElement } = render(<TitledPage title="A test title" />);
+        const { baseElement } = render(<TitledPage title="A test title">Some content</TitledPage>);
         expect(baseElement).toBeTruthy();
     });
 });
