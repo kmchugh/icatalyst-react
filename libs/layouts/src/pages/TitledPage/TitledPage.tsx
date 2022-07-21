@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 import Page, { PageProps } from '../Page';
-import PageHeader from './components/PageHeader/PageHeader';
+import PageHeader from '../components/PageHeader/PageHeader';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
