@@ -10,3 +10,6 @@ export * from './Page';
 
 export { default as TitledPage } from './TitledPage/TitledPage';
 export * from './TitledPage';
+
+export { default as WebPage } from './WebPage/WebPage';
+export * from './WebPage';
