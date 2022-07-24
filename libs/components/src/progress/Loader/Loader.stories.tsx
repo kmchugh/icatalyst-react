@@ -22,4 +22,5 @@ const Template: Story<LoaderProps> = args => <Component {...args} />;
 
 export const Loader = Template.bind({});
 Loader.args = {
+    title: 'Loading...'
 };

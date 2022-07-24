@@ -7,7 +7,7 @@ const useStyles = makeStyles((/*theme*/) => {
     return {
         root: {},
         container: {
-            background: 'aliceblue'
+            flexGrow: 1
         }
     };
 });

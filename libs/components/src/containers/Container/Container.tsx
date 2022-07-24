@@ -88,8 +88,7 @@ export interface ContainerProps extends ContainerComponent<"div"> {
     ref?: RefObject<ContainerRef>;
 };
 
-export interface ContainerRef {
-    component: HTMLDivElement;
+export interface ContainerRef extends HTMLDivElement {
     backgroundColor: string | null;
 };
 
@@ -122,7 +121,7 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
         }
         if (color !== derivedBackground) {
             // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
-            if (ref.current) {
+            if (ref?.current) {
                 // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
                 ref.current.backgroundColor = color;
             }
@@ -157,11 +156,9 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
     }, []);
 
     useImperativeHandle(ref, () => {
-        return {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            component: pageRef.current!,
-            backgroundColor: derivedBackground
-        };
+        // @ts-expect-error required because of modals in mui
+        pageRef.current.backgroundColor = derivedBackground;
+        return pageRef.current as ContainerRef;
     }, [pageRef, derivedBackground]);
 
     return (
