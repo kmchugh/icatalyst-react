@@ -1,9 +1,8 @@
-import { Container, ContainerProps, ContainerRef, NavigationToggleButton } from '@icatalyst/react/components';
+import { Container, ContainerProps, ContainerRef, NavigationToggleButton, useSettingsSelector } from '@icatalyst/react/components';
 import { mostReadable, tinycolor } from '@icatalyst/react/core';
 import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 
 type StyleProps = {
     backgroundColor: string;
@@ -63,10 +62,6 @@ const useStyles = makeStyles((theme: any) => {
                 ]
             )?.toHex8String() || theme.palette.text.primary;
 
-            // console.log('textcolor', {
-            //     backgroundColor,
-            //     textColor
-            // });
             return {
                 color: textColor
             };
@@ -106,13 +101,9 @@ export const Page = forwardRef(({
         renderNavigation
     });
 
-    const { toolbar = {
-        display: false
-    } } = useSelector<any, {
-        toolbar: {
-            display: boolean
-        }
-    }>(({ icatalyst }) => icatalyst.settings.current.layout);
+    const { toolbar } = useSettingsSelector((settings) => {
+        return settings.current?.layout;
+    });
 
     useEffect(() => {
         if (!containerRef || !ref) {

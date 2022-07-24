@@ -1,10 +1,11 @@
+import { Modal } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
+import IframeResizer from 'iframe-resizer-react';
 import { useState } from 'react';
-import { ContainerProps } from '../Container';
-import Iframe from 'react-iframe';
-import { Modal } from '@mui/material';
 import { Loader } from '../../progress';
+import { ContainerProps } from '../Container';
+
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
@@ -14,14 +15,17 @@ const useStyles = makeStyles((/*theme*/) => {
             height: '100%',
             '& > div': {
                 position: 'absolute!important'
-            }
+            },
+            display: 'flex',
+            flexDirection: 'column'
         },
         modalWrapper: {
             width: '100%',
             height: '100%'
         },
         iframe: {
-            border: 'none'
+            border: 'none',
+            flexGrow: 1
         },
         modalBackdrop: {
             position: 'absolute'
@@ -72,17 +76,21 @@ export function WebContainer({
             style={style}
             id={id}
         >
-            <Iframe
+            <IframeResizer
                 className={clsx(styles.iframe)}
                 title={title}
-                url={src}
-                width="100%"
-                height="100%"
-                // @ts-expect-error sandbox is typed as individual strings but accepts delimited strings
+                id={`${id}_iframe`}
+                src={src}
                 sandbox={sandbox.join(' ')}
                 onLoad={() => {
                     setLoaded(true);
                 }}
+                style={{
+                    width: '1px',
+                    minWidth: '100%',
+                }}
+                autoResize
+                scrolling
             />
 
             <Modal

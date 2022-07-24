@@ -4,6 +4,8 @@ import { ComponentAlignmentHorizontal, ComponentAlignmentVertical, ContainerComp
 import { tinycolor } from '@icatalyst/react/core';
 import { forwardRef, Ref, RefObject, useEffect, useImperativeHandle, useState } from 'react';
 import { useHookWithRefCallback } from '../../hooks';
+import { Paper } from '@mui/material';
+import { lodash as _ } from '@icatalyst/react/core';
 
 type StyleArgs = {
     verticalAlign: ComponentAlignmentVertical;
@@ -86,10 +88,10 @@ export interface ContainerProps extends ContainerComponent<"div"> {
     imageFit?: ImageFit;
     imageAlpha?: number;
     ref?: RefObject<ContainerRef>;
+    elevation?: number;
 };
 
-export interface ContainerRef {
-    component: HTMLDivElement;
+export interface ContainerRef extends HTMLDivElement {
     backgroundColor: string | null;
 };
 
@@ -105,6 +107,7 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
         imagePosition = 'center',
         imageAlpha = .05,
         backgroundColor = null,
+        elevation = 0,
         ...rest
     } = props;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,7 +125,7 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
         }
         if (color !== derivedBackground) {
             // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
-            if (ref.current) {
+            if (ref?.current) {
                 // @ts-expect-error typing specified ref could be an instance or fuction, that is basically what we are chacking here
                 ref.current.backgroundColor = color;
             }
@@ -157,15 +160,13 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
     }, []);
 
     useImperativeHandle(ref, () => {
-        return {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            component: pageRef.current!,
-            backgroundColor: derivedBackground
-        };
+        // @ts-expect-error required because of modals in mui
+        pageRef.current.backgroundColor = derivedBackground;
+        return pageRef.current as ContainerRef;
     }, [pageRef, derivedBackground]);
 
     return (
-        <div
+        <Paper
             className={clsx(
                 styles.root,
                 !imageSrc && styles.containerRoot,
@@ -175,6 +176,7 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
             )}
             ref={pageRef}
             style={style}
+            elevation={_.clamp(elevation, 0, 24)}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             {...((!imageSrc ? {} : { ...rest }) as any)}
         >
@@ -197,7 +199,7 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
             {!imageSrc && (
                 children
             )}
-        </div>
+        </Paper>
     );
 });
 Container.displayName = 'Container';

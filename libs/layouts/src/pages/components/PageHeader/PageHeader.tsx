@@ -1,10 +1,9 @@
-import { BaseComponent, ComponentSize, IconButton, IconButtonProps, NavigationToggleButton } from '@icatalyst/react/components';
+import { BaseComponent, ComponentColor, ComponentSize, IconButton, IconButtonProps, NavigationToggleButton, useSettingsSelector } from '@icatalyst/react/components';
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { isValidElement, ReactNode } from 'react';
-import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme: any) => {
     return {
@@ -89,13 +88,9 @@ export function PageHeader({
         large: 'h2'
     };
 
-    const { toolbar = {
-        display: false
-    } } = useSelector<any, {
-        toolbar: {
-            display: boolean
-        }
-    }>(({ icatalyst }) => icatalyst.settings.current.layout);
+    const { toolbar } = useSettingsSelector((settings) => {
+        return settings.current?.layout;
+    });
 
     return (
         <div
@@ -134,9 +129,10 @@ export function PageHeader({
                             }
                             const iconProps = action as IconButtonProps;
                             return <IconButton
+                                key={iconProps.icon}
                                 {...iconProps}
                                 size={iconProps.size || 'small'}
-                                color={iconProps.color || 'primary'}
+                                color={iconProps.color || 'primary' as ComponentColor}
                             />;
                         }).filter(i => i)
                     }

@@ -1,6 +1,7 @@
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector, useSettingsSelector } from '../../store/hooks';
 import { BaseComponent } from '../../types';
 import IconButton from '../IconButton';
 
@@ -33,8 +34,17 @@ export function NavigationToggleButton({
 }: NavigationToggleButtonProps) {
     const styles = useStyles();
 
-    const dispatch = useDispatch();
-    const { navbar } = useSelector<any, any>(({ icatalyst }) => icatalyst.settings.current.layout);
+    const dispatch = useAppDispatch();
+    const { navbar = {
+        folded: true
+    } } = useSettingsSelector((settings) => {
+        console.error('CHECK THE PROPER KEY');
+        console.log(settings);
+        return settings.test || {};
+    });
+
+    // const dispatch = useDispatch();
+    // const { navbar } = useSelector<any, any>(({ icatalyst }) => icatalyst.settings.current.layout);
 
     return (
         <IconButton
@@ -46,13 +56,14 @@ export function NavigationToggleButton({
             onClick={(e) => {
                 onClick && onClick(e, !navbar.folded);
                 // TODO: Sort out Actions
-                return dispatch(
-                    {
-                        type: 'navbar toggle',
-                        payload: !navbar.folded
-                    }
-                    // Actions.navbarToggle()
-                )
+                console.error('TOGGLE NAVBAR');
+                // return dispatch(
+                //     {
+                //         type: 'navbar toggle',
+                //         payload: !navbar.folded
+                //     }
+                //     // Actions.navbarToggle()
+                // )
             }}
         />
     );

@@ -1,11 +1,5 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Provider } from 'react-redux';
-// import { staticInit } from '@icatalyst/react/components';
-import { configureStore, createSlice } from '@reduxjs/toolkit';
-import { createColorPalette } from '@icatalyst/react/core';
-import { Paper } from '@mui/material';
-
-// staticInit();
+import { createApp, createStore } from '@icatalyst/react/components';
+import { StoryBookLayout } from '../src/lib/StoryBookLayout';
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
 // TODO: Look at using this for theme generation
@@ -22,68 +16,30 @@ export const parameters = {
         primary: '#239ddb',
         secondary: '#191b21',
     },
-    storyPadding : '16px'
+    storyPadding : '16px',
+    fullSize : false
 }
 
-const icatalystSlice = createSlice({
-    name: 'icatalyst',
-    initialState: {
-        settings: {
-            current: {
-                layout: {
-                    navbar: {
-                        folded: false
-                    }
-                }
-            }
-        }
-    },
-    reducers: {}
+const App = createApp({
+    store: createStore({}),
+    layouts : [{
+        name : 'storybook',
+        component : StoryBookLayout,
+    }],
+    themes: [{
+        primary: '#239ddb',
+        secondary: '#191b21',
+    }]
 });
-
-// TODO: Update the createStore to use slices
-const store = configureStore({
-    reducer: {
-        icatalyst: icatalystSlice.reducer
-    },
-});
-
 
 export const decorators = [
-    (Story, options) => {
-        const { theme } = options.parameters;
-
-        const palette = createColorPalette({
-            primary: theme.primary,
-            secondary: theme.secondary,
-        });
-
-        const themeBase = createTheme({
-            palette: palette,
-        });
-
+    (Story) => {
         return (
-            <Provider store={store}>
-                <ThemeProvider theme={themeBase}>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection : 'column',
-                        flexGrow: 1,
-                        height: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        padding: '16px',
-                        background : '#a3a3a3'
-                    }}>
-                        <Paper sx={{
-                            padding: options.parameters.storyPadding,
-                            overflow: 'hidden'
-                        }}>
-                            <Story />
-                        </Paper>
-                    </div>
-                </ThemeProvider>
-            </Provider>
+            <App>
+                
+                    <Story />
+                
+            </App>
         );
     }
 ];
