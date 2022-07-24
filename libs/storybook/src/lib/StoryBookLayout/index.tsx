@@ -1,9 +1,9 @@
-import { AppRouter, ContainerComponent } from '@icatalyst/react/components';
+import { AppRouter, Container, ContainerComponent } from '@icatalyst/react/components';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 
-const useStyles = makeStyles((/*theme*/) => {
+const useStyles = makeStyles((theme: any) => {
     return {
         root: {
             display: 'flex',
@@ -12,9 +12,27 @@ const useStyles = makeStyles((/*theme*/) => {
             height: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '16px',
-            background: '#a3a3a3'
+            background: '#a3a3a3a3'
         },
+        commandPanel: {
+            flexGrow: 0,
+            flexShrink: 1,
+            width: '100%',
+        },
+        container: {
+            padding: 0,
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
+        },
+        content: {
+            flexGrow: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: theme.spacing(2)
+        }
     };
 });
 
@@ -30,7 +48,17 @@ export function StoryBookLayout(props: StoryBookLayoutProps) {
 
     return (
         <div className={clsx(styles.root)}>
-            <AppRouter>{children}</AppRouter>
+            <div className={clsx(styles.commandPanel)}>
+                <Container
+                    className={clsx(styles.container)}
+                    elevation={1}
+                >
+                    Command Panel
+                </Container>
+            </div>
+            <div className={clsx(styles.content)}>
+                <AppRouter>{children}</AppRouter>
+            </div>
         </div>
     );
 }

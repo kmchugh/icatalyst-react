@@ -3,6 +3,7 @@
 import { Store } from "@reduxjs/toolkit";
 import { App, AppProps } from "../application";
 import { LayoutT, RouteT } from "../types";
+import { ThemeDeclarationT } from "../types/theme-delcaration.type";
 
 // export function reportWebVitals({
 //     name,
@@ -25,12 +26,14 @@ import { LayoutT, RouteT } from "../types";
 export interface CreateAppProps<T extends Store> {
   store: T,
   layouts: LayoutT[],
-  routes: RouteT[]
+  routes: RouteT[],
+  themes: ThemeDeclarationT[]
 };
 
 export function createApp<T extends Store>({
   store,
-  layouts
+  layouts,
+  themes,
 }: CreateAppProps<T>) {
 
   const AppContainer = ({
@@ -42,6 +45,7 @@ export function createApp<T extends Store>({
         store={store}
         layouts={layouts}
         routes={routes}
+        themes={themes}
       >
         {children}
       </App>

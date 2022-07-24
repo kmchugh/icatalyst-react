@@ -1,18 +1,21 @@
 import { IconButton as NativeButton, IconButtonProps as NativeProps, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import React from 'react';
 import Icon from '../../icons/Icon';
 
-
 import { ComponentColor, ComponentSize } from '../../types';
+
+type StyleProps = {
+    size: ComponentSize,
+    color: ComponentColor
+};
 
 const useStyles = makeStyles((theme: any) => {
     return {
         root: {
         },
         icon: {},
-        iconBtn: ({ size }: any) => {
+        iconBtn: ({ size }: StyleProps) => {
             // As we want width and height to be equal same we need to parse size
             const sizes: {
                 [key: string]: string
@@ -27,7 +30,39 @@ const useStyles = makeStyles((theme: any) => {
                 width: sizes[size],
                 height: sizes[size],
             };
-        }
+        },
+        root_text: ({ color }: StyleProps) => {
+            return {
+                color: theme.palette[color]?.main
+            };
+        },
+        root_contained: ({ color }: StyleProps) => {
+
+            const palettePosition = (
+                color === 'action' && {
+                    main: theme.palette.action.active
+                }
+            ) ||
+                (
+                    color === 'disabled' && {
+                        main: theme.palette.action.disabled
+                    }
+                ) ||
+                theme.palette[color];
+
+            return {
+                backgroundColor: palettePosition?.main,
+                color: palettePosition?.contrastText
+            };
+        },
+        root_outlined: ({ color }: StyleProps) => {
+            return {
+                borderWidth: 'thin',
+                borderStyle: 'solid',
+                borderColor: theme.palette[color]?.main,
+                color: theme.palette[color]?.main
+            };
+        },
     };
 });
 
@@ -48,6 +83,10 @@ export interface IconButtonProps extends Omit<NativeProps, 'size' | 'color' | 't
      * The icon to display.
      */
     icon?: string,
+    /**
+     * The variant of the button
+     */
+    variant?: 'text' | 'contained' | 'outlined';
 }
 
 export function IconButton({
@@ -55,14 +94,15 @@ export function IconButton({
     title,
     icon,
     style,
-    // Let Icon sort out the default color
-    color,
+    color = 'primary',
     size = 'medium',
+    variant = 'text',
     id,
     ...rest
 }: IconButtonProps) {
     const styles = useStyles({
-        size
+        size,
+        color
     });
 
     return (
@@ -75,14 +115,14 @@ export function IconButton({
                 className={clsx(styles.root)}
             >
                 <NativeButton
-                    className={clsx(styles.iconBtn, className)}
+                    className={clsx(styles.iconBtn, styles[`root_${variant}`], className)}
                     aria-label={title}
                     style={style}
                     {...rest}
                 >
                     <Icon
                         size={size}
-                        color={color}
+                        color="inherit"
                         className={clsx(styles.icon)}
                     >{icon}</Icon>
                 </NativeButton>

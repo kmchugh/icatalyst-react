@@ -8,6 +8,7 @@ import { Layout } from '../../layouts';
 import { UpdateAvailable } from '../../notifications';
 import { Theme } from '../../themes';
 import { ContainerComponent, LayoutT, RouteT } from '../../types';
+import { ThemeDeclarationT } from '../../types/theme-delcaration.type';
 
 export type AppContext = {
     layouts?: LayoutT[],
@@ -20,13 +21,15 @@ export interface AppProps extends ContainerComponent<'div'> {
     store: Store,
     layouts: LayoutT[],
     routes: RouteT[],
+    themes: ThemeDeclarationT[]
 }
 
 export function App({
     store,
-    layouts,
     children,
-    routes = []
+    layouts = [],
+    routes = [],
+    themes = []
 }: AppProps) {
     // Allow for rendering apps inside apps
     const context = useContext(AppContext);

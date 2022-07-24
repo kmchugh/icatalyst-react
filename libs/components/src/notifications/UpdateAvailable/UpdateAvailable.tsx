@@ -1,7 +1,8 @@
-import { Button, Modal, Typography } from '@mui/material';
+import { Modal, Typography } from '@mui/material';
 import { makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
+import { Button } from '../../buttons';
 import { Container } from '../../containers';
 import { BaseComponent } from '../../types';
 
@@ -63,6 +64,7 @@ export function UpdateAvailable({
                     color="secondary"
                     variant="contained"
                     size="large"
+                    icon="refresh"
                     onClick={onReload}
                 >
                     Refresh

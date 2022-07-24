@@ -1,4 +1,4 @@
-import { BaseComponent, ComponentSize, IconButton, IconButtonProps, NavigationToggleButton, useSettingsSelector } from '@icatalyst/react/components';
+import { BaseComponent, ComponentColor, ComponentSize, IconButton, IconButtonProps, NavigationToggleButton, useSettingsSelector } from '@icatalyst/react/components';
 import { Typography } from '@mui/material';
 import { Variant } from '@mui/material/styles/createTypography';
 import { makeStyles } from '@mui/styles';
@@ -132,7 +132,7 @@ export function PageHeader({
                                 key={iconProps.icon}
                                 {...iconProps}
                                 size={iconProps.size || 'small'}
-                                color={iconProps.color || 'primary'}
+                                color={iconProps.color || 'primary' as ComponentColor}
                             />;
                         }).filter(i => i)
                     }

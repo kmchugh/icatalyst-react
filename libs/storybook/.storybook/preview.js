@@ -1,7 +1,4 @@
 import { createApp, createStore } from '@icatalyst/react/components';
-import { createColorPalette } from '@icatalyst/react/core';
-import { Paper } from '@mui/material';
-import { createTheme } from '@mui/material/styles';
 import { StoryBookLayout } from '../src/lib/StoryBookLayout';
 
 // https://storybook.js.org/docs/react/writing-stories/parameters#global-parameters
@@ -28,32 +25,20 @@ const App = createApp({
     layouts : [{
         name : 'storybook',
         component : StoryBookLayout,
+    }],
+    themes: [{
+        primary: '#239ddb',
+        secondary: '#191b21',
     }]
 });
 
 export const decorators = [
-    (Story, options) => {
-        const { theme } = options.parameters;
-
-        const palette = createColorPalette({
-            primary: theme.primary,
-            secondary: theme.secondary,
-        });
-
-        const themeBase = createTheme({
-            palette: palette,
-        });
-
+    (Story) => {
         return (
             <App>
-                <Paper sx={{
-                    padding: options.parameters.storyPadding,
-                    overflow: 'hidden',
-                    width : options.parameters.fullSize ? '100%' : undefined,
-                    height : options.parameters.fullSize ? '100%' : undefined
-                }}>
+                
                     <Story />
-                </Paper>
+                
             </App>
         );
     }
