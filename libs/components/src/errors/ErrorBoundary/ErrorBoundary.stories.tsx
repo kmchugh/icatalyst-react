@@ -1,6 +1,6 @@
-import { Button } from '@mui/material';
 import { Meta, Story } from '@storybook/react';
 import { useState } from 'react';
+import { Button } from '../../buttons';
 import { ErrorBoundary as Component, ErrorBoundaryProps } from './ErrorBoundary';
 
 const meta: Meta = {
@@ -19,7 +19,7 @@ const meta: Meta = {
 
 export default meta;
 
-const ErrorButton = ()=>{
+const ErrorButton = () => {
 
     const [error, setError] = useState<Error | null>(null);
 
@@ -28,19 +28,21 @@ const ErrorButton = ()=>{
     }
 
     return <Button
+        icon="fa bomb"
         variant='contained'
-        onClick={()=>{
-            setError(new Error('An error has occurred'));
+        color="error"
+        onClick={() => {
+            setError(new Error('Basic instructions were not comprehended'));
         }}
     >
-        Throw Error
+        Don't press the button
     </Button>
 };
 
 
 const Template: Story<ErrorBoundaryProps> = args => (
     <Component {...args}>
-        <ErrorButton/>
+        <ErrorButton />
     </Component>
 );
 

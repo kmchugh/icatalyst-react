@@ -17,9 +17,9 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<ErrorProps> = args => <Component {...args}/>;
+const Template: Story<ErrorProps> = args => <Component {...args} />;
 
 export const Error = Template.bind({});
 Error.args = {
-    children : 'What\'s your major malfunction?'
+    children: 'We are products of our past, but we don\'t have to be prisoners of it'
 };
