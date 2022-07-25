@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAppDispatch, useAppSelector, useSettingsSelector } from '../../store/hooks';
 import { BaseComponent } from '../../types';
-import IconButton from '../IconButton';
+import IconButton, { IconButtonProps } from '../IconButton';
 
 const useStyles = makeStyles((/*theme*/) => {
     return {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((/*theme*/) => {
     };
 });
 
-export interface NavigationToggleButtonProps extends Omit<BaseComponent<'button'>, 'onClick'> {
+export interface NavigationToggleButtonProps extends Omit<IconButtonProps, 'onClick'> {
     /**
      * Icon to display if the navbar is closed
      */
@@ -20,7 +20,11 @@ export interface NavigationToggleButtonProps extends Omit<BaseComponent<'button'
      * Icon to display if the navbar is open
      */
     openIcon?: string,
-    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, navbarOpen: boolean) => void;
+    /**
+     * Fires when the button is clicked.
+     * isNavbarOpen is the new state of the navbar due to the click
+     */
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, isNavbarOpen: boolean) => void;
 }
 
 export function NavigationToggleButton({
@@ -30,7 +34,8 @@ export function NavigationToggleButton({
     closeIcon = 'menu',
     openIcon = 'push_pin',
     title,
-    onClick
+    onClick,
+    ...rest
 }: NavigationToggleButtonProps) {
     const styles = useStyles();
 
@@ -65,6 +70,7 @@ export function NavigationToggleButton({
                 //     // Actions.navbarToggle()
                 // )
             }}
+            {...rest}
         />
     );
 }
