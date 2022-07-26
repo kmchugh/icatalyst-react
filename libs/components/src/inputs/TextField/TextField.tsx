@@ -84,7 +84,7 @@ export function TextField({
                 startAdornment: icon && (
                     <InputAdornment position="start">
                         <Icon
-                            size='medium'
+                            size={iconSize}
                             color={iconColor}
                         >
                             {icon}
