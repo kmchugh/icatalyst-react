@@ -1,18 +1,18 @@
 import { CSSProperties, makeStyles, useTheme } from '@mui/styles';
 import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
-import { BaseComponent, ComponentSize } from '../../types';
+import { BaseComponent, ComponentSize } from '../../../types';
 
-import defaultDarkBackground from '../../assets/images/placeholders/image_light.svg';
-import defaultLightBackground from '../../assets/images/placeholders/image_dark.svg';
-import { Icon } from '../../icons';
-import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
+import defaultDarkBackground from '../../../assets/images/placeholders/image_light.svg';
+import defaultLightBackground from '../../../assets/images/placeholders/image_dark.svg';
+import { Icon } from '../../../icons';
+import useHookWithRefCallback from '../../../hooks/useHookWithRefCallback';
 import { tinycolor, mostReadable } from '@icatalyst/react/core';
 
 type StyleProps = {
-    spinnerSize : ComponentSize,
-    spinnerColor? : string | null,
-    backgroundColor? : string
+    spinnerSize: ComponentSize,
+    spinnerColor?: string | null,
+    backgroundColor?: string
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,7 +35,9 @@ const useStyles = makeStyles((theme: any) => {
             opacity: 0,
             transition: `opacity ${theme.transitions.duration.shortest}ms linear`,
             height: '100%',
-            width: '100%'
+            width: '100%',
+            verticalAlign: 'center',
+            display: 'block'
         },
         image_loaded: {
             opacity: 1,
@@ -79,9 +81,9 @@ const useStyles = makeStyles((theme: any) => {
                 color: spinnerColor || 'initial'
             };
         },
-        backgroundFn: ({backgroundColor} : StyleProps) => {
+        backgroundFn: ({ backgroundColor }: StyleProps) => {
             return {
-                backgroundColor : backgroundColor
+                backgroundColor: backgroundColor
             };
         },
     };
@@ -93,9 +95,9 @@ export interface ImageProps extends BaseComponent<"span"> {
     defaultSrc?: string,
     spinnerSize?: ComponentSize,
     spinnerColor?: string,
-    imageClassName? : string,
-    imageStyle? : CSSProperties,
-    backgroundColor? : string
+    imageClassName?: string,
+    imageStyle?: CSSProperties,
+    backgroundColor?: string
 };
 
 export function Image({
@@ -119,7 +121,7 @@ export function Image({
     const [error, setError] = useState<unknown>(!src);
     const [derivedBackground, setDerivedBackground] = useState<string | undefined>(backgroundColor);
 
-    const derivedSpinnerColor = useMemo(()=>{
+    const derivedSpinnerColor = useMemo(() => {
         return spinnerColor || mostReadable(derivedBackground || theme.palette.background.default,
             ['#fff', '#000'], {}
         )?.toHexString();
@@ -127,10 +129,10 @@ export function Image({
 
     const styles = useStyles({
         spinnerSize,
-        spinnerColor : derivedSpinnerColor,
-        backgroundColor : derivedBackground
+        spinnerColor: derivedSpinnerColor,
+        backgroundColor: derivedBackground
     });
-    
+
     if (!defaultSrc) {
         defaultSrc = derivedSpinnerColor === '#000000' ?
             defaultLightBackground :
@@ -143,7 +145,7 @@ export function Image({
             setLoading(true);
             setSource(src);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [src]);
 
     useEffect(() => {
