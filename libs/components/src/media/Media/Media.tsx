@@ -41,6 +41,9 @@ export interface MediaProps extends Omit<BaseComponent<'span'>, 'onLoad' | 'onEr
     mimeType?: string;
     src: string;
     alt: string;
+    crossOrigin?: 'anonymous' | 'use-credentials';
+    autoPlay?: boolean,
+    controls?: boolean,
 
     onLoad: (e: SyntheticEvent, source: string) => void,
     onError: (e: SyntheticEvent, source: string) => void,
@@ -54,6 +57,9 @@ export function Media({
     src,
     mimeType,
     alt,
+    crossOrigin,
+    autoPlay = false,
+    controls = true,
     onLoad,
     onError
 }: MediaProps) {
@@ -89,14 +95,15 @@ export function Media({
             {(source && mediaType && mediaType === 'audio') && (
                 <audio
                     className={clsx(styles.audio)}
-                    controls
+                    crossOrigin={crossOrigin}
+                    controls={controls}
+                    autoPlay={autoPlay}
                     onCanPlay={(e) => {
                         if (source !== defaultSource) {
                             onLoad && onLoad(e, source);
                         }
                     }}
                     onError={(e) => {
-                        console.error({ e });
                         if (source !== defaultSource) {
                             setSource(defaultSource);
                             setMediaType(getMimeType(defaultSource).split('/')[0]);
@@ -114,7 +121,9 @@ export function Media({
             {(source && mediaType && mediaType === 'video') && (
                 <video
                     className={clsx(styles.video)}
-                    controls
+                    controls={controls}
+                    crossOrigin={crossOrigin}
+                    autoPlay={autoPlay}
                     onCanPlay={(e) => {
                         if (source !== defaultSource) {
                             onLoad && onLoad(e, source);
@@ -137,6 +146,7 @@ export function Media({
                     className={clsx(styles.image)}
                     src={source}
                     alt={alt}
+                    crossOrigin={crossOrigin}
                 />
             )}
 

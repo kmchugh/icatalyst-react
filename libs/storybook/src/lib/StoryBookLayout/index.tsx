@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: any) => {
             height: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '#a3a3a3a3'
+            background: '#a3a3a3a3',
         },
         commandPanel: {
             flexGrow: 0,
@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme: any) => {
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: theme.spacing(2)
+            padding: theme.spacing(2),
+            overflow: 'auto'
         }
     };
 });
