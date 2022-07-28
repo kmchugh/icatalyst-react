@@ -1,4 +1,4 @@
-import { AppRouter, Container, ContainerComponent } from '@icatalyst/react/components';
+import { AppRouter, CommandPanel, Container, ContainerComponent } from '@icatalyst/react/components';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
@@ -50,12 +50,11 @@ export function StoryBookLayout(props: StoryBookLayoutProps) {
     return (
         <div className={clsx(styles.root)}>
             <div className={clsx(styles.commandPanel)}>
-                <Container
-                    className={clsx(styles.container)}
-                    elevation={1}
-                >
-                    Command Panel
-                </Container>
+                <CommandPanel
+                    primaryMenu={[]}
+                    secondaryMenu={[]}
+                    square={true}
+                />
             </div>
             <div className={clsx(styles.content)}>
                 <AppRouter>{children}</AppRouter>

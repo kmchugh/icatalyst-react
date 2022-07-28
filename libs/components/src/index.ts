@@ -8,6 +8,8 @@ export * from './icons';
 export * from './inputs';
 export * from './layouts';
 export * from './media';
+export * from './menues';
+export * from './panels';
 export * from './pickers';
 export * from './store';
 export * from './types';
