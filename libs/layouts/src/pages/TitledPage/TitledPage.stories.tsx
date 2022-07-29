@@ -24,10 +24,6 @@ const Template: Story<TitledPageProps> = args => <Component {...args} />;
 export const TitledPage = Template.bind({});
 TitledPage.args = {
     title: 'A page with a very very very very very very very long header',
-    style: {
-        minWidth: '80vw',
-        minHeight: '70vh'
-    },
     children: `
     You can get away with a lot. Only think about one thing at a time. Don't get greedy. We don't really know where this goes - and I'm not sure we really care. If we're going to have animals around we all have to be concerned about them and take care of them. Just think about these things in your mind and drop em' on canvas.
     

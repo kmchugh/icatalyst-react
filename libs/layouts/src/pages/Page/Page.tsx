@@ -17,10 +17,11 @@ const useStyles = makeStyles((theme: any) => {
             boxSizing: 'border-box',
             display: 'flex',
             flexDirection: 'column',
-            height: '100%',
             width: '100%',
             position: 'relative',
             flexShrink: 0,
+            minHeight: '100%',
+            height: 'auto'
         },
         mobileNavButton: {
             position: 'absolute!important' as 'absolute',
