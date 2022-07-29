@@ -4,11 +4,6 @@ import { ColorPicker as Component, ColorPickerProps } from './ColorPicker';
 const meta: Meta = {
     component: Component,
     argTypes: {
-        children: {
-            control: {
-                type: 'text',
-            },
-        },
     },
     parameters: {
         controls: { expanded: true },
