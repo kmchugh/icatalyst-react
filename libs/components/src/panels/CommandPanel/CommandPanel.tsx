@@ -1,14 +1,16 @@
 import { lodash as _ } from '@icatalyst/react/core';
+import { Divider } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { isValidElement, ReactElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { IconButton } from '../../buttons';
 import { Container, ContainerProps } from '../../containers';
+import { DropdownMenu, MenuItem } from '../../menues';
 import { ComponentColor, ComponentSize } from '../../types';
 import CommandPanelItem, { CommandPanelItemProps } from './CommandPanelItem';
 
 type StyleProps = {
     hasOverflow: boolean;
+    padding: number;
 };
 
 
@@ -22,7 +24,8 @@ const useStyles = makeStyles((theme: any) => {
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            position: 'relative'
         },
         root_inherit: {
             minHeight: theme.spacing(1),
@@ -41,7 +44,6 @@ const useStyles = makeStyles((theme: any) => {
             maxHeight: theme.spacing(9),
         },
         menuArea: {
-            background: 'red',
             alignItems: 'center',
             overflow: 'hidden',
             minWidth: theme.spacing(10),
@@ -54,10 +56,14 @@ const useStyles = makeStyles((theme: any) => {
             paddingRight: theme.spacing(1.5 * menuPadding),
         },
         overflowArea: {
-            flexGrow: 0,
-            flexShrink: 0,
-            paddingLeft: 0,
-            paddingRight: theme.spacing(1.5 * menuPadding),
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         overflowAreaDisplayFn: ({ hasOverflow }: StyleProps) => {
             return {
@@ -67,9 +73,8 @@ const useStyles = makeStyles((theme: any) => {
         spacer: {
             flexGrow: 1,
             flexShrink: 1,
-            marginTop: theme.spacing(1),
-            marginBottom: theme.spacing(1),
-            height: '100%'
+            height: '100%',
+            minHeight: theme.spacing(3)
         },
         showDivider: {
             borderRightStyle: 'solid',
@@ -87,7 +92,6 @@ const useStyles = makeStyles((theme: any) => {
             alignItems: 'center',
             flexShrink: 0,
             flexGrow: 0,
-            background: 'yellow',
 
             '& > *': {
                 borderRightStyle: 'solid',
@@ -109,7 +113,10 @@ const useStyles = makeStyles((theme: any) => {
             flexShrink: 0,
             overflow: 'hidden',
             flexGrow: 0,
-            background: 'green',
+            transition: theme.transitions.create('padding-left', {
+                duration: theme.transitions.duration.shortest,
+                easing: theme.transitions.easing.easeInOut,
+            }),
 
             '& > *': {
                 borderLeftStyle: 'solid',
@@ -123,6 +130,21 @@ const useStyles = makeStyles((theme: any) => {
                 borderLeftStyle: 'none',
                 marginLeft: 0,
             }
+        },
+        secondaryMenuPaddingFn: ({ padding = 0 }: StyleProps) => {
+            return {
+                // 32 is the width of the menu button
+                paddingLeft: (padding - 32)
+            };
+        },
+        menuDivider: {
+            width: '100%'
+        },
+        menuDisplayed: {
+            background: 'blue'
+        },
+        menuHidden: {
+            background: 'green'
         }
     };
 });
@@ -150,53 +172,65 @@ export function CommandPanel({
 }: CommandPanelProps) {
 
     const [overflow, setOverflow] = useState(0);
-    const [hiddenSections, setHiddenSections] = useState(0);
+    const [padding, setPadding] = useState(0);
+    const [hiddenSectionIndex, setHiddenSectionIndex] = useState(-1);
 
     const styles = useStyles({
-        hasOverflow: hiddenSections > 0
+        hasOverflow: overflow > 0,
+        padding
     });
     const contentRef = useRef<HTMLDivElement>(null);
-    const menuSectionRefs = useRef<HTMLDivElement[]>([]);
+    const secondaryMenuRef = useRef<HTMLDivElement>(null);
 
     const updateOverflow = () => {
-        console.log('layout');
-        console.log({ menuSectionRefs });
         if (contentRef.current && secondaryMenu && secondaryMenu.length > 0) {
             // Measure the content area and decide what needs to be
             // pushed under the collapsible menu
-            const containingElement = contentRef.current.parentNode as HTMLElement;
-            const contentElement = contentRef.current;
-            const containerWidth = containingElement?.clientWidth || 0;
-            const contentWidth = contentElement.scrollWidth;
-            const overflow = (contentWidth - containerWidth);
+            const containingElement = contentRef.current as HTMLElement;
+            const containerWidth = containingElement?.offsetWidth || 0;
+            const secondaryMenuArea = secondaryMenuRef.current as HTMLElement;
 
-            let hiddenSectionCount = 0;
-            if (overflow > 0 && menuSectionRefs.current && menuSectionRefs.current.length > 0) {
-                // The content needs to be hidden
-                let remaining = overflow;
-                menuSectionRefs.current.slice().reverse().forEach((element) => {
+            const contentWidth = Array.from(containingElement.children).reduce((acc, c) => {
+                return acc + c.clientWidth;
+            }, 0);
+
+            const calculatedOverflow = (contentWidth - containerWidth);
+            let calculatedPadding = 0;
+            let hiddenIndex = -1;
+
+            if (calculatedOverflow > 0) {
+                // We need to hide items until overflow <= 0
+                let remaining = calculatedOverflow;
+                for (let i = secondaryMenuArea.children.length; i--; i >= 0) {
+                    const child = secondaryMenuArea.children[i] as HTMLElement;
                     if (remaining > 0) {
-                        remaining -= element.clientWidth;
-                        hiddenSectionCount++;
-                        console.log(element.style.visibility);
-                        element.style.display = 'none';
+                        remaining -= child.offsetWidth;
+                        child.style.visibility = 'hidden';
+                    } else {
+                        child.style.visibility = 'visible';
+                        calculatedPadding = remaining * -1;
+                        if (hiddenIndex < 0) {
+                            hiddenIndex = i;
+                        }
                     }
-                });
+                }
             } else {
-                menuSectionRefs.current.forEach((element) => {
-                    element.style.display = 'flex';
+                // We can display items while overflow <= 0
+                Array.from(secondaryMenuArea.children).forEach(c => {
+                    (c as HTMLElement).style.visibility = 'visible';
                 });
             }
-            // Probably set to visible
-            setOverflow(overflow);
-            setHiddenSections(hiddenSectionCount);
+
+            setPadding(calculatedPadding);
+            setOverflow(calculatedOverflow);
+            setHiddenSectionIndex(hiddenIndex);
         }
     };
 
     useEffect(() => {
         const handleResize = _.debounce(() => {
             updateOverflow();
-        }, 200);
+        }, 100);
 
         window.addEventListener('resize', handleResize);
         return () => {
@@ -210,29 +244,8 @@ export function CommandPanel({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [secondaryMenu, contentRef.current]);
 
-    const resizedSecondaryMenu = useMemo(() => {
-        // If there are not items or there is no overflow then all items are visible
-        if (!secondaryMenu || secondaryMenu.length === 0 || overflow <= 0) {
-            return {
-                visible: secondaryMenu,
-                collapsed: []
-            };
-        }
-        // // Remove items starting from the back until there is no overflow
-        // return secondaryMenu.slice().reverse().reduce((acc, menuItem)=>{}, {
-        //     visible : [],
-        //     collapsed : [],
-        //     width : overflow
-        // });
-        // return {
-        //     visible: secondaryMenu,
-        //     collapsed: []
-        // };
-    }, [secondaryMenu, overflow]);
-
     const renderMenu = (
-        menu: (CommandPanelItem[])[] | CommandPanelItem[] | CommandPanelItem,
-        withRefs = false
+        menu: (CommandPanelItem[])[] | CommandPanelItem[] | CommandPanelItem
     ): ReactElement[] | null => {
         if (Array.isArray(menu) && menu.length === 0) {
             // Empty array, so we don't care where we are just render null
@@ -243,12 +256,9 @@ export function CommandPanel({
                 return (
                     <div
                         key={index}
-                        ref={withRefs ? (node) => {
-                            if (node) {
-                                menuSectionRefs.current[index] = node;
-                            }
-                        } : undefined}
-                        className={clsx(styles.menuWrapper)}
+                        className={clsx(
+                            styles.menuWrapper
+                        )}
                     >
                         {renderMenu(innerMenu)}
                     </div>
@@ -257,7 +267,6 @@ export function CommandPanel({
         } else if (Array.isArray(menu)) {
             // The section contents, render each item
             return menu.map((menuItem) => {
-
                 if (isValidElement(menuItem)) {
                     return menuItem as ReactElement;
                 } else if (typeof menuItem === 'function') {
@@ -285,6 +294,23 @@ export function CommandPanel({
         }
     }
 
+    const secondaryOverflowMenu = useMemo(() => {
+        if (!secondaryMenu || secondaryMenu.length === 0) {
+            return [];
+        }
+
+        const flattenedMenu = secondaryMenu.slice(hiddenSectionIndex + 1).flatMap((sections, index) => [
+            ...sections, (
+                <Divider
+                    className={clsx(styles.menuDivider)} key={`divider_${index}`}
+                    orientation="horizontal"
+                />
+            )]
+        );
+        return flattenedMenu.slice(0, -1) as (MenuItem | ReactElement)[];
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [secondaryMenu, hiddenSectionIndex]);
+
     return (
         <Container
             className={clsx(
@@ -298,30 +324,31 @@ export function CommandPanel({
         >
             <div
                 ref={contentRef}
-                className={clsx(styles.menuArea)}>
+                className={clsx(styles.menuArea)}
+            >
                 <div className={clsx(styles.primaryMenu)}>
                     {renderMenu(primaryMenu)}
                 </div>
 
-                <div className={clsx(styles.spacer, (primaryMenu?.length > 0 && secondaryMenu?.length > 0) && styles.showDivider)}>
-                    {`${overflow}`}
-                </div>
+                <div className={clsx(styles.spacer, (primaryMenu?.length > 0 && secondaryMenu?.length > 0) && styles.showDivider)} />
 
-                <div className={clsx(styles.secondaryMenu)}>
-                    {renderMenu(secondaryMenu, true)}
+                <div
+                    ref={secondaryMenuRef}
+                    className={clsx(styles.secondaryMenu, styles.secondaryMenuPaddingFn)}
+                >
+                    {renderMenu(secondaryMenu)}
                 </div>
             </div>
 
             <div className={clsx(styles.overflowArea, styles.overflowAreaDisplayFn)}>
-                {/* // TODO : Dropdown menu not IconButton directly */}
-                <IconButton
-                    icon={overflowIcon}
-                    color={color}
-                    size={size}
+                <DropdownMenu
+                    menu={secondaryOverflowMenu}
                 />
             </div>
-        </Container>
+        </Container >
     );
 }
 
 export default CommandPanel;
+
+

@@ -34,7 +34,12 @@ const useStyles = makeStyles((theme: any) => {
         subListItem: {
             paddingRight: 0
         },
-        subListItemText: {}
+        subListItemText: {},
+        menuItem: {},
+        menuItemElement: {
+            display: 'contents'
+        }
+
     };
 });
 
@@ -141,13 +146,14 @@ export const DropdownMenu = forwardRef(({
     const renderMenuItem = (item: MenuItem | ReactElement) => {
         let menuContent: ReactElement;
         let key = null;
+        let isElement = false;
 
         if (isValidElement(item)) {
             key = (item as ReactElement).key;
             menuContent = item as ReactElement;
+            isElement = true;
         } else {
-            // item = item as MenuItem;
-            key = item.title;
+            key = `${item.icon}-${item.title}`;
 
             const showLabel = item.showLabel === undefined || item.showLabel;
             const iconColor = item.iconColor || 'inherit';
@@ -210,7 +216,12 @@ export const DropdownMenu = forwardRef(({
         }
 
         return (
-            <MenuItem key={key}>
+            <MenuItem
+                key={key}
+                className={clsx(styles.menuItem, isElement && styles.menuItemElement)}
+                disableTouchRipple={isElement}
+                disableRipple={isElement}
+            >
                 {menuContent}
             </MenuItem>
         );
