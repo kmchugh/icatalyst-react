@@ -167,6 +167,7 @@ export const DropdownMenu = forwardRef(({
                         hasSubMenu && styles.subListItem
                     )}
                     aria-label={item.title}
+                    onClick={item.onClick}
                 >
                     {(!hasSubMenu && item.icon) && (
                         <ListItemIcon>
