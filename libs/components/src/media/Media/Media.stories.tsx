@@ -26,10 +26,11 @@ Media.args = {
 
 export const MediaAudio = Template.bind({});
 MediaAudio.args = {
-    src: 'https://free-loops.com/data/mp3/42/f5/3b60ca3cdd98302d92a1aa941553.mp3'
+    src: 'https://www.w3schools.com/tags/horse.mp3'
 };
 
 export const MediaVideo = Template.bind({});
 MediaVideo.args = {
-    src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+    src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    autoPlay: true
 };

@@ -97,7 +97,8 @@ export interface ImageProps extends BaseComponent<"span"> {
     spinnerColor?: string,
     imageClassName?: string,
     imageStyle?: CSSProperties,
-    backgroundColor?: string
+    backgroundColor?: string,
+    crossOrigin?: 'anonymous' | 'use-credentials';
 };
 
 export function Image({
@@ -111,6 +112,7 @@ export function Image({
     imageClassName,
     imageStyle,
     backgroundColor,
+    crossOrigin,
     onError
 }: ImageProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -174,6 +176,7 @@ export function Image({
                     !loading && styles.image_loaded,
                     imageClassName
                 )}
+                crossOrigin={crossOrigin}
                 style={imageStyle}
                 src={error ? defaultSrc : source}
                 onLoad={() => {

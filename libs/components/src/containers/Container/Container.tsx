@@ -89,6 +89,8 @@ export interface ContainerProps extends ContainerComponent<"div"> {
     imageAlpha?: number;
     ref?: RefObject<ContainerRef>;
     elevation?: number;
+    variant?: 'elevation' | 'outlined';
+    square?: boolean;
 };
 
 export interface ContainerRef extends HTMLDivElement {
@@ -108,6 +110,8 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
         imageAlpha = .05,
         backgroundColor = null,
         elevation = 0,
+        variant = 'elevation',
+        square = false,
         ...rest
     } = props;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -174,6 +178,8 @@ export const Container = forwardRef((props: ContainerProps, ref: Ref<ContainerRe
                 styles.containerImageFn,
                 !imageSrc && className
             )}
+            square={square}
+            variant={variant}
             ref={pageRef}
             style={style}
             elevation={_.clamp(elevation, 0, 24)}
