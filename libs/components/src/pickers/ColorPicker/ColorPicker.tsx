@@ -106,6 +106,7 @@ export function ColorPicker({
         const parsedColor = getColor(newValue);
         if (parsedColor && (parsedColor as any).format !== 'unknown') {
             setColorValue((parsedColor as any).hex);
+            console.log((parsedColor as any).hex);
             onChange && onChange(e, `#${(parsedColor as any).hex}`);
         }
     };
