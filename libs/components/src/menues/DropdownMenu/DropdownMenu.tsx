@@ -2,7 +2,7 @@ import { Fade, ListItem, ListItemIcon, ListItemText, Menu, MenuItem } from '@mui
 import { TransitionProps } from '@mui/material/transitions';
 import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
-import { forwardRef, isValidElement, MouseEventHandler, ReactElement, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { forwardRef, isValidElement, MouseEvent, MouseEventHandler, ReactElement, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { IconButton } from '../../buttons';
 import { Icon } from '../../icons';
 import { BaseComponent, ComponentAlignmentHorizontal, ComponentAlignmentVertical, ComponentColor, ComponentSize } from '../../types';
@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: any) => {
         menuLabel: {
             marginRight: theme.spacing(1),
             flexGrow: 1,
+            cursor: 'pointer',
         },
         dropdown: {
             cursor: 'pointer',
@@ -37,9 +38,12 @@ const useStyles = makeStyles((theme: any) => {
         subListItemText: {},
         menuItem: {},
         menuItemElement: {
-            display: 'contents'
+            minHeight: 0,
+            cursor: 'default',
+            '&:hover': {
+                background: 'transparent'
+            }
         }
-
     };
 });
 
@@ -47,7 +51,7 @@ export type MenuItem = {
     title: string;
     icon?: string;
     subtitle?: string;
-    onClick?: () => void;
+    onClick?: MouseEventHandler<any>,
     iconColor?: ComponentColor,
     showLabel?: boolean;
     menu?: (MenuItem | ReactElement)[],
@@ -161,12 +165,15 @@ export const DropdownMenu = forwardRef(({
 
             menuContent = (
                 <ListItem
-                    component="div"
                     className={clsx(
                         styles.listItem,
                         hasSubMenu && styles.subListItem
                     )}
                     aria-label={item.title}
+                    onClick={(e) => {
+                        closeMenu(e as MouseEvent<any>);
+                        item.onClick && item.onClick(e);
+                    }}
                 >
                     {(!hasSubMenu && item.icon) && (
                         <ListItemIcon>
