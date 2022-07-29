@@ -13,7 +13,6 @@ const useStyles = makeStyles((/*theme*/) => {
     };
 });
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export type TextFieldProps = Omit<(
     OutlinedTextFieldProps |
     FilledTextFieldProps
