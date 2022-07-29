@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme: any) => {
         root: {
             display: 'flex',
             height: '100%',
+            width: '100%',
             flexDirection: 'column',
             boxSizing: 'border-box'
         },
