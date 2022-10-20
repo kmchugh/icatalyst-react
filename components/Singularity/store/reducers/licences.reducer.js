@@ -3,7 +3,7 @@ import * as Actions from '../actions/licences.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
 import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
-
+import LicenceConstraints from '../../components/LicenceConstraints';
 const definition = createModel({
   name: 'licence',
   icon: 'fa file-contract',
@@ -49,17 +49,22 @@ const definition = createModel({
       description: 'When active, a licence key can be generated',
     }, {
       id: 'template',
-      type: 'json',
-      default : {},
+      required : true,
+      type: 'custom',
+      default: [],
+      Component(props){
+        return (
+          <LicenceConstraints {...props}/>
+        );
+      }
     },
-
     {
       id : 'generateKey',
       label : ' ',
       render(column, field, item){
         return (<GenerateLicenceKey licence={item}/>);
       }
-    }
+    },
   ],
   children : [{
     ...licenceKeysDefinition,
@@ -74,8 +79,8 @@ const definition = createModel({
       ];
     } else {
       // If we are creating
-      return [
-        'name','description','duration'
+      return [[
+        ['name','duration'],'description'],'template'
       ];
     }
   },
