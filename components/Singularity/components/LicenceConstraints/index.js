@@ -18,6 +18,10 @@ import { useDispatch } from 'react-redux';
 import {DialogContent} from '@icatalyst/components/Dialogs';
 import EntityView from '@icatalyst/components/EntityView';
 import { useForm } from 'app/common/hooks/Fuse';
+import {definition as edgeTypeDefinition} from 'app/main/PlatformAdministratorModule/store/reducers/edgeType.reducer';
+import {useSelector} from 'react-redux';
+import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
+import _ from '@icatalyst/@lodash';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -62,16 +66,67 @@ const LicenceConstraints = ({
   className,
   style = {},
   onChange,
-  // value,
+  value,
   field,
   // readonly,
 })=>{
   const styles = useStyles();
-  const [constraints, setConstraints] = useState({});
+
+//   {
+//     "5c992f7c59d05f2e669f29e4172ee37b605b0973fc68fc8e43bd844e5b3e2978": {
+//         "name": "Engagement Owner",
+//         "description": "Heavy users and Project Owners of SenseMaker® projects; people who will need access to be able to assign and remove users from projects, launch projects, design projects, view data and do all linked analytics",
+//         "relationshipTypeID": "219fdda0106685b3d14dba9a8029d142eb6087852b3a9938a4078e4b2e7e12c2",
+//         "limit": 999,
+//         "isDefault": true
+//     }
+// }
+
+  const extractConstraintsFromValue = (value)=>{
+    if (!value || !value.groups || value.groups.length === 0) {
+      return {};
+    }
+    return value.groups
+      .filter(g=>g.relations && g.relations.length > 0)
+      .reduce((acc, g)=>{
+        const relation = g.relations[0];
+        acc[relation.roleID] = {
+          name: g.name,
+          description: g.description,
+          relationshipTypeID: relation.relationshipTypeID,
+          limit: relation.limit || 999,
+          isDefault: relation.isDefault
+        };
+        return acc;
+      }, {});
+  };
+  const [constraints, setConstraints] = useState(extractConstraintsFromValue(value));
   // This is a hack to get autocomplete to clear after selection
   const [selectedRole, setSelectedRole] = useState(null);
   const dispatch = useDispatch();
   const { form, handleChange, setForm } = useForm(null);
+  const edgesReducer = useSelector(edgeTypeDefinition.getReducerRoot);
+
+  const {accessToken, user} = useContext(SingularityContext);
+
+  useEffect(()=>{
+    if (value) {
+      const updatedConstraints = extractConstraintsFromValue(value);
+      if (!_.isEqual(updatedConstraints, constraints)) {
+        setConstraints(extractConstraintsFromValue(value));
+      }
+    }
+  }, [value]);
+
+  useEffect(()=>{
+    if (!edgesReducer.loaded) {
+      dispatch(edgeTypeDefinition.operations['RETRIEVE_ENTITIES'](()=>{
+      }, {
+        accessToken : accessToken
+      }));
+    }
+  }, [edgesReducer]);
+
 
   useEffect(()=>{
     const value = Object.entries(constraints).map(([key, value])=>{
@@ -80,23 +135,30 @@ const LicenceConstraints = ({
         description: value.description,
         relations: [{
           relationshipTypeID : value.relationshipTypeID,
-          roleID: key
+          roleID: key,
+          limit: value.limit,
+          isDefault: value.isDefault
         }]
       };
     });
 
-    // TODO: Reduce to required shape for api
-    onChange && onChange({
-      target : {
-        name : field.id,
-        value : value.length > 0 ? value : null
-      }
-    });
+    const updatedValue = value.length > 0 ? {
+      groups : value
+    } : null;
+
+    if (!_.isEqual(value, updatedValue)) {
+      onChange && onChange({
+        target : {
+          name : field.id,
+          value : value.length > 0 ? {
+            groups : value
+          } : null
+        }
+      });
+    }
 
     setSelectedRole(null);
   }, [constraints]);
-
-  const {user} = useContext(SingularityContext);
 
   const roles = useMemo(()=>{
     if (user) {
@@ -136,6 +198,7 @@ const LicenceConstraints = ({
 
   const handleAddRole = (selectedRole)=>{
     if (selectedRole) {
+      const memberEdge = edgesReducer.entities.find((e)=>e.code === 'SINGULARITY_MEMBER_EDGE');
       setConstraints((state)=>{
         if (!state[selectedRole.guid]) {
           return {
@@ -143,7 +206,7 @@ const LicenceConstraints = ({
             [selectedRole.guid] : {
               name: selectedRole.name,
               description: selectedRole.description,
-              relationshipTypeID: 'member',
+              relationshipTypeID: memberEdge.guid,
               limit: 999,
               isDefault : Object.keys(state).length === 0
             }
@@ -254,7 +317,7 @@ const LicenceConstraints = ({
     });
   };
 
-  return (
+  return edgesReducer.loading ? <FuseLoading/> : (
     <div
       className={clsx(styles.root, className)}
       style={{...style}}

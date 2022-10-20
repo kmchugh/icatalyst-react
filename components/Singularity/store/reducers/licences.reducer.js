@@ -51,7 +51,6 @@ const definition = createModel({
       id: 'template',
       required : true,
       type: 'custom',
-      default: [],
       Component(props){
         return (
           <LicenceConstraints {...props}/>
@@ -76,6 +75,7 @@ const definition = createModel({
       return [
         [['name','description']],
         ['duration', 'active'],
+        'template'
       ];
     } else {
       // If we are creating
