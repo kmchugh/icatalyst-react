@@ -14,6 +14,7 @@ export const SingularityContext = createContext();
 
 // TODO: Make this configurable per singularity install
 const SETTINGS_KEY = 'aefa26fc-6a47-4998-8d93-c4a18d8b9119';
+let LAST_STATE = null;
 
 /**
  * Checks if the auth array contains the role,
@@ -250,12 +251,17 @@ function Singularity({
       // this is the redirect from singularity so use the
       // code to request the actual access token
       if (searchParams.state) {
+        if (LAST_STATE === searchParams.state) {
+          return;
+        }
+        LAST_STATE = searchParams.state;
         setMessage(`${t('Requesting Access')}...`);
 
         const promise = singularity.requestAccessToken(searchParams);
         if (promise) {
           promise.then((response)=>{
             setMessage(`${t('Parsing Token')}...`);
+
             const { access_token, token } = response;
 
             try {
@@ -306,7 +312,6 @@ function Singularity({
         setMessage(`${t('Requesting Authorisation')}...`);
         // No token, no code, and no state, so redirect for login
         singularity.requestAuthorizationCode();
-
       }
     } else {
       handleToken(token);

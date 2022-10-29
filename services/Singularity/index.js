@@ -212,8 +212,8 @@ class SingularityService {
       error_uri
     } = queryParams;
 
-    const stored_state = this.localStore('state');
-    const redirect_uri = this.localStore('redirect_uri');
+    const stored_state = code && code === state ? state : this.localStore('state');
+    const redirect_uri = code && code === state ? window.location.origin : this.localStore('redirect_uri');
 
     if (!stored_state) {
       return;
