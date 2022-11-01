@@ -213,6 +213,7 @@ const definition = createModel({
     'revokeToken',
     'issuer',
   ],
+  
   listLayout: [
     'name',
     'description',
