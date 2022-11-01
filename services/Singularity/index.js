@@ -29,6 +29,7 @@ class SingularityService {
   };
   #urls = {
     authorize : 'authorize',
+    authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
     client : 'api/client',
     client_data : 'v2/api/clientdata',

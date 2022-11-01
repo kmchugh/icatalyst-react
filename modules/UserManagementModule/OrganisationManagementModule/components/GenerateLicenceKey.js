@@ -90,7 +90,7 @@ const GenerateLicenceKey = ({
   const createKey = (data, callback)=>{
     dispatch(
       licenceKeysDefinition.operations['ADD_ENTITY'](
-        {},
+        data,
         (err, res)=>{
           callback && callback(err);
           if (!err) {
