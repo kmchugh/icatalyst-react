@@ -44,7 +44,7 @@ const definition = createModel({
       minLength: 1,
       maxLength: 256,
       readonly: true,
-      default: 'OCIDConnector'
+      default: 'OIDCConnector'
     },
     {
       id: 'clientID',
@@ -124,7 +124,7 @@ const definition = createModel({
       ],
     },
     {
-      id: 'ocidDiscovery',
+      id: 'oidcDiscovery',
       required : true,
       type: 'url',
       description: 'URL used to introspect the identity provider',
@@ -171,7 +171,7 @@ const definition = createModel({
       id : 'getAuthProviderURL',
       label : 'Login URL',
       render(column, field, item){
-        const url = `https://platform.sensemaker-suite.com/p/${item.guid}`;
+        const url = `${window.location.origin}/access/${item.guid}`;
         return (
           <AuthProviderURL url={url}/>
         );
@@ -198,7 +198,7 @@ const definition = createModel({
         <Typography key="url description" style={{
           fontWeight: 'bold'
         }}>
-          The following URLS should be copied from the OCID provider
+          The following URLS should be copied from the OIDC provider
           and are used by the platform to query the provider.
         </Typography>
       );
@@ -208,12 +208,12 @@ const definition = createModel({
     'jwks',
     'userInfo',
     'signOff',
-    'ocidDiscovery',
+    'oidcDiscovery',
     'introspect',
     'revokeToken',
     'issuer',
   ],
-  
+
   listLayout: [
     'name',
     'description',
@@ -236,7 +236,7 @@ const definition = createModel({
       jwks: entity.jwks,
       userInfo: entity.userInfo,
       signOff: entity.signOff,
-      ocidDiscovery: entity.ocidDiscovery,
+      oidcDiscovery: entity.oidcDiscovery,
       introspect: entity.introspect,
       revokeToken: entity.revokeToken,
       issuer: entity.issuer,
@@ -255,11 +255,6 @@ const definition = createModel({
   // getRetrieveAllParams : (parentDefinition, parent)=>{
   //   return {
   //     licenceID : parentDefinition.getIdentity(parent),
-  //   };
-  // },
-  // getDeleteParams : (getState, parentMasterDetailContext)=>{
-  //   return {
-  //     licenceID : parentMasterDetailContext.parentContext.entityID
   //   };
   // },
   ...Actions,
