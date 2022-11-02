@@ -252,11 +252,11 @@ const definition = createModel({
 
     };
   },
-  // getRetrieveAllParams : (parentDefinition, parent)=>{
-  //   return {
-  //     licenceID : parentDefinition.getIdentity(parent),
-  //   };
-  // },
+  getRetrieveAllParams : (parentDefinition, parent)=>{
+    return {
+      organisationID : parentDefinition.getIdentity(parent),
+    };
+  },
   ...Actions,
 });
 
