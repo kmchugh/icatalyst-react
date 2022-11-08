@@ -123,7 +123,7 @@ const OpenAccessComponent = ({
     // See if there is a provider in the localstore and load if so
     providerID = localStore(PROVIDER_KEY);
   }
-  const hasProvider = providerID !== 'access';
+  const hasProvider = providerID && providerID !== 'access';
 
   const inAuthFlow = !!(session || oAuthState || oAuthCode);
 
