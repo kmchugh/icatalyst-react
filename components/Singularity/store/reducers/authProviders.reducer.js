@@ -10,14 +10,7 @@ const definition = createModel({
   primaryTextField: 'name',
   onEntityClicked: ()=>{},
   addInline: true,
-  auth: {
-    retrieveAll: 'admin',
-    create: 'admin',
-    retrieve: 'admin',
-    update: 'admin',
-    delete: 'admin',
-    route: 'admin',
-  },
+  auth: 'alpha',
   fields: [
     {
       id: 'guid',
