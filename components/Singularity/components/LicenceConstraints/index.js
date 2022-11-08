@@ -72,16 +72,6 @@ const LicenceConstraints = ({
 })=>{
   const styles = useStyles();
 
-//   {
-//     "5c992f7c59d05f2e669f29e4172ee37b605b0973fc68fc8e43bd844e5b3e2978": {
-//         "name": "Engagement Owner",
-//         "description": "Heavy users and Project Owners of SenseMaker® projects; people who will need access to be able to assign and remove users from projects, launch projects, design projects, view data and do all linked analytics",
-//         "relationshipTypeID": "219fdda0106685b3d14dba9a8029d142eb6087852b3a9938a4078e4b2e7e12c2",
-//         "limit": 999,
-//         "isDefault": true
-//     }
-// }
-
   const extractConstraintsFromValue = (value)=>{
     if (!value || !value.groups || value.groups.length === 0) {
       return {};

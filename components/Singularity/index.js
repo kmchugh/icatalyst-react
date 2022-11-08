@@ -408,6 +408,7 @@ function Singularity({
     accessToken,
     clientToken,
     token,
+    config,
     initialised : initialised,
     isInRole : (role)=>{
       // If the role is undefined then it is assumed that there is no access
