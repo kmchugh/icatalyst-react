@@ -106,7 +106,7 @@ const SelectField = (props) => {
         />
         {
           options.filter((item) =>
-            item.label && applyFilter(item.label)
+            applyFilter(item.label || item.id)
           ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
