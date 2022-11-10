@@ -2,8 +2,7 @@ import * as Actions from '../actions/organisations.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { definition as authProviders } from './authProviders.reducer';
-// import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
-// import { definition as rolesDefinition } from './roles.reducer';
+import { definition as rolesDefinition } from './organisationRoles.reducer';
 
 const definition = createModel({
   name: 'organisation',
@@ -132,11 +131,9 @@ const definition = createModel({
     {
       ...authProviders
     },
-    // {
-    //   ...licenceKeysDefinition
-    // },{
-    //   ...rolesDefinition
-    // }
+    {
+      ...rolesDefinition
+    }
   ],
   ...Actions,
 });

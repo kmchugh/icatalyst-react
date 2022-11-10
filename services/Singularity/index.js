@@ -40,6 +40,7 @@ class SingularityService {
     licences : 'v2/api/licences',
     licenceKeys : 'v2/api/licences/:licenceID/keys',
     organisations : 'v2/api/organisations',
+    organisationRoles : 'v2/api/organisations/:organisationID/roles',
     personalAccessToken : 'api/personalToken',
     profile : 'api/profile',
     profileUpdate : 'api/me',
