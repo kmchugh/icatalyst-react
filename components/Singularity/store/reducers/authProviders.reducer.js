@@ -8,7 +8,6 @@ const definition = createModel({
   name: 'identityProvider',
   icon: 'lock_person',
   primaryTextField: 'name',
-  onEntityClicked: ()=>{},
   addInline: true,
   auth: 'alpha',
   fields: [
@@ -215,8 +214,49 @@ const definition = createModel({
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.authProviders;
   },
-  // getUpdateParams : ()=>{
-  // // probably null secret}
+  transformPayload : (data)=>{
+    const {provider, urls, ...rest} = data;
+    return {
+      ...rest,
+      description: rest.description || null,
+      providerClientID: provider.clientID,
+      providerClientSecret: provider.clientSecret,
+
+      auth: urls.auth,
+      token: urls.token,
+      jwks: urls.jwks,
+      userInfo: urls.userInfo,
+      signOff: urls.signOff,
+      oidcDiscovery: urls.oidcDiscovery,
+      introspect: urls.introspect,
+      revokeToken: urls.revokeToken,
+      issuer: urls.issuer
+    };
+  },
+
+
+
+  getUpdateParams : (getState, masterDetailContext, entity)=>{
+    entity.provider = {
+      clientID: entity.providerClientID,
+      clientSecret: entity.providerClientSecret
+    };
+
+    entity.urls = {
+      auth: entity.auth,
+      token: entity.token,
+      jwks: entity.jwks,
+      userInfo: entity.userInfo,
+      signOff: entity.signOff,
+      oidcDiscovery: entity.oidcDiscovery,
+      introspect: entity.introspect,
+      revokeToken: entity.revokeToken,
+      issuer: entity.issuer,
+    };
+
+    // This is picked up from the token
+    delete entity.clientID;
+  },
   getAddParams : (getState, entity, parentDefinition, parent)=>{
     entity.provider = {
       clientID: entity.providerClientID,

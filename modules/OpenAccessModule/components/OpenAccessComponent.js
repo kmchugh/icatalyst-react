@@ -192,11 +192,14 @@ const OpenAccessComponent = ({
                     const redirectURL = encodeURIComponent(
                       `${config.server.root}/v2/api/connectors/oidc/${providerID}`,
                     );
-                    const scope = encodeURIComponent('email');
+                    const scope = encodeURIComponent('openid profile email');
+                    const state = '1234567890';
+                    const audience = encodeURIComponent(urls.issuer);
 
                     const authoriseEndpoint = `${encodeURI(
                       urls.auth,
-                    )}?response_type=${responseType}&client_id=${clientID}&scope=${scope}&redirect_uri=${redirectURL}`;
+                    )}?state=${state}&response_type=${responseType}&client_id=${clientID}&scope=${scope}&audience=${audience}&redirect_uri=${redirectURL}`;
+
                     window.location.href = authoriseEndpoint;
                   }}
                 >
