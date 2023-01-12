@@ -86,6 +86,10 @@ const RoleComponent = ({
   onToggleExpand,
   title,
   description,
+  addUserToRole,
+  promoteRoleUser,
+  demoteRoleUser,
+  removeUserFromRole,
 })=>{
   const styles = useStyles();
 
@@ -172,7 +176,7 @@ const RoleComponent = ({
                       <Avatar
                         className={clsx(styles.avatar)}
                         border={false}
-                        alt={(user.displayName) || 'user profile image'}
+                        alt={(user.displayName) || t('user profile image')}
                         src={user.profileImageUri}
                       />
                     </ListItemIcon>
@@ -181,29 +185,45 @@ const RoleComponent = ({
                         styles.listItemUserName,
                         isOwner && styles.listItemUserName_owner,
                       )}
-                      primary={`${user.displayName}${(isOwner && ' (admin)') || ''}`}
+                      primary={`${user.displayName}${(isOwner && ` (${t('admin')})`) || ''}`}
                     />
                     <ListItemIcon>
                       <Button
                         variant="outlined"
+                        disabled={(isOwner && !demoteRoleUser) || (!isOwner && !promoteRoleUser)}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
-
+                          if (isOwner) {
+                            demoteRoleUser && demoteRoleUser({
+                              userID: user.guid,
+                              roleID: role.guid,
+                            });
+                          } else {
+                            promoteRoleUser && promoteRoleUser({
+                              userID: user.guid,
+                              roleID: role.guid,
+                            });
+                          }
                         }}
                       >
-                        {isOwner ? 'Clear Admin' : 'Set as Admin' }
+                        {isOwner ? t('Clear Admin') : t('Set as Admin') }
                       </Button>
                     </ListItemIcon>
                     <ListItemIcon>
                       <IconButton
                         size="medium"
-                        title="delete"
+                        title={t('delete user')}
                         icon="delete"
+                        disabled={!removeUserFromRole}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
 
+                          removeUserFromRole && removeUserFromRole({
+                            roleID: role.guid,
+                            userID: user.guid,
+                          });
                         }}
                       />
                     </ListItemIcon>
@@ -218,6 +238,15 @@ const RoleComponent = ({
             className={clsx(styles.autoLeft)}
             variant="outlined"
             color="primary"
+            disabled={!addUserToRole}
+            onClick={(e)=>{
+              e.stopPropagation();
+              e.preventDefault();
+
+              addUserToRole && addUserToRole({
+                roleID: role.guid
+              });
+            }}
           >
             Add User
           </Button>
@@ -237,7 +266,11 @@ RoleComponent.propTypes={
   expanded: PropTypes.bool,
   onToggleExpand: PropTypes.func,
   title: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  addUserToRole: PropTypes.func,
+  promoteRoleUser: PropTypes.func,
+  demoteRoleUser: PropTypes.func,
+  removeUserFromRole: PropTypes.func,
 };
 
 export default RoleComponent;

@@ -37,6 +37,8 @@ const useStyles = makeStyles((theme)=>{
     },
     statLabel: {
       margin: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
+      paddingRight: theme.spacing(2),
     },
     stat: {
       height: '100%',

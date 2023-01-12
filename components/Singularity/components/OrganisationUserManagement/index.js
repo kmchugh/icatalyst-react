@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -69,10 +69,16 @@ const OrganisationUserManagement = ({
   const [loadingStats, setLoadingStats] = useState(false);
   const [expanded, setExpanded] = useState(null);
 
-  // Load the organisation roles and users
-  useEffect(()=>{
+  const {
+    addUserToRole,
+    demoteRoleUser,
+    promoteRoleUser,
+    removeUserFromRole,
+  } = definition.operations;
+
+  const refreshUserData = useCallback(()=>{
     setLoading(true);
-    /*const result = */dispatch(operations['RETRIEVE_ENTITIES'](()=>{
+    return dispatch(operations['RETRIEVE_ENTITIES'](()=>{
       setLoading(false);
     }, {
       accessToken: accessToken,
@@ -83,12 +89,18 @@ const OrganisationUserManagement = ({
         ) : {})
       }
     }));
+  }, [parentEntity, parentDefinition, definition]);
+
+  // Load the organisation roles and users
+  useEffect(()=>{
+    /*const result = */refreshUserData();
 
     // return (()=>{
     //   if (result && result.cancelToken) {
     //     result.cancelToken.cancel('Unloading');
     //   }
     // });
+
   }, []);
 
   useEffect(()=>{
@@ -111,6 +123,11 @@ const OrganisationUserManagement = ({
       }));
     }
   }, [organisationID]);
+
+  const handleError = (err)=>{
+    // Set the error state
+    console.log(err);
+  };
 
   return (
     <div
@@ -166,6 +183,79 @@ const OrganisationUserManagement = ({
                 expanded={(expanded === null && index === 0) || expanded === entity.role.guid}
                 onToggleExpand={(event, value)=>{
                   setExpanded(value ? entity.role.guid : null);
+                }}
+                addUserToRole={({
+                  roleID
+                })=>{
+                  // Prompt user for email address
+                  const email = 'an.email@email.com';
+                  addUserToRole && dispatch(addUserToRole({
+                    roleID,
+                    organisationID,
+                    email
+                  }, (err)=>{
+                    if (err) {
+                      handleError(err);
+                    } else {
+                      refreshUserData();
+                    }
+                  }, {
+                    accessToken,
+                  }));
+                }}
+                promoteRoleUser={({
+                  roleID,
+                  userID,
+                })=>{
+                  promoteRoleUser && dispatch(promoteRoleUser({
+                    userID,
+                    roleID,
+                    organisationID
+                  }, (err)=>{
+                    if (err) {
+                      handleError(err);
+                    } else {
+                      refreshUserData();
+                    }
+                  }, {
+                    accessToken,
+                  }));
+                }}
+                demoteRoleUser={({
+                  roleID,
+                  userID,
+                })=>{
+                  demoteRoleUser && dispatch(demoteRoleUser({
+                    userID,
+                    roleID,
+                    organisationID
+                  }, (err)=>{
+                    if (err) {
+                      handleError(err);
+                    } else {
+                      refreshUserData();
+                    }
+                  }, {
+                    accessToken,
+                  }));
+                }}
+                removeUserFromRole={({
+                  roleID,
+                  userID,
+                })=>{
+                  removeUserFromRole && dispatch(removeUserFromRole({
+                    userID,
+                    roleID,
+                    organisationID
+                  }, (err)=>{
+                    if (err) {
+                      handleError(err);
+                    } else {
+                      refreshUserData();
+                    }
+                  }, {
+                    accessToken,
+                  }));
                 }}
               />
             );

@@ -2,7 +2,6 @@ import * as Actions from '../actions/organisations.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { definition as authProviders } from './authProviders.reducer';
-import { definition as rolesDefinition } from './organisationRoles.reducer';
 import { definition as usersDefinition } from './organisationUsers.reducer';
 
 const definition = createModel({
@@ -131,9 +130,6 @@ const definition = createModel({
   children : [
     {
       ...usersDefinition,
-    },
-    {
-      ...rolesDefinition,
     },
     {
       ...authProviders
