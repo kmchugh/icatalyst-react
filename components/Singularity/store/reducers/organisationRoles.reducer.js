@@ -3,7 +3,7 @@ import { createModel, generateReducer } from '../../../../utilities';
 
 const definition = createModel({
   name: 'organisationRoles',
-  icon: 'fa users',
+  icon: 'people',
   auth: {
     retrieveAll: 'alpha',
     // create: 'admin',
@@ -72,7 +72,7 @@ const definition = createModel({
       'accessrole'
     ]
   ],
-  listLayout: ['name', 'code', 'description'],
+  listLayout: ['name', 'description'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.organisationRoles;
   },

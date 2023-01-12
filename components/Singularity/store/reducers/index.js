@@ -17,6 +17,8 @@ import personalAccessToken from './personalAccessToken.reducer';
 import usersReport from './userReports.reducer';
 import organisations from './organisations.reducer';
 import organisationRoles from './organisationRoles.reducer';
+import organisationStats from './organisationStats.reducer';
+import organisationUsers from './organisationUsers.reducer';
 import licences from './licences.reducer';
 import licenceKeys from './licenceKeys.reducer';
 import authProviders from './authProviders.reducer';
@@ -37,6 +39,8 @@ const reducers = combineReducers({
   licenceKeys,
   organisations,
   organisationRoles,
+  organisationStats,
+  organisationUsers,
   personalAccessToken,
   resourceAccess,
   resourceInvite,
