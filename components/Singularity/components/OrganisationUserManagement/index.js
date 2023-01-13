@@ -7,6 +7,7 @@ import { MasterDetailContext} from '../../../MasterDetail';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../Singularity';
 import FuseLoading from '../../../fuse/FuseLoading';
+import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import RoleComponent from './RoleComponent';
 import StatsComponent from './StatsComponent';
 import {definition as organisationStatsDefinition} from '../../store/reducers/organisationStats.reducer';
@@ -26,6 +27,14 @@ const useStyles = makeStyles((theme)=>{
       padding: theme.spacing(2),
       maxHeight: '100%',
       overflow: 'auto',
+    },
+    errorWrapper: {
+      padding: 0,
+      flexShrink: 1,
+      flexGrow: 0,
+    },
+    errorWrapperComponent: {
+      padding: 0,
     },
   };
 });
@@ -48,6 +57,7 @@ const OrganisationUserManagement = ({
   const parentEntity = parentMasterDetailContext.parentContext.entity;
   const organisationID = parentEntity.guid;
   const [stats, setStats] = useState(null);
+  const [errors, setErrors] = useState(null);
 
   const {
     title,
@@ -125,8 +135,7 @@ const OrganisationUserManagement = ({
   }, [organisationID]);
 
   const handleError = (err)=>{
-    // Set the error state
-    console.log(err);
+    setErrors(err);
   };
 
   return (
@@ -134,6 +143,11 @@ const OrganisationUserManagement = ({
       className={clsx(styles.root, className)}
       style={{...style}}
     >
+      <div className={clsx(styles.errorWrapper)}>
+        {
+          (errors && errors.length > 0) && <ErrorWrapper className={clsx(styles.errorWrapperComponent)} errors={errors}/>
+        }
+      </div>
       <div
         className={clsx(styles.licenceSection)}
       >
@@ -187,6 +201,7 @@ const OrganisationUserManagement = ({
                 addUserToRole={({
                   roleID
                 })=>{
+                  setErrors(null);
                   // Prompt user for email address
                   const email = 'an.email@email.com';
                   addUserToRole && dispatch(addUserToRole({
@@ -207,6 +222,7 @@ const OrganisationUserManagement = ({
                   roleID,
                   userID,
                 })=>{
+                  setErrors(null);
                   promoteRoleUser && dispatch(promoteRoleUser({
                     userID,
                     roleID,
@@ -225,6 +241,7 @@ const OrganisationUserManagement = ({
                   roleID,
                   userID,
                 })=>{
+                  setErrors(null);
                   demoteRoleUser && dispatch(demoteRoleUser({
                     userID,
                     roleID,
@@ -243,6 +260,7 @@ const OrganisationUserManagement = ({
                   roleID,
                   userID,
                 })=>{
+                  setErrors(null);
                   removeUserFromRole && dispatch(removeUserFromRole({
                     userID,
                     roleID,
