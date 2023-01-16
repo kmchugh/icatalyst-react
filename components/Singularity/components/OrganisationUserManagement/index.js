@@ -11,6 +11,8 @@ import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import RoleComponent from './RoleComponent';
 import StatsComponent from './StatsComponent';
 import {definition as organisationStatsDefinition} from '../../store/reducers/organisationStats.reducer';
+import * as DialogActions from '../../../../store/actions/dialog.actions';
+import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
 
 import {
   Typography,
@@ -113,6 +115,40 @@ const OrganisationUserManagement = ({
 
   }, []);
 
+  const handleAddUserClick = ({
+    organisationID,
+    roleID
+  })=>{
+    dispatch(DialogActions.openDialog({
+      title : 'User Details',
+      children : (
+        <UserEmailInputDialogContent
+          onSaved={(value, callback)=>{
+
+            // Success useCallback
+            // Prompt user for email address
+            const {email} = value;
+            addUserToRole && dispatch(addUserToRole({
+              roleID,
+              organisationID,
+              email
+            }, (err)=>{
+              if (err) {
+                callback(err);
+                handleError(err);
+              } else {
+                callback();
+                refreshUserData();
+              }
+            }, {
+              accessToken,
+            }));
+          }}
+        />
+      )
+    }));
+  };
+
   useEffect(()=>{
     if (!organisationID) {
       setStats(null);
@@ -202,21 +238,12 @@ const OrganisationUserManagement = ({
                   roleID
                 })=>{
                   setErrors(null);
-                  // Prompt user for email address
-                  const email = 'an.email@email.com';
-                  addUserToRole && dispatch(addUserToRole({
-                    roleID,
-                    organisationID,
-                    email
-                  }, (err)=>{
-                    if (err) {
-                      handleError(err);
-                    } else {
-                      refreshUserData();
-                    }
-                  }, {
-                    accessToken,
-                  }));
+                  if (addUserToRole) {
+                    handleAddUserClick({
+                      organisationID,
+                      roleID
+                    });
+                  }
                 }}
                 promoteRoleUser={({
                   roleID,
