@@ -28,6 +28,15 @@ const useStyles = makeStyles((theme)=>{
       justifyContent: 'center',
       color: theme.palette.secondary.contrastText
     },
+    loadingWrapper: {
+      background: theme.palette.background.paper,
+      border: `thin solid ${theme.palette.divider}`,
+      borderRadius: theme.shape.borderRadius,
+      padding: theme.spacing(2, 3),
+      maxWidth: theme.spacing(50),
+      alignSelf: 'center',
+      justifySelf: 'center'
+    },
     backgroundCoverFN : ({backgroundImage})=>{
       return backgroundImage ? {
         backgroundImage: `url('${backgroundImage}')`,
@@ -156,7 +165,9 @@ const OpenAccessComponent = ({
   return (
     <div className={clsx(styles.root, styles.backgroundCoverFN, className)}>
       { (inAuthFlow || gettingAuthProvider) && (
-        <FuseLoading/>
+        <div className={clsx(styles.loadingWrapper)}>
+          <FuseLoading/>
+        </div>
       )}
 
       { (!inAuthFlow && authProvider && !gettingAuthProvider) && (

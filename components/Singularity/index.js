@@ -140,7 +140,6 @@ function Singularity({
 
   const handleToken = (token)=>{
     // We have a token, redirect the user if required
-
     // Validate the token
     setMessage(`${t('Validating Token')}...`);
 
@@ -381,6 +380,13 @@ function Singularity({
             data : data
           });
 
+          // If the user is not a member of any roles, then add them to 'dashboardUser' so they can see something,
+          if (!user.roles || user.roles.length === 0) {
+            user.roles = [{
+              code: 'dashboardUser'
+            }];
+          }
+
           setUser({
             ...user,
             roles : user.roles.filter(filterDisplayRoles),
@@ -389,7 +395,6 @@ function Singularity({
           });
           setInitialised(true);
           onUserAuthenticated(user, dispatch);
-
         }).catch((data)=>{
           throw {
             error : data.responsecode,
