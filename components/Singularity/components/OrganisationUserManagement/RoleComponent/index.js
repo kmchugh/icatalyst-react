@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme)=>{
       height: theme.spacing(6),
       width: theme.spacing(6)
     },
-    userList: {
+    resourceList: {
       backgroundColor: theme.palette.background.default,
       borderTop: `thin solid ${theme.palette.divider}`,
       marginTop: theme.spacing(3),
@@ -62,15 +62,15 @@ const useStyles = makeStyles((theme)=>{
       width: '100%',
       overflow: 'auto'
     },
-    userListItem: {
+    resourceListItem: {
       '&:hover' : {
         backgroundColor: theme.palette.action.focus
       }
     },
-    listItemUserName : {
+    listItemresourceName : {
 
     },
-    listItemUserName_owner : {
+    listItemresourceName_owner : {
       '& .MuiTypography-root' : {
         fontWeight: 'bold'
       }
@@ -86,16 +86,19 @@ const RoleComponent = ({
   onToggleExpand,
   title,
   description,
-  addUserToRole,
-  promoteRoleUser,
-  demoteRoleUser,
-  removeUserFromRole,
+  addresourceToRole,
+  promoteRoleresource,
+  demoteRoleresource,
+  removeresourceFromRole,
+  showRoles = false,
 })=>{
   const styles = useStyles();
 
   const {t} = useContext(LocalizationContext);
 
-  const {role, users} = roleData;
+  const {role, resources} = roleData;
+
+  console.log({showRoles});
 
   return (
     <div
@@ -140,15 +143,6 @@ const RoleComponent = ({
             >
               {title || role.name}
             </Typography>
-            <Typography
-              color="primary"
-              variant="body2"
-              style={{
-                marginLeft: 16
-              }}
-            >
-              {' - '}{users.length} {t('user(s)')}
-            </Typography>
           </div>
         </AccordionSummary>
 
@@ -161,47 +155,47 @@ const RoleComponent = ({
               {description || role.description}
             </Typography>
             <List
-              className={clsx(styles.userList)}
+              className={clsx(styles.resourceList)}
             >
-              {users.map(user=>{
-                const {edges} = user;
+              {resources.map(resource=>{
+                const {edges} = resource;
                 const isOwner = Boolean(edges.find(et=>et.edgeType.code === 'SINGULARITY_OWNER_EDGE'));
 
                 return (
                   <ListItem
-                    className={clsx(styles.userListItem)}
-                    key={user.guid}
+                    className={clsx(styles.resourceListItem)}
+                    key={resource.guid}
                   >
                     <ListItemIcon>
                       <Avatar
                         className={clsx(styles.avatar)}
                         border={false}
-                        alt={(user.displayName) || t('user profile image')}
-                        src={user.profileImageUri}
+                        alt={(resource.displayName) || t('resource profile image')}
+                        src={resource.profileImageUri}
                       />
                     </ListItemIcon>
                     <ListItemText
                       className={clsx(
-                        styles.listItemUserName,
-                        isOwner && styles.listItemUserName_owner,
+                        styles.listItemresourceName,
+                        isOwner && styles.listItemresourceName_owner,
                       )}
-                      primary={`${user.displayName}${(isOwner && ` (${t('admin')})`) || ''}`}
+                      primary={`${resource.displayName}${(isOwner && ` (${t('admin')})`) || ''}`}
                     />
                     <ListItemIcon>
                       <Button
                         variant="outlined"
-                        disabled={(isOwner && !demoteRoleUser) || (!isOwner && !promoteRoleUser)}
+                        disabled={(isOwner && !demoteRoleresource) || (!isOwner && !promoteRoleresource)}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
                           if (isOwner) {
-                            demoteRoleUser && demoteRoleUser({
-                              userID: user.guid,
+                            demoteRoleresource && demoteRoleresource({
+                              resourceID: resource.guid,
                               roleID: role.guid,
                             });
                           } else {
-                            promoteRoleUser && promoteRoleUser({
-                              userID: user.guid,
+                            promoteRoleresource && promoteRoleresource({
+                              resourceID: resource.guid,
                               roleID: role.guid,
                             });
                           }
@@ -213,16 +207,16 @@ const RoleComponent = ({
                     <ListItemIcon>
                       <IconButton
                         size="medium"
-                        title={t('delete user')}
+                        title={t('delete resource')}
                         icon="delete"
-                        disabled={!removeUserFromRole}
+                        disabled={!removeresourceFromRole}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
 
-                          removeUserFromRole && removeUserFromRole({
+                          removeresourceFromRole && removeresourceFromRole({
                             roleID: role.guid,
-                            userID: user.guid,
+                            resourceID: resource.guid,
                           });
                         }}
                       />
@@ -238,17 +232,17 @@ const RoleComponent = ({
             className={clsx(styles.autoLeft)}
             variant="outlined"
             color="primary"
-            disabled={!addUserToRole}
+            disabled={!addresourceToRole}
             onClick={(e)=>{
               e.stopPropagation();
               e.preventDefault();
 
-              addUserToRole && addUserToRole({
+              addresourceToRole && addresourceToRole({
                 roleID: role.guid
               });
             }}
           >
-            Add User
+            Add resource
           </Button>
         </AccordionDetails>
       </Accordion>
@@ -267,10 +261,11 @@ RoleComponent.propTypes={
   onToggleExpand: PropTypes.func,
   title: PropTypes.string,
   description: PropTypes.string,
-  addUserToRole: PropTypes.func,
-  promoteRoleUser: PropTypes.func,
-  demoteRoleUser: PropTypes.func,
-  removeUserFromRole: PropTypes.func,
+  addresourceToRole: PropTypes.func,
+  promoteRoleresource: PropTypes.func,
+  demoteRoleresource: PropTypes.func,
+  removeresourceFromRole: PropTypes.func,
+  showRoles: PropTypes.bool
 };
 
 export default RoleComponent;

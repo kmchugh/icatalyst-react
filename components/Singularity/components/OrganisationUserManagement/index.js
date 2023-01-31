@@ -229,7 +229,10 @@ const OrganisationUserManagement = ({
               <RoleComponent
                 key={entity.role.guid}
                 title={entity.role.name.replace(`${parentEntity.name} - `, '').replace(`${parentEntity.name} `, '')}
-                roleData={entity}
+                roleData={{
+                  ...entity,
+                  resources: entity.users
+                }}
                 expanded={(expanded === null && index === 0) || expanded === entity.role.guid}
                 onToggleExpand={(event, value)=>{
                   setExpanded(value ? entity.role.guid : null);

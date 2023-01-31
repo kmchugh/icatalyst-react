@@ -47,6 +47,7 @@ class SingularityService {
     profile : 'api/profile',
     profileUpdate : 'api/me',
     notification : 'v2/api/notification',
+    roleMembers: 'v2/api/roles/:roleID/relationships',
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
