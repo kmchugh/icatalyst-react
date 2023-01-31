@@ -74,6 +74,13 @@ const useStyles = makeStyles((theme)=>{
       '& .MuiTypography-root' : {
         fontWeight: 'bold'
       }
+    },
+    resourceIcon: {
+      background: theme.palette.divider,
+      width: theme.spacing(6),
+      height: theme.spacing(6),
+      padding: theme.spacing(.75),
+      borderRadius: '50%',
     }
   };
 });
@@ -86,19 +93,16 @@ const RoleComponent = ({
   onToggleExpand,
   title,
   description,
-  addresourceToRole,
-  promoteRoleresource,
-  demoteRoleresource,
-  removeresourceFromRole,
-  showRoles = false,
+  addResourceToRole,
+  promoteRoleResource,
+  demoteRoleResource,
+  removeResourceFromRole,
 })=>{
   const styles = useStyles();
 
   const {t} = useContext(LocalizationContext);
 
   const {role, resources} = roleData;
-
-  console.log({showRoles});
 
   return (
     <div
@@ -160,6 +164,13 @@ const RoleComponent = ({
               {resources.map(resource=>{
                 const {edges} = resource;
                 const isOwner = Boolean(edges.find(et=>et.edgeType.code === 'SINGULARITY_OWNER_EDGE'));
+                const {icon, resourceType} = resource;
+
+                let displayResourceType = ((resourceType && resourceType.split('.').pop()) || 'user').toLowerCase();
+                if (displayResourceType === 'rolenode') {
+                  displayResourceType = 'role';
+                }
+                displayResourceType = t(displayResourceType);
 
                 return (
                   <ListItem
@@ -167,12 +178,20 @@ const RoleComponent = ({
                     key={resource.guid}
                   >
                     <ListItemIcon>
-                      <Avatar
+                      {!icon && <Avatar
                         className={clsx(styles.avatar)}
                         border={false}
                         alt={(resource.displayName) || t('resource profile image')}
                         src={resource.profileImageUri}
-                      />
+                      />}
+                      {icon && (
+                        <Icon
+                          size="large"
+                          className={clsx(styles.resourceIcon)}
+                        >
+                          {icon}
+                        </Icon>
+                      )}
                     </ListItemIcon>
                     <ListItemText
                       className={clsx(
@@ -184,17 +203,17 @@ const RoleComponent = ({
                     <ListItemIcon>
                       <Button
                         variant="outlined"
-                        disabled={(isOwner && !demoteRoleresource) || (!isOwner && !promoteRoleresource)}
+                        disabled={(isOwner && !demoteRoleResource) || (!isOwner && !promoteRoleResource)}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
                           if (isOwner) {
-                            demoteRoleresource && demoteRoleresource({
+                            demoteRoleResource && demoteRoleResource({
                               resourceID: resource.guid,
                               roleID: role.guid,
                             });
                           } else {
-                            promoteRoleresource && promoteRoleresource({
+                            promoteRoleResource && promoteRoleResource({
                               resourceID: resource.guid,
                               roleID: role.guid,
                             });
@@ -207,14 +226,14 @@ const RoleComponent = ({
                     <ListItemIcon>
                       <IconButton
                         size="medium"
-                        title={t('delete resource')}
+                        title={t('remove {0}', displayResourceType)}
                         icon="delete"
-                        disabled={!removeresourceFromRole}
+                        disabled={!removeResourceFromRole}
                         onClick={(e)=>{
                           e.stopPropagation();
                           e.preventDefault();
 
-                          removeresourceFromRole && removeresourceFromRole({
+                          removeResourceFromRole && removeResourceFromRole({
                             roleID: role.guid,
                             resourceID: resource.guid,
                           });
@@ -232,12 +251,12 @@ const RoleComponent = ({
             className={clsx(styles.autoLeft)}
             variant="outlined"
             color="primary"
-            disabled={!addresourceToRole}
+            disabled={!addResourceToRole}
             onClick={(e)=>{
               e.stopPropagation();
               e.preventDefault();
 
-              addresourceToRole && addresourceToRole({
+              addResourceToRole && addResourceToRole({
                 roleID: role.guid
               });
             }}
@@ -261,11 +280,10 @@ RoleComponent.propTypes={
   onToggleExpand: PropTypes.func,
   title: PropTypes.string,
   description: PropTypes.string,
-  addresourceToRole: PropTypes.func,
-  promoteRoleresource: PropTypes.func,
-  demoteRoleresource: PropTypes.func,
-  removeresourceFromRole: PropTypes.func,
-  showRoles: PropTypes.bool
+  addResourceToRole: PropTypes.func,
+  promoteRoleResource: PropTypes.func,
+  demoteRoleResource: PropTypes.func,
+  removeResourceFromRole: PropTypes.func
 };
 
 export default RoleComponent;

@@ -237,7 +237,7 @@ const OrganisationUserManagement = ({
                 onToggleExpand={(event, value)=>{
                   setExpanded(value ? entity.role.guid : null);
                 }}
-                addUserToRole={({
+                addResourceToRole={({
                   roleID
                 })=>{
                   setErrors(null);
@@ -248,9 +248,9 @@ const OrganisationUserManagement = ({
                     });
                   }
                 }}
-                promoteRoleUser={({
+                promoteRoleResource={({
                   roleID,
-                  userID,
+                  resourceID: userID,
                 })=>{
                   setErrors(null);
                   promoteRoleUser && dispatch(promoteRoleUser({
@@ -267,9 +267,9 @@ const OrganisationUserManagement = ({
                     accessToken,
                   }));
                 }}
-                demoteRoleUser={({
+                demoteRoleResource={({
                   roleID,
-                  userID,
+                  resourceID: userID,
                 })=>{
                   setErrors(null);
                   demoteRoleUser && dispatch(demoteRoleUser({
@@ -286,9 +286,9 @@ const OrganisationUserManagement = ({
                     accessToken,
                   }));
                 }}
-                removeUserFromRole={({
+                removeResourceFromRole={({
                   roleID,
-                  userID,
+                  resourceID: userID,
                 })=>{
                   setErrors(null);
                   removeUserFromRole && dispatch(removeUserFromRole({
