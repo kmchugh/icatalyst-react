@@ -6,6 +6,7 @@ import Icon from '../../../../Icon';
 import Avatar from '../../../../Avatar';
 import IconButton from '../../../../IconButton';
 import {LocalizationContext} from '../../../../../localization/LocalizationProvider';
+import {Link} from 'react-router-dom';
 
 import {
   Typography,
@@ -164,13 +165,16 @@ const RoleComponent = ({
               {resources.map(resource=>{
                 const {edges} = resource;
                 const isOwner = Boolean(edges.find(et=>et.edgeType.code === 'SINGULARITY_OWNER_EDGE'));
-                const {icon, resourceType} = resource;
+                const {icon, resourceType, link} = resource;
 
                 let displayResourceType = ((resourceType && resourceType.split('.').pop()) || 'user').toLowerCase();
                 if (displayResourceType === 'rolenode') {
                   displayResourceType = 'role';
                 }
                 displayResourceType = t(displayResourceType);
+
+                const hasLink = link && link !== '';
+                const resourceText = `${resource.displayName}${(isOwner && ` (${t('admin')})`) || ''}`;
 
                 return (
                   <ListItem
@@ -198,7 +202,18 @@ const RoleComponent = ({
                         styles.listItemresourceName,
                         isOwner && styles.listItemresourceName_owner,
                       )}
-                      primary={`${resource.displayName}${(isOwner && ` (${t('admin')})`) || ''}`}
+                      primary={
+                        hasLink ?
+                          (
+                            <Link
+                              to={link}
+                            >
+                              {resourceText}
+                            </Link>
+                          ) :
+                          resourceText
+                      }
+                      // disableTypeography={hasLink}
                     />
                     <ListItemIcon>
                       <Button

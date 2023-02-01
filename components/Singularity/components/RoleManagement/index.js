@@ -15,6 +15,8 @@ import FuseLoading from '../../../fuse/FuseLoading';
 import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import EntityView from '../../../EntityView';
 import {useForm} from '../../../../hooks/fuse';
+import { withRouter } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -58,6 +60,7 @@ const RoleManagement = ({
   backUrl,
   config,
   readonly,
+  match,
 })=>{
   const styles = useStyles();
 
@@ -67,6 +70,12 @@ const RoleManagement = ({
   const {accessToken} = useContext(SingularityContext);
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
   const {entityID : roleID} = masterDetailContext;
+
+  // Set up the paths for redirecting to roles or Users
+  const rolePath = match?.path;
+  // TODO: Setup user path when user exploration is ready
+  const userPath = undefined;
+
 
   const {
     entityDefinition : definition,
@@ -121,7 +130,8 @@ const RoleManagement = ({
       displayName: role.user?.displayName || role.name || role.description || 'Unknown',
       profileImageUri: role.user?.profileImageUri || undefined,
       isRole: !role.user,
-      icon: role.user ? undefined : 'group'
+      icon: role.user ? undefined : 'group',
+      link: ((role.user ? userPath : rolePath) || '').replace(':id', role.guid)
     };
   };
 
@@ -182,10 +192,12 @@ const RoleManagement = ({
   }, [roleID]);
 
   console.log({
+    role,
+    roleMembers,
     canBeSubmitted,
     reset,
     errors,
-    setErrors
+    setErrors,
   });
 
   const [tabs, setTabs] = useState([]);
@@ -258,7 +270,7 @@ const RoleManagement = ({
         </div>
 
         {
-          roleMembers && <RoleComponent
+          (role && roleMembers) && <RoleComponent
             expanded={expanded === 'members'}
             key={`${role.guid}_members`}
             roleData={roleMembers}
@@ -267,11 +279,15 @@ const RoleManagement = ({
             onToggleExpand={(e, value)=>{
               setExpanded(value ? 'members' : null);
             }}
+            // addResourceToRole={}
+            // promoteRoleResource={}
+            // demoteRoleResource={}
+            // removeResourceFromRole={}
           />
         }
 
         {
-          roleAccess && <RoleComponent
+          (role && roleAccess) && <RoleComponent
             expanded={expanded === 'access'}
             key={`${role.guid}_access`}
             roleData={roleAccess}
@@ -308,6 +324,7 @@ RoleManagement.propTypes={
   backUrl :PropTypes.string,
   config : PageBase.propTypes.config,
   readonly: PropTypes.bool,
+  match : PropTypes.object,
 };
 
-export default RoleManagement;
+export default withRouter(RoleManagement);
