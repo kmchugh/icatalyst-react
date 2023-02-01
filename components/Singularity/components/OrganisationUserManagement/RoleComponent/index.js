@@ -213,7 +213,6 @@ const RoleComponent = ({
                           ) :
                           resourceText
                       }
-                      // disableTypeography={hasLink}
                     />
                     <ListItemIcon>
                       <Button
@@ -276,7 +275,7 @@ const RoleComponent = ({
               });
             }}
           >
-            Add resource
+            Add user
           </Button>
         </AccordionDetails>
       </Accordion>

@@ -11,11 +11,13 @@ import {ThemeProvider} from '@material-ui/core';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
 import RoleComponent from '../OrganisationUserManagement/RoleComponent';
+import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
 import FuseLoading from '../../../fuse/FuseLoading';
 import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import EntityView from '../../../EntityView';
 import {useForm} from '../../../../hooks/fuse';
 import { withRouter } from 'react-router-dom';
+import * as DialogActions from '../../../../store/actions/dialog.actions';
 
 
 const useStyles = makeStyles((theme)=>{
@@ -76,6 +78,9 @@ const RoleManagement = ({
   // TODO: Setup user path when user exploration is ready
   const userPath = undefined;
 
+  const handleError = (err)=>{
+    setResponseErrors(err);
+  };
 
   const {
     entityDefinition : definition,
@@ -192,11 +197,8 @@ const RoleManagement = ({
   }, [roleID]);
 
   console.log({
-    role,
-    roleMembers,
     canBeSubmitted,
     reset,
-    errors,
     setErrors,
   });
 
@@ -221,6 +223,108 @@ const RoleManagement = ({
   useEffect(()=>{
     refreshRoleData();
   }, [definition, entity]);
+
+  const handleAddResourceClick = ({
+    roleID
+  })=>{
+    // TODO: Expand to Roles/Groups
+    dispatch(DialogActions.openDialog({
+      title : 'User Details',
+      children : (
+        <UserEmailInputDialogContent
+          onSaved={(value, callback)=>{
+
+            // Success useCallback
+            // Prompt user for email address
+            const {email} = value;
+            dispatch(operations.addResourceToRole({
+              roleID,
+              email
+            }, (err)=>{
+              if (err) {
+                callback(err);
+                handleError(err);
+              } else {
+                callback();
+                refreshMembershipData(role);
+              }
+            }, {
+              accessToken,
+            }));
+          }}
+        />
+      )
+    }));
+  };
+
+  function handleAddResourceToRole({
+    roleID
+  }){
+    setResponseErrors(null);
+    handleAddResourceClick({
+      roleID
+    });
+  }
+
+  function handlePromoteRoleResource({
+    roleID,
+    resourceID,
+  }){
+    setResponseErrors(null);
+    dispatch(operations.promoteRoleResource({
+      // Note we are switching around due to graph direction
+      roleID : resourceID,
+      resourceID : roleID,
+    }, (err)=>{
+      if (err) {
+        handleError(err);
+      } else {
+        refreshMembershipData(role);
+      }
+    }, {
+      accessToken
+    }));
+  }
+
+  function handleDemoteRoleResource({
+    roleID,
+    resourceID,
+  }){
+    setResponseErrors(null);
+    dispatch(operations.demoteRoleResource({
+      // Note we are switching around due to graph direction
+      roleID : resourceID,
+      resourceID : roleID,
+    }, (err)=>{
+      if (err) {
+        handleError(err);
+      } else {
+        refreshMembershipData(role);
+      }
+    }, {
+      accessToken
+    }));
+  }
+
+  function handleRemoveResourceFromRole({
+    roleID,
+    resourceID
+  }) {
+    setResponseErrors(null);
+    dispatch(operations.removeResourceFromRole({
+      // Note we are switching around due to graph direction
+      roleID : resourceID,
+      resourceID : roleID,
+    }, (err)=>{
+      if (err) {
+        handleError(err);
+      } else {
+        refreshMembershipData(role);
+      }
+    }, {
+      accessToken
+    }));
+  }
 
   return (
     <div
@@ -279,10 +383,10 @@ const RoleManagement = ({
             onToggleExpand={(e, value)=>{
               setExpanded(value ? 'members' : null);
             }}
-            // addResourceToRole={}
-            // promoteRoleResource={}
-            // demoteRoleResource={}
-            // removeResourceFromRole={}
+            removeResourceFromRole={handleRemoveResourceFromRole}
+            addResourceToRole={handleAddResourceToRole}
+            demoteRoleResource={handleDemoteRoleResource}
+            promoteRoleResource={handlePromoteRoleResource}
           />
         }
 
