@@ -49,18 +49,9 @@ const OIDCDiscoveryInput = (props)=>{
   const displayValue = value || '';
   const rootURL = value.split('/').slice(0, 3).join('/').toLowerCase();
 
-  console.log({rootURL});
-
   const isUrlValue = isURL(rootURL) && rootURL.startsWith('https:');
 
   const hasErrors = !isUrlValue || (errors && errors.length > 0);
-
-  console.log({isUrlValue, rootURL});
-
-  console.log({
-    onChange,
-    field,
-  });
 
   const handleClick = async () => {
     try {

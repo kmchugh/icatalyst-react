@@ -117,6 +117,7 @@ const OpenAccessComponent = ({
   }
 
   const authContext = singularityContext;
+  const authAction = localStore('auth:action');
   const {login, register, session} = authContext;
   const location = useLocation();
   const {
@@ -135,6 +136,8 @@ const OpenAccessComponent = ({
   const hasProvider = providerID && providerID !== 'access';
 
   const inAuthFlow = !!(session || oAuthState || oAuthCode);
+
+  const signoutURL = localStore(PROVIDER_SIGNOUT_KEY);
 
   useEffect(()=>{
     if (!inAuthFlow && hasProvider) {
@@ -161,6 +164,11 @@ const OpenAccessComponent = ({
       ));
     }
   }, [hasProvider, inAuthFlow]);
+
+  if (authAction === 'signout' && signoutURL) {
+    localStore('auth:action', null);
+    window.location.href = signoutURL;
+  }
 
   return (
     <div className={clsx(styles.root, styles.backgroundCoverFN, className)}>
