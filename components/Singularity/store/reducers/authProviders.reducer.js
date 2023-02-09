@@ -4,6 +4,8 @@ import { createModel, generateReducer } from '../../../../utilities';
 import Typography from '@material-ui/core/Typography';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import AuthProviderURL from '../../components/AuthProviderURL';
+import OIDCDiscoveryInput from '../../components/OIDCDiscoveryInput';
+
 const definition = createModel({
   name: 'identityProvider',
   icon: 'lock_person',
@@ -118,13 +120,14 @@ const definition = createModel({
     {
       id: 'oidcDiscovery',
       required : true,
-      type: 'url',
+      type: 'custom',
       description: 'URL used to introspect the identity provider',
       validations: [
         createURLConstraint({
           requireHTTPS: true,
         }),
       ],
+      Component: OIDCDiscoveryInput
     },
     {
       id: 'introspect',
@@ -195,12 +198,12 @@ const definition = createModel({
         </Typography>
       );
     },
+    'oidcDiscovery',
     'auth',
     'token',
     'jwks',
     'userInfo',
     'signOff',
-    'oidcDiscovery',
     'introspect',
     'revokeToken',
     'issuer',

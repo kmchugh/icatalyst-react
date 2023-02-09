@@ -33,7 +33,6 @@ const AuthProviderURL = ({
       className={clsx(styles.root, className)}
       style={{...style}}
       onClick={(e)=>{
-        console.log('here');
         e.stopPropagation();
         e.preventDefault();
       }}
