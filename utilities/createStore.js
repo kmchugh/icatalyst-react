@@ -1,6 +1,7 @@
 import * as reduxModule from 'redux';
 import {applyMiddleware, compose, createStore as createReduxStore} from 'redux';
 import thunk from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 import _ from '../@lodash';
 import { setInitialNavigation } from '@icatalyst/store/actions';
 import { setLayouts, setThemes } from '../store/reducers/settings.reducer';
@@ -23,9 +24,14 @@ const composeEnhancers =
       window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
       }) : compose;
+const middleWare = [thunk];
+
+if (process.env.NODE_ENV !== 'production') {
+  middleWare.push(createLogger());
+}
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk)
+  applyMiddleware(...middleWare)
 );
 
 /**
