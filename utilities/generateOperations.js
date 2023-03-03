@@ -357,6 +357,37 @@ const createOperation = {
       );
     };
   },
+  'PATCH_ENTITY' : function(config, actions){
+    return (entity, callback, requestConfig = {})=>{
+      const {params} = requestConfig;
+      const {id, guid, ...rest} = entity;
+
+      if (params){
+        delete requestConfig.params.guid;
+        delete requestConfig.params.id;
+      }
+
+      const uri = (typeof config.uri === 'function' ? config.uri(config) : config.uri);
+      let url = createURI(
+        `${uri}${uri.endsWith('/') ? '' : '/'}${guid || id || entity}/`,
+        params
+      );
+
+      return makeReducerRequest({
+        method : 'patch',
+        url,
+        headers : {
+          Authorization : parseToken(requestConfig),
+          'Content-Type': 'application/json',
+        },
+        data : toJSONBody(rest, false),
+      },
+      actions['ENTITY_UPDATED'],
+      actions['ENTITY_UPDATED_ERROR'],
+      callback
+      );
+    };
+  },
   'RETRIEVE_ENTITY' : function(config, actions){
     return (entityid, callback, requestConfig = {})=>{
       const {params} = requestConfig;
@@ -398,6 +429,7 @@ export function generateOperations(config, actions) {
     'DELETE_ENTITY',
     'DELETE_ENTITIES',
     'UPDATE_ENTITY',
+    'PATCH_ENTITY',
     'INVALIDATE'
   ];
   const operations = action_list.reduce((acc, key)=>{
