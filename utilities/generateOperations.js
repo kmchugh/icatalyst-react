@@ -328,7 +328,7 @@ const createOperation = {
   },
   'UPDATE_ENTITY' : function(config, actions){
     return (entity, callback, requestConfig = {})=>{
-      const {params} = requestConfig;
+      const {params, method = 'put'} = requestConfig;
       const {id, guid, ...rest} = entity;
 
       if (params){
@@ -343,7 +343,7 @@ const createOperation = {
       );
 
       return makeReducerRequest({
-        method : 'put',
+        method,
         url,
         headers : {
           Authorization : parseToken(requestConfig),
