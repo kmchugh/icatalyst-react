@@ -21,6 +21,7 @@ import { useHistory } from 'react-router-dom';
 import * as DialogActions from '../../store/actions/dialog.actions';
 import {DialogContentEntityView} from '../Dialogs/Content';
 import {DialogContentEntityList} from '../Dialogs/Content';
+import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
 const pageConfigKey = 'masterdetail';
 export const NEW_ID = 'new';
@@ -33,6 +34,7 @@ const MasterDetailPage = ({
   contained = false,
   definition = null
 })=>{
+  const {t} = useContext(LocalizationContext);
   const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
@@ -54,6 +56,7 @@ const MasterDetailPage = ({
   const [headerHeight, setHeaderHeight] = useState(isDetail ? 72 : 64);
   const [detailID, setDetailID] = useState(null);
   const [selectedDetailEntity, setSelectedDetailEntity] = useState(null);
+  const [isWizardOpen, setWizardOpen] = useState(false);
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
@@ -135,11 +138,11 @@ const MasterDetailPage = ({
   const loadEntities = ()=>{
     if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
-        setErrors(['You do not have access to this operation']);
+        setErrors([t('You do not have access to this operation')]);
         return;
       }
       setUpdating(true);
-      const result = dispatch(operations['RETRIEVE_ENTITIES']((err, res)=>{
+      return dispatch(operations['RETRIEVE_ENTITIES']((err, res)=>{
         // Success will be picked up by the reducer change
         if (err) {
           setErrors(err.errors || err);
@@ -162,12 +165,6 @@ const MasterDetailPage = ({
           }) : {})
         }
       }));
-
-      return (()=>{
-        if (result && result.cancelToken) {
-          result.cancelToken.cancel('Unloading');
-        }
-      });
     }
   };
 
@@ -176,6 +173,8 @@ const MasterDetailPage = ({
     if (!auth) {
       return;
     }
+
+    let request;
 
     if (reducer && !reducer.loaded) {
       return loadEntities();
@@ -190,6 +189,12 @@ const MasterDetailPage = ({
         return loadEntities();
       }
       setErrors(null);
+    }
+
+    if (request && request.cancelToken) {
+      return (()=>{
+        request.cancelToken.cancel('Unloading');
+      });
     }
   }, [definition, reducer, auth]);
 
@@ -228,64 +233,80 @@ const MasterDetailPage = ({
     location.pathname.replace(match.path, '').split('/')[1]
   ]);
 
-  const handleAdd = ()=>{
-    if (definition.addInline === true) {
-      // Definition specifies to add inline so pop up a dialog
-      dispatch(DialogActions.openDialog({
-        title : `Add ${definition.label}`,
-        children : <DialogContentEntityView
-          definition={definition}
-          onSaved={(data, callback)=>{
-            const addOperation = operations['ADD_ENTITY'];
-            if (!addOperation) {
-              callback([{
-                message : 'Operation not accessible'
-              }]);
-            } else {
-              dispatch(
-                (dispatch, getState)=>{
-                  return dispatch(addOperation(data,
-                    (err, res)=>{
-                      if (!err) {
-                        definition.onAdded && definition.onAdded(res, dispatch, getState);
-                      }
-                      callback(err, res);
-                    }, {
-                      accessToken : accessToken,
-                      params : definition.getAddParams ?
-                        definition.getAddParams(getState, data, definition, {
-                          ...match.params,
-                          [definition.identityFieldName] : match.params.id
-                        }, parentMasterDetailContext) :
-                        parentMasterDetailContext
-                    }
-                  ));
-                }
-              );
-            }
-          }}
-        />
-      }));
-    } else {
-      // Browse to the create entity path
-      let pathFn = (()=>`${window.location.pathname}/${NEW_ID}`);
-      if (definition.createEntityPath) {
-        pathFn = typeof definition.createEntityPath === 'function' ?
-          definition.createEntityPath :
-          ()=>definition.createEntityPath;
-      }
-      history.push(pathFn());
+  const WizardComponent = useMemo(()=>{
+    return definition.wizardComponent;
+  }, [definition]);
+
+  const handleAdd = useMemo(()=>{
+    if (WizardComponent) {
+      return ()=>{
+        setWizardOpen(true);
+      };
     }
-  };
+
+    return definition.onHandleAdd || ((definition, dispatch)=>{
+      if (definition.addInline === true || definition.wizardComponent) {
+        // Definition specifies to add inline so pop up a dialog
+        dispatch(DialogActions.openDialog({
+          title : t('Add {0}', t(definition.label)),
+          children : <DialogContentEntityView
+            definition={definition}
+            onSaved={(data, callback)=>{
+              const addOperation = operations['ADD_ENTITY'];
+              if (!addOperation) {
+                callback([{
+                  message : 'Operation not accessible'
+                }]);
+              } else {
+                dispatch(
+                  (dispatch, getState)=>{
+                    return dispatch(addOperation(data,
+                      (err, res)=>{
+                        if (!err) {
+                          definition.onAdded && definition.onAdded(res, dispatch, getState);
+                        }
+                        callback(err, res);
+                      }, {
+                        accessToken : accessToken,
+                        params : definition.getAddParams ?
+                          definition.getAddParams(getState, data, definition, {
+                            ...match.params,
+                            [definition.identityFieldName] : match.params.id
+                          }, parentMasterDetailContext) :
+                          parentMasterDetailContext
+                      }
+                    ));
+                  }
+                );
+              }
+            }}
+          />
+        }));
+      } else {
+        // Browse to the create entity path
+        let pathFn = (()=>`${window.location.pathname}/${NEW_ID}`);
+        if (definition.createEntityPath) {
+          pathFn = typeof definition.createEntityPath === 'function' ?
+            definition.createEntityPath :
+            ()=>definition.createEntityPath;
+        }
+        history.push(pathFn());
+      }
+    });
+  }, [definition]);
 
   const handleDelete = (entities)=>{
     dispatch(DialogActions.openDialog({
-      title : `Delete ${entities.length === 1 ? definition.label : definition.labelPlural} `,
+      title : t('Delete {0}', t(entities.length === 1 ? definition.label : definition.labelPlural)),
       children : <DialogContentEntityList
         entities={entities}
-        message={`This will delete the following ${entities.length} ${definition.labelPlural}, this action is not recoverable.`}
-        confirmation="Are you sure?"
-        updatingTitle="Deleting..."
+        message={t(
+          'This will delete the following {0} {1}, this action is not recoverable.',
+          entities.length,
+          t(entities.length === 1 ? definition.label : definition.labelPlural)
+        )}
+        confirmation={t('Are you sure?')}
+        updatingTitle={`${t('Deleting')}...`}
         definition={definition}
         onSaved={(data, callback)=>{
           const deleteOperation = operations['DELETE_ENTITIES'];
@@ -335,7 +356,7 @@ const MasterDetailPage = ({
               config={config}
               backUrl={match.url}
               updateEntity={setSelectedDetailEntity}/>
-          ) : <FuseLoading title={`Loading ${definition.label}...`}/>;
+          ) : <FuseLoading title={`${t('Loading {0}', t(definition.label))}...`}/>;
         }}/>
         <Route render={()=>{
           // Only show when both the data and the auth have been resolved
@@ -351,10 +372,12 @@ const MasterDetailPage = ({
               onRefresh={()=>{
                 loadEntities();
               }}
-              onAdd={canAdd ? handleAdd : null}
+              onAdd={canAdd ? ()=>{
+                return handleAdd(definition, dispatch);
+              } : null}
               onDelete={canDelete ? handleDelete : null}
             />
-          ) : <FuseLoading title={`Loading ${definition.labelPlural}...`}/>;
+          ) : <FuseLoading title={`${t('Loading {0}', t(definition.label))}...`}/>;
         }}/>
       </Switch>
     );
@@ -386,6 +409,14 @@ const MasterDetailPage = ({
           config={config}
           header={header}
         >
+          { WizardComponent && (
+            <WizardComponent
+              open={isWizardOpen}
+              onClosed={()=>{
+                setWizardOpen(false);
+              }}
+            />
+          )}
 
           <FuseAnimateGroup
             className="w-full h-full relative flex-1 flex"
@@ -405,7 +436,7 @@ const MasterDetailPage = ({
             }}
           >
             {
-              (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={`The following errors occurred when trying to retrieve ${definition.labelPlural}`}/>
+              (errors && errors.length > 0) && <ErrorWrapper errors={errors} title={t('The following errors occurred when trying to retrieve {0}', t(definition.labelPlural))}/>
             }
 
             {

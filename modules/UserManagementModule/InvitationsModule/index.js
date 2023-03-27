@@ -25,7 +25,7 @@ export function createModule(config={
   return createRouteConfig(_.merge({}, definition, config), {
     paths : [
       {
-        path : 'create',
+        path : 'users',
         component : CreateInvitation,
         auth : config.auth && config.auth().create
       }

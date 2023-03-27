@@ -3,6 +3,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import ModelService from '../services/ModelService';
 import {createLengthConstraint} from '../components/EntityView/validations';
+import {createNumberRangeConstraint} from '../components/EntityView/validations';
 
 export const ModelPropTypes = PropTypes.shape({
   // the list of field definitions in order preference
@@ -94,11 +95,19 @@ function normaliseValidations(field) {
     ...(field.validations || [])
   ];
 
-  if ((field.minLength !== null && field.maxLength !== undefined) ||
+  if ((field.minLength !== null && field.minLength !== undefined) ||
     (field.maxLength !== null && field.maxLength !== undefined)){
     validations.unshift(createLengthConstraint(
       field.minLength,
       field.maxLength
+    ));
+  }
+
+  if ((field.minValue !== null && field.minValue !== undefined) ||
+    (field.maxValue !== null && field.maxValue !== undefined)){
+    validations.unshift(createNumberRangeConstraint(
+      field.minValue,
+      field.maxValue
     ));
   }
 

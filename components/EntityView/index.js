@@ -131,11 +131,11 @@ const EntityView = ({
   }
 
   const entityKey = `${definition.name}_entityView`;
-
+  const layout = (typeof definition.layout) === 'function' ? definition.layout(definition, model) : definition.layout;
   return (
     <div key={entityKey} className={clsx(classes.root, classes.col, 'col', className)}>
       {
-        (definition.layout || []).map((field, index, layout)=>{
+        (layout || []).map((field, index, layout)=>{
           return renderField(field, index, layout, 'row', entityKey);
         })
       }

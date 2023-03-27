@@ -33,7 +33,7 @@ function Image(props) {
   const classes = useStyles();
 
   const {
-    backgroundColor = theme.palette.secondary.main,
+    backgroundColor = theme.palette.background.default,
     defaultSrc = mostReadable(
       tinycolor(backgroundColor), ['#fff', '#000'], {}
     ).toHexString() === '#000000' ?
