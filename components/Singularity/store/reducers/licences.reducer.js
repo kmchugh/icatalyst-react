@@ -3,7 +3,10 @@ import * as Actions from '../actions/licences.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
 import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
+import { isName } from '../../../EntityView/validations';
+import { isDescription } from '../../../EntityView/validations/isDecription';
 import LicenceConstraints from '../../components/LicenceConstraints';
+
 const definition = createModel({
   name: 'licence',
   icon: 'fa file-contract',
@@ -28,12 +31,20 @@ const definition = createModel({
       required: true,
       minLength: 4,
       maxLength: 256,
+      validations : [
+        isName
+      ]
     },{
       id: 'description',
       type: 'string',
       required: false,
       minLength: 1,
       maxLength: 2048,
+      validations : [
+        (model)=>{
+          return isDescription(model);
+        }
+      ]
     }, {
       id : 'duration',
       type: 'number',
