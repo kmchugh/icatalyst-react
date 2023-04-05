@@ -29,9 +29,10 @@ class SingularityService {
   };
   #urls = {
     authorize : 'authorize',
+    authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
     client : 'api/client',
-    client_data : 'api/clientdata',
+    client_data : 'v2/api/clientdata',
     edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
@@ -39,10 +40,16 @@ class SingularityService {
     licences : 'v2/api/licences',
     licenceKeys : 'v2/api/licences/:licenceID/keys',
     organisations : 'v2/api/organisations',
+    organisationRoles : 'v2/api/organisations/:organisationID/roles',
+    organisationStats : 'v2/api/organisations/:organisationID/stats',
+    organisationUsers : 'v2/api/organisations/:organisationID/users',
     personalAccessToken : 'api/personalToken',
     profile : 'api/profile',
     profileUpdate : 'api/me',
     notification : 'v2/api/notification',
+    roleMembers: 'v2/api/roles/:roleID/relationships',
+    roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
+    roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
@@ -212,8 +219,8 @@ class SingularityService {
       error_uri
     } = queryParams;
 
-    const stored_state = this.localStore('state');
-    const redirect_uri = this.localStore('redirect_uri');
+    const stored_state = code && code === state ? state : this.localStore('state');
+    const redirect_uri = code && code === state ? window.location.origin : this.localStore('redirect_uri');
 
     if (!stored_state) {
       return;

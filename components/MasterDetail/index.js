@@ -142,7 +142,7 @@ const MasterDetailPage = ({
         return;
       }
       setUpdating(true);
-      const result = dispatch(operations['RETRIEVE_ENTITIES']((err, res)=>{
+      return dispatch(operations['RETRIEVE_ENTITIES']((err, res)=>{
         // Success will be picked up by the reducer change
         if (err) {
           setErrors(err.errors || err);
@@ -165,12 +165,6 @@ const MasterDetailPage = ({
           }) : {})
         }
       }));
-
-      return (()=>{
-        if (result && result.cancelToken) {
-          result.cancelToken.cancel('Unloading');
-        }
-      });
     }
   };
 
@@ -179,6 +173,8 @@ const MasterDetailPage = ({
     if (!auth) {
       return;
     }
+
+    let request;
 
     if (reducer && !reducer.loaded) {
       return loadEntities();
@@ -193,6 +189,12 @@ const MasterDetailPage = ({
         return loadEntities();
       }
       setErrors(null);
+    }
+
+    if (request && request.cancelToken) {
+      return (()=>{
+        request.cancelToken.cancel('Unloading');
+      });
     }
   }, [definition, reducer, auth]);
 

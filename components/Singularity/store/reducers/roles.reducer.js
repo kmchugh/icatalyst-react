@@ -4,6 +4,7 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
+import RoleManagement from '../../components/RoleManagement';
 
 const definition = createModel({
   name: 'role',
@@ -27,23 +28,27 @@ const definition = createModel({
       id: 'name',
       required: true,
       minLength: 4,
-      maxLength: 256
+      maxLength: 256,
+      description: 'The name to display'
     },
     {
       id: 'description',
-      maxLength: 2048
+      maxLength: 2048,
+      description: 'A readable description'
     },
     {
       id: 'code',
       minLength: 4,
       maxLength: 256,
-      excludeFromModel: true
+      excludeFromModel: true,
+      description: 'An internal code'
     },
     {
       id: 'displayable',
       type : 'boolean',
       display : false,
       default : false,
+      description: 'should this show in the user roles?'
     },
     {
       id: 'featurerole',
@@ -51,6 +56,7 @@ const definition = createModel({
       type : 'boolean',
       display : false,
       default : false,
+      description: 'is this enabling feature access?'
     },
     {
       id: 'accessrole',
@@ -58,6 +64,7 @@ const definition = createModel({
       type : 'boolean',
       display : false,
       default : false,
+      description: 'is this grouping users?'
     },
     {
       id: 'mutuallyexclusive',
@@ -65,6 +72,7 @@ const definition = createModel({
       label: 'Mutually Exclusive',
       type : 'boolean',
       default : false,
+      description: 'can a user be a member of only this role?'
     }
   ],
   children : [
@@ -90,6 +98,7 @@ const definition = createModel({
       })
     }
   ],
+  detailComponent : RoleManagement,
   layout : [
     'name',
     'description',

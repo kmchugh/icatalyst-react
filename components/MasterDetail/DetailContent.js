@@ -342,7 +342,7 @@ const DetailContent = ({
                                       }, masterDetailContext) : {}
                                   ) : (
                                     definition.getUpdateParams ?
-                                      definition.getUpdateParams(getState, masterDetailContext) :
+                                      definition.getUpdateParams(getState, masterDetailContext, form) :
                                       {}
                                   );
 

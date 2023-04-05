@@ -6,6 +6,7 @@ const definition = createModel({
   icon: 'key',
   primaryTextField: 'name',
   secondaryTextField: 'description',
+  onEntityClicked: ()=>{},
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
@@ -19,10 +20,33 @@ const definition = createModel({
       id: 'guid',
       label: 'Key',
       readonly: true,
+    },
+    {
+      id: 'applied',
+      readonly: true,
+      type: 'datetime'
+    },
+    {
+      id: 'organisationID',
+      readonly: true,
+      type: 'string'
+    }, {
+      id: 'organisation',
+      readonly: true,
+      type: 'string',
+      getValue(entity) {
+        return entity.Organisation?.name;
+      }
+    }, {
+      id: 'duration',
+      type: 'number',
+      minValue: 1,
+      maxValue: 3065,
+      description: 'The number of days this key will be valid after it is applied'
     }
   ],
-  layout: ['guid'],
-  listLayout: ['guid'],
+  layout: ['duration'],
+  listLayout: ['guid', 'duration', 'applied', 'organisation'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.licenceKeys;
   },

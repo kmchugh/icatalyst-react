@@ -5,6 +5,7 @@ import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
 import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
 import { isName } from '../../../EntityView/validations';
 import { isDescription } from '../../../EntityView/validations/isDecription';
+import LicenceConstraints from '../../components/LicenceConstraints';
 
 const definition = createModel({
   name: 'licence',
@@ -46,7 +47,6 @@ const definition = createModel({
       ]
     }, {
       id : 'duration',
-      label : 'Duration',
       type: 'number',
       description : 'Number of days a licence is valid when applied',
       required: true,
@@ -60,17 +60,21 @@ const definition = createModel({
       description: 'When active, a licence key can be generated',
     }, {
       id: 'template',
-      type: 'json',
-      default : {},
+      required : true,
+      type: 'custom',
+      Component(props){
+        return (
+          <LicenceConstraints {...props}/>
+        );
+      }
     },
-
     {
       id : 'generateKey',
       label : ' ',
       render(column, field, item){
         return (<GenerateLicenceKey licence={item}/>);
       }
-    }
+    },
   ],
   children : [{
     ...licenceKeysDefinition,
@@ -82,11 +86,12 @@ const definition = createModel({
       return [
         [['name','description']],
         ['duration', 'active'],
+        'template'
       ];
     } else {
       // If we are creating
-      return [
-        'name','description','duration'
+      return [[
+        ['name','duration'],'description'],'template'
       ];
     }
   },

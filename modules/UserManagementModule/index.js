@@ -19,7 +19,7 @@ export function createModule(config={}){
     title: 'User Management',
     icon : 'fa user-cog',
     path: 'users',
-    auth : 'admin',
+    auth : 'everyone',
     component : null,
     paths : [
       roles && roles.visible === false ? null : createRouteConfig(manageRolesConfig(roles)),

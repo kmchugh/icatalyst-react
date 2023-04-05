@@ -1,15 +1,16 @@
 import * as Actions from '../actions/organisations.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
-import OrganisationWizard from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/OrganisationWizard';
+import { definition as authProviders } from './authProviders.reducer';
+import { definition as usersDefinition } from './organisationUsers.reducer';
 
 const definition = createModel({
   name: 'organisation',
   icon: 'warehouse',
+  addInline : true,
   primaryTextField: 'name',
   secondaryTextField: 'tagline',
   featureImageField: 'featureImageURI',
-  wizardComponent: OrganisationWizard,
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
@@ -93,17 +94,47 @@ const definition = createModel({
           requireHTTPS: true,
         }),
       ],
+    },{
+      id: 'licence',
+      label: 'Licence Key',
+      type: 'string',
+      minLength : 1,
+      maxLength : 256,
+      validations: [
+        (model, field, value) => {
+          // If a new record then licence is required, otherwise not required
+          if (model?.guid) {
+            return null;
+          }
+          if (value === null || value === undefined) {
+            return `${field.label} is required`;
+          }
+        }
+      ],
     }
   ],
-  layout: [
-    [['name','description', 'tagline']],
-    ['websiteURI', 'privacyURI'],
-    ['logoURI', 'featureImageURI']
-  ],
+  layout: (definition, entity)=>{
+    return (entity.guid) ? [
+      [['name','description', 'tagline']],
+      ['websiteURI', 'privacyURI'],
+      ['logoURI', 'featureImageURI']
+    ] : [
+      'licence',
+      'name', 'tagline', 'description'
+    ];
+  },
   listLayout: ['name'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.organisations;
   },
+  children : [
+    {
+      ...usersDefinition,
+    },
+    {
+      ...authProviders
+    },
+  ],
   ...Actions,
 });
 
