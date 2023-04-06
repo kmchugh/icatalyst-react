@@ -87,7 +87,9 @@ const LocalizationProvider = ({
         return value;
       }
 
-      const text = selectedVocabulary?.values[value.toLowerCase()];
+      const text = selectedVocabulary?.valuesMap?.[value.toLowerCase()] || 
+        selectedVocabulary?.values[value.toLowerCase()];
+        
       if (!text && debug) {
         console.info(`'${value}' not found in lookup for ${selectedVocabCode}`);
       }
