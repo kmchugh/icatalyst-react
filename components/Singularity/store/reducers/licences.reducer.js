@@ -4,7 +4,7 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
 import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
 import { isName } from '../../../EntityView/validations';
-import { isDescription } from '../../../EntityView/validations/isDecription';
+import { isDescription } from '../../../EntityView/validations/isDescription';
 import LicenceConstraints from '../../components/LicenceConstraints';
 
 const definition = createModel({
