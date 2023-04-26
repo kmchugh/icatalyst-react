@@ -86,6 +86,7 @@ const SelectField = (props) => {
           readOnly: readonly
         }}
         onClose={() => setSearchData('')}
+        disabled={readonly}
       >
         <TextField
           autoFocus

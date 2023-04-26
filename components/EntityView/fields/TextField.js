@@ -48,6 +48,7 @@ const TextField = (props) => {
     multiline={maxLength>256}
     rows={Math.min(maxLength/256, 20) || 1}
     value={field.format ? field.format(displayValue) : displayValue}
+    disabled={readonly}
   />);
 };
 
