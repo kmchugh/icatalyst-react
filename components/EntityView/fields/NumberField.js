@@ -63,6 +63,7 @@ const NumberField = (props) => {
     multiline={false}
     value={field.format ? field.format(displayValue) : displayValue}
     type="number"
+    disabled={readonly}
   />);
 };
 
