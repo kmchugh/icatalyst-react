@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, ...props})=>{
+const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style, ...props})=>{
 
   const classes = useStyles(props);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -58,7 +58,7 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
 
 
   return (
-    <>
+    <div style={style}>
       <IconButton
         title="Add vocab"
         icon="g_translate"
@@ -100,7 +100,7 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
           </Paper>
         </ClickAwayListener>
       </Popover>
-    </>
+    </div>
     
   );
 };
@@ -117,6 +117,7 @@ NestedDropdownMenu.propTypes = {
   primaryKey: PropTypes.string,
   childKey: PropTypes.string,
   isCreate: PropTypes.bool,
+  style: PropTypes.object,
 };
 
 export default React.memo(NestedDropdownMenu);
