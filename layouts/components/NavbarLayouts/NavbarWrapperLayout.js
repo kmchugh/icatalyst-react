@@ -224,7 +224,9 @@ function NavbarWrapper()
   });
 
   useEffect(()=>{
-    return dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
+    return async () => {
+      dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
+    };
   }, []);
 
   const onNavbarToggled = (value)=>{

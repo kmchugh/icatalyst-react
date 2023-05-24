@@ -177,7 +177,8 @@ const MasterDetailPage = ({
     let request;
 
     if (reducer && !reducer.loaded) {
-      return loadEntities();
+      loadEntities();
+      // return loadEntities();
     } else if (!reducer) {
       if (!reducer) {
         setErrors(['Invalid reducer configuration']);
@@ -186,7 +187,8 @@ const MasterDetailPage = ({
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
       if (parentMasterDetailContext) {
-        return loadEntities();
+        loadEntities();
+        // return loadEntities();
       }
       setErrors(null);
     }
