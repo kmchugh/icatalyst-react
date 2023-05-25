@@ -130,9 +130,45 @@ const definition = createModel({
   children : [
     {
       ...usersDefinition,
+      auth: (client, parentContext)=>{
+        const {entity} = parentContext;
+        return  (entity || {}).isOwner ? {
+          retrieveAll: 'everyone',
+          create: 'everyone',
+          retrieve: 'everyone',
+          update: 'everyone',
+          delete: 'everyone',
+          route: 'everyone',
+        } : {
+          retrieveAll: 'admin',
+          create: 'admin',
+          retrieve: 'admin',
+          update: 'admin',
+          delete: 'admin',
+          route: 'admin',
+        };
+      }
     },
     {
-      ...authProviders
+      ...authProviders,
+      auth: (client, parentContext)=>{
+        const {entity} = parentContext;
+        return  (entity || {}).isOwner ? {
+          retrieveAll: 'everyone',
+          create: 'everyone',
+          retrieve: 'everyone',
+          update: 'everyone',
+          delete: 'everyone',
+          route: 'everyone',
+        } : {
+          retrieveAll: 'admin',
+          create: 'admin',
+          retrieve: 'admin',
+          update: 'admin',
+          delete: 'admin',
+          route: 'admin',
+        };
+      }
     },
   ],
   ...Actions,
