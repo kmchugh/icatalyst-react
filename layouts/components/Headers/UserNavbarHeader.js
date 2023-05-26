@@ -54,7 +54,7 @@ function UserNavbarHeader({className})
       className={clsx('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
     >
       <Typography noWrap={true} className={clsx(classes.username, 'username text-16 whitespace-no-wrap')} color="inherit">{user && user.displayname}</Typography>
-      <UserRoles className="role min-h-16 text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit"/>
+      <UserRoles className="role text-center ml-16 mr-16 min-h-16 text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit"/>
 
       <Avatar
         reverse
