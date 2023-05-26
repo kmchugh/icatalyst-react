@@ -9,7 +9,7 @@ import {
   Button,
   Icon,
 } from '@material-ui/core';
-import { IconButton } from 'app/common/components';
+import IconButton from '../../IconButton';
 import MenuItem from './component/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 // import { generateUUID } from '../../../utilities/generateUUID';
@@ -62,7 +62,7 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
       <IconButton
         title="Add vocab"
         icon="g_translate"
-        onClicked={(e)=>{
+        onClick={(e)=>{
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
         }}
