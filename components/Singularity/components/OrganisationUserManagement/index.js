@@ -11,8 +11,10 @@ import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import RoleComponent from './RoleComponent';
 import StatsComponent from './StatsComponent';
 import {definition as organisationStatsDefinition} from '../../store/reducers/organisationStats.reducer';
+import {definition as rolesDefinition} from '../../store/reducers/roles.reducer';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
 import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
+import * as MessageActions from 'app/store/actions/app';
 
 import {
   Typography,
@@ -60,6 +62,7 @@ const OrganisationUserManagement = ({
   const organisationID = parentEntity.guid;
   const [stats, setStats] = useState(null);
   const [errors, setErrors] = useState(null);
+  const isOrganisationAdmin = parentEntity && parentEntity.isOwner;
 
   const {
     title,
@@ -85,7 +88,7 @@ const OrganisationUserManagement = ({
     addUserToRole,
     demoteRoleUser,
     promoteRoleUser,
-    removeUserFromRole,
+    removeUserFromRole
   } = definition.operations;
 
   const refreshUserData = useCallback(()=>{
@@ -105,15 +108,59 @@ const OrganisationUserManagement = ({
 
   // Load the organisation roles and users
   useEffect(()=>{
-    /*const result = */refreshUserData();
-
-    // return (()=>{
-    //   if (result && result.cancelToken) {
-    //     result.cancelToken.cancel('Unloading');
-    //   }
-    // });
-
+    refreshUserData();
   }, []);
+
+  console.log({data, rolesDefinition});
+
+  const dispatchUpdateRole = (roleID, update)=>{
+    console.log({roleID, update});
+    dispatch(rolesDefinition.operations['UPDATE_ENTITY']({
+      ...update,
+      // objectversion: 1234567890 //update.objectVersion || update.objectversion
+    }, (err)=>{
+      if (err) {
+        dispatch(MessageActions.showMessage({
+          message: (
+            <div>
+              <h3>{t('The role could not be udpated')}</h3>
+              <ul>
+                {
+                  err.map && err.map((err, i)=>{
+                    return (<li key={err.message + '_' + i}>{err.message}</li>);
+                  })
+                }
+              </ul>
+            </div>
+          ),
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left'
+          },
+          variant: 'error'
+        }));
+        handleError(err);
+      } else {
+        dispatch(MessageActions.showMessage({
+          message: (
+            <div>
+              <h3>{t('The role was updated')}</h3>
+            </div>
+          ),
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: 'bottom',
+            horizontal: 'left'
+          },
+          variant: 'success'
+        }));
+        refreshUserData();
+      }
+    }, {
+      accessToken,
+    }));
+  };
 
   const handleAddUserClick = ({
     organisationID,
@@ -233,9 +280,22 @@ const OrganisationUserManagement = ({
                   ...entity,
                   resources: entity.users
                 }}
+                isAdmin={isOrganisationAdmin}
                 expanded={(expanded === null && index === 0) || expanded === entity.role.guid}
                 onToggleExpand={(event, value)=>{
                   setExpanded(value ? entity.role.guid : null);
+                }}
+                onRoleNameUpdated={({roleID, name})=>{
+                  dispatchUpdateRole(roleID, {
+                    ...entity.role,
+                    name: name
+                  });
+                }}
+                onRoleDescriptionUpdated={({roleID, description})=>{
+                  dispatchUpdateRole(roleID, {
+                    ...entity.role,
+                    description: description
+                  });
                 }}
                 addResourceToRole={({
                   roleID

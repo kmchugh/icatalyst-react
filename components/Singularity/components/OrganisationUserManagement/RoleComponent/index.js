@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/styles';
 import clsx from 'clsx';
@@ -7,7 +7,7 @@ import Avatar from '../../../../Avatar';
 import IconButton from '../../../../IconButton';
 import {LocalizationContext} from '../../../../../localization/LocalizationProvider';
 import {Link} from 'react-router-dom';
-
+import EditableLabel from '../../../../labels/EditableLabel';
 import {
   Typography,
   Accordion,
@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme)=>{
     accordionSummary : {
       display: 'flex',
       flexDirection: 'row',
-      alignItems: 'center'
+      alignItems: 'center',
+      width: '100%'
     },
     accordionContent: {
       width: '100%'
@@ -82,6 +83,8 @@ const useStyles = makeStyles((theme)=>{
       height: theme.spacing(6),
       padding: theme.spacing(.75),
       borderRadius: '50%',
+    },
+    accordionHeading: {
     }
   };
 });
@@ -98,12 +101,37 @@ const RoleComponent = ({
   promoteRoleResource,
   demoteRoleResource,
   removeResourceFromRole,
+  isAdmin = false,
+  onRoleNameUpdated,
+  onRoleDescriptionUpdated,
 })=>{
   const styles = useStyles();
 
   const {t} = useContext(LocalizationContext);
 
   const {role, resources} = roleData;
+  const [roleName, setRoleName] = useState(title || role.name);
+  const [roleDescription, setRoleDescription] = useState(description || role.description);
+
+  const onUpdateRoleName = (text)=>{
+    if (text !== roleName) {
+      setRoleName(text);
+      onRoleNameUpdated && onRoleNameUpdated({
+        roleID: role.guid,
+        name: text
+      });
+    }
+  };
+
+  const onUpdateRoleDescription = (text)=>{
+    if (text !== roleDescription) {
+      setRoleDescription(text);
+      onRoleDescriptionUpdated && onRoleDescriptionUpdated({
+        roleID: role.guid,
+        description: text
+      });
+    }
+  };
 
   return (
     <div
@@ -119,13 +147,13 @@ const RoleComponent = ({
         className={clsx(
           styles.accordion,
           expanded && styles.accordion_expanded,
-          styles.accordionHeading
         )}
         onChange={(event, value)=>{
           onToggleExpand && onToggleExpand(event, value);
         }}
       >
         <AccordionSummary
+          className={clsx(styles.accordionHeading)}
           expandIcon={(
             <Icon
               color="action"
@@ -140,25 +168,62 @@ const RoleComponent = ({
           <div
             className={clsx(styles.accordionSummary)}
           >
-            <Typography
-              noWrap={true}
-              className={clsx(styles.accordionHeading)}
-              component="h3"
-              variant="h5"
-            >
-              {title || role.name}
-            </Typography>
+            {!isAdmin && (
+              <Typography
+                noWrap={true}
+                component="h3"
+                variant="h5"
+              >
+                {title || role.name}
+              </Typography>
+            )}
+            {isAdmin && (
+              <EditableLabel
+                multiline={false}
+                component={(
+                  <Typography
+                    noWrap={true}
+                    component="h3"
+                    variant="h5"
+                  >
+                    {roleName}
+                  </Typography>
+                )}
+                value={roleName}
+                onValueUpdated={onUpdateRoleName}
+                useEditButton={true}
+              />
+            )}
           </div>
         </AccordionSummary>
 
         <AccordionDetails>
           <div className={clsx(styles.accordionContent)}>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              {description || role.description}
-            </Typography>
+            {!isAdmin && (
+              <Typography
+                color="textSecondary"
+                variant="body2"
+              >
+                {roleDescription}
+              </Typography>
+            )}
+            {isAdmin && (
+              <EditableLabel
+                multiline={true}
+                component={(
+                  <Typography
+                    color="textSecondary"
+                    variant="body2"
+                  >
+                    {roleDescription}
+                  </Typography>
+                )}
+                useEditButton={true}
+                value={roleDescription}
+                onValueUpdated={onUpdateRoleDescription}
+              />
+            )}
+
             <List
               className={clsx(styles.resourceList)}
             >
@@ -297,7 +362,10 @@ RoleComponent.propTypes={
   addResourceToRole: PropTypes.func,
   promoteRoleResource: PropTypes.func,
   demoteRoleResource: PropTypes.func,
-  removeResourceFromRole: PropTypes.func
+  removeResourceFromRole: PropTypes.func,
+  isAdmin: PropTypes.bool,
+  onRoleNameUpdated: PropTypes.func,
+  onRoleDescriptionUpdated: PropTypes.func,
 };
 
 export default RoleComponent;

@@ -152,7 +152,7 @@ const definition = createModel({
     {
       ...authProviders,
       auth: (client, parentContext)=>{
-        const {entity} = parentContext;
+        const {entity} = parentContext.parentContext || parentContext;
         return  (entity || {}).isOwner ? {
           retrieveAll: 'everyone',
           create: 'everyone',
