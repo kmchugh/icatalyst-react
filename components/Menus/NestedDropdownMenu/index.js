@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style, ...props})=>{
+const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style,onEditItem,onDeleteItem, ...props})=>{
 
   const classes = useStyles(props);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -47,6 +47,7 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
 
   const handleClick = (data, id) => {
     // const currentData = findItemById(menuItems, id, data);
+    console.log('data, id',data, id);
     onAddNewItem(id, data, menuItems);
     // setMenuItems(currentData);
   };
@@ -55,6 +56,17 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
     // setMenuItems([ ...menuItems]);
     onAddNewItem(null, null, menuItems);
   };
+  const OnEditChildItems =(data)=>{
+    onEditItem(data);
+  };
+
+  const onDeleteClick = (data) => {
+    if (onDeleteItem) {
+      setIsOpen(false);
+      onDeleteItem(data);
+    }
+  };
+
 
 
   return (
@@ -89,6 +101,12 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
                   primaryKey={primaryKey}
                   childKey={childKey}
                   isCreate={isCreate}
+                  onEditItem={() => {
+                    return onEditItem(item);
+                  }}
+                  OnEditChildItems={OnEditChildItems}
+                  onDeleteItem={() => onDeleteClick(item)}
+                  deleteChildFun={onDeleteClick}
                 />
               ))}
               {isCreate && (
@@ -118,6 +136,8 @@ NestedDropdownMenu.propTypes = {
   childKey: PropTypes.string,
   isCreate: PropTypes.bool,
   style: PropTypes.object,
+  onEditItem:PropTypes.func,
+  onDeleteItem:PropTypes.func
 };
 
 export default React.memo(NestedDropdownMenu);

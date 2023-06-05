@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '../../../IconButton';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -41,6 +42,10 @@ const MenuItem = ({
   primaryKey,
   childKey,
   isCreate,
+  onEditItem,
+  OnEditChildItems,
+  onDeleteItem,
+  deleteChildFun,
   ...props
 }) => {
   const classes = useStyles(props);
@@ -54,6 +59,18 @@ const MenuItem = ({
     <>
       <ListItem className={classes.listItem} onClick={() => setIsOpen(!isOpen)}>
         <ListItemText className={classes.listItemText} primary={title} />
+        <IconButton
+          title='edit'
+          icon='edit'
+          size='small'
+          onClick={onEditItem}
+        />
+        <IconButton
+          size='small'
+          icon='delete'
+          color='primary'
+          onClick={onDeleteItem}
+        />
         {(childrenData.length > 0 || isCreate) &&
           (isOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>)}
       </ListItem>
@@ -76,6 +93,14 @@ const MenuItem = ({
                   primaryKey={primaryKey}
                   childKey={childKey}
                   isCreate={isCreate}
+                  Childitem= {item}
+                  onEditItem={() => {
+                    return OnEditChildItems(item);
+                  }}
+                  OnEditChildItems={OnEditChildItems}
+                  onDeleteItem={()=>deleteChildFun(item)}
+                  deleteChildFun={deleteChildFun}
+
                 />
               ))}
             </List>
@@ -108,6 +133,10 @@ MenuItem.propTypes = {
   primaryKey: PropTypes.string,
   childKey: PropTypes.string,
   isCreate: PropTypes.bool,
+  onEditItem:PropTypes.func,
+  OnEditChildItems:PropTypes.func,
+  onDeleteItem:PropTypes.func,
+  deleteChildFun:PropTypes.func
 };
 
 export default React.memo(MenuItem);
