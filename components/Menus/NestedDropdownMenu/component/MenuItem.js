@@ -59,18 +59,21 @@ const MenuItem = ({
     <>
       <ListItem className={classes.listItem} onClick={() => setIsOpen(!isOpen)}>
         <ListItemText className={classes.listItemText} primary={title} />
-        <IconButton
-          title='edit'
-          icon='edit'
-          size='small'
-          onClick={onEditItem}
-        />
-        <IconButton
-          size='small'
-          icon='delete'
-          color='primary'
-          onClick={onDeleteItem}
-        />
+        {isCreate && <> 
+          <IconButton
+            title='edit'
+            icon='edit'
+            size='small'
+            onClick={onEditItem}
+          />
+          <IconButton
+            size='small'
+            icon='delete'
+            color='primary'
+            onClick={onDeleteItem}
+          />
+        </>
+        }
         {(childrenData.length > 0 || isCreate) &&
           (isOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>)}
       </ListItem>
