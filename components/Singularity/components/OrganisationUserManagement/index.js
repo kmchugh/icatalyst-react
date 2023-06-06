@@ -111,10 +111,7 @@ const OrganisationUserManagement = ({
     refreshUserData();
   }, []);
 
-  console.log({data, rolesDefinition});
-
   const dispatchUpdateRole = (roleID, update)=>{
-    console.log({roleID, update});
     dispatch(rolesDefinition.operations['UPDATE_ENTITY']({
       ...update,
       // objectversion: 1234567890 //update.objectVersion || update.objectversion

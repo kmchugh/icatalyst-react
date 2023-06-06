@@ -63,6 +63,18 @@ const definition = createModel({
       description: 'The client secret generated on the provider.  This is required to exchange tokens'
     },
     {
+      id: 'providerRolesAttribute',
+      required: false,
+      type: 'string',
+      description: 'If specifying roles from the SSO, this is the attribute to read roles from'
+    },
+    {
+      id: 'providerScope',
+      required: false,
+      type: 'string',
+      description: 'The scope to request when retrieving a token from the SSO provider'
+    },
+    {
       id: 'auth',
       required : true,
       type: 'uri',
@@ -188,6 +200,8 @@ const definition = createModel({
     },
     'providerClientID',
     'providerClientSecret',
+    'providerRolesAttribute',
+    'providerScope',
     ()=>{
       return (
         <Typography key="url description" style={{
@@ -224,6 +238,8 @@ const definition = createModel({
       description: rest.description || null,
       providerClientID: provider.clientID,
       providerClientSecret: provider.clientSecret,
+      providerRolesAttribute: provider.rolesAttribute,
+      providerScope: provider.scope,
 
       auth: urls.auth,
       token: urls.token,
@@ -242,7 +258,9 @@ const definition = createModel({
   getUpdateParams : (getState, masterDetailContext, entity)=>{
     entity.provider = {
       clientID: entity.providerClientID,
-      clientSecret: entity.providerClientSecret
+      clientSecret: entity.providerClientSecret,
+      rolesAttribute: entity.providerRolesAttribute,
+      scope: entity.providerScope
     };
 
     entity.urls = {
@@ -263,7 +281,9 @@ const definition = createModel({
   getAddParams : (getState, entity, parentDefinition, parent)=>{
     entity.provider = {
       clientID: entity.providerClientID,
-      clientSecret: entity.providerClientSecret
+      clientSecret: entity.providerClientSecret,
+      rolesAttribute: entity.providerRolesAttribute,
+      scope: entity.providerScope
     };
 
     entity.urls = {
