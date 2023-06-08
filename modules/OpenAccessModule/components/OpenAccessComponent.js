@@ -205,13 +205,18 @@ const OpenAccessComponent = ({
                   onClick={()=>{
                     const {urls} = authProvider;
                     const clientID = authProvider.provider.clientID;
+                    const requestingScope = authProvider.provider.scope || 'openid profile email';
                     const {config} = singularityContext;
+
+                    console.log(authProvider);
+                    // eslint-disable-next-line
+                    debugger;
 
                     const responseType = 'code';
                     const redirectURL = encodeURIComponent(
                       `${config.server.root}/v2/api/connectors/oidc/${providerID}`,
                     );
-                    const scope = encodeURIComponent('openid profile email');
+                    const scope = encodeURIComponent(requestingScope);
                     const state = '1234567890';
                     const audience = encodeURIComponent(urls.issuer);
 
