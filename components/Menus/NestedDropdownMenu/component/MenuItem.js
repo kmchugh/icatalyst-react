@@ -74,7 +74,7 @@ const MenuItem = ({
           />
         </>
         }
-        {(childrenData.length > 0 || isCreate) &&
+        {(childrenData?.length > 0 || isCreate) &&
           (isOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>)}
       </ListItem>
       <Collapse
@@ -86,10 +86,10 @@ const MenuItem = ({
         {isOpen && (
           <>
             <List className={classes.list}>
-              {childrenData.map((item) => (
+              {childrenData && childrenData.map((item) => (
                 <MenuItem
                   key={item[primaryKey]}
-                  title={item.title}
+                  title={item.name}
                   childrenData={item[childKey]}
                   updatedChildFun={updatedChildFun}
                   fullData={item}

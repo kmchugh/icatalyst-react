@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style,onEditItem,onDeleteItem, ...props})=>{
+const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style,onEditItem,onDeleteItem,iconTitle,icon, ...props})=>{
 
   const classes = useStyles(props);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -72,8 +72,8 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
   return (
     <div style={style}>
       <IconButton
-        title="Add vocab"
-        icon="g_translate"
+        title={iconTitle}
+        icon={icon}
         onClick={(e)=>{
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
@@ -91,10 +91,10 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
               aria-labelledby="nested-list-subheader"
               subheader={<ListSubheader className={classes.subHeader}>Vocab Menu</ListSubheader>}
             >
-              {menuItems.map((item) => (
+              {menuItems && menuItems.map((item) => (
                 <MenuItem
                   key={item[primaryKey]}
-                  title={item.title}
+                  title={item.name}
                   childrenData={item[childKey]}
                   updatedChildFun={handleClick}
                   fullData={item}
@@ -137,7 +137,9 @@ NestedDropdownMenu.propTypes = {
   isCreate: PropTypes.bool,
   style: PropTypes.object,
   onEditItem:PropTypes.func,
-  onDeleteItem:PropTypes.func
+  onDeleteItem:PropTypes.func,
+  iconTitle:PropTypes.string,
+  icon:PropTypes.string
 };
 
 export default React.memo(NestedDropdownMenu);
