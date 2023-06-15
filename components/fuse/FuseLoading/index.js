@@ -29,6 +29,7 @@ function FuseLoading({
   color,
   title = 'Loading...',
   id,
+  textColor = 'textSecondary'
 })
 {
   const classes = useStyles();
@@ -58,7 +59,7 @@ function FuseLoading({
       className={clsx(classes.root, className)}
       style={{...style}}
     >
-      {title && <Typography className="text-20 mb-16" color="textSecondary">{title}</Typography>}
+      {title && <Typography className="text-20 mb-16" color={textColor}>{title}</Typography>}
       <LinearProgress
         aria-label={title || 'Loading...'}
         className="mb-32 w-xs"
@@ -75,7 +76,8 @@ FuseLoading.propTypes = {
   title : PropTypes.string,
   color: PropTypes.oneOf(['primary', 'secondary']),
   id: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
+  textColor: PropTypes.string
 };
 
 FuseLoading.defaultProps = {

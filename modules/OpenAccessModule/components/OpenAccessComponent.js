@@ -81,6 +81,11 @@ const useStyles = makeStyles((theme)=>{
       position: 'absolute',
       top: 0,
       right: 0
+    },
+    loader: {
+      '& .MuiTypography-root' : {
+        color: theme.palette.primary.contrastText
+      }
     }
   };
 });
@@ -94,6 +99,7 @@ const OpenAccessComponent = ({
   const dispatch = useDispatch();
   const [gettingAuthProvider, setGettingAuthProvider] = useState(false);
   const [authProvider, setAuthProvider] = useState(null);
+  const [loggingIn, setLoggingIn] = useState(false);
 
   const styles = useStyles({
     backgroundImage : config.clientBackground
@@ -199,10 +205,11 @@ const OpenAccessComponent = ({
             <div className={clsx(styles.actionWrapper)}>
 
               <div className={clsx(styles.action)}>
-                <Button
+                {!loggingIn && <Button
                   color="primary"
                   variant="contained"
                   onClick={()=>{
+                    setLoggingIn(true);
                     const {urls} = authProvider;
                     const clientID = authProvider.provider.clientID;
                     const requestingScope = authProvider.provider.scope || 'openid profile email';
@@ -212,7 +219,7 @@ const OpenAccessComponent = ({
                     const redirectURL = encodeURIComponent(
                       `${config.server.root}/v2/api/connectors/oidc/${providerID}`,
                     );
-                    
+
                     const scope = encodeURIComponent(requestingScope);
                     const state = '1234567890';
                     const audience = encodeURIComponent(urls.issuer);
@@ -225,7 +232,11 @@ const OpenAccessComponent = ({
                   }}
                 >
                   {`Log in with ${authProvider.name}`}
-                </Button>
+                </Button>}
+                {loggingIn && <FuseLoading
+                  className={clsx(styles.loader)}
+                  title="Connecting"
+                />}
               </div>
 
               <div
