@@ -11,7 +11,7 @@ import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import RoleComponent from './RoleComponent';
 import StatsComponent from './StatsComponent';
 import {definition as organisationStatsDefinition} from '../../store/reducers/organisationStats.reducer';
-import {definition as rolesDefinition} from '../../store/reducers/roles.reducer';
+import {definition as organisationRolesDefinition} from '../../store/reducers/organisationRoles.reducer';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
 import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
 import * as MessageActions from 'app/store/actions/app';
@@ -112,7 +112,8 @@ const OrganisationUserManagement = ({
   }, []);
 
   const dispatchUpdateRole = (roleID, update)=>{
-    dispatch(rolesDefinition.operations['UPDATE_ENTITY']({
+    // dispatch(rolesDefinition.operations['UPDATE_ENTITY']({
+    dispatch(organisationRolesDefinition.operations['UPDATE_ENTITY']({
       ...update,
       // objectversion: 1234567890 //update.objectVersion || update.objectversion
     }, (err)=>{
@@ -155,7 +156,10 @@ const OrganisationUserManagement = ({
         refreshUserData();
       }
     }, {
-      accessToken,
+      accessToken: accessToken,
+      params : {
+        organisationID : organisationID
+      }
     }));
   };
 
