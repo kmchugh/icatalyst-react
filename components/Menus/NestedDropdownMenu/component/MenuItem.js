@@ -10,6 +10,7 @@ import {
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '../../../IconButton';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -32,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     color: theme.palette.text,
   },
+  deleteIcon: {
+    marginRight : theme.spacing(1),
+  },
+  iconDiv: {
+    display : 'flex',
+    gap : '9px'
+  }
 }));
 
 const MenuItem = ({
@@ -46,6 +54,7 @@ const MenuItem = ({
   OnEditChildItems,
   onDeleteItem,
   deleteChildFun,
+  className,
   ...props
 }) => {
   const classes = useStyles(props);
@@ -58,8 +67,8 @@ const MenuItem = ({
   return (
     <>
       <ListItem className={classes.listItem} onClick={() => setIsOpen(!isOpen)}>
-        <ListItemText className={classes.listItemText} primary={title} />
-        {isCreate && <> 
+        <ListItemText className={clsx (classes.listItemText,className)} primary={title} />
+        {isCreate && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'
             icon='edit'
@@ -70,9 +79,10 @@ const MenuItem = ({
             size='small'
             icon='delete'
             color='primary'
+            className={classes.deleteIcon}
             onClick={onDeleteItem}
           />
-        </>
+        </div>
         }
         {(childrenData?.length > 0 || isCreate) &&
           (isOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>)}
@@ -139,7 +149,8 @@ MenuItem.propTypes = {
   onEditItem:PropTypes.func,
   OnEditChildItems:PropTypes.func,
   onDeleteItem:PropTypes.func,
-  deleteChildFun:PropTypes.func
+  deleteChildFun:PropTypes.func,
+  className:PropTypes.object
 };
 
 export default React.memo(MenuItem);
