@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import clsx from 'clsx';
 
 import {
   ListSubheader,
@@ -18,13 +19,17 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    width: 360, maxHeight: '50vh', overflow: 'auto'
+    width: 360, 
+    maxHeight: '50vh',
+    overflow: 'auto'
   },
   list: {
-    width: '100%', maxWidth: 360
+    width: '100%',
+    maxWidth: 360,
+    marginTop: theme.spacing(1)
   },
   subHeader : {
-    background: theme.palette.background.paper
+    background: theme.palette.background.paper,
   },
   addMoreButton: {
     paddingLeft: theme.spacing(2),
@@ -39,7 +44,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate, style,onEditItem,onDeleteItem,iconTitle,icon,isOpen,className, ...props})=>{
+const NestedDropdownMenu = ({ 
+  data,
+  onAddNewItem,
+  primaryKey,
+  childKey,
+  isCreate,
+  styles,
+  onEditItem,
+  onDeleteItem,
+  iconTitle,
+  icon,
+  isOpen,
+  subHeader = '',
+  className,
+  ...props
+})=>{
 
   const classes = useStyles(props);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,7 +71,6 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
   }, [data]);
 
   const handleClick = (data, id) => {
-    console.log('data, id',data, id);
     onAddNewItem(id, data, menuItems);
   };
 
@@ -69,10 +88,8 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
     }
   };
 
-
-
   return (
-    <div style={style}>
+    <div className={clsx(classes.root, className)} style={styles.root}>
       <IconButton
         title={iconTitle}
         icon={icon}
@@ -86,12 +103,17 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
           setIsOpen(false);
           setAnchorEl(null);
         }}>
-          <Paper className={classes.paper}>
+          <Paper className={clsx(classes.paper)} style={styles.paper}>
             <List
-              className={classes.list}
+              className={clsx(classes.list)}
+              style={styles.list}
               component="nav"
               aria-labelledby="nested-list-subheader"
-              subheader={<ListSubheader className={classes.subHeader}>Vocab Menu</ListSubheader>}
+              subheader={
+                <ListSubheader className={clsx(classes.subHeader)} style={styles.subHeader}>
+                  {subHeader}
+                </ListSubheader>
+              }
             >
               {menuItems && menuItems.map((item) => (
                 <MenuItem
@@ -110,10 +132,16 @@ const NestedDropdownMenu = ({ data, onAddNewItem, primaryKey, childKey, isCreate
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
                   className={item.isDelete && classes.listItemText}
+                  style={styles.listItemText}
                 />
               ))}
               {isCreate && (
-                <Button className={classes.addMoreButton} variant="text" startIcon={<Icon>add</Icon> } onClick={addNewItem}>
+                <Button 
+                  className={clsx(classes.addMoreButton)} 
+                  variant="text" 
+                  startIcon={<Icon>add</Icon> }
+                  onClick={addNewItem}
+                >
                   Add More
                 </Button>
               )}
@@ -138,13 +166,14 @@ NestedDropdownMenu.propTypes = {
   primaryKey: PropTypes.string,
   childKey: PropTypes.string,
   isCreate: PropTypes.bool,
-  style: PropTypes.object,
+  styles: PropTypes.object,
   onEditItem:PropTypes.func,
   onDeleteItem:PropTypes.func,
   iconTitle:PropTypes.string,
   icon:PropTypes.string,
   className:PropTypes.object,
-  isOpen:PropTypes.bool
+  isOpen:PropTypes.bool,
+  subHeader: PropTypes.string
 };
 
 export default React.memo(NestedDropdownMenu);
