@@ -66,7 +66,7 @@ const MenuItem = ({
 
   return (
     <>
-      <ListItem className={classes.listItem} onClick={() => setIsOpen(!isOpen)}>
+      <ListItem className={classes.listItem}>
         <ListItemText className={clsx (classes.listItemText,className)} primary={title} />
         {isCreate && <div className={classes.iconDiv}> 
           <IconButton
@@ -84,8 +84,11 @@ const MenuItem = ({
           />
         </div>
         }
-        {(childrenData?.length > 0 || isCreate) &&
-          (isOpen ? <Icon>expand_less</Icon> : <Icon>expand_more</Icon>)}
+        
+        <div onClick={() => setIsOpen(!isOpen)}>
+          {(childrenData?.length > 0 || isCreate) &&
+          (isOpen ? <Icon >expand_less</Icon> : <Icon>expand_more</Icon>)}
+        </div>
       </ListItem>
       <Collapse
         className={classes.collapse}
