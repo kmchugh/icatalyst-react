@@ -104,6 +104,7 @@ const RoleComponent = ({
   isAdmin = false,
   onRoleNameUpdated,
   onRoleDescriptionUpdated,
+  allowUserManagement = true,
 })=>{
   const styles = useStyles();
 
@@ -279,46 +280,50 @@ const RoleComponent = ({
                           resourceText
                       }
                     />
-                    <ListItemIcon>
-                      <Button
-                        variant="outlined"
-                        disabled={(isOwner && !demoteRoleResource) || (!isOwner && !promoteRoleResource)}
-                        onClick={(e)=>{
-                          e.stopPropagation();
-                          e.preventDefault();
-                          if (isOwner) {
-                            demoteRoleResource && demoteRoleResource({
-                              resourceID: resource.guid,
-                              roleID: role.guid,
-                            });
-                          } else {
-                            promoteRoleResource && promoteRoleResource({
-                              resourceID: resource.guid,
-                              roleID: role.guid,
-                            });
-                          }
-                        }}
-                      >
-                        {isOwner ? t('Clear Admin') : t('Set as Admin') }
-                      </Button>
-                    </ListItemIcon>
-                    <ListItemIcon>
-                      <IconButton
-                        size="medium"
-                        title={t('remove {0}', displayResourceType)}
-                        icon="delete"
-                        disabled={!removeResourceFromRole}
-                        onClick={(e)=>{
-                          e.stopPropagation();
-                          e.preventDefault();
+                    { allowUserManagement && (
+                      <ListItemIcon>
+                        <Button
+                          variant="outlined"
+                          disabled={(isOwner && !demoteRoleResource) || (!isOwner && !promoteRoleResource)}
+                          onClick={(e)=>{
+                            e.stopPropagation();
+                            e.preventDefault();
+                            if (isOwner) {
+                              demoteRoleResource && demoteRoleResource({
+                                resourceID: resource.guid,
+                                roleID: role.guid,
+                              });
+                            } else {
+                              promoteRoleResource && promoteRoleResource({
+                                resourceID: resource.guid,
+                                roleID: role.guid,
+                              });
+                            }
+                          }}
+                        >
+                          {isOwner ? t('Clear Admin') : t('Set as Admin') }
+                        </Button>
+                      </ListItemIcon>
+                    )}
+                    { allowUserManagement && (
+                      <ListItemIcon>
+                        <IconButton
+                          size="medium"
+                          title={t('remove {0}', displayResourceType)}
+                          icon="delete"
+                          disabled={!removeResourceFromRole}
+                          onClick={(e)=>{
+                            e.stopPropagation();
+                            e.preventDefault();
 
-                          removeResourceFromRole && removeResourceFromRole({
-                            roleID: role.guid,
-                            resourceID: resource.guid,
-                          });
-                        }}
-                      />
-                    </ListItemIcon>
+                            removeResourceFromRole && removeResourceFromRole({
+                              roleID: role.guid,
+                              resourceID: resource.guid,
+                            });
+                          }}
+                        />
+                      </ListItemIcon>
+                    )}
                   </ListItem>
                 );
               })}
@@ -326,22 +331,24 @@ const RoleComponent = ({
           </div>
         </AccordionDetails>
         <AccordionDetails>
-          <Button
-            className={clsx(styles.autoLeft)}
-            variant="outlined"
-            color="primary"
-            disabled={!addResourceToRole}
-            onClick={(e)=>{
-              e.stopPropagation();
-              e.preventDefault();
+          { allowUserManagement && (
+            <Button
+              className={clsx(styles.autoLeft)}
+              variant="outlined"
+              color="primary"
+              disabled={!addResourceToRole}
+              onClick={(e)=>{
+                e.stopPropagation();
+                e.preventDefault();
 
-              addResourceToRole && addResourceToRole({
-                roleID: role.guid
-              });
-            }}
-          >
-            Add user
-          </Button>
+                addResourceToRole && addResourceToRole({
+                  roleID: role.guid
+                });
+              }}
+            >
+              Add user
+            </Button>
+          )}
         </AccordionDetails>
       </Accordion>
     </div>
@@ -366,6 +373,7 @@ RoleComponent.propTypes={
   isAdmin: PropTypes.bool,
   onRoleNameUpdated: PropTypes.func,
   onRoleDescriptionUpdated: PropTypes.func,
+  allowUserManagement: PropTypes.bool
 };
 
 export default RoleComponent;

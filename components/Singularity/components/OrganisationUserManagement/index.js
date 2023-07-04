@@ -63,6 +63,8 @@ const OrganisationUserManagement = ({
   const [stats, setStats] = useState(null);
   const [errors, setErrors] = useState(null);
   const isOrganisationAdmin = parentEntity && parentEntity.isOwner;
+  const isSSOManaged = parentEntity && parentEntity.isSSOManaged;
+  console.log({parentEntity, isSSOManaged});
 
   const {
     title,
@@ -282,6 +284,7 @@ const OrganisationUserManagement = ({
                   resources: entity.users
                 }}
                 isAdmin={isOrganisationAdmin}
+                allowUserManagement={!isSSOManaged}
                 expanded={(expanded === null && index === 0) || expanded === entity.role.guid}
                 onToggleExpand={(event, value)=>{
                   setExpanded(value ? entity.role.guid : null);
