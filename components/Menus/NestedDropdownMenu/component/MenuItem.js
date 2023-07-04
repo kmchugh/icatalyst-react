@@ -55,6 +55,8 @@ const MenuItem = ({
   onDeleteItem,
   deleteChildFun,
   className,
+  onClickItem,
+  onChildClickItem,
   ...props
 }) => {
   const classes = useStyles(props);
@@ -67,7 +69,7 @@ const MenuItem = ({
   return (
     <>
       <ListItem className={classes.listItem}>
-        <ListItemText className={clsx (classes.listItemText,className)} primary={title} />
+        <ListItemText className={clsx (classes.listItemText,className)} primary={title} onClick={onClickItem}/>
         {isCreate && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'
@@ -116,6 +118,8 @@ const MenuItem = ({
                   OnEditChildItems={OnEditChildItems}
                   onDeleteItem={()=>deleteChildFun(item)}
                   deleteChildFun={deleteChildFun}
+                  onClickItem={()=>onChildClickItem(item)}
+                  onChildClickItem={onChildClickItem}
 
                 />
               ))}
@@ -153,6 +157,8 @@ MenuItem.propTypes = {
   OnEditChildItems:PropTypes.func,
   onDeleteItem:PropTypes.func,
   deleteChildFun:PropTypes.func,
+  onClickItem:PropTypes.func,
+  onChildClickItem:PropTypes.func,
   className:PropTypes.object
 };
 

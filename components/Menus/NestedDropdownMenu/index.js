@@ -58,6 +58,7 @@ const NestedDropdownMenu = ({
   isOpen,
   subHeader = '',
   className,
+  onClickItem,
   ...props
 })=>{
 
@@ -131,8 +132,10 @@ const NestedDropdownMenu = ({
                   OnEditChildItems={OnEditChildItems}
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
+                  onClickItem={()=>onClickItem(item)}
                   className={item.isDelete && classes.listItemText}
                   style={styles.listItemText}
+                  onChildClickItem={onClickItem}
                 />
               ))}
               {isCreate && (
@@ -169,6 +172,7 @@ NestedDropdownMenu.propTypes = {
   styles: PropTypes.object,
   onEditItem:PropTypes.func,
   onDeleteItem:PropTypes.func,
+  onClickItem:PropTypes.func,
   iconTitle:PropTypes.string,
   icon:PropTypes.string,
   className:PropTypes.object,
