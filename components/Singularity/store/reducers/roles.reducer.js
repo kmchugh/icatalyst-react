@@ -29,7 +29,8 @@ const definition = createModel({
       required: true,
       minLength: 4,
       maxLength: 256,
-      description: 'The name to display'
+      description: 'The name to display',
+      sortType: 'string',
     },
     {
       id: 'description',
@@ -41,7 +42,8 @@ const definition = createModel({
       minLength: 4,
       maxLength: 256,
       excludeFromModel: true,
-      description: 'An internal code'
+      description: 'An internal code',
+      sortType: 'string',
     },
     {
       id: 'displayable',
@@ -115,6 +117,7 @@ const definition = createModel({
       id : 'invite',
       label : '',
       type : 'string',
+      disableSorting: true,
       render(column, field, item){
         return <ResourceSharingButton
           key="resourceSharingButton"

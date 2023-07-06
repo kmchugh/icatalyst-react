@@ -27,7 +27,8 @@ const definition = createModel({
       required: true,
       minLength: 4,
       maxLength: 256,
-      readonly : true
+      readonly : true,
+      sortType: 'string',
     },
   ],
   listLayout : [

@@ -24,7 +24,8 @@ const definition = createModel({
       id: 'name',
       required: true,
       minLength: 4,
-      maxLength: 256
+      maxLength: 256,
+      sortType: 'string',
     },
     {
       id: 'description',
@@ -38,6 +39,7 @@ const definition = createModel({
       id: 'email',
       minLength: 4,
       maxLength: 256,
+      sortType: 'string',
     },
     {
       id: 'start',

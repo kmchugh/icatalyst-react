@@ -32,7 +32,8 @@ const definition = createModel({
       maxLength: 256,
       validations : [
         isName
-      ]
+      ],
+      sortType: 'string',
     },
     {
       id: 'description',
