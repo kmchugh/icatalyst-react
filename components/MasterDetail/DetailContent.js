@@ -359,7 +359,8 @@ const DetailContent = ({
                                       }
                                     }, {
                                       accessToken : accessToken,
-                                      params : params
+                                      params : params,
+                                      ...((!isAdding && definition.updateMethod) ? { method: definition.updateMethod } : {})
                                     }
                                   ));
                                 }
