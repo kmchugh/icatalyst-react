@@ -271,6 +271,8 @@ const Table = ({
       minWidth : column.minWidth,
       maxWidth : column.maxWidth,
       // TODO: Add other properties from react-table
+      sortDescFirst: true,
+      disableSortBy: column.disableSorting,
     };
   }));
 
