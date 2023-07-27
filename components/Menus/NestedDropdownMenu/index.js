@@ -15,6 +15,7 @@ import MenuItem from './component/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
+import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,10 +39,13 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text
   },
   listItemText: {
-    '& span': {
+    '& [class*="MuiListItem"]': {
       color : 'grey'
     },
   },
+  itemtext : {
+    background :  alpha(theme.palette.secondary.light, .3)
+  }
 }));
 
 const NestedDropdownMenu = ({ 
@@ -59,6 +63,7 @@ const NestedDropdownMenu = ({
   subHeader = '',
   className,
   onClickItem,
+  value,
   ...props
 })=>{
 
@@ -133,7 +138,7 @@ const NestedDropdownMenu = ({
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
                   onClickItem={()=>onClickItem(item)}
-                  className={item.isDelete && classes.listItemText}
+                  className={clsx(item.isDelete && classes.listItemText,value === item.name && classes.itemtext)}
                   style={styles.listItemText}
                   onChildClickItem={onClickItem}
                 />
@@ -177,7 +182,8 @@ NestedDropdownMenu.propTypes = {
   icon:PropTypes.string,
   className:PropTypes.object,
   isOpen:PropTypes.bool,
-  subHeader: PropTypes.string
+  subHeader: PropTypes.string,
+  value: PropTypes.string
 };
 
 export default React.memo(NestedDropdownMenu);
