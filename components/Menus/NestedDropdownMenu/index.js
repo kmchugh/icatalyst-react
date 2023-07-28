@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
+import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 import {
   ListSubheader,
@@ -15,8 +16,6 @@ import MenuItem from './component/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
-
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,10 +40,18 @@ const useStyles = makeStyles((theme) => ({
   listItemText: {
     '& [class*="MuiListItem"]': {
       color : 'grey'
-    },
+    }
   },
-  itemtext : {
-    background :  alpha(theme.palette.secondary.light, .3)
+  listItem: {
+    ['&:hover'] : {
+      background : alpha(theme.palette.secondary.main, .10),
+    }
+  },
+  listItemSelected : {
+    background : alpha(theme.palette.secondary.main, .25),
+    ['&:hover'] : {
+      background : alpha(theme.palette.secondary.main, .25),
+    }
   }
 }));
 
@@ -138,7 +145,7 @@ const NestedDropdownMenu = ({
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
                   onClickItem={()=>onClickItem(item)}
-                  className={clsx(item.isDelete && classes.listItemText,value === item.name && classes.itemtext)}
+                  className={clsx(classes.listItem, item.isDelete && classes.listItemText,value === item.name && classes.listItemSelected)}
                   style={styles.listItemText}
                   onChildClickItem={onClickItem}
                 />
@@ -180,7 +187,7 @@ NestedDropdownMenu.propTypes = {
   onClickItem:PropTypes.func,
   iconTitle:PropTypes.string,
   icon:PropTypes.string,
-  className:PropTypes.object,
+  className:PropTypes.string,
   isOpen:PropTypes.bool,
   subHeader: PropTypes.string,
   value: PropTypes.string

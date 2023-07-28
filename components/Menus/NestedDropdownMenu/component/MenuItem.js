@@ -25,8 +25,7 @@ const useStyles = makeStyles((theme) => ({
       fontWeight: 500,
     },
     marginTop : '10px',
-    marginBottom : '10px',
-    background: 'transparent !important'
+    marginBottom : '10px'
   },
   collapse: {
     paddingLeft: theme.spacing(2),
@@ -72,7 +71,7 @@ const MenuItem = ({
   return (
     <>
       <ListItem className={clsx (classes.listItem,className)}>
-        <ListItemText className={clsx (classes.listItemText,className)} primary={title} onClick={onClickItem}/>
+        <ListItemText className={clsx (classes.listItemText)} primary={title} onClick={onClickItem}/>
         {isCreate && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'
