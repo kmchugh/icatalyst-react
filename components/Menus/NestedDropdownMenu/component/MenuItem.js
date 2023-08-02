@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
       fontWeight: 500,
     },
+    marginTop : theme.spacing(1),
+    marginBottom : theme.spacing(1)
   },
   collapse: {
     paddingLeft: theme.spacing(2),
@@ -68,8 +70,8 @@ const MenuItem = ({
 
   return (
     <>
-      <ListItem className={classes.listItem}>
-        <ListItemText className={clsx (classes.listItemText,className)} primary={title} onClick={onClickItem}/>
+      <ListItem className={clsx (classes.listItem,className)}>
+        <ListItemText className={clsx (classes.listItemText)} primary={title} onClick={onClickItem}/>
         {isCreate && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'
@@ -159,7 +161,7 @@ MenuItem.propTypes = {
   deleteChildFun:PropTypes.func,
   onClickItem:PropTypes.func,
   onChildClickItem:PropTypes.func,
-  className:PropTypes.object
+  className:PropTypes.string
 };
 
 export default React.memo(MenuItem);
