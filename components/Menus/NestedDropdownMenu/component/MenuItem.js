@@ -161,7 +161,7 @@ MenuItem.propTypes = {
   deleteChildFun:PropTypes.func,
   onClickItem:PropTypes.func,
   onChildClickItem:PropTypes.func,
-  className:PropTypes.object
+  className:PropTypes.string
 };
 
 export default React.memo(MenuItem);
