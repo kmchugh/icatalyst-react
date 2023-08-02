@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
       fontWeight: 500,
     },
-    marginTop : '10px',
-    marginBottom : '10px'
+    marginTop : theme.spacing(1),
+    marginBottom : theme.spacing(1)
   },
   collapse: {
     paddingLeft: theme.spacing(2),
