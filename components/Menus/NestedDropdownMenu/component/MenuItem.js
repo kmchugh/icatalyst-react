@@ -72,7 +72,7 @@ const MenuItem = ({
     <>
       <ListItem className={clsx (classes.listItem,className)}>
         <ListItemText className={clsx (classes.listItemText)} primary={title} onClick={onClickItem}/>
-        {isCreate && <div className={classes.iconDiv}> 
+        {isCreate && !fullData.isEditable && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'
             icon='edit'
@@ -89,8 +89,8 @@ const MenuItem = ({
         </div>
         }
         
-        <div onClick={() => setIsOpen(!isOpen)}>
-          {(childrenData?.length > 0 || isCreate) &&
+        <div onClick={() => setIsOpen(!isOpen)} style={{display:'none'}} >
+          {(childrenData?.length > 0 || isCreate) && !fullData.isEditable  &&
           (isOpen ? <Icon >expand_less</Icon> : <Icon>expand_more</Icon>)}
         </div>
       </ListItem>
@@ -103,9 +103,9 @@ const MenuItem = ({
         {isOpen && (
           <>
             <List className={classes.list}>
-              {childrenData && childrenData.map((item) => (
+              {childrenData && childrenData.map((item,index) => (
                 <MenuItem
-                  key={item[primaryKey]}
+                  key={index}
                   title={item.name}
                   childrenData={item[childKey]}
                   updatedChildFun={updatedChildFun}
@@ -145,13 +145,14 @@ const MenuItem = ({
 
 MenuItem.propTypes = {
   title: PropTypes.string.isRequired,
-  childrenData: PropTypes.array.isRequired,
+  childrenData: PropTypes.array,
   updatedChildFun: PropTypes.func.isRequired,
   fullData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    children: PropTypes.array.isRequired,
-  }).isRequired,
+    id: PropTypes.string,
+    title: PropTypes.string,
+    children: PropTypes.array,
+    isEditable: PropTypes.bool
+  }),
   primaryKey: PropTypes.string,
   childKey: PropTypes.string,
   isCreate: PropTypes.bool,
