@@ -89,7 +89,7 @@ const MenuItem = ({
         </div>
         }
         
-        <div onClick={() => setIsOpen(!isOpen)}>
+        <div onClick={() => setIsOpen(!isOpen)} style={{display:'none'}} >
           {(childrenData?.length > 0 || isCreate) && !fullData.isEditable  &&
           (isOpen ? <Icon >expand_less</Icon> : <Icon>expand_more</Icon>)}
         </div>
