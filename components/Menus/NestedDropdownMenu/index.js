@@ -128,9 +128,9 @@ const NestedDropdownMenu = ({
                 </ListSubheader>
               }
             >
-              {menuItems && menuItems.map((item) => (
+              {menuItems && menuItems.map((item,index) => (
                 <MenuItem
-                  key={item[primaryKey]}
+                  key={index}
                   title={item.name}
                   childrenData={item[childKey]}
                   updatedChildFun={handleClick}
