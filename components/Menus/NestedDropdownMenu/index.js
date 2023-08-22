@@ -5,11 +5,11 @@ import {alpha} from '@material-ui/core/styles/colorManipulator';
 import {
   ListSubheader,
   List,
-  Popover,
   Paper,
   ClickAwayListener,
   Button,
   Icon,
+  Popper,
 } from '@material-ui/core';
 import IconButton from '../../IconButton';
 import MenuItem from './component/MenuItem';
@@ -111,7 +111,14 @@ const NestedDropdownMenu = ({
           setAnchorEl(e.currentTarget);
         }}
       />
-      <Popover open={open} anchorEl={anchorEl} anchorOrigin={{ vertical: 'bottom', horizontal: -300 }} classes={{paper : className}}>
+      <Popper placement="bottom-start" open={open} anchorEl={anchorEl}  modifiers={{
+        offset: {
+          enabled: true,
+          offset: '-300px, 0', // Adjust offset as needed
+        },
+      }}     
+      className={className}
+      >
         <ClickAwayListener onClickAway={() => {
           setIsOpen(false);
           setAnchorEl(null);
@@ -163,7 +170,7 @@ const NestedDropdownMenu = ({
             </List>
           </Paper>
         </ClickAwayListener>
-      </Popover>
+      </Popper>
     </div>
     
   );
