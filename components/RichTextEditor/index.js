@@ -170,14 +170,23 @@ const RichTextEditor = (
           (e, editor)=>{
             const v = editor.getData();
             valueRef.current = v;
-            if (v !== value) {
-              const isEmpty = !v || v.trim() === '';
-              if (v !== pendingUpdate) {
-                updateContent(e, isEmpty ? null : v);
-              }
-            }
+            // if (v !== value) {
+            //   const isEmpty = !v || v.trim() === '';
+            //   if (v !== pendingUpdate) {
+            //     updateContent(e, isEmpty ? null : v);
+            //   }
+            // }
           }
         }
+        onBlur={(e, editor) => {
+          const v = editor.getData();
+          if (v !== value) {
+            const isEmpty = !v || v.trim() === '';
+            if (v !== pendingUpdate) {
+              updateContent(e, isEmpty ? null : v);
+            }
+          }
+        }}
         config={derivedConfig}
       />
     </div>
