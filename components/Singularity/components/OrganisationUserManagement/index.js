@@ -14,7 +14,7 @@ import {definition as organisationStatsDefinition} from '../../store/reducers/or
 import {definition as organisationRolesDefinition} from '../../store/reducers/organisationRoles.reducer';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
 import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
-import * as MessageActions from 'app/store/actions/app';
+import * as MessageActions from '../../../../store/actions/message.actions';
 
 import {
   Typography,

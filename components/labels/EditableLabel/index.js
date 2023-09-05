@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, TextField } from '@material-ui/core';
 import { IconButton } from '@icatalyst/components';
-import { cleanText } from 'utilities';
+// import { cleanText } from 'utilities';
+import { cleanText } from '../../../utilities/validations';
 import {RichTextEditor} from '@icatalyst/components';
 
 const useStyles = makeStyles((theme) => ({

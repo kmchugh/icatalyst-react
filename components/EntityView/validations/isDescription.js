@@ -1,4 +1,4 @@
-import { cleanText } from '../../../../utilities';
+import { cleanText } from '../../../utilities/validations';
 
 export const isDescription = (text) => {
   return cleanText(text.description) !== text.description ?
