@@ -71,6 +71,7 @@ const NestedDropdownMenu = ({
   className,
   onClickItem,
   value,
+  placement = 'bottom-end',
   ...props
 })=>{
 
@@ -111,11 +112,11 @@ const NestedDropdownMenu = ({
           setAnchorEl(e.currentTarget);
         }}
       />
-      <Popper placement="bottom-start" open={open} anchorEl={anchorEl}  modifiers={{
-        offset: {
-          enabled: true,
-          offset: '-300px, 0', // Adjust offset as needed
-        },
+      <Popper placement={placement} open={open} anchorEl={anchorEl}  modifiers={{
+        // offset: {
+        //   enabled: true,
+        //   offset: '-300px, 0', // Adjust offset as needed
+        // },
       }}     
       className={className}
       >
@@ -197,7 +198,8 @@ NestedDropdownMenu.propTypes = {
   className:PropTypes.string,
   isOpen:PropTypes.bool,
   subHeader: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.string,
+  placement: PropTypes.string
 };
 
 export default React.memo(NestedDropdownMenu);
