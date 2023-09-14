@@ -62,6 +62,7 @@ const RichTextEditor = (
     config = {},
     rows = 5,
     debounce = 750,
+    updateBlur = false,
     ...rest
   }
 )=>{
@@ -141,10 +142,14 @@ const RichTextEditor = (
 
   const updateContent = useMemo(()=>{
     return _.debounce((e, value)=>{
-      setPendingUpdate(value);
-      onChange && onChange(e, value);
+      updateContentOnBlur(e,value);
     }, debounce);
   }, [onChange, debounce]);
+
+  const updateContentOnBlur = (e,value) =>{
+    setPendingUpdate(value);
+    onChange && onChange(e, value);
+  };
 
   return (
     <div className={clsx(
@@ -170,12 +175,12 @@ const RichTextEditor = (
           (e, editor)=>{
             const v = editor.getData();
             valueRef.current = v;
-            // if (v !== value) {
-            //   const isEmpty = !v || v.trim() === '';
-            //   if (v !== pendingUpdate) {
-            //     updateContent(e, isEmpty ? null : v);
-            //   }
-            // }
+            if (v !== value && !updateBlur) {
+              const isEmpty = !v || v.trim() === '';
+              if (v !== pendingUpdate) {
+                updateContent(e, isEmpty ? null : v);
+              }
+            }
           }
         }
         onBlur={(e, editor) => {
@@ -183,7 +188,7 @@ const RichTextEditor = (
           if (v !== value) {
             const isEmpty = !v || v.trim() === '';
             if (v !== pendingUpdate) {
-              updateContent(e, isEmpty ? null : v);
+              updateContentOnBlur(e, isEmpty ? null : v);
             }
           }
         }}
@@ -207,7 +212,8 @@ RichTextEditor.propTypes={
   readOnly : PropTypes.bool,
   rows : PropTypes.number,
   config : PropTypes.object,
-  debounce : PropTypes.number
+  debounce : PropTypes.number,
+  updateBlur : PropTypes.bool
 };
 
 export default RichTextEditor;
