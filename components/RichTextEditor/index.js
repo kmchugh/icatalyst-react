@@ -62,7 +62,7 @@ const RichTextEditor = (
     config = {},
     rows = 5,
     debounce = 750,
-    updateBlur = false,
+    updateOnBlur = false,
     ...rest
   }
 )=>{
@@ -140,13 +140,13 @@ const RichTextEditor = (
     } : {}, config);
   }, [config]);
 
-  const updateContent = useMemo(()=>{
+  const updateContentOnDebounce = useMemo(()=>{
     return _.debounce((e, value)=>{
-      updateContentOnBlur(e,value);
+      updateContent(e,value);
     }, debounce);
   }, [onChange, debounce]);
 
-  const updateContentOnBlur = (e,value) =>{
+  const updateContent = (e,value) =>{
     setPendingUpdate(value);
     onChange && onChange(e, value);
   };
@@ -175,10 +175,10 @@ const RichTextEditor = (
           (e, editor)=>{
             const v = editor.getData();
             valueRef.current = v;
-            if (v !== value && !updateBlur) {
+            if (v !== value && !updateOnBlur) {
               const isEmpty = !v || v.trim() === '';
               if (v !== pendingUpdate) {
-                updateContent(e, isEmpty ? null : v);
+                updateContentOnDebounce(e, isEmpty ? null : v);
               }
             }
           }
@@ -188,7 +188,7 @@ const RichTextEditor = (
           if (v !== value) {
             const isEmpty = !v || v.trim() === '';
             if (v !== pendingUpdate) {
-              updateContentOnBlur(e, isEmpty ? null : v);
+              updateContent(e, isEmpty ? null : v);
             }
           }
         }}
@@ -213,7 +213,7 @@ RichTextEditor.propTypes={
   rows : PropTypes.number,
   config : PropTypes.object,
   debounce : PropTypes.number,
-  updateBlur : PropTypes.bool
+  updateOnBlur : PropTypes.bool
 };
 
 export default RichTextEditor;

@@ -55,7 +55,8 @@ const EditableLabel = ({
   component,
   className,
   useEditButton,
-  updateBlur
+  updateOnBlur,
+  ...rest
 }) =>{
 
   const classes = useStyles();
@@ -118,7 +119,8 @@ const EditableLabel = ({
         multiline={true}
         onChange={(e, text) => onValueUpdated(text)}
         className={clsx(classes.ckeditor)}
-        updateBlur = {updateBlur}
+        updateOnBlur = {updateOnBlur}
+        {...rest}
       />
     ) : (
       <TextField
@@ -195,7 +197,7 @@ EditableLabel.propTypes = {
   onValueUpdated : PropTypes.func,
   dir : PropTypes.oneOf(['ltr', 'rtl']),
   useEditButton : PropTypes.bool,
-  updateBlur : PropTypes.bool
+  updateOnBlur : PropTypes.bool
 };
 
 
