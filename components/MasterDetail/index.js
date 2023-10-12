@@ -164,7 +164,9 @@ const MasterDetailPage = ({
           }
         } else {
           // Call got cancelled.
-          setIsCancelled(true);
+          if(!isCancelled) {
+            setIsCancelled(true);
+          }
         }
         setUpdating(false);
       }, {
