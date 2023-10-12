@@ -69,6 +69,7 @@ const MasterDetailPage = ({
   } = definition;
   const [canAdd, setCanAdd] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
+  const [isCancelled, setIsCancelled] = useState(false);
 
   const reducer = useSelector(getReducerRoot);
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
@@ -76,6 +77,13 @@ const MasterDetailPage = ({
   useEffect(()=>{
     setData((reducer && reducer.loaded ? reducer.entities : null));
   }, [reducer]);
+
+  useEffect(()=>{
+    if(isCancelled) {
+      // If cancelled, try loading one more time.
+      loadEntities();
+    }
+  },[isCancelled]);
 
   useEffect(()=>{
     if (!detailMatch) {
@@ -153,6 +161,11 @@ const MasterDetailPage = ({
               .filter(definition.filterPayload || (()=>true))
               .map(definition.transformPayload || ((i)=>i))
             );
+          }
+        } else {
+          // Call got cancelled.
+          if(!isCancelled) {
+            setIsCancelled(true);
           }
         }
         setUpdating(false);
