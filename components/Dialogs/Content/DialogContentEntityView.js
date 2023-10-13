@@ -31,6 +31,8 @@ const DialogContentEntityView = ({
   onSaved,
   updatingTitle = 'Saving',
   onChange,
+  saveText = 'Save',
+  saveIcon = 'save',
   ...rest
 })=>{
 
@@ -74,8 +76,8 @@ const DialogContentEntityView = ({
         };
       })
     ) : [{
-      title : 'Save',
-      icon : 'save',
+      title : saveText,
+      icon : saveIcon,
       disabled : !isValid || !modified,
       onClick : ()=>{
         setUpdating(true);
@@ -164,7 +166,9 @@ DialogContentEntityView.propTypes = {
   ]),
   updatingTitle : PropTypes.string,
   entity : PropTypes.object,
-  onChange : PropTypes.func
+  onChange : PropTypes.func,
+  saveText: PropTypes.string,
+  saveIcon: PropTypes.string,
 };
 
 export default DialogContentEntityView;
