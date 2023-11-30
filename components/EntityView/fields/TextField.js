@@ -39,7 +39,7 @@ const TextField = (props) => {
     error={hasErrors}
     // We are only showing the first error, so that less space is used
     // as the user fixes each error feedback is quick
-    type= {type === 'string' || showPassword ? 'text' : 'password'}
+    type= {type === 'string' || showPassword ? 'string' : 'password'}
     helperText={hasErrors ? errors[0] : description}
     required={required}
     autoFocus={autoFocus}
