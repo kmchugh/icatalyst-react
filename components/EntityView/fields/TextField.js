@@ -1,10 +1,16 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {TextField as NativeTextField} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { InputAdornment, IconButton } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 
 const TextField = (props) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const {readonly = false,
     onChange,
@@ -17,7 +23,8 @@ const TextField = (props) => {
     label,
     maxLength,
     autoFocus = false,
-    description
+    description,
+    type
   } = field;
 
   const displayValue = value || '';
@@ -32,11 +39,19 @@ const TextField = (props) => {
     error={hasErrors}
     // We are only showing the first error, so that less space is used
     // as the user fixes each error feedback is quick
+    type= {type === 'string' || showPassword ? 'text' : 'password'}
     helperText={hasErrors ? errors[0] : description}
     required={required}
     autoFocus={autoFocus}
     InputProps={{
-      readOnly: readonly
+      readOnly: readonly,
+      endAdornment: type === 'password' && (
+        <InputAdornment position="end">
+          <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </InputAdornment>
+      )
     }}
     autoComplete="off"
     fullWidth
@@ -61,7 +76,8 @@ TextField.propTypes = {
   onChange : PropTypes.func,
   value : PropTypes.any,
   errors: PropTypes.array,
-  field : PropTypes.object.isRequired
+  field : PropTypes.object.isRequired,
+  type : PropTypes.string
 };
 
 export default React.memo(TextField);
