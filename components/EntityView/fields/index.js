@@ -13,6 +13,7 @@ import {fieldBuilder as richTextFieldBuilder} from './RichTextField';
 import {fieldBuilder as paletteSelectFieldBuilder} from './PaletteSelectField';
 import {fieldBuilder as selectFieldBuilder} from './SelectField';
 import {fieldBuilder as tagFieldBuilder} from './TagField';
+import {fieldBuilder as passwordFieldBuilder} from './PasswordField';
 
 
 
@@ -32,6 +33,7 @@ const fieldMap = [
   richTextFieldBuilder,
   selectFieldBuilder,
   tagFieldBuilder,
+  passwordFieldBuilder,
 
   // Default to TextField if no other matches
   {
