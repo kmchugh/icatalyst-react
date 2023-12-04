@@ -21,7 +21,8 @@ const PassWordField = (props) => {
     id,
     required,
     label,
-    autoFocus = false
+    autoFocus = false,
+    description
   } = field;
   const displayValue = value || '';
 
@@ -37,6 +38,7 @@ const PassWordField = (props) => {
       fullWidth
       value={field.format ? field.format(displayValue) : displayValue}
       error={hasErrors}
+      helperText={hasErrors ? errors[0] : description}
       name={id}
       onChange={onChange}
       required={required}
