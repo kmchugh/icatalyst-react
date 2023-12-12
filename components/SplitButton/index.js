@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   ButtonGroup, Button, Popper, Grow, Paper,
   ClickAwayListener, MenuList, MenuItem,
@@ -56,6 +56,12 @@ const SplitButton = ({
 
   const [open, setOpen] = useState(false);
   const [storedValue, setStoredValue] = useState(value);
+
+  useEffect(()=>{
+    if(value) {
+      setStoredValue(value);
+    }
+  }, [value]);
 
   const handleOptionClick = (e, value)=>{
     value.onClick && value.onClick(e, value);
