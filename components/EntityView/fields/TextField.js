@@ -17,7 +17,8 @@ const TextField = (props) => {
     label,
     maxLength,
     autoFocus = false,
-    description
+    description,
+    maxRows
   } = field;
 
   const displayValue = value || '';
@@ -46,7 +47,8 @@ const TextField = (props) => {
       maxLength : maxLength
     }}
     multiline={maxLength>256}
-    rows={Math.min(maxLength/256, 20) || 1}
+    minRows={Math.min(maxLength/256, 20) || 1}
+    maxRows={maxRows}
     value={field.format ? field.format(displayValue) : displayValue}
     disabled={readonly}
   />);
