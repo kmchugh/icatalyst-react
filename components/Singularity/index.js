@@ -340,6 +340,7 @@ function Singularity({
     // Fire and forget as we have already locally updated
     dispatch(CDOperations['UPDATE_ENTITY'](payload, null, {
       accessToken: accessToken,
+      method: 'patch',
       params : overwrite ? {
         merge : false
       } : undefined
