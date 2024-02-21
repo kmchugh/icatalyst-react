@@ -97,13 +97,13 @@ const StatsComponent = ({
           variant="body1"
           gutterBottom={true}
         >
-          {t('Applied')}: {moment(licenceKey.applied).format('LL')}
+          {t('Applied')}: {licenceKey ? moment(licenceKey.applied).format('LL') : 'Not found'}
         </Typography>
         <Typography
           noWrap={true}
           variant="body1"
         >
-          {t('Expires')}: {moment(licenceKey.expires).format('LL')}
+          {t('Expires')}: {licenceKey ? moment(licenceKey.expires).format('LL'): 'Not found'}
         </Typography>
       </Paper>
       {
