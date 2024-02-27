@@ -1,5 +1,6 @@
 import * as Actions from '../actions/licenceKeys.actions';
 import { createModel, generateReducer } from '../../../../utilities';
+import moment from '../../../../@moment';
 
 const definition = createModel({
   name: 'licenceKey',
@@ -46,7 +47,17 @@ const definition = createModel({
     }
   ],
   layout: ['duration'],
-  listLayout: ['guid', 'duration', 'applied', 'organisation'],
+  listLayout: ['guid', 'duration', 'applied',
+    {
+      id : 'expiry',
+      label : 'Expired',
+      render(column, field, item){
+        const endDate = moment(item.created).add(item.duration, 'days');
+        const ExpiredDate = endDate.format('DD/MM/YYYY, h:mm:ss');
+        return ExpiredDate;
+      }
+    },
+    'organisation'],
   getReducerRoot: ({ icatalyst }) => {
     return icatalyst.singularity.licenceKeys;
   },
