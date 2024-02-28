@@ -272,9 +272,8 @@ const RoleManagement = ({
   }){
     setResponseErrors(null);
     dispatch(operations.promoteRoleResource({
-      // Note we are switching around due to graph direction
-      roleID : resourceID,
-      resourceID : roleID,
+      roleID,
+      resourceID,
     }, (err)=>{
       if (err) {
         handleError(err);
@@ -292,9 +291,8 @@ const RoleManagement = ({
   }){
     setResponseErrors(null);
     dispatch(operations.demoteRoleResource({
-      // Note we are switching around due to graph direction
-      roleID : resourceID,
-      resourceID : roleID,
+      roleID,
+      resourceID,
     }, (err)=>{
       if (err) {
         handleError(err);
@@ -312,9 +310,8 @@ const RoleManagement = ({
   }) {
     setResponseErrors(null);
     dispatch(operations.removeResourceFromRole({
-      // Note we are switching around due to graph direction
-      roleID : resourceID,
-      resourceID : roleID,
+      roleID,
+      resourceID,
     }, (err)=>{
       if (err) {
         handleError(err);

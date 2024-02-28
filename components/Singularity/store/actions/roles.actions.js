@@ -26,8 +26,7 @@ ops.getRoleMembers = ({
 
   const uri = `${URIService.getURI('singularity', 'roleMembers')}`;
   const url = createURI(uri, {
-    roleID,
-    resolveUsers: true
+    roleID
   });
 
   return makeReducerRequest({
@@ -84,7 +83,7 @@ ops.addResourceToRole = function({
   const uri = `${URIService.getURI('singularity', 'roleMemberUserRelationships')}`;
   const url = createURI(uri, {
     roleID,
-    action : 'user'
+    action : 'members'
   });
 
   const query = {
@@ -120,7 +119,7 @@ ops.promoteRoleResource = function({
   const url = createURI(uri, {
     organisationID,
     roleID,
-    action: 'owner'
+    action: 'owners'
   });
 
   const query = {
@@ -155,7 +154,7 @@ ops.demoteRoleResource = function({
   const uri = `${URIService.getURI('singularity', 'roleMemberUserRelationships')}/:resourceID`;
 
   const url = createURI(uri, {
-    action : 'owner',
+    action : 'owners',
     roleID,
     resourceID
   });
