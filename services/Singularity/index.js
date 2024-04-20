@@ -190,18 +190,21 @@ class SingularityService {
    * redirecting the user to the singularity login uri
    * @method requestAuthorizationCode
    */
-  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href) {
+  requestAuthorizationCode(scope = this.default_scope, redirect_uri = window.location.href, config = {}) {
     // Store the state so we can validate
     const state = this.localStore('state', generateUUID());
     this.localStore('redirect_uri', redirect_uri);
 
-    this.redirectTo(this.uris.authorize, {
+    const payload = {
       response_type : 'code',
       client_id : this.#client.id,
       scope : scope,
       state : state,
-      redirect_uri : redirect_uri === null ? undefined : redirect_uri
-    });
+      redirect_uri : redirect_uri === null ? undefined : redirect_uri,
+      ...config
+    };
+
+    this.redirectTo(this.uris.authorize, payload);
   }
 
   /**

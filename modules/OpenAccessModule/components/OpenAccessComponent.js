@@ -210,25 +210,7 @@ const OpenAccessComponent = ({
                   variant="contained"
                   onClick={()=>{
                     setLoggingIn(true);
-                    const {urls} = authProvider;
-                    const clientID = authProvider.provider.clientID;
-                    const requestingScope = authProvider.provider.scope || 'openid profile email';
-                    const {config} = singularityContext;
-
-                    const responseType = 'code';
-                    const redirectURL = encodeURIComponent(
-                      `${config.server.root}/v2/api/connectors/oidc/${providerID}`,
-                    );
-
-                    const scope = encodeURIComponent(requestingScope);
-                    const state = '1234567890';
-                    const audience = encodeURIComponent(urls.issuer);
-
-                    const authoriseEndpoint = `${encodeURI(
-                      urls.auth,
-                    )}?state=${state}&response_type=${responseType}&client_id=${clientID}&scope=${scope}&audience=${audience}&redirect_uri=${redirectURL}`;
-
-                    window.location.href = authoriseEndpoint;
+                    login(`${window.location.origin}`, {auth_provider_id: providerID});
                   }}
                 >
                   {`Log in with ${authProvider.name}`}

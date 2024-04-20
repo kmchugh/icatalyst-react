@@ -454,17 +454,17 @@ function Singularity({
       setInitialised(false);
       singularity.logout(accessToken);
     },
-    login : (redirectURI)=>{
+    login : (redirectURI, config = {})=>{
       singularity.cancelSilentRefresh();
       setSession(null);
       setAccessToken(null);
-      singularity.requestAuthorizationCode(undefined, redirectURI);
+      singularity.requestAuthorizationCode(undefined, redirectURI, config);
     },
-    register : (redirectURI)=>{
+    register : (redirectURI, config = {})=>{
       singularity.cancelSilentRefresh();
       setSession(null);
       setAccessToken(null);
-      singularity.requestAuthorizationCode('registration', redirectURI);
+      singularity.requestAuthorizationCode('registration', redirectURI, config);
     },
     changePassword : (callback)=>{
       singularity.changePassword(accessToken, callback);
