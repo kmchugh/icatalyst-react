@@ -305,12 +305,11 @@ const definition = createModel({
 
     // We are returning no parameters here as the updates are in the entity
     return {
-
     };
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {
-      organisationID : parentDefinition.getIdentity(parent),
+      filter: `organisationID=${parentDefinition.getIdentity(parent)}`
     };
   },
   ...Actions,
