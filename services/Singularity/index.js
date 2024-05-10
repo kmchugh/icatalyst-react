@@ -31,7 +31,7 @@ class SingularityService {
     authorize : 'authorize',
     authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
-    client : 'api/client',
+    client : 'v2/api/clients',
     client_data : 'v2/api/clientdata',
     edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
