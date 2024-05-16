@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import { InputLabel, TextField } from '@material-ui/core';
 import { IconButton } from '@icatalyst/components';
-import { cleanText } from 'utilities';
+import { getCleanText } from '@icatalyst/utilities/getCleanText';
 import {RichTextEditor} from '@icatalyst/components';
 
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +67,8 @@ const EditableLabel = ({
   const [updated, setUpdated] = useState(false);
 
   useEffect(()=>{
-    if (cleanText(value) !== editorValue.current) {
-      editorValue.current = cleanText(value);
+    if (getCleanText(value) !== editorValue.current) {
+      editorValue.current = getCleanText(value);
       setUpdated(!updated);
     }
   }, [value]);
@@ -88,7 +88,7 @@ const EditableLabel = ({
   };
 
   const handleFocusOut = (event) =>{
-    editorValue.current = cleanText(event.target.value);
+    editorValue.current = getCleanText(event.target.value);
     setEditable(false);
     onValueUpdated && onValueUpdated(editorValue.current);
   };
