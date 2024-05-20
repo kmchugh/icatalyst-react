@@ -178,7 +178,7 @@ const RichTextEditor = (
             if (v !== value && !updateOnBlur) {
               const isEmpty = !v || v.trim() === '';
               if (v !== pendingUpdate) {
-                updateContentOnDebounce(e, isEmpty ? null : v);
+                updateContentOnDebounce(e, isEmpty ? '' : v);
               }
             }
           }
