@@ -20,6 +20,7 @@ import Image from '@icatalyst/components/Image';
 
 import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
 import { FuseLoading } from '@icatalyst/components/fuse';
+import { getCleanText } from '@icatalyst/utilities/getCleanText';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -302,13 +303,13 @@ const FAQComponent = ({
                     <Typography
                       className={clsx(classes.title)}
                       dangerouslySetInnerHTML={{
-                        __html: element.title,
+                        __html: getCleanText(element.title),
                       }}
                     />
                     <Typography
                       className={clsx(classes.title, classes.excerpt)}
                       dangerouslySetInnerHTML={{
-                        __html: element.excerpt,
+                        __html: getCleanText(element.excerpt),
                       }}
                     />
                   </Grid>
@@ -330,7 +331,7 @@ const FAQComponent = ({
                       >
                         <Typography
                           dangerouslySetInnerHTML={{
-                            __html: element.content,
+                            __html: getCleanText(element.content),
                           }}
                         />
                       </Grid>
