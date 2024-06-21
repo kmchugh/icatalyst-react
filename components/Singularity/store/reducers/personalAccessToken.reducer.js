@@ -1,7 +1,6 @@
 import React from 'react';
-
 import * as Actions from '../actions/personalAccessToken.actions';
-import { createModel, generateReducer } from '../../../../utilities';
+import { createModel, generateReducer, getCleanText } from '../../../../utilities';
 import { createDateRangeConstraint } from '../../../EntityView/validations/createDateRangeConstraint';
 import TokenDetailsContent from '../../../../modules/UserManagementModule/PersonalAccessTokenModule/components/TokenDetailsContent';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
@@ -96,11 +95,17 @@ const definition = createModel({
   },
   onAdded : (res, dispatch/*, getState*/)=>{
     dispatch(DialogActions.openDialog({
-      title : res.name,
+      title : getCleanText(res.name),
       children : <TokenDetailsContent
         token={res}
       />
     }));
+  },
+  transformPayload: (token)=>{
+    return {
+      ...token,
+      name: getCleanText(token.name)
+    };
   },
   ...Actions,
 });
