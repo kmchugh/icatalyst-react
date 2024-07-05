@@ -273,9 +273,14 @@ class SingularityService {
         'Authorization' : `Basic ${this.getBasicToken()}`
       }})
       .then((response)=>{
+        const configData = JSON.parse(response.config.data);
+        const hydratedToken = this.hydrateToken(response.data.access_token);
         return {
           ...response.data,
-          token : this.hydrateToken(response.data.access_token)
+          token : {
+            ...hydratedToken,
+            redirect_uri: configData?.redirect_uri || hydratedToken.redirect_uri
+          }
         };
       })
       .then((accessToken)=>{
