@@ -156,13 +156,13 @@ function Singularity({
           const search = redirect.split('?', 2);
           const hash = redirect.split('#', 2);
           redirectLocation = {
-            path: redirect.replace(window.location.origin, ''),
+            pathname: redirect.replace(window.location.origin, ''),
             search: search.length > 1 ? search[1] : undefined,
             hash: hash.length > 1 ? hash[1] : undefined,
           };
         } else if (session) {
           redirectLocation = {
-            path : location.pathname,
+            pathname : location.pathname,
             search : location.search,
             state : location.state,
             hash : location.hash
@@ -198,7 +198,7 @@ function Singularity({
             message : t('Your account does not have access to this location'),
           });
         } else {
-          if (history.location.pathname !== redirectLocation.path ||
+          if (history.location.pathname !== redirectLocation.pathname ||
             history.location.search !== redirectLocation.search ||
             history.location.hash !== redirectLocation.hash ||
             history.location.state !== redirectLocation.state
