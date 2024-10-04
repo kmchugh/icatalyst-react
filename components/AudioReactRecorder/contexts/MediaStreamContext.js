@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import AudioRecorder from 'audio-recorder-polyfill';
-import mpegEncoder from 'audio-recorder-polyfill/wave-encoder';
+import mpegEncoder from 'audio-recorder-polyfill/mpeg-encoder'; 
 
 const MediaStreamContext = createContext({
   stream: undefined,
@@ -37,12 +37,12 @@ export const MediaStreamProvider = ({ children, audio, video }) => {
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
       audioChunks.current = [...audioChunks.current, event.data];
-      const audioBlob = new Blob(audioChunks.current, { type: 'audio/wav' });
+      const audioBlob = new Blob(audioChunks.current, { type: 'audio/mp3' }); 
       const audioUrl = URL.createObjectURL(audioBlob);
       setUrl({
         blob: audioBlob,
         url: audioUrl,
-        type: 'audio/wav'
+        type: 'audio/mp3'
       });
     }
   };
@@ -55,7 +55,7 @@ export const MediaStreamProvider = ({ children, audio, video }) => {
       // mpegEncoder import from audio-recorder-polyfill/wave-encoder
 
       AudioRecorder.encoder = mpegEncoder;
-      AudioRecorder.prototype.mimeType = 'audio/x-wav';
+      AudioRecorder.prototype.mimeType = 'audio/mpeg';
       // MediaRecorder = AudioRecorder;
       audioChunks.current = [];
       const mediaStream = await navigator?.mediaDevices?.getUserMedia({ audio, video });
