@@ -179,6 +179,10 @@ export function getCleanText(text) {
       'ul': ['id', 'name'],
       'video': ['id', 'name', 'src', 'type'],
       'wbr': ['id', 'name'],
-    }
+    },
+    textFilter: (text) => {
+      // Replace &nbsp; with a regular space
+      return text.replace(/&nbsp;/g, ' ');
+    },
   });
 }
