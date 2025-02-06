@@ -217,6 +217,7 @@ const createOperation = {
         parse = true,
         contentType = 'application/json',
       } = requestConfig;
+
       if (params){
         delete requestConfig.params.guid;
         delete requestConfig.params.id;
@@ -264,7 +265,7 @@ const createOperation = {
                 responses
               );
             }
-          }, requestConfig))(dispatch, getState);
+          }, _.cloneDeep(requestConfig)))(dispatch, getState);
         }));
       };
     };

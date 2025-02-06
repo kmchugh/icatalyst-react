@@ -32,11 +32,11 @@ const monkeyPatch = (utils, moment)=>{
     };
 
     utils.getDatePickerHeaderText = (date) => {
-      return format(date, 'ddd, MMM d', { locale: locale });
+      return format(date, 'ddd, MMM DD', { locale: locale });
     };
 
     utils.getDateTimePickerHeaderText = (date) => {
-      return format(date, 'MMM d', { locale: locale });
+      return format(date, 'MMM DD', { locale: locale });
     };
 
     utils.getMonthText = (date) => {
