@@ -229,9 +229,10 @@ const CommandPanel = ({
               <DropdownMenu
                 menu={secondaryItems.collapsed.flatMap((m, i, s)=>{
                   return [
-                    ...m.items.map(i=>{
+                    ...m.items.map((i)=>{
                       return i.component ? (
                         <div
+                          key={`collapsed_${i.component.key}`}
                           className={clsx(styles.componentWrapper)}
                           onClick={(e)=>{
                             e.stopPropagation();
