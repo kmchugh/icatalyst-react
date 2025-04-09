@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { AppContext } from '../../contexts';
 import {FuseAnimateGroup} from '../fuse';
 import {ErrorWrapper} from '../Errors';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDeepCompareEffect } from '../../hooks/fuse';
 import {SingularityContext} from '../Singularity';

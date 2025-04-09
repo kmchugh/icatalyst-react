@@ -1,9 +1,10 @@
 import React from 'react';
 import { FuseScrollbars } from '../fuse';
-import {Dialog, Slide, Typography, AppBar, Toolbar} from '@material-ui/core';
+import {Dialog, Slide, Typography, AppBar, Toolbar} from '@mui/material';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { useSwipeable } from 'react-swipeable';
 import {useDispatch, useSelector} from 'react-redux';
@@ -97,7 +98,7 @@ function SessionPanel() {
               <Typography className={clsx(classes.toolBarTitle)} variant="h6">
                 Settings
               </Typography>
-              <IconButton title="close" icon="close" onClick={handleClose}/>
+              <IconButton title="close" icon="close" onClick={handleClose} size="large" />
             </Toolbar>
           </AppBar>
 

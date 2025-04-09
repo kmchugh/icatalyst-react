@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useImperativeHandle, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';

@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
-import {Icon} from '@material-ui/core';
+import {makeStyles} from '@mui/styles';
+import {Icon} from '@mui/material';
 import _ from '@icatalyst/@lodash';
 import PropTypes from 'prop-types';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@mui/material/styles';
 import * as Actions from '../../store/actions/message.actions';
 import { useDispatch } from 'react-redux';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
 const useStyles = makeStyles(theme => ({
   root : {

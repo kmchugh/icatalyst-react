@@ -1,15 +1,14 @@
 import React, {useState, useContext, useEffect, useLayoutEffect, useRef} from 'react';
-import {Table as MuiTable, TableContainer, Checkbox } from '@material-ui/core';
-import {
-  ToggleButtonGroup, ToggleButton
-} from '@material-ui/lab';
+import {Table as MuiTable, TableContainer, Checkbox } from '@mui/material';
+import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 import {useGlobalFilter, usePagination,
   useRowSelect, useSortBy,
   useTable
 } from 'react-table';
 import {FuseLoading} from '../fuse';
-import { makeStyles } from '@material-ui/core/styles';
-import {ThemeProvider, Tooltip} from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+import { Tooltip } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import clsx from 'clsx';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
@@ -398,11 +397,9 @@ const Table = ({
   return (
     <div ref={_tableRef} className={clsx(classes.root, className, `density-${mode}`)}>
       {updating && <FuseLoading/>}
-
       {!updating && (!data || data.length === 0) && (
         EmptyListComponent
       )}
-
       {!updating && data && data.length > 0 && (
         <TableContainer className={clsx(classes.tableWrapper)}>
           <ThemeProvider theme={themes.toolbarTheme}>
@@ -500,8 +497,8 @@ const Table = ({
               rowsPerPage={pageSize}
               page={pageIndex}
               onRefresh={onRefresh}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               title={title}
             />
           </ThemeProvider>

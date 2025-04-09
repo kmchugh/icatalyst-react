@@ -1,11 +1,11 @@
 import React, {useState, useImperativeHandle, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {Dialog, DialogContent} from '../Dialogs';
 import EntityView    from '../EntityView';
 import {useForm} from '../../hooks/fuse';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import Icon from '../Icon';
 import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme)=>{
       height: theme.spacing(3),
       borderRadius: '50%',
       textAlign : 'center',
-      lineHeight: `${theme.spacing(3)}px`,
+      lineHeight: theme.spacing(3),
       marginRight: theme.spacing(1),
     },
     stepDescription : {

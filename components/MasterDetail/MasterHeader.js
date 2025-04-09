@@ -2,14 +2,15 @@ import React, {useContext} from 'react';
 import {FuseAnimate} from '../fuse';
 import Icon from '../Icon';
 import ClearableInput from '../ClearableInput';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import {SearchFilterContext} from '../Tables';
 import {useSelector} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 
 
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       flex: '1 0 33%',
     },
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('lg')] : {
       display: 'flex',
     }
   },
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       flex: '1 0 33%',
     },
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('lg')] : {
       display: 'initial'
     }
   },
@@ -57,10 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
   },
   icon : {
-    width: `${theme.spacing(4)}px!important`,
-    height: `${theme.spacing(4)}px!important`,
+    width: `${theme.spacing(4)}!important`,
+    height: `${theme.spacing(4)}!important`,
     marginRight: theme.spacing(2),
-    fontSize: `${theme.spacing(4)}px!important`,
+    fontSize: `${theme.spacing(4)}!important`,
 
     [theme.breakpoints.up('lg')]: {
       margin: theme.spacing(2),

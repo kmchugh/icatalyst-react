@@ -1,6 +1,6 @@
 import React from 'react';
-import {Icon, ListItem, ListItemText} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Icon, ListItem, ListItemText} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';

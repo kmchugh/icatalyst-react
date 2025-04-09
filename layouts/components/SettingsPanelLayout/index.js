@@ -1,12 +1,13 @@
 import { FuseScrollbars, FuseSettings, FuseThemeSchemes } from '@icatalyst/components/fuse';
-import Button from '@material-ui/core/Button';
-import { red } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import { red } from '@mui/material/colors';
+import Dialog from '@mui/material/Dialog';
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
+import Slide from '@mui/material/Slide';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
@@ -125,7 +126,6 @@ function SettingsPanel() {
           <Icon className={classes.buttonIcon}>palette</Icon>
         </Button>
       </div>
-
       <Dialog
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
@@ -140,7 +140,10 @@ function SettingsPanel() {
         {...settingsHandlers}
       >
         <FuseScrollbars className="p-16 sm:p-32">
-          <IconButton className="fixed top-0 ltr:right-0 rtl:left-0 z-10" onClick={handleClose}>
+          <IconButton
+            className="fixed top-0 ltr:right-0 rtl:left-0 z-10"
+            onClick={handleClose}
+            size="large">
             <Icon>close</Icon>
           </IconButton>
 
@@ -151,7 +154,6 @@ function SettingsPanel() {
           <FuseSettings />
         </FuseScrollbars>
       </Dialog>
-
       <Dialog
         TransitionComponent={Transition}
         aria-labelledby="schemes-panel"
@@ -166,7 +168,10 @@ function SettingsPanel() {
         {...shemesHandlers}
       >
         <FuseScrollbars className="p-16 sm:p-32">
-          <IconButton className="fixed top-0 ltr:right-0 rtl:left-0 z-10" onClick={handleClose}>
+          <IconButton
+            className="fixed top-0 ltr:right-0 rtl:left-0 z-10"
+            onClick={handleClose}
+            size="large">
             <Icon>close</Icon>
           </IconButton>
 

@@ -1,6 +1,7 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React, {useContext} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings } from 'app/auth/store/userSlice';

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
+import Typography from '@mui/material/Typography';
+import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import IconButton from '../IconButton';
 
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme)=>{
     title : {
       fontWeight: 'bold',
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('lg')]: {
         fontSize: theme.typography.h5.fontSize
       }
 

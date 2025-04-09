@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import ErrorWrapper from './ErrorWrapper';
 import Icon from '../Icon';
-import {Button} from '@material-ui/core';
+import {Button} from '@mui/material';
 
 /**
  * Ensures that errors are handled "gracefully".

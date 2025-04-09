@@ -1,10 +1,10 @@
 import React from 'react';
-import {Snackbar, IconButton, Icon, SnackbarContent} from '@material-ui/core';
-import {green, amber, blue} from '@material-ui/core/colors';
+import {Snackbar, IconButton, Icon, SnackbarContent} from '@mui/material';
+import {green, amber, blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root   : {},
@@ -73,7 +73,7 @@ function FuseMessage()
             aria-label="Close"
             color="inherit"
             onClick={() => dispatch(Actions.hideMessage())}
-          >
+            size="large">
             <Icon>close</Icon>
           </IconButton>
         ]}

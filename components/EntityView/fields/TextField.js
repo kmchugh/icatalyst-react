@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextField as NativeTextField} from '@material-ui/core';
+import {TextField as NativeTextField} from '@mui/material';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import {TableHead, TableCell, TableRow,
   TableSortLabel, Tooltip
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 

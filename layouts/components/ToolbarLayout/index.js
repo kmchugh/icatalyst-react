@@ -1,6 +1,6 @@
 import React from 'react';
-import {AppBar, Hidden, Toolbar} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {AppBar, Hidden, Toolbar} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton';
 import UserMenu from '@icatalyst/components/UserMenu';
 import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
@@ -22,7 +22,7 @@ function ToolbarComponent(props)
   const classes = useStyles(props);
 
   return (
-    <AppBar id="app-toolbar" className="flex relative z-10" color="default">
+    <AppBar id="app-toolbar" position='relative' className="flex relative z-10" color="default">
       <Toolbar className="p-0">
 
         {config.navbar.display && config.navbar.position === 'left' && (
@@ -33,7 +33,7 @@ function ToolbarComponent(props)
         )}
 
         <div className="flex flex-1">
-          {config.shortcuts.display &&  (<Hidden mdDown>
+          {config.shortcuts.display &&  (<Hidden xlDown>
             <FuseShortcuts className="px-16"/>
           </Hidden>
           )}

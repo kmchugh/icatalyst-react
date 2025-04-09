@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab, Tooltip} from '@material-ui/core';
+import {Tabs, Tab, Tooltip} from '@mui/material';
 import Icon from '../Icon';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import IconButton from '../IconButton';
 import PageBase from '../../pages/PageBase';
 import { useHistory } from 'react-router-dom';
@@ -61,13 +61,14 @@ const DetailContentTabs = ({
       {
         // If the mode is chromeless then we need a way to get back
         config.mode === 'chromeless' && (
-          <IconButton className={clsx(classes.backButton)}
+          <IconButton
+            className={clsx(classes.backButton)}
             onClick={()=>{
               history.push(backUrl);
             }}
             icon={theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
             title="back"
-          />
+            size="large" />
         )
       }
       {

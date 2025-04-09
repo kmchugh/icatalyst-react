@@ -2,10 +2,11 @@ import React, {useState, useEffect, useContext} from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
-import {Button, ThemeProvider} from '@material-ui/core';
+import { Button } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
 import Icon from '../Icon';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import {useForm} from '../../hooks/fuse';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -228,13 +229,11 @@ const DetailContent = ({
           }}
         />
       </ThemeProvider>
-
       <div className={clsx(classes.errorWrapper)}>
         {
           responseErrors && <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={responseErrors}/>
         }
       </div>
-
       <div className={clsx(classes.contentWrapper)}>
         {definition && tabs && (
           <Switch key={location.pathname} location={location}>
@@ -304,7 +303,7 @@ const DetailContent = ({
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}
-                      readonly={readonly || !auth || !auth.update || (!auth.create /* && !isNew */)}
+                      readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}
                       errors={errors}
                       onChange={(e, valueMap)=>{
                         handleChange(e, valueMap);
@@ -314,7 +313,7 @@ const DetailContent = ({
                     />
                     }
                     <div className="flex flex-1"/>
-                    { (!readonly && (auth && (auth.update || (auth.create /* && !isNew */)))) &&
+                    { (!readonly && (auth && (auth.update || ((auth.create) /* && !isNew */)))) &&
                       <div className={clsx(classes.actionWrapper)}>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}

@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import * as DialogActions from '../../../store/actions/dialog.actions';
 import { useDispatch } from 'react-redux';
 import DialogContentEntityView from '../../../components/Dialogs/Content/DialogContentEntityView';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles((theme)=>{
   return {

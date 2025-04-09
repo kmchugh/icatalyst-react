@@ -4,9 +4,9 @@ import _ from '../../../@lodash';
 import * as Actions from 'app/store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import {useTheme} from '@material-ui/styles';
+import {useTheme} from '@mui/styles';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -42,7 +42,7 @@ function NavbarFoldedToggleButton({
       }}
       icon={layout.navbar.folded ? 'fa thumbtack' : (position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left')}
       title={layout.navbar.folded ? 'Pin' : 'Collapse'}
-    />
+      size="large" />
   );
 }
 

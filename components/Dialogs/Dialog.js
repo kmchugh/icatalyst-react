@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {Dialog as NativeDialog,
   AppBar, Typography, Slide
-} from '@material-ui/core';
+} from '@mui/material';
 import IconButton from '../IconButton';
 
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
 
 const TransitionFull = React.forwardRef(function Transition(props, ref) {

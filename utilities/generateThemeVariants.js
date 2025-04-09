@@ -1,8 +1,8 @@
-import {createTheme} from '@material-ui/core/styles';
+import { createTheme, adaptV4Theme } from '@mui/material/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import _ from 'lodash';
 import {createColor} from './createPalette';
-import * as locale from '@material-ui/core/locale';
+import * as locale from '@mui/material/locale';
 import { isRTL } from '../localization/languages';
 
 
@@ -12,34 +12,36 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
 
   return {
     [name] :
-      createTheme(_.merge({}, defaultThemeOptions, theme, {...requiredThemeOptions}, {
-        direction : isRTLLocale,
-        ...defaults,
-        palette : {
-          background : {
-            paper : new tinycolor('#ffffff').mix(theme.palette.secondary.light, tint).toHex8String(),
-            default : new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
-          },
-          grey : {
-            '50': new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '100': new tinycolor('#f5f5f5').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '200': new tinycolor('#eeeeee').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '300': new tinycolor('#e0e0e0').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '400': new tinycolor('#bdbdbd').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '500': new tinycolor('#9e9e9e').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '600': new tinycolor('#757575').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '800': new tinycolor('#424242').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '900': new tinycolor('#212121').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A100': new tinycolor('#d5d5d5').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A200': new tinycolor('#aaaaaa').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A400': new tinycolor('#303030').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
+      createTheme(
+        adaptV4Theme(_.merge({}, defaultThemeOptions, theme, {...requiredThemeOptions}, {
+          direction : isRTLLocale,
+          ...defaults,
+          palette : {
+            background : {
+              paper : new tinycolor('#ffffff').mix(theme.palette.secondary.light, tint).toHex8String(),
+              default : new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
+            },
+            grey : {
+              '50': new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '100': new tinycolor('#f5f5f5').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '200': new tinycolor('#eeeeee').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '300': new tinycolor('#e0e0e0').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '400': new tinycolor('#bdbdbd').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '500': new tinycolor('#9e9e9e').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '600': new tinycolor('#757575').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '800': new tinycolor('#424242').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '900': new tinycolor('#212121').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A100': new tinycolor('#d5d5d5').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A200': new tinycolor('#aaaaaa').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A400': new tinycolor('#303030').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
+            }
           }
-        }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale),
+        }, {mixins: extendThemeWithMixins(theme)}), preferredLocale)
+      ),
     [name + 'Dark'] :
-      createTheme(_.merge({}, defaultThemeOptions, {
+      createTheme(adaptV4Theme(_.merge({}, defaultThemeOptions, {
         ...theme,
         palette : {
           ...theme.palette,
@@ -73,41 +75,44 @@ export function generateThemeVariants(name, theme, defaults = {}, tint=0, prefer
             'A700': new tinycolor('#616161').mix(theme.palette.secondary.dark, tint).toHex8String()
           }
         }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale),
+      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale)),
     [name + 'Light'] :
-      createTheme(_.merge({}, defaultThemeOptions, theme, {palette: {type: 'light'}, ...requiredThemeOptions}, {
-        direction : isRTLLocale,
-        ...defaults,
-        palette : {
-          background : {
-            paper : new tinycolor('#ffffff').mix(theme.palette.secondary.light, tint).toHex8String(),
-            default : new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
-          },
-          grey : {
-            '50': new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '100': new tinycolor('#f5f5f5').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '200': new tinycolor('#eeeeee').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '300': new tinycolor('#e0e0e0').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '400': new tinycolor('#bdbdbd').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '500': new tinycolor('#9e9e9e').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '600': new tinycolor('#757575').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '800': new tinycolor('#424242').mix(theme.palette.secondary.light, tint).toHex8String(),
-            '900': new tinycolor('#212121').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A100': new tinycolor('#d5d5d5').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A200': new tinycolor('#aaaaaa').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A400': new tinycolor('#303030').mix(theme.palette.secondary.light, tint).toHex8String(),
-            'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
+      createTheme(adaptV4Theme(
+        _.merge({}, defaultThemeOptions, theme, {palette: {type: 'light'}, ...requiredThemeOptions}, {
+          direction : isRTLLocale,
+          ...defaults,
+          palette : {
+            background : {
+              paper : new tinycolor('#ffffff').mix(theme.palette.secondary.light, tint).toHex8String(),
+              default : new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
+            },
+            grey : {
+              '50': new tinycolor('#fafafa').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '100': new tinycolor('#f5f5f5').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '200': new tinycolor('#eeeeee').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '300': new tinycolor('#e0e0e0').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '400': new tinycolor('#bdbdbd').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '500': new tinycolor('#9e9e9e').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '600': new tinycolor('#757575').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '800': new tinycolor('#424242').mix(theme.palette.secondary.light, tint).toHex8String(),
+              '900': new tinycolor('#212121').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A100': new tinycolor('#d5d5d5').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A200': new tinycolor('#aaaaaa').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A400': new tinycolor('#303030').mix(theme.palette.secondary.light, tint).toHex8String(),
+              'A700': new tinycolor('#616161').mix(theme.palette.secondary.light, tint).toHex8String()
+            }
           }
-        }
-      }, {mixins: extendThemeWithMixins(theme)}), preferredLocale)
+        }, {mixins: extendThemeWithMixins(theme)}),
+        preferredLocale
+      ))
   };
 }
 
 
 export function extendThemeWithMixins(obj)
 {
-  const theme = createTheme(obj);
+  const theme = createTheme(adaptV4Theme(obj));
   return {
     border      : (width = 1) => ({
       borderWidth: width,

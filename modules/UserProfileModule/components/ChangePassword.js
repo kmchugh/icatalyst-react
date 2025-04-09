@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';

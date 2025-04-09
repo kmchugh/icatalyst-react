@@ -2,11 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {
   Chip,
   TextField as NativeTextField
-} from '@material-ui/core';
+} from '@mui/material';
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 // TODO : Move this to a service or utility
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,}$)/i;

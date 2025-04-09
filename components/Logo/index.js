@@ -1,7 +1,7 @@
 import React from 'react';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import Image from '@icatalyst/components/Image';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
@@ -60,7 +60,7 @@ function Logo({
           }
           alt={`logo for ${config.clientName}`}/>
       </div>
-      {showTitle && <Typography variant="h1" className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
+      {showTitle && <Typography variant="h1" className={clsx('text-16 ml-12 font-light logo-text', classes.logoText)}>{config.clientName}</Typography>}
     </div>
   );
 }

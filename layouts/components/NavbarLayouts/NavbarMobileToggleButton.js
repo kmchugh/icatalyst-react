@@ -1,10 +1,10 @@
 import React from 'react';
-import {IconButton} from '@material-ui/core';
+import {IconButton} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 import * as Actions from 'app/store/actions';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
@@ -34,10 +34,15 @@ function NavbarMobileToggleButton({
   const classes = useStyles();
 
   return (
-    <IconButton className={className} onClick={(e) => {
-      onClick && onClick(e, !layout.navbar.folded);
-      return dispatch(Actions.navbarToggleMobile());
-    }} color="inherit" disableRipple>
+    <IconButton
+      className={className}
+      onClick={(e) => {
+        onClick && onClick(e, !layout.navbar.folded);
+        return dispatch(Actions.navbarToggleMobile());
+      }}
+      color="inherit"
+      disableRipple
+      size="large">
       {children || <Icon className={clsx(classes.icon)}>menu</Icon>}
     </IconButton>
   );

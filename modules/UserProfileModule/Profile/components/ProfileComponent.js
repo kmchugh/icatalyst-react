@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {
   SettingsView
 } from '../../../../components/Settings';
 
-import {Card, CardContent} from '@material-ui/core';
+import {Card, CardContent} from '@mui/material';
 import TitledPage from '../../../../pages/TitledPage';
 
 

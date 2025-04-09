@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {FuseLoading} from '../fuse';
-import Modal from '@material-ui/core/Modal';
+import Modal from '@mui/material/Modal';
 
 import Iframe from 'react-iframe';
 

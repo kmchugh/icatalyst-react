@@ -1,14 +1,14 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import DialogContent from './DialogContent';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 

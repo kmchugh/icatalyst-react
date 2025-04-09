@@ -2,10 +2,10 @@ import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+import {makeStyles} from '@mui/styles';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import EntityView from '../../../../components/EntityView';
 import IconButton from '../../../../components/IconButton';
 import Icon from '../../../../components/Icon';
@@ -13,12 +13,12 @@ import {FuseLoading} from '../../../../components/fuse';
 import {SingularityContext} from '../../../../components/Singularity';
 import {useForm} from '@icatalyst/hooks/fuse';
 import {useDispatch} from 'react-redux';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import {useSelector} from 'react-redux';
 import moment from '../../../../@moment';
 import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
 import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@mui/material/styles';
 
 const useStyles = makeStyles((theme) => {
   const fadedBackground = alpha(theme.palette.error.light, .45);
@@ -255,7 +255,6 @@ const CreateInvitation = ()=>{
           <Typography variant='h2'>Could not create invite</Typography>
         </div>
       )}
-
       {
         !updating && (dialogErrors && dialogErrors.length > 0) &&
           (
@@ -266,15 +265,11 @@ const CreateInvitation = ()=>{
                 })}
               </div>
               <div>
-                <IconButton
-                  title="clear"
-                  icon="close"
-                  onClick={clearErrors}/>
+                <IconButton title="clear" icon="close" onClick={clearErrors} size="large" />
               </div>
             </div>
           )
       }
-
       {entity && (
         <EntityView
           className={clsx(classes.entityView)}
@@ -285,8 +280,6 @@ const CreateInvitation = ()=>{
           onChange={handleChange}
         />
       )}
-
-
       <div className={clsx(classes.formWrapper)}>
         {(form && (!form.emails || form.emails.length === 0)) && (
           <Typography color="error">Please enter email addresses</Typography>
@@ -308,7 +301,7 @@ const CreateInvitation = ()=>{
                       onClick={()=>{
                         handleChange(null, {emails : emails.filter((e)=>e!==email)});
                       }}
-                    />
+                      size="large" />
                   </div>
                 );
               })
@@ -316,7 +309,6 @@ const CreateInvitation = ()=>{
           </div>
         )}
       </div>
-
       {entity && (
         <div className={clsx(classes.actionWrapper)}>
           <Button

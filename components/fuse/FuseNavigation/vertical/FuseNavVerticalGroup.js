@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {ListSubheader} from '@material-ui/core';
+import {ListSubheader} from '@mui/material';
 import Icon from '../../../Icon';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -16,10 +16,15 @@ const useStyles = makeStyles((theme)=>{
     itemFn: ({nestedLevel})=>{
       return {
         height      : theme.spacing(5),
-        width       : `calc(100% - ${theme.spacing(2)}px)`,
-        borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
+        width       : `calc(100% - ${theme.spacing(2)})`,
+        borderRadius: `0 ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0`,
         paddingRight: theme.spacing(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
+        paddingLeft : nestedLevel
+          ? `${Math.min(
+            parseInt(theme.spacing(10), 10),
+            parseInt(theme.spacing(5), 10) + parseInt(theme.spacing(2 * nestedLevel), 10)
+          )}px !important`
+          : `${theme.spacing(3)} !important`,
       };
     },
     item: {

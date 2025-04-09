@@ -1,11 +1,11 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../Singularity';
 import FuseLoading from '../../fuse/FuseLoading';
-import {ListItemText} from '@material-ui/core';
+import {ListItemText} from '@mui/material';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 
 const useStyles = makeStyles(()=>{

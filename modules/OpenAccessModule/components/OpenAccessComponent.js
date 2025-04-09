@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import { useLocation } from 'react-router-dom';
@@ -8,12 +8,12 @@ import { getParams } from '../../../utilities/getParams';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import Image from '../../../components/Image';
 import InfoPage from '../../../pages/InfoPage';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import IconButton from '../../../components/IconButton';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {useSelector, useDispatch} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@mui/material/styles';
 import { definition as authProviderDefinition } from '../../../components/Singularity/store/reducers/authProviders.reducer';
 
 const PROVIDER_KEY = 'b145043b-28b9-46e4-b55f-02daf8291045';
@@ -183,7 +183,6 @@ const OpenAccessComponent = ({
           <FuseLoading/>
         </div>
       )}
-
       { (!inAuthFlow && authProvider && !gettingAuthProvider) && (
         <InfoPage
           className={clsx(styles.infoPage)}
@@ -232,13 +231,12 @@ const OpenAccessComponent = ({
                     localStore(PROVIDER_SIGNOUT_KEY, null);
                     window.location.href = `${window.location.origin}/access`;
                   }}
-                />
+                  size="large" />
               </div>
             </div>
           )}
         />
       )}
-
       { (!inAuthFlow && !authProvider && !gettingAuthProvider) && (
         <InfoPage
           className={clsx(styles.infoPage)}
@@ -288,7 +286,6 @@ const OpenAccessComponent = ({
           )}
         />
       )}
-
     </div>
   );
 };

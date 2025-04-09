@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Typography, Modal, Button} from '@material-ui/core';
+import {Typography, Modal, Button} from '@mui/material';
 
 const ReloadModal = ()=>{
   const [updateAvailable, setUpdateAvailable] = useState(false);

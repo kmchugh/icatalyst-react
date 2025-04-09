@@ -1,13 +1,13 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../Singularity';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {isSafari} from 'react-device-detect';
-import {ThemeProvider} from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
 import RoleComponent from '../OrganisationUserManagement/RoleComponent';
@@ -341,13 +341,11 @@ const RoleManagement = ({
           />
         </div>
       </ThemeProvider>
-
       <div className={clsx(styles.errorWrapper)}>
         {
           responseErrors && <ErrorWrapper className={clsx(styles.errorWrapperComponent)} errors={responseErrors}/>
         }
       </div>
-
       <div
         className={clsx(styles.contentWrapper)}
       >
@@ -359,7 +357,7 @@ const RoleManagement = ({
             className={clsx(styles.entityView)}
             definition={definition}
             model={form || entity}
-            readonly={readonly || !auth || !auth.update || (!auth.create /* && !isNew */)}
+            readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}
             errors={errors}
             onChange={(e, valueMap)=>{
               handleChange(e, valueMap);

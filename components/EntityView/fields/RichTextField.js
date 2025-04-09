@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import RichTextEditor from '../../RichTextEditor';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 
 const useStyles = makeStyles((theme)=>{
   return {

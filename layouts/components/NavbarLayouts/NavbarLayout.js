@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Hidden} from '@material-ui/core';
+import {AppBar, Hidden} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 import PropTypes from 'prop-types';
 import FuseScrollbars from '@icatalyst/components/fuse/FuseScrollbars';
@@ -11,9 +11,9 @@ import UserNavbarHeader from '../Headers/UserNavbarHeader';
 import NavbarFooter from '../FooterLayouts/NavbarFooter';
 import Navigation from '../Navigation/Navigation';
 import {useSelector} from 'react-redux';
-import {useTheme} from '@material-ui/styles';
+import {useTheme} from '@mui/styles';
 
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme)=>({
   content: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme)=>({
   userHeader : {
   },
   navigation : {
-    paddingTop: theme.spacing(3)
+    paddingTop: `${theme.spacing(3)} !important`,
   }
 }));
 
@@ -48,7 +48,6 @@ function NavbarLayout({
 
   return (
     <div className={clsx('flex flex-col overflow-hidden h-full', className)}>
-
       <AppBar
         color="primary"
         position="static"
@@ -61,7 +60,7 @@ function NavbarLayout({
           <Logo/>
         </div>
 
-        <Hidden mdDown>
+        <Hidden xlDown>
           <NavbarFoldedToggleButton
             className="w-40 h-40 p-0"
             onClick={(e, value)=>{
@@ -86,7 +85,6 @@ function NavbarLayout({
         </Hidden>
 
       </AppBar>
-
       <FuseScrollbars className={clsx(classes.content)} options={{
         suppressScrollX : true
       }}>
@@ -95,7 +93,6 @@ function NavbarLayout({
         <Navigation layout="vertical" className={clsx(classes.navigation)}/>
 
       </FuseScrollbars>
-
       <NavbarFooter/>
     </div>
   );

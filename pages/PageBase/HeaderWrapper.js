@@ -1,8 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import {IconButton, Hidden} from '@material-ui/core';
+import {IconButton, Hidden} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 
 const useStyles = makeStyles(() => ({
@@ -42,17 +42,27 @@ function HeaderWrapper({
           <div className={clsx(classes.navWrapper)}>
 
             { (hasLeftSidePanel ) ?
-              <IconButton className={clsx(classes.iconButton)} onClick={()=>{
-                openLeftSidePanel && openLeftSidePanel();
-              }} color="inherit" disableRipple>
+              <IconButton
+                className={clsx(classes.iconButton)}
+                onClick={()=>{
+                  openLeftSidePanel && openLeftSidePanel();
+                }}
+                color="inherit"
+                disableRipple
+                size="large">
                 <Icon className={clsx(classes.icon)}>menu</Icon>
               </IconButton> : <div></div>
             }
 
             { (hasRightSidePanel) ?
-              <IconButton className={clsx(classes.iconButton)} onClick={()=>{
-                openRightSidePanel && openRightSidePanel();
-              }} color="inherit" disableRipple>
+              <IconButton
+                className={clsx(classes.iconButton)}
+                onClick={()=>{
+                  openRightSidePanel && openRightSidePanel();
+                }}
+                color="inherit"
+                disableRipple
+                size="large">
                 <Icon className={clsx(classes.icon)}>menu</Icon>
               </IconButton> : <div></div>
             }
@@ -60,7 +70,6 @@ function HeaderWrapper({
           </div>
         </Hidden>
       )}
-
       {children}
     </div>
   );

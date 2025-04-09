@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MActions from '../../../../store/actions/message.actions';
 import {useDispatch} from 'react-redux';

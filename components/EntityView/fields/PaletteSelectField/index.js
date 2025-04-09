@@ -1,11 +1,11 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import clsx from 'clsx';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import Typography from '@mui/material/Typography';
 import colorbrewer from './colorBrewer';
 
 const useStyles = makeStyles((theme)=>{

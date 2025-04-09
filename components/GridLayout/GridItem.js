@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import clsx from 'clsx';
 
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import Paper from '@mui/material/Paper';
 import Icon from '../Icon';
 import DropdownMenu from '../Menus/DropdownMenu';
 

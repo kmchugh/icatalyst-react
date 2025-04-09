@@ -1,6 +1,6 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { useResizeDetector } from 'react-resize-detector';

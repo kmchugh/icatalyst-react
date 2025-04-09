@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
 import {withRouter} from 'react-router-dom';
@@ -80,7 +80,7 @@ function FuseNavHorizontalCollapse(props)
                 {item.badge && (
                   <FuseNavBadge className="ml-8 mr-4" badge={item.badge}/>
                 )}
-                <IconButton disableRipple className="w-16 h-16 ml-4 p-0">
+                <IconButton disableRipple className="w-16 h-16 ml-4 p-0" size="large">
                   <Icon className="text-16 arrow-icon">keyboard_arrow_right</Icon>
                 </IconButton>
               </ListItem>

@@ -5,7 +5,7 @@ import {useLocation} from 'react-router-dom';
 import { SingularityContext } from '../Singularity';
 import FuseLoading from '../fuse/FuseLoading';
 
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 const useStyles = makeStyles(()=>{

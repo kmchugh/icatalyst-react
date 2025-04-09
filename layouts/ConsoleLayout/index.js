@@ -5,8 +5,8 @@ import {renderRoutes} from 'react-router-config';
 import { AppContext } from '../../contexts';
 import {PropTypes} from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
-import {ThemeProvider} from '@material-ui/core';
+import {makeStyles} from '@mui/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 import FuseScrollbars from '../../components/fuse/FuseScrollbars';
 import FuseMessage from '../../components/fuse/FuseMessage';
@@ -119,9 +119,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll === 'body' && config.toolbar.position === 'outside') ||
             (scroll !== 'body' && config.toolbar.position === 'inside')
           ) && (
-          <ThemeProvider theme={themes.toolbarTheme}>
+          (<ThemeProvider theme={themes.toolbarTheme}>
             <ToolbarLayout />
-          </ThemeProvider>
+          </ThemeProvider>)
         )
       }
       <FuseScrollbars role={role} className={className} scrollToTopOnRouteChange>
@@ -132,9 +132,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll === 'body' && config.toolbar.position === 'outside') ||
               (scroll !== 'body' && config.toolbar.position === 'inside')
             ) && (
-            <ThemeProvider theme={themes.navbarTheme}>
+            (<ThemeProvider theme={themes.navbarTheme}>
               <ToolbarLayout />
-            </ThemeProvider>
+            </ThemeProvider>)
           )
         }
         {children}
@@ -145,9 +145,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll === 'body' && config.footer.position === 'outside') ||
               (scroll !== 'body' && config.footer.position === 'inside')
             )) && (
-            <ThemeProvider theme={themes.footerTheme}>
+            (<ThemeProvider theme={themes.footerTheme}>
               <Footer />
-            </ThemeProvider>
+            </ThemeProvider>)
           )
         }
       </FuseScrollbars>
@@ -158,9 +158,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll === 'body' && config.footer.position === 'outside') ||
             (scroll !== 'body' && config.footer.position === 'inside')
           )) && (
-          <ThemeProvider theme={themes.footerTheme}>
+          (<ThemeProvider theme={themes.footerTheme}>
             <Footer />
-          </ThemeProvider>
+          </ThemeProvider>)
         )
       }
     </>
@@ -195,24 +195,24 @@ function Layout(props) {
       {config.leftSidePanel.display && <SidePanelLayout />}
       <div className="flex flex-1 flex-col overflow-hidden relative h-full">
         {scroll === 'content' && config.toolbar.display && config.toolbar.position === 'outside' && (
-          <ThemeProvider theme={themes.toolbarTheme}>
+          (<ThemeProvider theme={themes.toolbarTheme}>
             <ToolbarLayout />
-          </ThemeProvider>
+          </ThemeProvider>)
         )}
         <ScrollWrapper className="overflow-auto" scrollType="body" config={config}>
           <div className={classes.wrapper}>
             {
               config.navbar.display && config.navbar.position === 'left' &&
-              <ThemeProvider theme={themes.navbarTheme}>
-                <NavbarWrapperLayout />
-              </ThemeProvider>
+                <ThemeProvider theme={themes.navbarTheme}>
+                  <NavbarWrapperLayout />
+                </ThemeProvider>
             }
 
             <div className={classes.contentWrapper}>
               {scroll === 'body' && config.toolbar.display && config.toolbar.position === 'inside' && (
-                <ThemeProvider theme={themes.toolbarTheme}>
+                (<ThemeProvider theme={themes.toolbarTheme}>
                   <ToolbarLayout />
-                </ThemeProvider>
+                </ThemeProvider>)
               )}
               <ScrollWrapper role="main" className={classes.content} scrollType="content" config={config}>
                 <ContentWrapper config={config}>
@@ -222,42 +222,40 @@ function Layout(props) {
                 </ContentWrapper>
               </ScrollWrapper>
               {scroll === 'body' && config.footer.display && config.footer.position === 'inside' && (
-                <ThemeProvider theme={themes.footerTheme}>
+                (<ThemeProvider theme={themes.footerTheme}>
                   <Footer />
-                </ThemeProvider>
+                </ThemeProvider>)
               )}
               { config.themeSettingsPanel.display && (
-                <ThemeProvider theme={themes.panelTheme}>
+                (<ThemeProvider theme={themes.panelTheme}>
                   <SettingsPanelLayout />
-                </ThemeProvider>
+                </ThemeProvider>)
               ) }
               {
                 config.userSettingsPanel.display && (
-                  <ThemeProvider theme={themes.panelTheme}>
+                  (<ThemeProvider theme={themes.panelTheme}>
                     <SessionPanel />
-                  </ThemeProvider>
+                  </ThemeProvider>)
                 )
               }
             </div>
 
             {
               config.navbar.display && config.navbar.position === 'right' &&
-              <ThemeProvider theme={themes.navbarTheme}>
-                <NavbarWrapperLayout />
-              </ThemeProvider>
+                <ThemeProvider theme={themes.navbarTheme}>
+                  <NavbarWrapperLayout />
+                </ThemeProvider>
             }
 
           </div>
         </ScrollWrapper>
         {scroll === 'content' && config.footer.display && config.footer.position === 'outside' && (
-          <ThemeProvider theme={themes.footerTheme}>
+          (<ThemeProvider theme={themes.footerTheme}>
             <Footer />
-          </ThemeProvider>
+          </ThemeProvider>)
         )}
       </div>
-
       {config.rightSidePanel.display && <SidePanelLayout />}
-
       <FuseMessage />
     </div>
   );

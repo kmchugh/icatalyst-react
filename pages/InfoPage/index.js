@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import Icon from '../../components/Icon';
-import {Typography} from '@material-ui/core';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {Typography} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';

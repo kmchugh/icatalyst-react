@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import PageToolbar from './PageToolbar';
@@ -19,15 +19,15 @@ const useStyles = makeStyles((theme) => ({
     '&.mode-carded' : {
       '& $toolbar' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderRadius: `${theme.spacing(1)}px ${theme.spacing(1)}px 0 0`,
+        borderRadius: `${theme.spacing(1)} ${theme.spacing(1)} 0 0`,
         '&.reverse' : {
-          borderRadius: `0 0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+          borderRadius: `0 0 ${theme.spacing(1)} ${theme.spacing(1)}`,
         }
       },
     },
     '&.mode-carded.reverse' : {
       '& $toolbar' : {
-        borderRadius: `0 0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+        borderRadius: `0 0 ${theme.spacing(1)} ${theme.spacing(1)}`,
       },
     },
   },

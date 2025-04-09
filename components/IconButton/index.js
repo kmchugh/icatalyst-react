@@ -1,9 +1,9 @@
 import React from 'react';
-import { Tooltip, IconButton as NativeButton} from '@material-ui/core';
+import { Tooltip, IconButton as NativeButton} from '@mui/material';
 import Icon from '../Icon';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles(()=>{
   return {

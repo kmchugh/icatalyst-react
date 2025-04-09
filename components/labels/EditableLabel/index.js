@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import { InputLabel, TextField } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+import { InputLabel, TextField } from '@mui/material';
 import { IconButton } from '@icatalyst/components';
 import { getCleanText } from '@icatalyst/utilities/getCleanText';
 import {RichTextEditor} from '@icatalyst/components';
@@ -124,6 +124,7 @@ const EditableLabel = ({
       />
     ) : (
       <TextField
+        variant="standard"
         InputProps={{
           classes: {
             root: classes.inherit
@@ -140,8 +141,7 @@ const EditableLabel = ({
         multiline={multiline}
         rows={5}
         autoFocus={true}
-        fullWidth={true}
-      />
+        fullWidth={true} />
     );
 
   return (

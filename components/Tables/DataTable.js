@@ -2,7 +2,7 @@ import React, {useMemo, useContext} from 'react';
 import Table from './Table';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EmptyTable from './EmptyTable';
-import {Button} from '@material-ui/core';
+import {Button} from '@mui/material';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';

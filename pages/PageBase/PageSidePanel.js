@@ -1,10 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
-import Hidden from '@material-ui/core/Hidden';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Hidden from '@mui/material/Hidden';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -59,7 +59,7 @@ export const PageSidePanelHeader = ({
 })=>{
   const classes = useStyles();
   return variant === 'permanent' && (
-    <Hidden mdDown>
+    <Hidden xlDown>
       <div className={clsx(classes.headerRoot, className)}>
         {children}
       </div>
@@ -80,7 +80,7 @@ export const PageSidePanelFooter = ({
 })=>{
   const classes = useStyles();
   return variant === 'permanent' && (
-    <Hidden mdDown>
+    <Hidden xlDown>
       <div className={clsx(classes.footerRoot, className)}>
         {children}
       </div>
@@ -178,7 +178,7 @@ export const PageSidePanel = ({
         </SwipeableDrawer>
       </Hidden>
       {variant === 'permanent' && (
-        <Hidden mdDown>
+        <Hidden xlDown>
           <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
             {children}
           </ScrollWrapper>

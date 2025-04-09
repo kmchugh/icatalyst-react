@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import moment from '../../../../@moment';
 import _ from '../../../../@lodash';
 import pluralize from 'pluralize';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItemText from '@mui/material/ListItemText';
 import {DialogContent} from '../../../../components/Dialogs';
 
 const useStyles = makeStyles((theme)=>{

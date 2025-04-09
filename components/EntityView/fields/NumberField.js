@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import {TextField as NativeTextField} from '@material-ui/core';
+import {TextField as NativeTextField} from '@mui/material';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {

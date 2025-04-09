@@ -1,14 +1,14 @@
 import React, { useState, useContext } from 'react';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import NativeSelectField from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { TextField,InputAdornment } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import FormHelperText from '@mui/material/FormHelperText';
+import NativeSelectField from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { TextField,InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import _ from '../../../@lodash';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
@@ -68,8 +68,8 @@ const SelectField = (props) => {
       <InputLabel id={`${id}-label`} className={clsx(classes.inputLabel)}>
         {label}
       </InputLabel>
-
       <NativeSelectField
+        variant="standard"
         className={clsx(classes.select)}
         MenuProps={{ autoFocus: false }}
         labelId={`${id}-label`}
@@ -86,9 +86,9 @@ const SelectField = (props) => {
           readOnly: readonly
         }}
         onClose={() => setSearchData('')}
-        disabled={readonly}
-      >
+        disabled={readonly}>
         <TextField
+          variant="standard"
           autoFocus
           className={classes.searchInput}
           placeholder={`${t('Search')}...`}
@@ -103,8 +103,7 @@ const SelectField = (props) => {
           fullWidth
           onKeyDown={(e) => {
             e.stopPropagation();
-          }}
-        />
+          }} />
         {
           options.filter((item) =>
             applyFilter(item.label || item.id)
@@ -119,11 +118,9 @@ const SelectField = (props) => {
         }
 
       </NativeSelectField>
-
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}
       </FormHelperText>
-
     </FormControl>
   );
 };

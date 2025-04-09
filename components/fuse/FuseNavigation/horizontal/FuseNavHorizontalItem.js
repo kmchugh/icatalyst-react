@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, ListItem, ListItemText} from '@material-ui/core';
+import {Icon, ListItem, ListItemText} from '@mui/material';
 import NavLinkAdapter from '../NavLinkAdapter';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import {withRouter} from 'react-router-dom';
@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root: {

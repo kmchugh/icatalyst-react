@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import Icon from '../../../../Icon';
 import Avatar from '../../../../Avatar';
@@ -18,7 +18,7 @@ import {
   ListItemIcon,
   ListItemText,
   Button,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const useStyles = makeStyles((theme)=>{
   return {

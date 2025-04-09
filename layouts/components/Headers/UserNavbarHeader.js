@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
-import {AppBar, Typography} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {AppBar, Typography} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import UserRoles from '@icatalyst/components/UserRoles';
 import Avatar from '@icatalyst/components/Avatar';

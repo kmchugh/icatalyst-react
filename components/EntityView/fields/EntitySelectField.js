@@ -1,24 +1,24 @@
 import React, {useState, useEffect, useContext, useMemo} from 'react';
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelectField from '@material-ui/core/Select';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ListItem from '@material-ui/core/ListItem';
-import Avatar from '@material-ui/core/Avatar';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelectField from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import CircularProgress from '@mui/material/CircularProgress';
+import ListItem from '@mui/material/ListItem';
+import Avatar from '@mui/material/Avatar';
 import Image from '../../Image';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import Icon from '../../Icon';
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
@@ -231,6 +231,7 @@ const EntitySelectField = (props) => {
         onClose={() => setSearchData('')}
       >
         <TextField
+          variant="standard"
           autoFocus
           className={classes.searchInput}
           placeholder={`${t('Search')}...`}
@@ -246,8 +247,7 @@ const EntitySelectField = (props) => {
           fullWidth
           onKeyDown={(e) => {
             e.stopPropagation();
-          }}
-        />
+          }} />
 
         {
           options.filter((item) =>

@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
-import Hidden from '@material-ui/core/Hidden';
-import { makeStyles } from '@material-ui/core/styles';
+import Hidden from '@mui/material/Hidden';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({

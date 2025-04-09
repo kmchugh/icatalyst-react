@@ -1,5 +1,5 @@
 import React, {useRef, useImperativeHandle, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     '&.mode-cardedInside'   : {
       '& $content' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderRadius: `${theme.spacing(1)}px`,
+        borderRadius: theme.spacing(1),
         marginBottom: theme.spacing(2),
       },
       '& $contentWrapper' : {
