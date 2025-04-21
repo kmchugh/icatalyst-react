@@ -28,7 +28,7 @@ const styles = (theme) => {
     },
     'logoIcon'                : {
     },
-    'logoText'                : {
+    logoText                : {
       flexShrink : 1,
       flexGrow : 1,
       alignSelf: 'center'

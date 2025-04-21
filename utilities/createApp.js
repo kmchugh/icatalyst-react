@@ -1,22 +1,22 @@
 /*global gtag*/
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import AppContextComponent from '../contexts/App';
-import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
+import { StylesProvider, jssPreset, createGenerateClassName } from '@mui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
-import {CssBaseline} from '@material-ui/core';
+import {CssBaseline} from '@mui/material';
 import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
+import { LocalizationProvider as MuiPickersUtilsProvider } from '@mui/x-date-pickers';
+import MomentAdapter from '@date-io/moment';
 import LocalizationProvider from '../localization/LocalizationProvider';
-
+import { StyledEngineProvider } from '@mui/material/styles';
 import { create } from 'jss';
 
 reportWebVitals(({name, delta, value, id})=>{
@@ -59,10 +59,10 @@ export default function createApp({
     }
   }
 
-  if (process.env.NODE_ENV !== 'production') {
-    const axe = require('@axe-core/react');
-    axe(React, ReactDOM, 3000);
-  }
+  // if (process.env.NODE_ENV !== 'production') {
+  //   const axe = require('@axe-core/react');
+  //   axe(React, ReactDOM, 3000);
+  // }
 
   const showLocalizationLog = applicationConfig.showLocalizationLog === undefined ?
     true :
@@ -70,41 +70,43 @@ export default function createApp({
 
   const App = ()=>{
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiPickersUtilsProvider dateAdapter={MomentAdapter}>
         <AppContextComponent
           routes={routes}
           applicationConfig={contextConfig}
           layouts={layouts}
           themes={themes}
         >
-          <StylesProvider jss={jss} generateClassName={generateClassName}>
-            <Provider store={store}>
-              <LocalizationProvider
-                debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
-                loadLanguages={loadLanguages}
-              >
-                <SettingsProvider getReducerRoot={({icatalyst})=>{
-                  return icatalyst.settings;
-                }}>
-                  <Theme>
-                    <ErrorBoundary>
-                      <Router history={history}>
-                        <Singularity config={{
-                          ...singularityConfig,
-                          mapRoles : mapAuthRoles,
-                          // Allows customisation of the roles that are displayed to the user
-                          filterDisplayRoles : filterDisplayRoles,
-                        }}>
-                          <CssBaseline/>
-                          <Layout/>
-                        </Singularity>
-                      </Router>
-                    </ErrorBoundary>
-                  </Theme>
-                </SettingsProvider>
-              </LocalizationProvider>
-            </Provider>
-          </StylesProvider>
+          <StyledEngineProvider injectFirst>
+            <StylesProvider jss={jss} generateClassName={generateClassName}>
+              <Provider store={store}>
+                <LocalizationProvider
+                  debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
+                  loadLanguages={loadLanguages}
+                >
+                  <SettingsProvider getReducerRoot={({icatalyst})=>{
+                    return icatalyst.settings;
+                  }}>
+                    <Theme>
+                      <ErrorBoundary>
+                        <Router history={history}>
+                          <Singularity config={{
+                            ...singularityConfig,
+                            mapRoles : mapAuthRoles,
+                            // Allows customisation of the roles that are displayed to the user
+                            filterDisplayRoles : filterDisplayRoles,
+                          }}>
+                            <CssBaseline/>
+                            <Layout/>
+                          </Singularity>
+                        </Router>
+                      </ErrorBoundary>
+                    </Theme>
+                  </SettingsProvider>
+                </LocalizationProvider>
+              </Provider>
+            </StylesProvider>
+          </StyledEngineProvider>
         </AppContextComponent>
       </MuiPickersUtilsProvider>
     );
