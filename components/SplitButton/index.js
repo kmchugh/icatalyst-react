@@ -106,7 +106,7 @@ const SplitButton = ({
       <ButtonGroup
         variant={variant}
         size={size}
-        color={color}
+        color={color || 'primary'}
         aria-label={title}
       >
         <Button

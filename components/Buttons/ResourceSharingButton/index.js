@@ -350,7 +350,7 @@ const ResourceSharingButton = ({
       }
       { variant === 'button' &&
         <Button
-          color={iconProps.color}
+          color={iconProps.color || 'primary'}
           disabled={disabled}
           size={iconProps.size}
           variant="contained"

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@mui/material';
+import {FormControl, InputLabel, FormHelperText, TextField} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import { DateTimePicker } from '@mui/x-date-pickers';
 
@@ -75,6 +75,16 @@ const DateTimeField = (props) => {
         labelFunc={(date, invalid = '') =>
           date ? date.toString() : invalid
         }
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant="outlined"
+            fullWidth
+            required={required}
+            error={hasErrors}
+            InputLabelProps={{ className: clsx(classes.inputLabel) }}
+          />
+        )}
       />
 
       <FormHelperText error={hasErrors}>
