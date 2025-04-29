@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {FuseAnimate} from '@icatalyst/components/fuse';
 import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
-import {Typography, Hidden} from '@mui/material';
+import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
@@ -101,14 +101,13 @@ const DetailHeader = ({
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
           <div className={clsx(classes.details)}>
 
-            <Hidden smDown>
-              {featureImage ? (
-                <Image className={clsx(classes.featureImage)}
-                  src={featureImage}
-                  alt={definition.getPrimaryText(textModel)}
-                />
-              ) : <Icon>{icon}</Icon>}
-            </Hidden>
+            {featureImage ? (
+              <Image className={clsx(classes.featureImage)}
+                src={featureImage}
+                alt={definition.getPrimaryText(textModel)}
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+              />
+            ) : <Icon>{icon}</Icon>}
 
             <div className={clsx(classes.detailText)}>
               <Typography noWrap={true} variant="h5">
@@ -122,13 +121,13 @@ const DetailHeader = ({
         </FuseAnimate>
 
       </div>
-      {actionComponent && <Hidden mdDown>
-        <FuseAnimate animation="transition.slideRightIn" delay={300}>
+      {actionComponent && 
+        <FuseAnimate animation="transition.slideRightIn" delay={300} 
+          sx={{ display: { xs: 'none', md: 'block' } }}>
           {
             actionComponent
           }
         </FuseAnimate>
-      </Hidden>
       }
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Hidden, Toolbar} from '@mui/material';
+import {AppBar, Toolbar} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton';
 import UserMenu from '@icatalyst/components/UserMenu';
@@ -26,16 +26,15 @@ function ToolbarComponent(props)
       <Toolbar className="p-0">
 
         {config.navbar.display && config.navbar.position === 'left' && (
-          <Hidden lgUp>
+          <div sx={{ display: { lg: 'none', xs: 'block' } }}>
             <NavbarMobileToggleButton className="w-64 h-64 p-0"/>
             <div className={classes.separator}/>
-          </Hidden>
+          </div>
         )}
 
         <div className="flex flex-1">
-          {config.shortcuts.display &&  (<Hidden lgDown>
-            <FuseShortcuts className="px-16"/>
-          </Hidden>
+          {config.shortcuts.display &&  (
+            <FuseShortcuts className="px-16" sx={{ display: { xs: 'none', lg: 'block' } }}/>
           )}
         </div>
 
@@ -44,9 +43,7 @@ function ToolbarComponent(props)
         </div>
 
         {config.navbar.display && config.navbar.position === 'right' && (
-          <Hidden lgUp>
-            <NavbarMobileToggleButton/>
-          </Hidden>
+          <NavbarMobileToggleButton sx={{ display: { lg: 'none', xs: 'block' } }}/>
         )}
       </Toolbar>
     </AppBar>
