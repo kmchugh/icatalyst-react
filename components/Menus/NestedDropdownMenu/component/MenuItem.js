@@ -6,9 +6,9 @@ import {
   ListItem,
   Button,
   List,
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '../../../IconButton';
 import clsx from 'clsx';
 

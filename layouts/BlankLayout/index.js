@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {renderRoutes} from 'react-router-config';
 import {PropTypes} from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import FuseScrollbars from '../../components/fuse/FuseScrollbars';
 import { AppContext } from '../../contexts';
 

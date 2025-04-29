@@ -2,14 +2,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContextComponent from '../contexts/App';
-import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
+import { StylesProvider, jssPreset, createGenerateClassName } from '@mui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
-import {CssBaseline} from '@material-ui/core';
+import {CssBaseline} from '@mui/material';
 import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';

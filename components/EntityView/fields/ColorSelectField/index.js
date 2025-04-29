@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import ColorPicker from '../../../ColorPicker';
-import FormControl  from '@material-ui/core/FormControl';
-import FormControlLabel  from '@material-ui/core/FormControlLabel';
-import FormHelperText  from '@material-ui/core/FormHelperText';
+import FormControl  from '@mui/material/FormControl';
+import FormControlLabel  from '@mui/material/FormControlLabel';
+import FormHelperText  from '@mui/material/FormHelperText';
 
 const useStyles = makeStyles((theme)=>{
   return {

@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 import _ from '../../../@lodash';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Select from '@material-ui/core/Select';
-import { makeStyles } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
-import Typography from '@material-ui/core/Typography';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select from '@mui/material/Select';
+import makeStyles from '@mui/styles/makeStyles';
+import Switch from '@mui/material/Switch';
+import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings }
@@ -91,7 +91,7 @@ function FuseSettings(props) {
         variant="outlined"
         style={{
           backgroundColor: themes[value].palette.background.default,
-          color: themes[value].palette.type === 'light' ? '#000000' : '#ffffff'
+          color: themes[value].palette.mode === 'light' ? '#000000' : '#ffffff'
         }}
       >
         {Object.entries(themes)
@@ -106,9 +106,9 @@ function FuseSettings(props) {
               className="m-8 mt-0 rounded-lg"
               style={{
                 backgroundColor: val.palette.background.default,
-                color: val.palette.type === 'light' ? '#000000' : '#ffffff',
+                color: val.palette.mode === 'light' ? '#000000' : '#ffffff',
                 border: `1px solid ${
-                  val.palette.type === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'
+                  val.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)'
                 }`
               }}
             >
@@ -117,7 +117,7 @@ function FuseSettings(props) {
                 className="flex w-full h-8 block absolute bottom-0 left-0 right-0"
                 style={{
                   borderTop: `1px solid ${
-                    val.palette.type === 'light'
+                    val.palette.mode === 'light'
                       ? 'rgba(0, 0, 0, 0.12)'
                       : 'rgba(255, 255, 255, 0.12)'
                   }`

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {definition} from '../../../components/Singularity/store/reducers/version.reducer';
 import VersionComponent from './VersionComponent';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import Image from '../../../components/Image';
 import Logo from '../../../components/Logo';
 import ModelService from '../../../services/ModelService';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'row',
 
-      [theme.breakpoints.down('sm')] : {
+      [theme.breakpoints.down('md')] : {
         flexDirection : 'column'
       },
     },

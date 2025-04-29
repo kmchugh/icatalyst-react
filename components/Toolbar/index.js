@@ -1,7 +1,7 @@
 import React from 'react';
-import {Toolbar as NativeToolbar } from '@material-ui/core';
+import {Toolbar as NativeToolbar } from '@mui/material';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({

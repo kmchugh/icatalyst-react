@@ -1,10 +1,10 @@
 import React from 'react';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import {FuseAnimate} from '@icatalyst/components/fuse';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{

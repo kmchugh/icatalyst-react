@@ -1,6 +1,6 @@
 import React from 'react';
-import {TablePagination as NativeTablePagination} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {TablePagination as NativeTablePagination} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import PaginationActions from './PaginationActions';
 import PropTypes from 'prop-types';
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}!important`,
     },
     paginationToolbar: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         padding: theme.spacing(1),
         display: 'flex',
         flexDirection: 'column',
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme)=>{
         '& > p:first-of-type' : {
           display: 'none'
         },
-        '& .MuiTablePagination-input' : {
+        '& .MuiTablePagination-select' : {
           alignSelf: 'center'
         }
       }
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme)=>{
         paddingRight: theme.spacing(2),
       },
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         overflow: 'hidden',
         '&:last-child' : {
           padding: 0

@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
-import TextField from '@material-ui/core/TextField';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 import {isURL} from '../../../../utilities/validations';
 
 const useStyles = makeStyles((/*theme*/)=>{
@@ -120,7 +120,7 @@ const OIDCDiscoveryInput = (props)=>{
           icon="sync"
           disabled={hasErrors}
           onClick={handleClick}
-        />
+          size="large" />
       }
     </div>
   );

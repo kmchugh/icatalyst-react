@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import moment from '../../../../../@moment';
 import {LocalizationContext} from '../../../../../localization/LocalizationProvider';
 

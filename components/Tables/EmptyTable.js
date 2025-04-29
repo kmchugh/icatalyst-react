@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import Icon from '@icatalyst/components/Icon';
 import IconButton from '@icatalyst/components/IconButton';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => {
     icon : {
       width: theme.spacing(12),
       height: theme.spacing(12),
-      fontSize: `${theme.spacing(12)}px!important`,
+      fontSize: `${theme.spacing(12)}!important`,
 
       [theme.breakpoints.up('md')]: {
         width: theme.spacing(16),
         height: theme.spacing(16),
-        fontSize: `${theme.spacing(16)}px!important`,
+        fontSize: `${theme.spacing(16)}!important`,
       },
       color: theme.palette.primary.main,
       marginBottom: theme.spacing(4)
@@ -97,7 +97,7 @@ const EmptyTable = ({
             title={t('refresh')}
             icon="refresh"
             onClick={onRefresh}
-          />
+            size="large" />
         }
       </div>
     </div>

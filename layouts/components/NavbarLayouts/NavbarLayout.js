@@ -1,5 +1,5 @@
 import React from 'react';
-import {AppBar, Hidden} from '@material-ui/core';
+import {AppBar} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 import PropTypes from 'prop-types';
 import FuseScrollbars from '@icatalyst/components/fuse/FuseScrollbars';
@@ -11,9 +11,9 @@ import UserNavbarHeader from '../Headers/UserNavbarHeader';
 import NavbarFooter from '../FooterLayouts/NavbarFooter';
 import Navigation from '../Navigation/Navigation';
 import {useSelector} from 'react-redux';
-import {useTheme} from '@material-ui/styles';
+import {useMediaQuery, useTheme} from '@mui/material';
 
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme)=>({
   content: {
@@ -43,12 +43,12 @@ function NavbarLayout({
   const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
   const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   const classes = useStyles();
 
   return (
     <div className={clsx('flex flex-col overflow-hidden h-full', className)}>
-
       <AppBar
         color="primary"
         position="static"
@@ -61,16 +61,16 @@ function NavbarLayout({
           <Logo/>
         </div>
 
-        <Hidden mdDown>
+        {!isLgDown && <>
           <NavbarFoldedToggleButton
             className="w-40 h-40 p-0"
             onClick={(e, value)=>{
               onToggled && onToggled(value);
             }}
           />
-        </Hidden>
+        </>}
 
-        <Hidden lgUp>
+        {isLgDown && <>
           <NavbarMobileToggleButton
             className={clsx('w-40 h-40 p-0')}
             onClick={(e, value)=>{
@@ -83,10 +83,9 @@ function NavbarLayout({
               {position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left'}
             </Icon>
           </NavbarMobileToggleButton>
-        </Hidden>
+        </>}
 
       </AppBar>
-
       <FuseScrollbars className={clsx(classes.content)} options={{
         suppressScrollX : true
       }}>
@@ -95,7 +94,6 @@ function NavbarLayout({
         <Navigation layout="vertical" className={clsx(classes.navigation)}/>
 
       </FuseScrollbars>
-
       <NavbarFooter/>
     </div>
   );

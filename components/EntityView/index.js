@@ -3,7 +3,7 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
       }
     },
 
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('md')]: {
       flexDirection: 'column',
 
       '& > *' : {

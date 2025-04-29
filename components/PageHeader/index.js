@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
+import Typography from '@mui/material/Typography';
+// import Hidden from '@mui/material/Hidden';
+import {useMediaQuery, useTheme} from '@mui/material';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import IconButton from '../IconButton';
 
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme)=>{
     title : {
       fontWeight: 'bold',
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         fontSize: theme.typography.h5.fontSize
       }
 
@@ -73,13 +74,16 @@ const PageHeader = ({
 
   const variant = variants[size.toLowerCase()];
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   return (
     <div className={clsx(styles.root, className)}>
-      {showMenuNav && (
-        <Hidden lgUp>
+      {showMenuNav && isLgDown && (
+        <>
           <NavbarMobileToggleButton className={clsx(styles.mobileNavButton)}/>
           <div className={styles.separator}/>
-        </Hidden>
+        </>
       )}
       <Typography
         className={styles.title}

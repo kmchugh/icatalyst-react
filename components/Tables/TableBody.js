@@ -1,5 +1,5 @@
 import React from 'react';
-import {TableBody as MUITableBody, TableRow, TableCell} from '@material-ui/core';
+import {TableBody as MUITableBody, TableRow, TableCell} from '@mui/material';
 import PropTypes from 'prop-types';
 
 const TableBody = ({

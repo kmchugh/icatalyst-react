@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
-import {Drawer, Hidden} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Drawer} from '@mui/material';
+import {useMediaQuery, useTheme} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
 import NavbarLayout from './NavbarLayout';
@@ -131,7 +132,7 @@ const useStyles = makeStyles((theme) => {
           opacity: 0
         },
         '& .list-subheader .list-subheader-icon' : {
-          width: `${theme.spacing(2)}px!important`,
+          width: `${theme.spacing(2)}!important`,
           color: `${theme.palette.action.disabled}!important`
         },
         '& .list-subheader.iconless:before'                : {
@@ -153,7 +154,7 @@ const useStyles = makeStyles((theme) => {
             opacity: 0
           },
           '& .role': {
-            lineHeight: `${theme.spacing(1)}px`
+            lineHeight: theme.spacing(1)
           },
           '& .avatar'            : {
             width  : theme.spacing(6),
@@ -223,6 +224,9 @@ function NavbarWrapper()
     navbarFoldedWidth
   });
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   useEffect(()=>{
     return async () => {
       dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
@@ -246,7 +250,7 @@ function NavbarWrapper()
           folded && classes.wrapperFolded
         )}
     >
-      <Hidden mdDown>
+      {!isLgDown && (<>
         <div
           className={
             clsx(
@@ -265,9 +269,8 @@ function NavbarWrapper()
             className={classes.navbarContent}
           />
         </div>
-      </Hidden>
-
-      <Hidden lgUp>
+      </>)}
+      {isLgDown && (
         <Drawer
           anchor={config.navbar.position}
           variant="temporary"
@@ -282,7 +285,7 @@ function NavbarWrapper()
         >
           <NavbarLayout className={classes.navbarContent}/>
         </Drawer>
-      </Hidden>
+      )}
     </div>
   );
 }

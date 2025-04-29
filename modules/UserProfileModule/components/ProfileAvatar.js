@@ -1,11 +1,11 @@
 import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import Avatar from '../../../components/Avatar';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import DropZone from '../../../components/DropZone';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import {uploadFile} from '../../../components/Singularity/store/actions/file.actions';

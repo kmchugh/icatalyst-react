@@ -3,7 +3,7 @@ import * as Actions from '../actions/invites.actions';
 import { createModel } from '../../../../utilities/createModel';
 import { generateReducer } from '../../../../utilities/generateReducer';
 
-import {Chip, Typography} from '@material-ui/core';
+import {Chip, Typography} from '@mui/material';
 import Icon from '../../../../components/Icon';
 
 

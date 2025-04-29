@@ -1,7 +1,8 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import Icon from '../Icon';
 import clsx from 'clsx';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
@@ -14,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     position : 'absolute',
     width : theme.spacing(2),
     height : theme.spacing(2),
-    top : `calc(50% - ${theme.spacing(1)}px)`,
-    left : `calc(50% - ${theme.spacing(1)}px)`,
+    top : `calc(50% - ${theme.spacing(1)})`,
+    left : `calc(50% - ${theme.spacing(1)})`,
     animation: '$rotating 2s linear infinite'
   },
   '@keyframes rotating': {

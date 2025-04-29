@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {Typography, LinearProgress} from '@material-ui/core';
+import {Typography, LinearProgress} from '@mui/material';
 import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles(()=>{

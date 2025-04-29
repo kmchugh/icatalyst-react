@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment, IconButton } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { TextField, InputAdornment, IconButton } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
@@ -48,7 +48,7 @@ const PassWordField = (props) => {
         readOnly: readonly,
         endAdornment: (
           <InputAdornment position="end">
-            <IconButton onClick={handleTogglePasswordVisibility} edge="end">
+            <IconButton onClick={handleTogglePasswordVisibility} edge="end" size="large">
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>

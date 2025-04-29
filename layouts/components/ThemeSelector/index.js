@@ -1,10 +1,10 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {useSelector} from 'react-redux';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import _ from '../../../@lodash';
 
 const useStyles = makeStyles((/*theme*/)=>{

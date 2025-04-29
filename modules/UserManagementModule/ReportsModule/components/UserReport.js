@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import {definition as reportDefinition} from '../../../../components/Singularity/store/reducers/userReports.reducer';

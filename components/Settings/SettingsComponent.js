@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {SettingsContext} from './SettingsProvider';
 import { Typography, Button,
-  Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+  Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import {useForm} from '../../hooks/fuse';
 import Icon from '../Icon';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import EnitityView from '../EntityView';
 import {useSettingsContext} from './SettingsProvider';

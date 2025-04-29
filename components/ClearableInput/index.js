@@ -1,9 +1,9 @@
 import React from 'react';
 import Icon from '@icatalyst/components/Icon';
-import {Paper, Input, InputAdornment} from '@material-ui/core';
+import {Paper, Input, InputAdornment} from '@mui/material';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 

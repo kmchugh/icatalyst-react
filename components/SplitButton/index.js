@@ -3,14 +3,14 @@ import {
   ButtonGroup, Button, Popper, Grow, Paper,
   ClickAwayListener, MenuList, MenuItem,
   Typography
-} from '@material-ui/core';
+} from '@mui/material';
 
 import Icon from '../Icon';
 import IconButton from '../IconButton';
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles((theme)=>{
   return {

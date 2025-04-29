@@ -1,16 +1,16 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import IconButton from '../../IconButton';
 import _ from '../../../@lodash';
 import { SingularityContext } from '../../Singularity';
 import { Wizard } from '../../Wizard';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import moment from '../../../@moment';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
 import {definition as resourceInviteDefinition } from '../../Singularity/store/reducers/resourceInvite.reducer';
 import {definition as inviteDefinition } from '../../Singularity/store/reducers/invites.reducer';
 import {useDispatch} from 'react-redux';
@@ -18,9 +18,9 @@ import Icon from '@icatalyst/components/Icon';
 import EdgeTypeSelection from '../../Singularity/components/EdgeTypeSelection';
 import { AppContext } from '../../../contexts/App';
 import { useHistory } from 'react-router-dom';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 const useStyles = makeStyles((/*theme*/)=>{
   return {

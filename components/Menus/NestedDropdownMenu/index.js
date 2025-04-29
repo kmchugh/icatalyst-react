@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 import {
   ListSubheader,
@@ -10,10 +9,11 @@ import {
   Button,
   Icon,
   Popper,
-} from '@material-ui/core';
+} from '@mui/material';
 import IconButton from '../../IconButton';
 import MenuItem from './component/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+import { alpha } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
 
@@ -111,7 +111,7 @@ const NestedDropdownMenu = ({
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
         }}
-      />
+        size="large" />
       <Popper placement={placement} open={open} anchorEl={anchorEl}  modifiers={{
         // offset: {
         //   enabled: true,
@@ -173,7 +173,6 @@ const NestedDropdownMenu = ({
         </ClickAwayListener>
       </Popper>
     </div>
-    
   );
 };
 

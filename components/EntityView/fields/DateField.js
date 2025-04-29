@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@material-ui/core';
+import {FormControl, InputLabel, FormHelperText} from '@mui/material';
 import {DatePicker, MuiPickersContext} from '@material-ui/pickers';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
 import moment from '@icatalyst/@moment';
 

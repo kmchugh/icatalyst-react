@@ -2,10 +2,10 @@ import React, {useState, useEffect, useContext} from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
-import {Button, ThemeProvider} from '@material-ui/core';
+import { Button, ThemeProvider, StyledEngineProvider } from '@mui/material';
 import Icon from '../Icon';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {makeStyles, useTheme} from '@mui/styles';
 import {useForm} from '../../hooks/fuse';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -206,35 +206,35 @@ const DetailContent = ({
 
   return (
     <div className={clsx(classes.root)}>
-      <ThemeProvider theme={themes.toolbarTheme}>
-        <DetailContentTabs
-          config={config}
-          tabs={tabs}
-          backUrl={backUrl}
-          selectedTab={selectedTab}
-          onTabChanged={(index)=>{
-            setSelectedTab((selected)=>{
-              return {
-                prev : selected.current,
-                current : index
-              };
-            });
-            const path = tabs[index].path;
-            if (!path) {
-              history.push(match.url);
-            } else {
-              history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-            }
-          }}
-        />
-      </ThemeProvider>
-
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={themes.toolbarTheme}>
+          <DetailContentTabs
+            config={config}
+            tabs={tabs}
+            backUrl={backUrl}
+            selectedTab={selectedTab}
+            onTabChanged={(index)=>{
+              setSelectedTab((selected)=>{
+                return {
+                  prev : selected.current,
+                  current : index
+                };
+              });
+              const path = tabs[index].path;
+              if (!path) {
+                history.push(match.url);
+              } else {
+                history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+              }
+            }}
+          />
+        </ThemeProvider>
+      </StyledEngineProvider>
       <div className={clsx(classes.errorWrapper)}>
         {
           responseErrors && <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={responseErrors}/>
         }
       </div>
-
       <div className={clsx(classes.contentWrapper)}>
         {definition && tabs && (
           <Switch key={location.pathname} location={location}>
@@ -304,7 +304,7 @@ const DetailContent = ({
                       className={clsx(classes.entityView)}
                       definition={definition}
                       model={form || entity}
-                      readonly={readonly || !auth || !auth.update || (!auth.create /* && !isNew */)}
+                      readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}
                       errors={errors}
                       onChange={(e, valueMap)=>{
                         handleChange(e, valueMap);
@@ -314,7 +314,7 @@ const DetailContent = ({
                     />
                     }
                     <div className="flex flex-1"/>
-                    { (!readonly && (auth && (auth.update || (auth.create /* && !isNew */)))) &&
+                    { (!readonly && (auth && (auth.update || ((auth.create) /* && !isNew */)))) &&
                       <div className={clsx(classes.actionWrapper)}>
                         <Button
                           className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}

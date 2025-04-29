@@ -1,13 +1,13 @@
 import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import IconButton from '../../../components/IconButton';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import ErrorWrapper from '@icatalyst/components/Errors/ErrorWrapper';
 import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import {isName} from '@icatalyst/components/EntityView/validations/isName';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
@@ -139,7 +139,7 @@ const ProfileDisplayName = ({
           }}
           variant="contained"
           color="primary"
-        />
+          size="large" />
       </div>
       {
         error && (

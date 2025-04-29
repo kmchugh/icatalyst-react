@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import Image from '../../Image';
 
 const useStyles = makeStyles((theme)=>{

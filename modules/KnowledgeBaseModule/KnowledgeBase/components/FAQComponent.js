@@ -1,19 +1,19 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { SingularityContext } from '@icatalyst/components/Singularity';
 
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Grid from '@material-ui/core/Grid';
-import Chip from '@material-ui/core/Chip';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearableInput from '@icatalyst/components/ClearableInput';
 import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
@@ -39,19 +39,19 @@ const useStyles = makeStyles((theme) => {
       height: theme.spacing(8),
       '& input': {
         fontSize: theme.spacing(4),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
           fontSize: theme.spacing(2),
         },
       },
       '& .MuiIcon-root': {
         fontSize: theme.spacing(4),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
           fontSize: theme.spacing(2),
         },
       },
     },
     accordion: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         width: '100%',
       },
       [theme.breakpoints.up('sm')]: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => {
     accordionSummary: {
       maxWidth: '100%',
       overflow: 'hidden',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         padding: 0,
         '& .MuiIconButton-edgeEnd': {
           marginRight: 0,
@@ -77,12 +77,12 @@ const useStyles = makeStyles((theme) => {
     title: {
       maxWidth: '100%',
       textTransform: 'capitalize',
-      padding: `${theme.spacing(0)}px ${theme.spacing(3)}px`,
+      padding: `${theme.spacing(0)} ${theme.spacing(3)}`,
       fontSize: theme.spacing(2.5),
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         paddingLeft: theme.spacing(0.75),
       },
       '& :first-child': {
@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => {
       marginTop: theme.spacing(2),
       marginRight: theme.spacing(1),
       background: 'black',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         width: '100%',
         height: '300px',
       },
@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => {
       width: 80,
       height: 50,
       objectFit: 'cover',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         height: 40,
         width: 40,
       },
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => {
     },
     headerTitle: {
       width: 'calc(100% - 80px)',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         width: 'calc(100% - 40px)',
       },
     },
@@ -152,7 +152,7 @@ const useStyles = makeStyles((theme) => {
     titleContainer: {
       maxWidth: 'calc(100% - 30px)',
       alignItems: 'center',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         marginLeft: 15,
       },
     },
@@ -160,7 +160,7 @@ const useStyles = makeStyles((theme) => {
       marginLeft: theme.spacing(3),
       marginTop: theme.spacing(1.5),
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         marginLeft: 0,
       },
     },

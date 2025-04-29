@@ -1,10 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
-import Hidden from '@material-ui/core/Hidden';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+// import Hidden from '@mui/material/Hidden';
+import {useMediaQuery, useTheme} from '@mui/material';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -58,12 +59,16 @@ export const PageSidePanelHeader = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden mdDown>
+
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
+  return variant === 'permanent' && !isLgDown && (
+    <>
       <div className={clsx(classes.headerRoot, className)}>
         {children}
       </div>
-    </Hidden>
+    </>
   );
 };
 PageSidePanelHeader.propTypes={
@@ -79,12 +84,16 @@ export const PageSidePanelFooter = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden mdDown>
+
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+  
+  return variant === 'permanent' && !isLgDown && (
+    <>
       <div className={clsx(classes.footerRoot, className)}>
         {children}
       </div>
-    </Hidden>
+    </>
   );
 };
 PageSidePanelFooter.propTypes={
@@ -112,9 +121,12 @@ export const PageSidePanel = ({
   const panelConfig = position === 'left' ? config.leftSidePanel : config.rightSidePanel;
   const classes = useStyles(panelConfig);
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   return (
     <>
-      <Hidden lgUp={variant === 'permanent'}>
+      { isLgDown && variant === 'permanent' && (
         <SwipeableDrawer
           variant="temporary"
           disableSwipeToOpen
@@ -176,13 +188,13 @@ export const PageSidePanel = ({
           </ScrollWrapper>
           {footer && footer}
         </SwipeableDrawer>
-      </Hidden>
-      {variant === 'permanent' && (
-        <Hidden mdDown>
+      )}
+      {variant === 'permanent' && !isLgDown && (
+        <>
           <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
             {children}
           </ScrollWrapper>
-        </Hidden>
+        </>
       )}
     </>
   );

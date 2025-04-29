@@ -1,4 +1,4 @@
-import * as colors from '@material-ui/core/colors';
+import * as colors from '@mui/material/colors';
 import _ from '../../../@lodash';
 
 class EventEmitter {

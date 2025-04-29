@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import { AppContext } from '../../../contexts';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{

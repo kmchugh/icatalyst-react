@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {Collapse, IconButton, ListItem, ListItemText} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Collapse, IconButton, ListItem, ListItemText} from '@mui/material';
+import {makeStyles} from '@mui/styles';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -22,8 +22,8 @@ const useStyles = makeStyles(theme => ({
   itemFn: ({nestedLevel})=>{
     return {
       height      : theme.spacing(5),
-      width       : `calc(100% - ${theme.spacing(2)}px)`,
-      borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
+      width       : `calc(100% - ${theme.spacing(2)})`,
+      borderRadius: `0 ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0`,
       paddingRight: theme.spacing(2.5),
       paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
       color       : theme.palette.text.primary,
@@ -148,7 +148,12 @@ function FuseNavVerticalCollapse(props)
         {item.badge && (
           <FuseNavBadge className="mr-4" badge={item.badge}/>
         )}
-        <IconButton aria-label={open ? 'collapse' : 'expand'} component="div" disableRipple className="w-16 h-16 p-0">
+        <IconButton
+          aria-label={open ? 'collapse' : 'expand'}
+          component="div"
+          disableRipple
+          className="w-16 h-16 p-0"
+          size="large">
           <Icon className="text-16 arrow-icon" color="inherit">
             {open ? 'expand_less' : 'expand_more'}
           </Icon>

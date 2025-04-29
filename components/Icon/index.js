@@ -5,23 +5,24 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 library.add(fas, far, fab);
 
 import React from 'react';
-import {Icon as MUIIcon} from '@material-ui/core';
+import {Icon as MUIIcon} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme)=>{
   return {
     root : {},
     'font-small' : {
-      fontSize: `${theme.spacing(2)}px!important`
+      fontSize: `${theme.spacing(2)}!important`
     },
     'font-default' : {
-      fontSize: `${theme.spacing(3)}px!important`
+      fontSize: `${theme.spacing(3)}!important`
     },
     'font-large' : {
-      fontSize: `${theme.spacing(4)}px!important`
+      fontSize: `${theme.spacing(4)}!important`
     },
     'font-inherit' : {
       fontSize: 'inherit!important'

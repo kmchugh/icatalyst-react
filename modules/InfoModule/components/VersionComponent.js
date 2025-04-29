@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Typography, Card, CardContent,
   CardHeader, ListItem, ListItemText
-} from '@material-ui/core';
+} from '@mui/material';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
 

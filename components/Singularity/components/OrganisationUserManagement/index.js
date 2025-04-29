@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import { MasterDetailContext} from '../../../MasterDetail';
@@ -18,7 +18,7 @@ import * as MessageActions from 'app/store/actions/app';
 
 import {
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const useStyles = makeStyles((theme)=>{
   return {

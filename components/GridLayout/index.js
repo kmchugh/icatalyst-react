@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {getFromLocalStore, saveToLocalStore} from '@icatalyst/utilities/localstorage';
 import _ from '@icatalyst/@lodash';

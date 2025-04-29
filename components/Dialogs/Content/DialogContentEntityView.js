@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import DialogContent from './DialogContent';
 import EntityView from '../../EntityView';
 import {useForm} from '../../../hooks/fuse';

@@ -1,12 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as edgeDefinition} from '../../store/reducers/edgeType.reducer';
 import FuseLoading from '../../../fuse/FuseLoading';
-import {ButtonBase, Tooltip} from '@material-ui/core';
+import {ButtonBase, Tooltip} from '@mui/material';
 import Icon from '../../../Icon';
 import _ from '../../../../@lodash';
 
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme)=>{
     },
     icon : {
       marginBottom : theme.spacing(2),
-      fontSize : `${theme.spacing(4)}px!important`
+      fontSize : `${theme.spacing(4)}!important`
     }
   };
 });

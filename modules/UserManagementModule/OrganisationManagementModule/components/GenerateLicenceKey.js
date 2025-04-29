@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import Icon from '../../../../components/Icon';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {definition as licenceKeysDefinition} from '../../../../components/Singularity/store/reducers/licenceKeys.reducer';
 import { useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../../components/Singularity';
@@ -13,7 +13,7 @@ import * as DialogActions from '../../../../store/actions/dialog.actions';
 import {DialogContent, DialogContentEntityView} from '../../../../components/Dialogs';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MessageActions from '../../../../store/actions/message.actions';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -78,7 +78,7 @@ const GenerateLicenceKey = ({
                   color="primary"
                   title={t('Copy to clipboard')}
                   icon="fa clipboard"
-                />
+                  size="large" />
               </CopyToClipboard>
             </div>
           </div>

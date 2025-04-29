@@ -1,9 +1,9 @@
 import React, {useRef, useLayoutEffect, useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
 import IconButton from '../IconButton';
 import DropdownMenu from '../Menus/DropdownMenu';
 import {generateHash} from '../../utilities';
@@ -193,7 +193,7 @@ const CommandPanel = ({
         <div className={clsx(styles.spacer)}/>
         { (secondaryMenus && secondaryMenus.length > 0) && (
         // Filter to the number of items with combined width less than overflow
-          secondaryItems.visible.map((m)=>{
+          (secondaryItems.visible.map((m)=>{
             return (
               <div
                 key={m.id}
@@ -219,7 +219,7 @@ const CommandPanel = ({
                 }
               </div>
             );
-          })
+          }))
         )}
         {
           overflow > 0 && (

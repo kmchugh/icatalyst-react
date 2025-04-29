@@ -2,11 +2,11 @@ import React, {useImperativeHandle} from 'react';
 import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import {DialogContent as NativeContent,
   DialogActions, Divider,
   Button
-} from '@material-ui/core';
+} from '@mui/material';
 import Icon from '../../Icon';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../../../store/actions/dialog.actions';

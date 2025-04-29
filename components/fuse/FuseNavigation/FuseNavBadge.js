@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import Icon from '@icatalyst/components/Icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: ({badge})=>{
     return {
-      padding        : `0 ${theme.spacing(1)}px`,
+      padding        : `0 ${theme.spacing(1)}`,
       fontSize       : theme.typography.caption.fontSize,
       fontWeight     : theme.typography.button.fontWeight,
       height         : theme.spacing(2.5),

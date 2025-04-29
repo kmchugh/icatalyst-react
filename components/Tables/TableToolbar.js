@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import IconButton from '../IconButton';
 import Icon from '../Icon';
 import {FuseAnimate} from '../fuse';
@@ -135,7 +135,7 @@ const TableToolbar = ({
                     title={title}
                     onClick={onClick}
                     icon={icon}
-                  />
+                    size="large" />
                 </FuseAnimate>
               ))
             }
@@ -151,7 +151,7 @@ const TableToolbar = ({
                   title={title}
                   onClick={onClick}
                   icon={icon}
-                />
+                  size="large" />
               ))
             }
           </div>

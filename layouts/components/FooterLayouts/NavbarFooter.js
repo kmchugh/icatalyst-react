@@ -1,7 +1,7 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Link} from '@material-ui/core';
+import {AppBar, Toolbar, Typography, Link} from '@mui/material';
 import Image from '../../../components/Image';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {useSelector} from 'react-redux';
 
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
     maxHeight: theme.spacing(4),
     overflow: 'hidden',
-    lineHeight: theme.spacing(4) + 'px'
+    lineHeight: theme.spacing(4)
   }
 }));
 

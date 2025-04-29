@@ -2,9 +2,10 @@ import React, {useContext} from 'react';
 import {FuseAnimate} from '@icatalyst/components/fuse';
 import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
-import {Typography, Hidden} from '@material-ui/core';
+import {Typography, Hidden} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
+import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import {MasterDetailContext} from './index';
@@ -81,7 +82,6 @@ const DetailHeader = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-
       <div className={clsx(classes.detailWrapper)}>
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
           <Typography
@@ -101,7 +101,7 @@ const DetailHeader = ({
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
           <div className={clsx(classes.details)}>
 
-            <Hidden xsDown>
+            <Hidden smDown>
               {featureImage ? (
                 <Image className={clsx(classes.featureImage)}
                   src={featureImage}
@@ -122,8 +122,7 @@ const DetailHeader = ({
         </FuseAnimate>
 
       </div>
-
-      {actionComponent && <Hidden smDown>
+      {actionComponent && <Hidden mdDown>
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
           {
             actionComponent
