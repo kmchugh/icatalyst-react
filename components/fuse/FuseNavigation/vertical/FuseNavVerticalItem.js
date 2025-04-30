@@ -93,7 +93,7 @@ function FuseNavVerticalItem(props)
 
   return visible && (
     <ListItem
-      button
+      // button
       component={NavLinkAdapter}
       to={item.url}
       activeClassName="active"

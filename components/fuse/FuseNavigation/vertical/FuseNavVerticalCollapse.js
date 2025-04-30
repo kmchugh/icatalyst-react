@@ -133,7 +133,6 @@ function FuseNavVerticalCollapse(props)
     <ul className={clsx(classes.root, open && 'open')}>
 
       <ListItem
-        button
         className={clsx(classes.item, classes.itemFn, active)}
         onClick={handleClick}
       >
