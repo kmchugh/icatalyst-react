@@ -1,30 +1,27 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import { ThemeProvider } from '@mui/styles';
-import { StyledEngineProvider } from '@mui/material';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 
 import {PropTypes} from 'prop-types';
-import ReloadModal from './ReloadModal';
 
-function Theme(props) {
+function ThemeModern(props) {
 
   const theme = useSelector(({icatalyst}) => icatalyst.settings.current.themes.mainTheme );
 
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
-        <ReloadModal />
         {props.children}
       </ThemeProvider>
     </StyledEngineProvider>
   );
 }
 
-Theme.propTypes = {
+ThemeModern.propTypes = {
   children : PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node
   ]),
 };
 
-export default React.memo(Theme);
+export default React.memo(ThemeModern);

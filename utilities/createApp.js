@@ -6,6 +6,7 @@ import { StylesProvider, jssPreset, createGenerateClassName } from '@mui/styles'
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  Theme from '../components/Theme';
+import  ThemeModern from '../components/ThemeModern';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
@@ -87,19 +88,21 @@ export default function createApp({
                   return icatalyst.settings;
                 }}>
                   <Theme>
-                    <ErrorBoundary>
-                      <Router history={history}>
-                        <Singularity config={{
-                          ...singularityConfig,
-                          mapRoles : mapAuthRoles,
-                          // Allows customisation of the roles that are displayed to the user
-                          filterDisplayRoles : filterDisplayRoles,
-                        }}>
-                          <CssBaseline/>
-                          <Layout/>
-                        </Singularity>
-                      </Router>
-                    </ErrorBoundary>
+                    <ThemeModern>
+                      <ErrorBoundary>
+                        <Router history={history}>
+                          <Singularity config={{
+                            ...singularityConfig,
+                            mapRoles : mapAuthRoles,
+                            // Allows customisation of the roles that are displayed to the user
+                            filterDisplayRoles : filterDisplayRoles,
+                          }}>
+                            <CssBaseline/>
+                            <Layout/>
+                          </Singularity>
+                        </Router>
+                      </ErrorBoundary>
+                    </ThemeModern>
                   </Theme>
                 </SettingsProvider>
               </LocalizationProvider>

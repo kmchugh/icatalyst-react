@@ -120,9 +120,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll !== 'body' && config.toolbar.position === 'inside')
           ) && (
           <StyledEngineProvider injectFirst>
-            (<ThemeProvider theme={themes.toolbarTheme}>
+            <ThemeProvider theme={themes.toolbarTheme}>
               <ToolbarLayout />
-            </ThemeProvider>)
+            </ThemeProvider>
           </StyledEngineProvider>
         )
       }
@@ -135,9 +135,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll !== 'body' && config.toolbar.position === 'inside')
             ) && (
             <StyledEngineProvider injectFirst>
-              (<ThemeProvider theme={themes.navbarTheme}>
+              <ThemeProvider theme={themes.navbarTheme}>
                 <ToolbarLayout />
-              </ThemeProvider>)
+              </ThemeProvider>
             </StyledEngineProvider>
           )
         }
@@ -150,9 +150,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll !== 'body' && config.footer.position === 'inside')
             )) && (
             <StyledEngineProvider injectFirst>
-              (<ThemeProvider theme={themes.footerTheme}>
+              <ThemeProvider theme={themes.footerTheme}>
                 <Footer />
-              </ThemeProvider>)
+              </ThemeProvider>
             </StyledEngineProvider>
           )
         }
@@ -165,9 +165,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll !== 'body' && config.footer.position === 'inside')
           )) && (
           <StyledEngineProvider injectFirst>
-            (<ThemeProvider theme={themes.footerTheme}>
+            <ThemeProvider theme={themes.footerTheme}>
               <Footer />
-            </ThemeProvider>)
+            </ThemeProvider>
           </StyledEngineProvider>
         )
       }
@@ -204,9 +204,9 @@ function Layout(props) {
       <div className="flex flex-1 flex-col overflow-hidden relative h-full">
         {scroll === 'content' && config.toolbar.display && config.toolbar.position === 'outside' && (
           <StyledEngineProvider injectFirst>
-            (<ThemeProvider theme={themes.toolbarTheme}>
+            <ThemeProvider theme={themes.toolbarTheme}>
               <ToolbarLayout />
-            </ThemeProvider>)
+            </ThemeProvider>
           </StyledEngineProvider>
         )}
         <ScrollWrapper className="overflow-auto" scrollType="body" config={config}>
@@ -223,9 +223,9 @@ function Layout(props) {
             <div className={classes.contentWrapper}>
               {scroll === 'body' && config.toolbar.display && config.toolbar.position === 'inside' && (
                 <StyledEngineProvider injectFirst>
-                  (<ThemeProvider theme={themes.toolbarTheme}>
+                  <ThemeProvider theme={themes.toolbarTheme}>
                     <ToolbarLayout />
-                  </ThemeProvider>)
+                  </ThemeProvider>
                 </StyledEngineProvider>
               )}
               <ScrollWrapper role="main" className={classes.content} scrollType="content" config={config}>
@@ -237,24 +237,24 @@ function Layout(props) {
               </ScrollWrapper>
               {scroll === 'body' && config.footer.display && config.footer.position === 'inside' && (
                 <StyledEngineProvider injectFirst>
-                  (<ThemeProvider theme={themes.footerTheme}>
+                  <ThemeProvider theme={themes.footerTheme}>
                     <Footer />
-                  </ThemeProvider>)
+                  </ThemeProvider>
                 </StyledEngineProvider>
               )}
               { config.themeSettingsPanel.display && (
                 <StyledEngineProvider injectFirst>
-                  (<ThemeProvider theme={themes.panelTheme}>
+                  <ThemeProvider theme={themes.panelTheme}>
                     <SettingsPanelLayout />
-                  </ThemeProvider>)
+                  </ThemeProvider>
                 </StyledEngineProvider>
               ) }
               {
                 config.userSettingsPanel.display && (
                   <StyledEngineProvider injectFirst>
-                    (<ThemeProvider theme={themes.panelTheme}>
+                    <ThemeProvider theme={themes.panelTheme}>
                       <SessionPanel />
-                    </ThemeProvider>)
+                    </ThemeProvider>
                   </StyledEngineProvider>
                 )
               }
@@ -273,9 +273,9 @@ function Layout(props) {
         </ScrollWrapper>
         {scroll === 'content' && config.footer.display && config.footer.position === 'outside' && (
           <StyledEngineProvider injectFirst>
-            (<ThemeProvider theme={themes.footerTheme}>
+            <ThemeProvider theme={themes.footerTheme}>
               <Footer />
-            </ThemeProvider>)
+            </ThemeProvider>
           </StyledEngineProvider>
         )}
       </div>
