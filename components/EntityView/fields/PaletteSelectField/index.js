@@ -140,7 +140,7 @@ const PaletteSelectField = ({
           setSelected(item);
           onChange && onChange(null, {[field.id] : item.id});
         }}
-        renderOption={(option) => {
+        renderOption={(props, option) => {
           return (
             <div className={clsx(styles.menuItem)}>
               <Typography>{option.label}</Typography>
