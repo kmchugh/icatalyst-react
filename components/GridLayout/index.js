@@ -148,7 +148,7 @@ const GridLayout = React.forwardRef(({
         style={{
           height : '100vh',
         }}
-        margin={margin}
+        margin={margin || [10, 10]}
         containerPadding={containerPadding}
         className={clsx(styles.gridRoot, gridClassName)}
         draggableHandle={`.${dragHandleClass}`}
