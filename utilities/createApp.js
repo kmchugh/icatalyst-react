@@ -9,15 +9,17 @@ import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
-import {CssBaseline} from '@mui/material';
+import {CssBaseline, StyledEngineProvider} from '@mui/material';
 import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
-import { LocalizationProvider as MuiPickersUtilsProvider } from '@mui/x-date-pickers';
-import MomentAdapter from '@date-io/moment';
+import { LocalizationProvider as MuiPickersUtilsProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+// import MomentAdapter from '@date-io/moment';
 import LocalizationProvider from '../localization/LocalizationProvider';
-import { StyledEngineProvider } from '@mui/material/styles';
 import { create } from 'jss';
+import ThemeModern from '../components/ThemeModern';
 
 reportWebVitals(({name, delta, value, id})=>{
   if (typeof gtag !== 'undefined') {
@@ -70,7 +72,7 @@ export default function createApp({
 
   const App = ()=>{
     return (
-      <MuiPickersUtilsProvider dateAdapter={MomentAdapter}>
+      <MuiPickersUtilsProvider dateAdapter={AdapterMoment}>
         <AppContextComponent
           routes={routes}
           applicationConfig={contextConfig}
@@ -88,19 +90,21 @@ export default function createApp({
                     return icatalyst.settings;
                   }}>
                     <Theme>
-                      <ErrorBoundary>
-                        <Router history={history}>
-                          <Singularity config={{
-                            ...singularityConfig,
-                            mapRoles : mapAuthRoles,
-                            // Allows customisation of the roles that are displayed to the user
-                            filterDisplayRoles : filterDisplayRoles,
-                          }}>
-                            <CssBaseline/>
-                            <Layout/>
-                          </Singularity>
-                        </Router>
-                      </ErrorBoundary>
+                      <ThemeModern>
+                        <ErrorBoundary>
+                          <Router history={history}>
+                            <Singularity config={{
+                              ...singularityConfig,
+                              mapRoles : mapAuthRoles,
+                              // Allows customisation of the roles that are displayed to the user
+                              filterDisplayRoles : filterDisplayRoles,
+                            }}>
+                              <CssBaseline/>
+                              <Layout/>
+                            </Singularity>
+                          </Router>
+                        </ErrorBoundary>
+                      </ThemeModern>
                     </Theme>
                   </SettingsProvider>
                 </LocalizationProvider>

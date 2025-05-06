@@ -4,15 +4,13 @@ import Icon from '../Icon';
 import ClearableInput from '../ClearableInput';
 import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import {SearchFilterContext} from '../Tables';
 import {useSelector} from 'react-redux';
-import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
-
+import {useMediaQuery, useTheme} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -93,7 +91,7 @@ const Header = ({
   const actionComponent = false;
   const theme = useTheme();
   const searchContext = useContext(SearchFilterContext);
-
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {toolbar} = config;
 
@@ -109,11 +107,11 @@ const Header = ({
         {
           // If the toolbar is not displayed then we need
           // to allow access to the navigation
-          !toolbar.display && (
-            <Hidden lgUp>
+          !toolbar.display && isLgDown &&  (
+            <>
               <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
               <div className={classes.separator}/>
-            </Hidden>
+            </>
           )
         }
 

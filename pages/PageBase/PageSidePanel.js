@@ -3,8 +3,8 @@ import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
-import Hidden from '@mui/material/Hidden';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -58,12 +58,13 @@ export const PageSidePanelHeader = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden xlDown>
-      <div className={clsx(classes.headerRoot, className)}>
-        {children}
-      </div>
-    </Hidden>
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
+  return variant === 'permanent' && !isLgDown &&(
+    <div className={clsx(classes.headerRoot, className)}>
+      {children}
+    </div>
   );
 };
 PageSidePanelHeader.propTypes={
@@ -79,12 +80,13 @@ export const PageSidePanelFooter = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden xlDown>
-      <div className={clsx(classes.footerRoot, className)}>
-        {children}
-      </div>
-    </Hidden>
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
+  return variant === 'permanent' && !isLgDown && (
+    <div className={clsx(classes.footerRoot, className)}>
+      {children}
+    </div>
   );
 };
 PageSidePanelFooter.propTypes={
@@ -111,78 +113,75 @@ export const PageSidePanel = ({
 })=>{
   const panelConfig = position === 'left' ? config.leftSidePanel : config.rightSidePanel;
   const classes = useStyles(panelConfig);
-
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
   return (
     <>
-      <Hidden lgUp={variant === 'permanent'}>
-        <SwipeableDrawer
-          variant="temporary"
-          disableSwipeToOpen
-          anchor={position}
-          open={open}
-          onClose={() => {
-            closePanel && closePanel();
-          }}
-          onOpen={() => {
-            openPanel && openPanel();
-          }}
-          SlideProps = {{
-            onEntering: (node)=>{
-              if (position === 'right') {
-                const doc = (node && node.ownerDocument) || document;
-                const containerWindow = doc.defaultView || window;
-                node.style.left = `${containerWindow.innerWidth-panelConfig.width}px`;
+      {isLgDown && variant === 'permanent' && (<SwipeableDrawer
+        variant="temporary"
+        disableSwipeToOpen
+        anchor={position}
+        open={open}
+        onClose={() => {
+          closePanel && closePanel();
+        }}
+        onOpen={() => {
+          openPanel && openPanel();
+        }}
+        SlideProps = {{
+          onEntering: (node)=>{
+            if (position === 'right') {
+              const doc = (node && node.ownerDocument) || document;
+              const containerWindow = doc.defaultView || window;
+              node.style.left = `${containerWindow.innerWidth-panelConfig.width}px`;
 
-                node.style.transition = '';
-                node.style.webkitTransition = '';
-                node.style.transform = '';
-              }
-            },
-            onExiting: (node)=>{
-              if (position === 'right') {
-                const doc = (node && node.ownerDocument) || document;
-                const containerWindow = doc.defaultView || window;
-                node.style.left = `${containerWindow.innerWidth}px`;
-
-                node.style.transition = '';
-                node.style.webkitTransition = '';
-                node.style.transform = '';
-              }
-            },
-          }}
-          classes={{
-            root: clsx(classes.root, variant, !open ? classes.hidden : null),
-            paper: clsx(
-              classes.contentWrapper,
-              classes.widthFn,
-              variant,
-              position === 'left' ? classes.leftSidePanel : classes.rightSidePanel,
-            )
-          }}
-          ModalProps={{
-            keepMounted: true // Better open performance on mobile.
-          }}
-          BackdropProps={{
-            classes: {
-              root: classes.backdrop
+              node.style.transition = '';
+              node.style.webkitTransition = '';
+              node.style.transform = '';
             }
-          }}
-          style={{ position: 'absolute' }}
-          container={rootRef.current}
-        >
-          {header && header}
-          <ScrollWrapper scrollType="content" config={config} className={clsx('flex-shrink')}>
-            {children}
-          </ScrollWrapper>
-          {footer && footer}
-        </SwipeableDrawer>
-      </Hidden>
-      {variant === 'permanent' && (
-        <Hidden xlDown>
-          <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
-            {children}
-          </ScrollWrapper>
-        </Hidden>
+          },
+          onExiting: (node)=>{
+            if (position === 'right') {
+              const doc = (node && node.ownerDocument) || document;
+              const containerWindow = doc.defaultView || window;
+              node.style.left = `${containerWindow.innerWidth}px`;
+
+              node.style.transition = '';
+              node.style.webkitTransition = '';
+              node.style.transform = '';
+            }
+          },
+        }}
+        classes={{
+          root: clsx(classes.root, variant, !open ? classes.hidden : null),
+          paper: clsx(
+            classes.contentWrapper,
+            classes.widthFn,
+            variant,
+            position === 'left' ? classes.leftSidePanel : classes.rightSidePanel,
+          )
+        }}
+        ModalProps={{
+          keepMounted: true // Better open performance on mobile.
+        }}
+        BackdropProps={{
+          classes: {
+            root: classes.backdrop
+          }
+        }}
+        style={{ position: 'absolute' }}
+        container={rootRef.current}
+      >
+        {header && header}
+        <ScrollWrapper scrollType="content" config={config} className={clsx('flex-shrink')}>
+          {children}
+        </ScrollWrapper>
+        {footer && footer}
+      </SwipeableDrawer>)}
+      {variant === 'permanent' && !isLgDown && (
+        <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
+          {children}
+        </ScrollWrapper>
       )}
     </>
   );

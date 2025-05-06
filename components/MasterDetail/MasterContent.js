@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
-import Hidden from '@mui/material/Hidden';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
+import {useMediaQuery, useTheme} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +41,8 @@ const MasterContent = (props)=>{
   } = props;
 
   const classes = useStyles();
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <DataTable
@@ -50,11 +52,11 @@ const MasterContent = (props)=>{
       onRefresh={onRefresh}
       updating={updating}
       PrependHeaderComponent={
-        config.mode === 'chromeless' ? (
-          <Hidden lgUp>
+        config.mode === 'chromeless'&& isLgDown  ? (
+          <>
             <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
             <div className={classes.separator}/>
-          </Hidden>
+          </>
         ) : null
       }
       canAdd={onAdd && auth.create}

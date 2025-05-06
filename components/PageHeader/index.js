@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import Typography from '@mui/material/Typography';
-import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import IconButton from '../IconButton';
+import {useMediaQuery, useTheme} from '@mui/material';
 
 const useStyles = makeStyles((theme)=>{
   return {
@@ -72,14 +72,16 @@ const PageHeader = ({
   };
 
   const variant = variants[size.toLowerCase()];
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
     <div className={clsx(styles.root, className)}>
-      {showMenuNav && (
-        <Hidden lgUp>
+      {showMenuNav && isLgDown && (
+        <>
           <NavbarMobileToggleButton className={clsx(styles.mobileNavButton)}/>
           <div className={styles.separator}/>
-        </Hidden>
+        </>
       )}
       <Typography
         className={styles.title}

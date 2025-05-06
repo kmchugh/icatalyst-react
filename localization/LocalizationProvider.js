@@ -17,7 +17,7 @@ const formatString = (str, ...parameters)=>{
 const LocalizationProvider = ({
   children,
   loadLanguages = null,
-  debug = false
+  // debug = false
 })=>{
   const dispatch = useDispatch();
 
@@ -90,9 +90,9 @@ const LocalizationProvider = ({
       const text = selectedVocabulary?.valuesMap?.[value.toLowerCase()] || 
         selectedVocabulary?.values[value.toLowerCase()];
         
-      if (!text && debug) {
-        console.info(`'${value}' not found in lookup for ${selectedVocabCode}`);
-      }
+      // if (!text && debug) {
+      //   console.info(`'${value}' not found in lookup for ${selectedVocabCode}`);
+      // }
       return formatString(text || value, ...parameters);
     };
   }, [initialised, selectedVocabulary]);

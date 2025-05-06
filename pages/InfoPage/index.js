@@ -1,12 +1,10 @@
 import React, {useState} from 'react';
 import Icon from '../../components/Icon';
-import {Typography} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import {Typography, useMediaQuery, useTheme} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
@@ -79,7 +77,7 @@ const InfoPage = ({
 })=>{
   const classes = useStyles();
   const theme = useTheme();
-
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
   const iconText = typeof icon === 'string';
   const infoText = typeof info === 'string';
   const actionText = typeof action === 'string';
@@ -111,10 +109,8 @@ const InfoPage = ({
       {
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
-        (!toolbar.display && renderNavigation) && (
-          <Hidden lgUp>
-            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
-          </Hidden>
+        (!toolbar.display && renderNavigation && isLgDown) && (
+          <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
         )
       }
 

@@ -7,6 +7,7 @@ import {Typography} from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles((theme)=>{
+  console.log('theme-data', theme);
   return {
     root : {
       display: 'flex',
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme)=>{
 
 function FuseSplashScreen(props)
 {
+  console.log('themes-props', props);
   const classes = useStyles(props);
   const {message, messageColor} = props;
 

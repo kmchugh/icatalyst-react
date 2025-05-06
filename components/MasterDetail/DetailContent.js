@@ -3,7 +3,7 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import Icon from '../Icon';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@mui/styles';
@@ -205,30 +205,34 @@ const DetailContent = ({
     });
   }, [tabs]);
 
+  console.log('themes', themes);
+
   return (
     <div className={clsx(classes.root)}>
-      <ThemeProvider theme={themes.toolbarTheme}>
-        <DetailContentTabs
-          config={config}
-          tabs={tabs}
-          backUrl={backUrl}
-          selectedTab={selectedTab}
-          onTabChanged={(index)=>{
-            setSelectedTab((selected)=>{
-              return {
-                prev : selected.current,
-                current : index
-              };
-            });
-            const path = tabs[index].path;
-            if (!path) {
-              history.push(match.url);
-            } else {
-              history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-            }
-          }}
-        />
-      </ThemeProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={themes.toolbarTheme}>
+          <DetailContentTabs
+            config={config}
+            tabs={tabs}
+            backUrl={backUrl}
+            selectedTab={selectedTab}
+            onTabChanged={(index)=>{
+              setSelectedTab((selected)=>{
+                return {
+                  prev : selected.current,
+                  current : index
+                };
+              });
+              const path = tabs[index].path;
+              if (!path) {
+                history.push(match.url);
+              } else {
+                history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+              }
+            }}
+          />
+        </ThemeProvider>
+      </StyledEngineProvider>
       <div className={clsx(classes.errorWrapper)}>
         {
           responseErrors && <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={responseErrors}/>

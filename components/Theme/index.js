@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 
 import {PropTypes} from 'prop-types';
 import ReloadModal from './ReloadModal';
@@ -10,10 +10,12 @@ function Theme(props) {
   const theme = useSelector(({icatalyst}) => icatalyst.settings.current.themes.mainTheme);
 
   return (
-    <ThemeProvider theme={theme}>
-      <ReloadModal />
-      {props.children}
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <ReloadModal />
+        {props.children}
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

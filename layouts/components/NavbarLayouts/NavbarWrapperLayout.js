@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Drawer, Hidden} from '@mui/material';
+import {Drawer, useMediaQuery, useTheme} from '@mui/material';
 import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
@@ -204,6 +204,8 @@ function NavbarWrapper()
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   const navbar = useSelector(({icatalyst}) => icatalyst.navbar);
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   const navbarSettings = useSettingsContext(NAVBAR_SETTINGS_ID);
   const {
@@ -246,42 +248,38 @@ function NavbarWrapper()
           folded && classes.wrapperFolded
         )}
     >
-      <Hidden xlDown>
-        <div
-          className={
-            clsx(
-              classes.navbar,
-              classes[config.navbar.position],
-              folded && classes.folded,
-              foldedAndOpened && classes.foldedAndOpened,
-              foldedAndClosed && classes.foldedAndClosed
-            )
-          }
-          onMouseEnter={() => foldedAndClosed && dispatch(Actions.navbarOpenFolded())}
-          onMouseLeave={() => foldedAndOpened && dispatch(Actions.navbarCloseFolded())}
-        >
-          <NavbarLayout
-            onToggled={onNavbarToggled}
-            className={classes.navbarContent}
-          />
-        </div>
-      </Hidden>
-      <Hidden lgUp>
-        <Drawer
-          anchor={config.navbar.position}
-          variant="temporary"
-          open={navbar.mobileOpen}
-          classes={{
-            paper: classes.navbar
-          }}
-          onClose={() => dispatch(Actions.navbarCloseMobile())}
-          ModalProps={{
-            keepMounted: true // Better open performance on mobile.
-          }}
-        >
-          <NavbarLayout className={classes.navbarContent}/>
-        </Drawer>
-      </Hidden>
+      {!isLgDown && (<div
+        className={
+          clsx(
+            classes.navbar,
+            classes[config.navbar.position],
+            folded && classes.folded,
+            foldedAndOpened && classes.foldedAndOpened,
+            foldedAndClosed && classes.foldedAndClosed
+          )
+        }
+        onMouseEnter={() => foldedAndClosed && dispatch(Actions.navbarOpenFolded())}
+        onMouseLeave={() => foldedAndOpened && dispatch(Actions.navbarCloseFolded())}
+      >
+        <NavbarLayout
+          onToggled={onNavbarToggled}
+          className={classes.navbarContent}
+        />
+      </div>)}
+      {isLgDown && (<Drawer
+        anchor={config.navbar.position}
+        variant="temporary"
+        open={navbar.mobileOpen}
+        classes={{
+          paper: classes.navbar
+        }}
+        onClose={() => dispatch(Actions.navbarCloseMobile())}
+        ModalProps={{
+          keepMounted: true // Better open performance on mobile.
+        }}
+      >
+        <NavbarLayout className={classes.navbarContent}/>
+      </Drawer>)}
     </div>
   );
 }

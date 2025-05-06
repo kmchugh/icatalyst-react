@@ -3,12 +3,13 @@ import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 
 const useStyles = makeStyles((theme) => {
+  console.log('theme-data', theme);
   const background = mostReadable(tinycolor(theme.palette.background.default), [
     theme.palette.error.dark,
     theme.palette.error.main,
@@ -71,7 +72,9 @@ const ErrorComponent = ({errors,
   if (!errors || errors.length === 0) {
     return null;
   }
-  const classes = useStyles();
+  const theme = useTheme();
+  console.log('theme-data', theme);
+  const classes = useStyles(theme);
   return (
     <div role={role} aria-atomic={true} className={clsx(classes.root, className)}>
       {title &&

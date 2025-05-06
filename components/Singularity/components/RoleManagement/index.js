@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../Singularity';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {isSafari} from 'react-device-detect';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
 import RoleComponent from '../OrganisationUserManagement/RoleComponent';
@@ -322,25 +322,28 @@ const RoleManagement = ({
       accessToken
     }));
   }
+  console.log('themes', themes);
 
   return (
     <div
       className={clsx(styles.root, className)}
       style={{...style}}
     >
-      <ThemeProvider theme={themes.toolbarTheme}>
-        <div className={clsx(styles.tabWrapper)}>
-          <DetailContentTabs
-            config={config}
-            tabs={tabs}
-            backUrl={backUrl}
-            selectedTab={selectedTab}
-            onTabChanged={()=>{
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={themes.toolbarTheme}>
+          <div className={clsx(styles.tabWrapper)}>
+            <DetailContentTabs
+              config={config}
+              tabs={tabs}
+              backUrl={backUrl}
+              selectedTab={selectedTab}
+              onTabChanged={()=>{
               // Nothing to do
-            }}
-          />
-        </div>
-      </ThemeProvider>
+              }}
+            />
+          </div>
+        </ThemeProvider>
+      </StyledEngineProvider>
       <div className={clsx(styles.errorWrapper)}>
         {
           responseErrors && <ErrorWrapper className={clsx(styles.errorWrapperComponent)} errors={responseErrors}/>

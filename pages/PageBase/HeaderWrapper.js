@@ -2,7 +2,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import {IconButton, Hidden} from '@mui/material';
+import {IconButton, Box} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 
 const useStyles = makeStyles(() => ({
@@ -38,37 +38,35 @@ function HeaderWrapper({
   return (
     <div className={clsx(classes.root, className)}>
       { (hasLeftSidePanel || hasRightSidePanel ) && (
-        <Hidden lgUp>
-          <div className={clsx(classes.navWrapper)}>
+        <Box className={clsx(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
 
-            { (hasLeftSidePanel ) ?
-              <IconButton
-                className={clsx(classes.iconButton)}
-                onClick={()=>{
-                  openLeftSidePanel && openLeftSidePanel();
-                }}
-                color="inherit"
-                disableRipple
-                size="large">
-                <Icon className={clsx(classes.icon)}>menu</Icon>
-              </IconButton> : <div></div>
-            }
+          { (hasLeftSidePanel ) ?
+            <IconButton
+              className={clsx(classes.iconButton)}
+              onClick={()=>{
+                openLeftSidePanel && openLeftSidePanel();
+              }}
+              color="inherit"
+              disableRipple
+              size="large">
+              <Icon className={clsx(classes.icon)}>menu</Icon>
+            </IconButton> : <div></div>
+          }
 
-            { (hasRightSidePanel) ?
-              <IconButton
-                className={clsx(classes.iconButton)}
-                onClick={()=>{
-                  openRightSidePanel && openRightSidePanel();
-                }}
-                color="inherit"
-                disableRipple
-                size="large">
-                <Icon className={clsx(classes.icon)}>menu</Icon>
-              </IconButton> : <div></div>
-            }
+          { (hasRightSidePanel) ?
+            <IconButton
+              className={clsx(classes.iconButton)}
+              onClick={()=>{
+                openRightSidePanel && openRightSidePanel();
+              }}
+              color="inherit"
+              disableRipple
+              size="large">
+              <Icon className={clsx(classes.icon)}>menu</Icon>
+            </IconButton> : <div></div>
+          }
 
-          </div>
-        </Hidden>
+        </Box>
       )}
       {children}
     </div>

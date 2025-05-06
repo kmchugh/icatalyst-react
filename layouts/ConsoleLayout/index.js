@@ -6,7 +6,7 @@ import { AppContext } from '../../contexts';
 import {PropTypes} from 'prop-types';
 import clsx from 'clsx';
 import {makeStyles} from '@mui/styles';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material';
 
 import FuseScrollbars from '../../components/fuse/FuseScrollbars';
 import FuseMessage from '../../components/fuse/FuseMessage';
@@ -109,6 +109,7 @@ ContentWrapper.propTypes = {
 function ScrollWrapper({children, scrollType, config, className, role}) {
   const {scroll} = config;
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
+  console.log('themes', themes);
 
   return scroll === scrollType ? (
     <>
@@ -119,9 +120,13 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll === 'body' && config.toolbar.position === 'outside') ||
             (scroll !== 'body' && config.toolbar.position === 'inside')
           ) && (
-          (<ThemeProvider theme={themes.toolbarTheme}>
-            <ToolbarLayout />
-          </ThemeProvider>)
+          (
+            <StyledEngineProvider injectFirst>
+              <ThemeProvider theme={themes.toolbarTheme}>
+                <ToolbarLayout />
+              </ThemeProvider>
+            </StyledEngineProvider>
+          )
         )
       }
       <FuseScrollbars role={role} className={className} scrollToTopOnRouteChange>
@@ -132,9 +137,12 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll === 'body' && config.toolbar.position === 'outside') ||
               (scroll !== 'body' && config.toolbar.position === 'inside')
             ) && (
-            (<ThemeProvider theme={themes.navbarTheme}>
-              <ToolbarLayout />
-            </ThemeProvider>)
+            (<StyledEngineProvider injectFirst>
+              <ThemeProvider theme={themes.navbarTheme}>
+                <ToolbarLayout />
+              </ThemeProvider>
+            </StyledEngineProvider>
+            )
           )
         }
         {children}
@@ -145,9 +153,12 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll === 'body' && config.footer.position === 'outside') ||
               (scroll !== 'body' && config.footer.position === 'inside')
             )) && (
-            (<ThemeProvider theme={themes.footerTheme}>
-              <Footer />
-            </ThemeProvider>)
+            (<StyledEngineProvider injectFirst>
+              <ThemeProvider theme={themes.footerTheme}>
+                <Footer />
+              </ThemeProvider>
+            </StyledEngineProvider>
+            )
           )
         }
       </FuseScrollbars>
@@ -158,9 +169,12 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll === 'body' && config.footer.position === 'outside') ||
             (scroll !== 'body' && config.footer.position === 'inside')
           )) && (
-          (<ThemeProvider theme={themes.footerTheme}>
-            <Footer />
-          </ThemeProvider>)
+          (<StyledEngineProvider injectFirst>
+            <ThemeProvider theme={themes.footerTheme}>
+              <Footer />
+            </ThemeProvider>
+          </StyledEngineProvider>
+          )
         )
       }
     </>
@@ -195,24 +209,33 @@ function Layout(props) {
       {config.leftSidePanel.display && <SidePanelLayout />}
       <div className="flex flex-1 flex-col overflow-hidden relative h-full">
         {scroll === 'content' && config.toolbar.display && config.toolbar.position === 'outside' && (
-          (<ThemeProvider theme={themes.toolbarTheme}>
-            <ToolbarLayout />
-          </ThemeProvider>)
+          (<StyledEngineProvider injectFirst>
+            <ThemeProvider theme={themes.toolbarTheme}>
+              <ToolbarLayout />
+            </ThemeProvider>
+          </StyledEngineProvider>
+          )
         )}
         <ScrollWrapper className="overflow-auto" scrollType="body" config={config}>
           <div className={classes.wrapper}>
             {
               config.navbar.display && config.navbar.position === 'left' &&
-                <ThemeProvider theme={themes.navbarTheme}>
-                  <NavbarWrapperLayout />
-                </ThemeProvider>
+                <StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={themes.navbarTheme}>
+                    <NavbarWrapperLayout />
+                  </ThemeProvider>
+                </StyledEngineProvider>
             }
 
             <div className={classes.contentWrapper}>
               {scroll === 'body' && config.toolbar.display && config.toolbar.position === 'inside' && (
-                (<ThemeProvider theme={themes.toolbarTheme}>
-                  <ToolbarLayout />
-                </ThemeProvider>)
+                (
+                  <StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={themes.toolbarTheme}>
+                      <ToolbarLayout />
+                    </ThemeProvider>
+                  </StyledEngineProvider>
+                )
               )}
               <ScrollWrapper role="main" className={classes.content} scrollType="content" config={config}>
                 <ContentWrapper config={config}>
@@ -222,37 +245,51 @@ function Layout(props) {
                 </ContentWrapper>
               </ScrollWrapper>
               {scroll === 'body' && config.footer.display && config.footer.position === 'inside' && (
-                (<ThemeProvider theme={themes.footerTheme}>
-                  <Footer />
-                </ThemeProvider>)
+                (<StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={themes.footerTheme}>
+                    <Footer />
+                  </ThemeProvider>
+                </StyledEngineProvider>
+                )
               )}
               { config.themeSettingsPanel.display && (
-                (<ThemeProvider theme={themes.panelTheme}>
-                  <SettingsPanelLayout />
-                </ThemeProvider>)
+                (<StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={themes.panelTheme}>
+                    <SettingsPanelLayout />
+                  </ThemeProvider>
+                </StyledEngineProvider>
+                )
               ) }
               {
                 config.userSettingsPanel.display && (
-                  (<ThemeProvider theme={themes.panelTheme}>
-                    <SessionPanel />
-                  </ThemeProvider>)
+                  (<StyledEngineProvider injectFirst>
+                    <ThemeProvider theme={themes.panelTheme}>
+                      <SessionPanel />
+                    </ThemeProvider>
+                  </StyledEngineProvider>
+                  )
                 )
               }
             </div>
 
             {
               config.navbar.display && config.navbar.position === 'right' &&
-                <ThemeProvider theme={themes.navbarTheme}>
-                  <NavbarWrapperLayout />
-                </ThemeProvider>
+                <StyledEngineProvider injectFirst>
+                  <ThemeProvider theme={themes.navbarTheme}>
+                    <NavbarWrapperLayout />
+                  </ThemeProvider>
+                </StyledEngineProvider>
             }
 
           </div>
         </ScrollWrapper>
         {scroll === 'content' && config.footer.display && config.footer.position === 'outside' && (
-          (<ThemeProvider theme={themes.footerTheme}>
-            <Footer />
-          </ThemeProvider>)
+          (<StyledEngineProvider injectFirst>
+            <ThemeProvider theme={themes.footerTheme}>
+              <Footer />
+            </ThemeProvider>
+          </StyledEngineProvider>
+          )
         )}
       </div>
       {config.rightSidePanel.display && <SidePanelLayout />}
