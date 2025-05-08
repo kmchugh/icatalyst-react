@@ -5,8 +5,6 @@ import {makeStyles} from '@mui/styles';
 import {FuseLoading} from '../fuse';
 import Modal from '@mui/material/Modal';
 
-import Iframe from 'react-iframe';
-
 const useStyles = makeStyles(()=>{
   return {
     root : {
@@ -51,13 +49,13 @@ const WebView = ({
         </Modal>
       )}
       { (uri) && (
-        <Iframe
+        <iframe
           className={clsx(classes.iframe)}
           title={title}
-          url={uri}
+          src={uri}
           width="100%"
           height="100%"
-          // sandbox="allow-same-origin allow-scripts allow-forms allow-downloads"
+          sandbox="allow-same-origin allow-scripts allow-forms allow-downloads"
           onLoad={()=>{
             setLoaded(true);
           }}
