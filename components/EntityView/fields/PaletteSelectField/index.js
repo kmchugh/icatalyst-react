@@ -142,24 +142,26 @@ const PaletteSelectField = ({
         }}
         renderOption={(props, option) => {
           return (
-            <div className={clsx(styles.menuItem)}>
-              <Typography>{option.label}</Typography>
-              <div className={clsx(styles.colorSwatches)}>
-                {
-                  option.value.map((color)=>{
-                    return (
-                      <div
-                        className={clsx(styles.colorSwatch)}
-                        key={`${option.id}_${color}`}
-                        style={{
-                          backgroundColor : color
-                        }}
-                      />
-                    );
-                  })
-                }
+            <li {...props}>
+              <div className={clsx(styles.menuItem)}>
+                <Typography>{option.label}</Typography>
+                <div className={clsx(styles.colorSwatches)}>
+                  {
+                    option.value.map((color)=>{
+                      return (
+                        <div
+                          className={clsx(styles.colorSwatch)}
+                          key={`${option.id}_${color}`}
+                          style={{
+                            backgroundColor : color
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </div>
               </div>
-            </div>
+            </li>
           );
         }}
         renderInput={(params)=>{
