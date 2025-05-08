@@ -2,7 +2,7 @@ import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import {IconButton} from '@mui/material';
+import {Box, IconButton} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
 
 const useStyles = makeStyles(() => ({
@@ -38,7 +38,7 @@ function HeaderWrapper({
   return (
     <div className={clsx(classes.root, className)}>
       { (hasLeftSidePanel || hasRightSidePanel ) && (
-        <div className={clsx(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
+        <Box className={clsx(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
           { (hasLeftSidePanel ) ?
             <IconButton
               className={clsx(classes.iconButton)}
@@ -65,7 +65,7 @@ function HeaderWrapper({
             </IconButton> : <div></div>
           }
 
-        </div>
+        </Box>
       )}
       {children}
     </div>
