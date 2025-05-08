@@ -8,11 +8,11 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {
       display : 'grid',
-      columnGap : theme.spacing(1),
-      rowGap : theme.spacing(1),
+      columnGap : theme.spacingNum(1),
+      rowGap : theme.spacingNum(1),
       gridTemplateColumns: 'auto auto auto auto',
 
-      padding : theme.spacing(2),
+      padding : theme.spacingNum(2),
     }
   };
 });

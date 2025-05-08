@@ -19,14 +19,14 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {},
     icon : {
-      marginRight : theme.spacing(1),
+      marginRight : theme.spacingNum(1),
     },
     dialogContent : {
     },
     licenceWrapper : {
       display: 'flex',
       alignItems: 'center',
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacingNum(2)
     }
   };
 });

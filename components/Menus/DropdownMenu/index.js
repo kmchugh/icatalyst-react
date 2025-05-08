@@ -25,11 +25,11 @@ const styles = (theme) => {
       alignItems : 'center',
     },
     menuIcon : {
-      marginLeft : theme.spacing(1),
+      marginLeft : theme.spacingNum(1),
     },
     listItem : {
       padding: 0,
-      paddingRight: theme.spacing(2)
+      paddingRight: theme.spacingNum(2)
     },
     customItemWrapper : {
       overflow : 'inherit'

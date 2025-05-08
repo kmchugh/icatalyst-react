@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => {
   return {
     widthFn: ({width})=>{
       return {
-        width: theme.spacing(35),
+        width: theme.spacingNum(35),
         [theme.breakpoints.up('lg')]: {
           width: width,
         }

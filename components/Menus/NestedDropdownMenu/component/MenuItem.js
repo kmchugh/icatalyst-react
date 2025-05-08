@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
       fontWeight: 500,
     },
-    marginTop : theme.spacing(1),
-    marginBottom : theme.spacing(1)
+    marginTop : theme.spacingNum(1),
+    marginBottom : theme.spacingNum(1)
   },
   collapse: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacingNum(2),
   },
   addMoreButton: {
     fontWeight: 400,
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text,
   },
   deleteIcon: {
-    marginRight : theme.spacing(1),
+    marginRight : theme.spacingNum(1),
   },
   iconDiv: {
     display : 'flex',

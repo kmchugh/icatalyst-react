@@ -16,11 +16,11 @@ import {useMediaQuery, useTheme} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacingNum(3),
+    paddingBottom: theme.spacingNum(3),
 
     [theme.breakpoints.up('lg')]: {
-      paddingTop: theme.spacing(2),
+      paddingTop: theme.spacingNum(2),
       paddingBottom: 0,
     },
     display : 'flex',
@@ -58,26 +58,26 @@ const useStyles = makeStyles((theme) => ({
 
   },
   icon : {
-    width: `${theme.spacing(4)}!important`,
-    height: `${theme.spacing(4)}!important`,
-    marginRight: theme.spacing(2),
-    fontSize: `${theme.spacing(4)}!important`,
+    width: `${theme.spacingNum(4)}!important`,
+    height: `${theme.spacingNum(4)}!important`,
+    marginRight: theme.spacingNum(2),
+    fontSize: `${theme.spacingNum(4)}!important`,
 
     [theme.breakpoints.up('lg')]: {
-      margin: theme.spacing(2),
-      marginRight: theme.spacing(1),
+      margin: theme.spacingNum(2),
+      marginRight: theme.spacingNum(1),
     }
   },
   separator: {
     width          : 1,
-    height: theme.spacing(6),
+    height: theme.spacingNum(6),
     backgroundColor: theme.palette.divider,
-    marginLeft : theme.spacing(1),
-    marginRight : theme.spacing(2),
+    marginLeft : theme.spacingNum(1),
+    marginRight : theme.spacingNum(2),
   },
   mobileNavButton : {
-    width: theme.spacing(6),
-    height: theme.spacing(6)
+    width: theme.spacingNum(6),
+    height: theme.spacingNum(6)
   }
 }));
 

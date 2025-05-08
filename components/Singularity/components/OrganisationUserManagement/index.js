@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme)=>{
       flexDirection: 'column',
       flexGrow: 1,
       flexShrink: 0,
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       maxHeight: '100%',
       overflow: 'auto',
     },

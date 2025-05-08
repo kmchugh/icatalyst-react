@@ -16,13 +16,13 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {},
     'font-small' : {
-      fontSize: `${theme.spacing(2)}!important`
+      fontSize: `${theme.spacingNum(2)}!important`
     },
     'font-default' : {
-      fontSize: `${theme.spacing(3)}!important`
+      fontSize: `${theme.spacingNum(3)}!important`
     },
     'font-large' : {
-      fontSize: `${theme.spacing(4)}!important`
+      fontSize: `${theme.spacingNum(4)}!important`
     },
     'font-inherit' : {
       fontSize: 'inherit!important'

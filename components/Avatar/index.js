@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor : config.backgroundColor,
     borderColor: config.color,
     boxSizing : 'content-box',
-    borderWidth: !config.border ? 0 : theme.spacing(1),
+    borderWidth: !config.border ? 0 : theme.spacingNum(1),
     overflow: 'hidden'
   }),
   circular : {

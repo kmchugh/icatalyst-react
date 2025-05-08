@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme)=>{
       flexDirection : 'row',
       justifyContent : 'space-between',
       '-webkit-justify-content': 'space-between',
-      marginBottom : theme.spacing(2)
+      marginBottom : theme.spacingNum(2)
     },
     stepWrapper : {
       display: 'flex',
@@ -32,10 +32,10 @@ const useStyles = makeStyles((theme)=>{
       borderRadius : theme.shape.borderRadius,
       borderWidth : 'thin',
       borderColor : theme.palette.action.disabled,
-      paddingLeft : theme.spacing(1),
-      paddingRight : theme.spacing(1),
-      paddingTop : theme.spacing(.5),
-      paddingBottom : theme.spacing(.5),
+      paddingLeft : theme.spacingNum(1),
+      paddingRight : theme.spacingNum(1),
+      paddingTop : theme.spacingNum(.5),
+      paddingBottom : theme.spacingNum(.5),
     },
     wrapperCompleted : {
     },
@@ -49,13 +49,13 @@ const useStyles = makeStyles((theme)=>{
     wrapperFuture : {
     },
     stepLabel : {
-      width: theme.spacing(3),
-      minWidth: theme.spacing(3),
-      height: theme.spacing(3),
+      width: theme.spacingNum(3),
+      minWidth: theme.spacingNum(3),
+      height: theme.spacingNum(3),
       borderRadius: '50%',
       textAlign : 'center',
-      lineHeight: theme.spacing(3),
-      marginRight: theme.spacing(1),
+      lineHeight: theme.spacingNum(3),
+      marginRight: theme.spacingNum(1),
     },
     stepDescription : {
       textAlign: 'center',
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1,
       background : theme.palette.action.disabled,
       height : '1px',
-      minWidth : theme.spacing(2),
+      minWidth : theme.spacingNum(2),
       alignSelf : 'center',
       marginRight: 0,
       marginLeft: 0

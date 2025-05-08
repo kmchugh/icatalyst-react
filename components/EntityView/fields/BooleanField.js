@@ -11,8 +11,8 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(2),
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(2),
     },
     checkbox : {
       ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       // Fix for safari flexbox
       minHeight: '600px'
     },
@@ -64,18 +64,18 @@ const useStyles = makeStyles((theme) => {
       width: '100%',
       flex: '1 1 0%',
       overflow: 'auto',
-      minHeight: theme.spacing(8)
+      minHeight: theme.spacingNum(8)
     },
     inviteWrapper : {
       display: 'flex',
       alignItems : 'center',
       justifyContent : 'space-between',
-      paddingTop: theme.spacing(1),
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
+      paddingTop: theme.spacingNum(1),
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1),
 
       '& .title' : {
-        paddingBottom: theme.spacing(1),
+        paddingBottom: theme.spacingNum(1),
       },
 
       '& .booleanField' : {
@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => {
       },
 
       '& > *' : {
-        marginRight : theme.spacing(2),
+        marginRight : theme.spacingNum(2),
       },
 
       '& > *:last-child' : {
@@ -102,13 +102,13 @@ const useStyles = makeStyles((theme) => {
     actionWrapper : {
       display : 'flex',
       width: '100%',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacingNum(2),
+      paddingBottom: theme.spacingNum(2),
       justifyContent : 'flex-end'
 
     },
     actionButton : {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacingNum(1),
       '&:last-child' : {
         marginRight: 0,
       }

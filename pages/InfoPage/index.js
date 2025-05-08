@@ -19,11 +19,11 @@ const useStyles = makeStyles((theme) => {
       alignItems: 'center',
       justifyContent: 'center',
       height: '100%',
-      margin:theme.spacing(2),
+      margin:theme.spacingNum(2),
       alignSelf: 'center',
 
       ['& > *'] : {
-        marginBottom : theme.spacing(2)
+        marginBottom : theme.spacingNum(2)
       }
     },
     link : {
@@ -31,36 +31,36 @@ const useStyles = makeStyles((theme) => {
     },
     icon : {
 
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      fontSize: theme.spacing(12),
+      width: theme.spacingNum(12),
+      height: theme.spacingNum(12),
+      fontSize: theme.spacingNum(12),
 
       [theme.breakpoints.up('md')]: {
-        width: theme.spacing(16),
-        height: theme.spacing(16),
-        fontSize: theme.spacing(16),
+        width: theme.spacingNum(16),
+        height: theme.spacingNum(16),
+        fontSize: theme.spacingNum(16),
       },
-      marginBottom: theme.spacing(4)
+      marginBottom: theme.spacingNum(4)
     },
     title : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
     },
     info : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
     },
     action : {
 
     },
     separator: {
       width          : 1,
-      height: theme.spacing(6),
+      height: theme.spacingNum(6),
       backgroundColor: theme.palette.divider,
-      marginLeft : theme.spacing(1),
-      marginRight : theme.spacing(2),
+      marginLeft : theme.spacingNum(1),
+      marginRight : theme.spacingNum(2),
     },
     mobileNavButton : {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
+      width: theme.spacingNum(6),
+      height: theme.spacingNum(6),
       position: 'absolute',
       top: 0,
       left: 0

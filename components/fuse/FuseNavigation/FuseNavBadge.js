@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   root: ({badge})=>{
     return {
-      padding        : `0 ${theme.spacing(1)}`,
+      padding        : `0 ${theme.spacingNum(1)}`,
       fontSize       : theme.typography.caption.fontSize,
       fontWeight     : theme.typography.button.fontWeight,
-      height         : theme.spacing(2.5),
-      minWidth       : theme.spacing(2.5),
-      borderRadius   : theme.spacing(2.5),
+      height         : theme.spacingNum(2.5),
+      minWidth       : theme.spacingNum(2.5),
+      borderRadius   : theme.spacingNum(2.5),
       display        : 'flex',
       alignItems     : 'center',
       backgroundColor: badge.background || theme.palette.secondary.main,

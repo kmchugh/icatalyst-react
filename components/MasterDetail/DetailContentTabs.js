@@ -12,7 +12,7 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 const useStyles = makeStyles((theme) => {
   return {
     root : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       flexShrink: 0,
       display: 'flex',
       alignItems: 'center',
@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => {
       borderBottom : `thin solid ${theme.palette.divider}`
     },
     backButton: {
-      marginLeft : theme.spacing(1),
-      marginRight : theme.spacing(1),
+      marginLeft : theme.spacingNum(1),
+      marginRight : theme.spacingNum(1),
     },
     tabBar : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       width: '100%',
       ['& .Mui-selected'] : {
         color: mostReadable(
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       }
     },
     tab : {
-      height : theme.spacing(9),
+      height : theme.spacingNum(9),
       textTransform : 'none',
     },
   };

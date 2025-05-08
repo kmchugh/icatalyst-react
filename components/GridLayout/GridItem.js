@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection : 'row',
       alignItems : 'center',
-      minHeight : theme.spacing(3)
+      minHeight : theme.spacingNum(3)
     },
     content : {
       overflow : 'hidden',
@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme)=>{
       overflow : 'hidden',
       cursor : 'pointer',
       color : 'transparent',
-      marginLeft : theme.spacing(.5),
-      marginRight : theme.spacing(1),
-      marginTop : theme.spacing(-0.5),
+      marginLeft : theme.spacingNum(.5),
+      marginRight : theme.spacingNum(1),
+      marginTop : theme.spacingNum(-0.5),
       flexShrink: 0
     },
     titleWrapper : {
@@ -44,13 +44,13 @@ const useStyles = makeStyles((theme)=>{
       flexShrink : 1,
       alignItems : 'center',
       overflow: 'hidden',
-      minHeight: theme.spacing(4)
+      minHeight: theme.spacingNum(4)
     },
     title : {
       fontWeight: 'bold',
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      paddingTop : theme.spacing(.5)
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1),
+      paddingTop : theme.spacingNum(.5)
     },
   };
 });
@@ -106,9 +106,9 @@ const GridItem = React.forwardRef(({
                   <Typography
                     variant="subtitle1"
                     style={isCompact ? {
-                      fontSize : theme.spacing(1.5)
+                      fontSize : theme.spacingNum(1.5)
                     } : {
-                      fontSize : theme.spacing(2),
+                      fontSize : theme.spacingNum(2),
                     }}
                     className={clsx(styles.title)}
                     noWrap

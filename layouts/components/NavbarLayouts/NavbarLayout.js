@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme)=>({
   userHeader : {
   },
   navigation : {
-    paddingTop: theme.spacing(3)
+    paddingTop: theme.spacingNum(3)
   }
 }));
 

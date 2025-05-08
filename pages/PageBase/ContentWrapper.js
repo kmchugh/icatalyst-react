@@ -10,12 +10,12 @@ const useStyles = makeStyles((theme) => ({
     '-webkit-overflow-scrolling': 'touch',
 
     '&.mode-simple' : {
-      paddingLeft : theme.spacing(2),
-      paddingRight : theme.spacing(2),
+      paddingLeft : theme.spacingNum(2),
+      paddingRight : theme.spacingNum(2),
     },
     '&.mode-carded' : {
-      marginLeft : theme.spacing(2),
-      marginRight : theme.spacing(2),
+      marginLeft : theme.spacingNum(2),
+      marginRight : theme.spacingNum(2),
     },
   }
 }));

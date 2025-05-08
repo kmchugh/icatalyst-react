@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {
       overflow: 'visible',
-      margin: theme.spacing(1)
+      margin: theme.spacingNum(1)
     },
     listItem : {
       paddingTop: 0,

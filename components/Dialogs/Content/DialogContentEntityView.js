@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => {
 
     },
     entityView: {
-      marginBottom : theme.spacing(2),
+      marginBottom : theme.spacingNum(2),
     },
     errorWrapper: {
       padding: 0,

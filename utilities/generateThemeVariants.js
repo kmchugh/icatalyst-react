@@ -171,5 +171,8 @@ export const requiredThemeOptions = {
     body2       : {
       fontSize: '1.4rem',
     }
-  }
+  },
+  spacingNum: (factor) => {
+    return 8 * factor;
+  },
 };

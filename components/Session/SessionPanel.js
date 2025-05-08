@@ -44,13 +44,13 @@ const useStyles = makeStyles(theme => ({
   },
   toolBarTitle: {
     flexGrow: 1,
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacingNum(2)
   },
   content : {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingLeft: theme.spacingNum(2),
+    paddingRight: theme.spacingNum(2),
+    paddingTop: theme.spacingNum(2),
+    paddingBottom: theme.spacingNum(2)
   }
 }));
 

@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme)=>{
   return {
     root : {
       flexShrink: 0,
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       borderTop: `thin solid ${theme.palette.divider}`,
       background: theme.palette.background.default,
       color: `${mostReadable(
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme)=>{
     },
     paginationToolbar: {
       [theme.breakpoints.down('md')]: {
-        padding: theme.spacing(1),
+        padding: theme.spacingNum(1),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme)=>{
     paginationRoot: {
       // Fix for mui pagination root
       '&:last-child' : {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
+        paddingLeft: theme.spacingNum(2),
+        paddingRight: theme.spacingNum(2),
       },
 
       [theme.breakpoints.down('md')]: {

@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme)=>{
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding : theme.spacing(4)
+      padding : theme.spacingNum(4)
     },
     title : {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}`
     },
     subtitle : {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}`
     },
     link : {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [

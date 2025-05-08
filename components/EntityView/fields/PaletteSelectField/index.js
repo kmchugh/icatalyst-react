@@ -11,8 +11,8 @@ import colorbrewer from './colorBrewer';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2)
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2)
     },
     select : {
     },
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1
     },
     colorSwatch : {
-      height: theme.spacing(1),
-      width: theme.spacing(1),
+      height: theme.spacingNum(1),
+      width: theme.spacingNum(1),
       borderWidth: 'thin',
       borderColor: theme.palette.divider,
       borderRadius: theme.shape.borderRadius,
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: theme.spacing(1)
+      paddingBottom: theme.spacingNum(1)
     },
   };
 });

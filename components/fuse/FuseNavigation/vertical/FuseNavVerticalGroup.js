@@ -15,17 +15,17 @@ const useStyles = makeStyles((theme)=>{
   return {
     itemFn: ({nestedLevel})=>{
       return {
-        height      : theme.spacing(5),
-        width       : `calc(100% - ${theme.spacing(2)})`,
-        borderRadius: `0 ${theme.spacing(2.5)} ${theme.spacing(2.5)} 0`,
-        paddingRight: theme.spacing(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
+        height      : theme.spacingNum(5),
+        width       : `calc(100% - ${theme.spacingNum(2)})`,
+        borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+        paddingRight: theme.spacingNum(2.5),
+        paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
       };
     },
     item: {
     },
     icon : {
-      maxWidth: theme.spacing(2),
+      maxWidth: theme.spacingNum(2),
       width: '0!important',
       transition   : theme.transitions.create(['width'], {
         easing  : theme.transitions.easing.sharp,

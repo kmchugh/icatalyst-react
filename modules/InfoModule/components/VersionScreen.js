@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme)=>{
       },
     },
     logo : {
-      width: theme.spacing(4),
+      width: theme.spacingNum(4),
       objectFit: 'cover',
     }
   };

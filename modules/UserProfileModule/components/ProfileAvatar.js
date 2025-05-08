@@ -18,24 +18,24 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'column',
       alignItems : 'center',
-      paddingBottom : theme.spacing(2),
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2),
+      paddingBottom : theme.spacingNum(2),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2),
     },
     avatar : {
-      width: theme.spacing(18),
-      height: theme.spacing(18),
+      width: theme.spacingNum(18),
+      height: theme.spacingNum(18),
     },
     dropzoneWrapper : {
-      marginBottom : theme.spacing(1),
+      marginBottom : theme.spacingNum(1),
     },
     dropzone : {
-      width: theme.spacing(18),
-      height: theme.spacing(18),
+      width: theme.spacingNum(18),
+      height: theme.spacingNum(18),
     },
     title : {
-      paddingLeft : theme.spacing(2),
-      marginBottom: theme.spacing(1),
+      paddingLeft : theme.spacingNum(2),
+      marginBottom: theme.spacingNum(1),
       width: '100%'
     }
   };

@@ -16,17 +16,17 @@ const useStyles = makeStyles((theme)=>{
       };
     },
     disabledSwatch : {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
-      minWidth: theme.spacing(3),
+      width: theme.spacingNum(3),
+      height: theme.spacingNum(3),
+      minWidth: theme.spacingNum(3),
       border: `0px solid ${theme.palette.divider}`,
       content: ' ',
       padding: 0,
-      borderRadius: theme.spacing(0.5),
-      backgroundSize : `${theme.spacing(1)} ${theme.spacing(1)}`,
+      borderRadius: theme.spacingNum(0.5),
+      backgroundSize : `${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
       boxShadow: '0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%)',
       backgroundPosition: '0 0, 4px 0, 4px -4px, 0px 4px',
-      marginRight : theme.spacing(1),
+      marginRight : theme.spacingNum(1),
       cursor: 'default'
     }
   };

@@ -32,21 +32,21 @@ const useStyles = makeStyles((theme) => {
       overflow: 'hidden'
     },
     toolbarWrapper : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       flexShrink: 0,
       display: 'flex',
       alignItems: 'center'
     },
     backButton: {
-      marginLeft : theme.spacing(1),
-      marginRight : theme.spacing(1),
+      marginLeft : theme.spacingNum(1),
+      marginRight : theme.spacingNum(1),
     },
     tabBar : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       width: '100%',
     },
     tab : {
-      height : theme.spacing(9),
+      height : theme.spacingNum(9),
       textTransform : 'none'
     },
     contentWrapper: {
@@ -66,10 +66,10 @@ const useStyles = makeStyles((theme) => {
       padding: 0,
     },
     entityWrapper: {
-      padding: theme.spacing(1),
+      padding: theme.spacingNum(1),
       [theme.breakpoints.up('sm')] : {
-        padding : theme.spacing(2),
-        paddingTop: theme.spacing(3),
+        padding : theme.spacingNum(2),
+        paddingTop: theme.spacingNum(3),
       },
       display: 'flex',
       flexDirection: 'column',
@@ -81,14 +81,14 @@ const useStyles = makeStyles((theme) => {
       justifyContent : 'flex-end',
     },
     actionButton : {
-      marginLeft : theme.spacing(2)
+      marginLeft : theme.spacingNum(2)
     },
     actionButtonIcon : {
-      marginRight : theme.spacing(1)
+      marginRight : theme.spacingNum(1)
     },
     entityView : {
       overflow: 'auto',
-      marginBottom : theme.spacing(1)
+      marginBottom : theme.spacingNum(1)
     }
   };
 });

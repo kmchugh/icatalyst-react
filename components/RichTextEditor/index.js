@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme)=>{
       rows
     })=>{
       return {
-        minHeight: theme.spacing(rows*2.1)
+        minHeight: theme.spacingNum(rows*2.1)
       };
     },
     multiline : ({

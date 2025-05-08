@@ -12,18 +12,18 @@ const useStyles = makeStyles((theme)=>{
     root : {
       display: 'flex',
       flexDirection: 'row',
-      minHeight: theme.spacing(12),
+      minHeight: theme.spacingNum(12),
       width: '100%',
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
     },
     panel: {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacingNum(1),
       flexShrink: 0,
       flexGrow: 0,
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
 
       '&:first-child': {
-        marginLeft: theme.spacing(0),
+        marginLeft: theme.spacingNum(0),
       }
     },
     statPanel: {
@@ -36,15 +36,15 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1,
     },
     statLabel: {
-      margin: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      margin: theme.spacingNum(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
     },
     stat: {
       height: '100%',
-      padding:  theme.spacing(2),
-      paddingLeft:  theme.spacing(4),
-      paddingRight:  theme.spacing(4),
+      padding:  theme.spacingNum(2),
+      paddingLeft:  theme.spacingNum(4),
+      paddingRight:  theme.spacingNum(4),
       background: theme.palette.divider,
       display: 'flex',
       flexDirection: 'row',

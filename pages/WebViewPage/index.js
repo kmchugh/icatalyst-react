@@ -13,12 +13,12 @@ const useStyles = makeStyles((theme)=>{
       paddingRight: 0
     },
     pageHeader : {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
 
       [theme.breakpoints.up('md')]: {
-        paddingLeft: theme.spacing(4),
-        paddingRight: theme.spacing(4),
+        paddingLeft: theme.spacingNum(4),
+        paddingRight: theme.spacingNum(4),
       },
     }
   };

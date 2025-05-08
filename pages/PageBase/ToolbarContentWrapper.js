@@ -8,26 +8,26 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '&.mode-simple' : {
       '& $wrapper' : {
-        paddingLeft : theme.spacing(2),
-        paddingRight : theme.spacing(2),
+        paddingLeft : theme.spacingNum(2),
+        paddingRight : theme.spacingNum(2),
       },
       '& $toolbar' : {
-        paddingLeft : theme.spacing(2),
-        paddingRight : theme.spacing(2),
+        paddingLeft : theme.spacingNum(2),
+        paddingRight : theme.spacingNum(2),
       }
     },
     '&.mode-carded' : {
       '& $toolbar' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderRadius: `${theme.spacing(1)} ${theme.spacing(1)} 0 0`,
+        borderRadius: `${theme.spacingNum(1)} ${theme.spacingNum(1)} 0 0`,
         '&.reverse' : {
-          borderRadius: `0 0 ${theme.spacing(1)} ${theme.spacing(1)}`,
+          borderRadius: `0 0 ${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
         }
       },
     },
     '&.mode-carded.reverse' : {
       '& $toolbar' : {
-        borderRadius: `0 0 ${theme.spacing(1)} ${theme.spacing(1)}`,
+        borderRadius: `0 0 ${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
       },
     },
   },

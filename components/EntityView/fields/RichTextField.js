@@ -8,13 +8,13 @@ import TextField from '@mui/material/TextField';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2),
     },
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
-      paddingLeft: theme.spacing(.5),
-      paddingRight: theme.spacing(.5)
+      paddingLeft: theme.spacingNum(.5),
+      paddingRight: theme.spacingNum(.5)
     },
     inputControl : {
       display: 'block',

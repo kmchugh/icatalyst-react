@@ -23,9 +23,9 @@ const useStyles = makeStyles((theme)=>{
 
     },
     switchButton : {
-      paddingLeft: theme.spacing(.5),
-      paddingRight: theme.spacing(.5),
-      minWidth: theme.spacing(4)
+      paddingLeft: theme.spacingNum(.5),
+      paddingRight: theme.spacingNum(.5),
+      minWidth: theme.spacingNum(4)
     },
     menuWrapper : {
 

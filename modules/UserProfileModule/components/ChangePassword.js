@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection : 'column',
       justifyContent: 'center',
-      margin: theme.spacing(2)
+      margin: theme.spacingNum(2)
     },
     successMessage : {
       color : mostReadable(
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme)=>{
         ]
       ).toHex8String(),
       textAlign: 'center',
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacingNum(1)
     },
     buttonWrapper : {
       display: 'flex',

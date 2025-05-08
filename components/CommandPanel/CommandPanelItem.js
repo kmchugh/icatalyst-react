@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme)=>{
       flexDirection : 'row',
       alignItems: 'center',
       overflow: 'hidden',
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1)
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1)
     }
   };
 });

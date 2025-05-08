@@ -19,15 +19,15 @@ const useStyles = makeStyles(theme => ({
     }
   },
   username : {
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacingNum(3),
+    paddingRight: theme.spacingNum(2),
     maxWidth : '100%'
   },
   avatar: {
-    width     : theme.spacing(10),
-    height    : theme.spacing(10),
+    width     : theme.spacingNum(10),
+    height    : theme.spacingNum(10),
     position  : 'absolute',
-    top       : theme.spacing(11.5),
+    top       : theme.spacingNum(11.5),
     left      : '50%',
     transform : 'translateX(-50%)',
     transition: theme.transitions.create('all', {

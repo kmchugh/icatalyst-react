@@ -14,19 +14,19 @@ const useStyles = makeStyles((theme)=>{
     root : {
     },
     resourceContent : {
-      marginTop : theme.spacing(1),
+      marginTop : theme.spacingNum(1),
       overflow : 'auto'
     },
     resourceSection : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(1),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(1),
     },
     resourceWrapper : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       display : 'grid',
       gridTemplateColumns: 'auto auto',
-      columnGap : theme.spacing(2),
-      rowGap : theme.spacing(1),
+      columnGap : theme.spacingNum(2),
+      rowGap : theme.spacingNum(1),
     },
     ownerSection : {
     },
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme)=>{
       borderBottomColor : theme.palette.divider,
     },
     sectionTitle : {
-      marginTop : theme.spacing(2),
+      marginTop : theme.spacingNum(2),
       background : theme.palette.divider,
       width: '100%',
       borderBottomWidth : 'thin',

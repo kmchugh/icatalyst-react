@@ -13,8 +13,8 @@ const useStyles = makeStyles((theme) => {
       paddingRight: '.5em'
     },
     customField : {
-      paddingTop : theme.spacing(1.5),
-      paddingBottom : theme.spacing(1),
+      paddingTop : theme.spacingNum(1.5),
+      paddingBottom : theme.spacingNum(1),
     }
   };
 });

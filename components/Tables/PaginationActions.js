@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme)=>{
       justifyContent: 'center'
     },
     paginationNav : {
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacingNum(1)
     }
   };
 });

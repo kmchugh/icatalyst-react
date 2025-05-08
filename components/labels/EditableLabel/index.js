@@ -9,7 +9,7 @@ import {RichTextEditor} from '@icatalyst/components';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: theme.spacing(4),
+    minHeight: theme.spacingNum(4),
     width: '100%',
     justifyContent: 'flex-start',
     display: 'flex',
@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
     cursor : 'text'
   },
   labelWrapper: {
-    minHeight: theme.spacing(1),
+    minHeight: theme.spacingNum(1),
     width: '100%',
     cursor: 'text'
   },
   editButton : {
-    marginLeft : theme.spacing(1),
+    marginLeft : theme.spacingNum(1),
     ['& .material-icons'] : {
       fontSize: '1.8rem'
     }

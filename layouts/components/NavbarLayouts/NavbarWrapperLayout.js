@@ -104,7 +104,7 @@ const useStyles = makeStyles((theme) => {
           textAlign: 'center',
 
           '& .nav-footer-icon' : {
-            padding: theme.spacing(.5),
+            padding: theme.spacingNum(.5),
           },
           '& .nav-footer-text' : {
             width: 0,
@@ -113,10 +113,10 @@ const useStyles = makeStyles((theme) => {
         },
 
         '& .nav-header' : {
-          paddingLeft: theme.spacing(1.5),
+          paddingLeft: theme.spacingNum(1.5),
           '& .logo-icon'                                   : {
-            width : theme.spacing(5),
-            height: theme.spacing(5),
+            width : theme.spacingNum(5),
+            height: theme.spacingNum(5),
           },
         },
         '& .logo-text'                                   : {
@@ -132,14 +132,14 @@ const useStyles = makeStyles((theme) => {
           opacity: 0
         },
         '& .list-subheader .list-subheader-icon' : {
-          width: `${theme.spacing(2)}!important`,
+          width: `${theme.spacingNum(2)}!important`,
           color: `${theme.palette.action.disabled}!important`
         },
         '& .list-subheader.iconless:before'                : {
           content  : '""',
           display  : 'block',
           position : 'absolute',
-          minWidth : theme.spacing(2),
+          minWidth : theme.spacingNum(2),
           borderTop: '2px solid',
           opacity  : .2
         },
@@ -154,31 +154,31 @@ const useStyles = makeStyles((theme) => {
             opacity: 0
           },
           '& .role': {
-            lineHeight: theme.spacing(1)
+            lineHeight: theme.spacingNum(1)
           },
           '& .avatar'            : {
-            width  : theme.spacing(6),
-            height : theme.spacing(6),
-            top    : theme.spacing(5),
+            width  : theme.spacingNum(6),
+            height : theme.spacingNum(6),
+            top    : theme.spacingNum(5),
             padding: 0
           }
         },
         '& ul.navigation' : {
-          marginTop : theme.spacing(2),
+          marginTop : theme.spacingNum(2),
           transition   : theme.transitions.create(['margin-top'], {
             easing  : theme.transitions.easing.sharp,
             duration: theme.transitions.duration.shorter
           }),
         },
         '& .list-item.active'                            : {
-          marginLeft  : theme.spacing(1.5),
-          width       : theme.spacing(5),
-          padding     : theme.spacing(1.5),
-          borderRadius: theme.spacing(2.5),
+          marginLeft  : theme.spacingNum(1.5),
+          width       : theme.spacingNum(5),
+          padding     : theme.spacingNum(1.5),
+          borderRadius: theme.spacingNum(2.5),
           '&.square'  : {
             borderRadius: 0,
             marginLeft  : 0,
-            paddingLeft : theme.spacing(3),
+            paddingLeft : theme.spacingNum(3),
             width       : '100%'
           }
         },
@@ -189,7 +189,7 @@ const useStyles = makeStyles((theme) => {
           }),
           borderRadius: 0,
           marginLeft  : 0,
-          paddingLeft : theme.spacing(3),
+          paddingLeft : theme.spacingNum(3),
           width       : '100%',
           borderLeftWidth : 0
         }

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => {
       flexDirection : 'column',
       background: theme.palette.background.default,
       height: '100%',
-      margin:theme.spacing(2)
+      margin:theme.spacingNum(2)
     },
     contentWrapper : {
       display: 'flex',
@@ -30,33 +30,33 @@ const useStyles = makeStyles((theme) => {
       flexDirection : 'row',
     },
     icon : {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      fontSize: `${theme.spacing(12)}!important`,
+      width: theme.spacingNum(12),
+      height: theme.spacingNum(12),
+      fontSize: `${theme.spacingNum(12)}!important`,
 
       [theme.breakpoints.up('md')]: {
-        width: theme.spacing(16),
-        height: theme.spacing(16),
-        fontSize: `${theme.spacing(16)}!important`,
+        width: theme.spacingNum(16),
+        height: theme.spacingNum(16),
+        fontSize: `${theme.spacingNum(16)}!important`,
       },
       color: theme.palette.primary.main,
-      marginBottom: theme.spacing(4)
+      marginBottom: theme.spacingNum(4)
     },
     title : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       textAlign: 'center'
     },
     info : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       textAlign: 'center',
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2)
     },
     help : {
 
     },
     refreshButton : {
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacingNum(2)
     }
   };
 });

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme)=>{
     root : {
       display: 'flex',
       justifyContent: 'center',
-      margin: theme.spacing(2),
+      margin: theme.spacingNum(2),
     },
     button : {
       backgroundColor : 'red',
@@ -25,11 +25,11 @@ const useStyles = makeStyles((theme)=>{
     },
     text : {
       display: 'block',
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacingNum(2)
     },
     textField : {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2)
+      marginTop: theme.spacingNum(2),
+      marginBottom: theme.spacingNum(2)
     }
   };
 });

@@ -10,14 +10,14 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'column',
       flexGrow: 1,
-      padding: theme.spacing(2),
-      paddingTop : theme.spacing(3),
-      paddingBottom : theme.spacing(1),
+      padding: theme.spacingNum(2),
+      paddingTop : theme.spacingNum(3),
+      paddingBottom : theme.spacingNum(1),
 
       [theme.breakpoints.up('md')]: {
-        padding: theme.spacing(4),
-        paddingTop : theme.spacing(6),
-        paddingBottom : theme.spacing(2),
+        padding: theme.spacingNum(4),
+        paddingTop : theme.spacingNum(6),
+        paddingBottom : theme.spacingNum(2),
       },
     },
     pageContent : {

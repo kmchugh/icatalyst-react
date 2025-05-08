@@ -17,8 +17,8 @@ import { useDeepCompareEffect } from '../../../hooks/fuse';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2)
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2)
     }
   };
 });

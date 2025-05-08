@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme)=>{
     root : {
     },
     section: {
-      marginBottom: theme.spacing(3)
+      marginBottom: theme.spacingNum(3)
     },
     sectionHeading : {
     },
@@ -33,13 +33,13 @@ const useStyles = makeStyles((theme)=>{
     accordionActions : {
       display : 'flex',
       justifyContent : 'flex-end',
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacingNum(1)
     },
     actionButton : {
-      marginLeft : theme.spacing(2)
+      marginLeft : theme.spacingNum(2)
     },
     actionButtonIcon : {
-      marginRight : theme.spacing(1)
+      marginRight : theme.spacingNum(1)
     },
     componentWrapper : {
     }

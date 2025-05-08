@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme)=>{
       justifyContent : 'center'
     },
     icon : {
-      fontSize : theme.spacing(10),
+      fontSize : theme.spacingNum(10),
     },
     spacer : {
       marginLeft : 'auto'

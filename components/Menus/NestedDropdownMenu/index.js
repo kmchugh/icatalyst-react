@@ -26,13 +26,13 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: '100%',
     maxWidth: 360,
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacingNum(1)
   },
   subHeader : {
     background: theme.palette.background.paper,
   },
   addMoreButton: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacingNum(2),
     fontWeight: 400,
     fontSize: 12,
     color: theme.palette.text

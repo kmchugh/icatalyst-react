@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
 
     '& > *' : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       flex: '1 0 0%',
 
       '&:last-child' : {
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'row',
 
     '& > *' : {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacingNum(2),
       flex: '1 0 0%',
 
       '&:last-child' : {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
       '& > *' : {
         marginRight: 0,
-        marginBottom: theme.spacing(2),
+        marginBottom: theme.spacingNum(2),
       }
     }
   },
@@ -122,7 +122,7 @@ const EntityView = ({
             errors={errors && errors[field]}
             className={clsx(classes.entityField)}
             style={{
-              paddingLeft : theme.spacing(fieldDef.indent || 0)
+              paddingLeft : theme.spacingNum(fieldDef.indent || 0)
             }}
           />;
         };

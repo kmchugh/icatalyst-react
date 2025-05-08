@@ -33,10 +33,10 @@ const useStyles = makeStyles((theme) => {
       textAlign : 'left'
     },
     avatar : {
-      marginRight : theme.spacing(1),
+      marginRight : theme.spacingNum(1),
     },
     searchInput: {
-      padding: theme.spacing(1),
+      padding: theme.spacingNum(1),
     },
     listItem : {
       overflow : 'hidden',

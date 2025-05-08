@@ -30,23 +30,23 @@ const useStyles = makeStyles((theme) => {
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       // Fix for safari flexbox
       minHeight: '600px',
     },
     searchWrapper: {
-      margin: theme.spacing(2),
-      height: theme.spacing(8),
+      margin: theme.spacingNum(2),
+      height: theme.spacingNum(8),
       '& input': {
-        fontSize: theme.spacing(4),
+        fontSize: theme.spacingNum(4),
         [theme.breakpoints.down('md')]: {
-          fontSize: theme.spacing(2),
+          fontSize: theme.spacingNum(2),
         },
       },
       '& .MuiIcon-root': {
-        fontSize: theme.spacing(4),
+        fontSize: theme.spacingNum(4),
         [theme.breakpoints.down('md')]: {
-          fontSize: theme.spacing(2),
+          fontSize: theme.spacingNum(2),
         },
       },
     },
@@ -77,13 +77,13 @@ const useStyles = makeStyles((theme) => {
     title: {
       maxWidth: '100%',
       textTransform: 'capitalize',
-      padding: `${theme.spacing(0)} ${theme.spacing(3)}`,
-      fontSize: theme.spacing(2.5),
+      padding: `${theme.spacingNum(0)} ${theme.spacingNum(3)}`,
+      fontSize: theme.spacingNum(2.5),
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       [theme.breakpoints.down('sm')]: {
-        paddingLeft: theme.spacing(0.75),
+        paddingLeft: theme.spacingNum(0.75),
       },
       '& :first-child': {
         whiteSpace: 'nowrap',
@@ -92,13 +92,13 @@ const useStyles = makeStyles((theme) => {
       },
     },
     excerpt: {
-      fontSize: theme.spacing(1.5),
+      fontSize: theme.spacingNum(1.5),
     },
     accordionContent: {
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
-      fontSize: theme.spacing(3.5),
+      fontSize: theme.spacingNum(3.5),
       textAlign: 'justify',
     },
     accordionChip: {
@@ -106,15 +106,15 @@ const useStyles = makeStyles((theme) => {
       alignItems: 'center',
     },
     chip: {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacingNum(1),
       background: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,
     },
     accordionVideo: {
       width: '50%',
       height: 200,
-      marginTop: theme.spacing(2),
-      marginRight: theme.spacing(1),
+      marginTop: theme.spacingNum(2),
+      marginRight: theme.spacingNum(1),
       background: 'black',
       [theme.breakpoints.down('md')]: {
         width: '100%',
@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
     iconButton: {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
     },
     featureImg: {
       width: 80,
@@ -157,15 +157,15 @@ const useStyles = makeStyles((theme) => {
       },
     },
     contentDetail: {
-      marginLeft: theme.spacing(3),
-      marginTop: theme.spacing(1.5),
+      marginLeft: theme.spacingNum(3),
+      marginTop: theme.spacingNum(1.5),
 
       [theme.breakpoints.down('md')]: {
         marginLeft: 0,
       },
     },
     tagArea : {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacingNum(2),
       display: 'flex',
       flexDirection : 'column',
 
@@ -174,7 +174,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
     category : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       display: 'flex',
       alignItems: 'center',
       flexGrow: 1,

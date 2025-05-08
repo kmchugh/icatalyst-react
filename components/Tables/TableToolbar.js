@@ -12,8 +12,8 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       background: theme.palette.background.default,
       color: `${mostReadable(
         tinycolor(theme.palette.background.default),
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => {
     },
     title : {
       textTransform : 'capitalize',
-      marginLeft : theme.spacing(2),
+      marginLeft : theme.spacingNum(2),
     },
     inputWrapper : {
       flexGrow: 1,
@@ -55,8 +55,8 @@ const useStyles = makeStyles((theme) => {
       },
     },
     actionWrapper : {
-      paddingRight : theme.spacing(1),
-      paddingLeft : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
+      paddingLeft : theme.spacingNum(1),
       display: 'flex',
     },
     switchWrapper : {
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => {
     switchButtonActive : {
     },
     actionButton : {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacingNum(1),
       background : theme.palette.primary.main,
       '&:hover' : {
         background : theme.palette.primary.light,
@@ -78,12 +78,12 @@ const useStyles = makeStyles((theme) => {
       color : theme.palette.primary.contrastText
     },
     toolbar : {
-      paddingLeft : theme.spacing(2),
-      paddingRight : theme.spacing(1),
+      paddingLeft : theme.spacingNum(2),
+      paddingRight : theme.spacingNum(1),
     },
     toolbarPrepend : {
       paddingLeft : 0,
-      paddingRight : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
     }
   };
 });

@@ -14,28 +14,28 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection: 'column',
       overflow: 'hidden',
-      marginLeft: theme.spacing(2),
-      marginRight: theme.spacing(2),
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1)
+      marginLeft: theme.spacingNum(2),
+      marginRight: theme.spacingNum(2),
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(1)
     },
     codeWrapper : {
-      marginTop: theme.spacing(2),
-      marginBottom: theme.spacing(2),
+      marginTop: theme.spacingNum(2),
+      marginBottom: theme.spacingNum(2),
     },
     authHeader : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       wordBreak: 'break-all',
       background : 'beige',
-      margin: theme.spacing(1),
-      padding: theme.spacing(1),
+      margin: theme.spacingNum(1),
+      padding: theme.spacingNum(1),
       borderRadius : theme.shape.borderRadius
     },
     bodyHeader : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       background : 'beige',
-      margin: theme.spacing(1),
-      padding: theme.spacing(1),
+      margin: theme.spacingNum(1),
+      padding: theme.spacingNum(1),
       overflowX: 'auto',
       borderRadius : theme.shape.borderRadius
     }

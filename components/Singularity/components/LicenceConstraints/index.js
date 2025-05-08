@@ -33,12 +33,12 @@ const useStyles = makeStyles((theme)=>{
       alignItems: 'center'
     },
     iconButton: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
+      marginLeft: theme.spacingNum(1),
+      marginRight: theme.spacingNum(1),
     },
     constraintLimit : {
-      marginRight: theme.spacing(2),
-      minWidth: theme.spacing(8),
+      marginRight: theme.spacingNum(2),
+      minWidth: theme.spacingNum(8),
       flexShrink: 0,
       display: 'flex',
       flexDirection: 'row',

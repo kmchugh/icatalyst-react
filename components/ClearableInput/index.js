@@ -9,10 +9,10 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(.5),
-    paddingBottom: theme.spacing(.5),
+    paddingLeft: theme.spacingNum(1),
+    paddingRight: theme.spacingNum(1),
+    paddingTop: theme.spacingNum(.5),
+    paddingBottom: theme.spacingNum(.5),
     display: 'flex',
     flexGrow: 1,
     flexShrink: 1,

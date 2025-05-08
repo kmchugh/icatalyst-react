@@ -11,21 +11,21 @@ import {generateHash} from '../../utilities';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      minWidth: theme.spacing(10)
+      minWidth: theme.spacingNum(10)
     },
     content : {
       overflow : 'hidden',
       display : 'flex',
       flexDirection : 'row',
       alignItems : 'center',
-      padding : theme.spacing(.5),
+      padding : theme.spacingNum(.5),
     },
     spacer : {
       flex: 1
     },
     iconButton : {
-      width : theme.spacing(4),
-      height : theme.spacing(4),
+      width : theme.spacingNum(4),
+      height : theme.spacingNum(4),
     },
     menuWrapper : {
       display: 'flex',
@@ -33,18 +33,18 @@ const useStyles = makeStyles((theme)=>{
       borderLeftStyle : 'solid',
       borderLeftColor : theme.palette.divider,
       borderLeftWidth : 'thin',
-      marginLeft : theme.spacing(.5),
-      paddingLeft : theme.spacing(.5),
+      marginLeft : theme.spacingNum(.5),
+      paddingLeft : theme.spacingNum(.5),
       alignItems : 'center'
     },
     collapsedMenuWrapper : {
       borderLeftStyle : 'solid',
       borderLeftColor : theme.palette.divider,
       borderLeftWidth : 'thin',
-      marginLeft : theme.spacing(.5),
+      marginLeft : theme.spacingNum(.5),
     },
     collapsedMenuIconStyle : {
-      marginLeft : theme.spacing(0),
+      marginLeft : theme.spacingNum(0),
     },
     componentWrapper : {
       display: 'flex',

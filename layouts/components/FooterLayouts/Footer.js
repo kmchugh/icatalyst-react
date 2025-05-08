@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => {
   return {
     root : {
       // TODO: Find out why safari needs this to show the footer
-      flexBasis: `${theme.spacing(4)}!important`,
+      flexBasis: `${theme.spacingNum(4)}!important`,
       flexShrink: 0,
       flex: 1,
       flexGrow: 0,

@@ -6,6 +6,9 @@ import {DatePicker, MuiPickersContext} from '@material-ui/pickers';
 import {makeStyles} from '@mui/styles';
 import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
 import moment from '@icatalyst/@moment';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -47,7 +50,7 @@ const DateField = (props) => {
     description
   } = field;
 
-  const hasErrors = errors && errors.length > 0;
+  const hasErrors = errors && errors.length > 0;  
 
   return (
     <FormControl
@@ -65,24 +68,26 @@ const DateField = (props) => {
           {label}
         </InputLabel>
       }
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-      <DatePicker
-        disabled={readonly}
-        autoOk={true}
-        value={value >= NEVER ? null : value}
-        variant="inline"
-        readOnly={readonly}
-        inputVariant="outlined"
-        autoFocus={autoFocus}
-        onChange={(date)=>{
-          onChange && onChange(null, {
-            [id] : date.valueOf()
-          });
-        }}
-        labelFunc={(date, invalid = '') => {
-          return date ? date.toString() : invalid;
-        }}
-      />
+        <DatePicker
+          disabled={readonly}
+          autoOk={true}
+          value={value >= NEVER ? null : value}
+          variant="inline"
+          readOnly={readonly}
+          inputVariant="outlined"
+          autoFocus={autoFocus}
+          onChange={(date)=>{
+            onChange && onChange(null, {
+              [id] : date.valueOf()
+            });
+          }}
+          labelFunc={(date, invalid = '') => {
+            return date ? date.toString() : invalid;
+          }}
+        />
+      </LocalizationProvider>
 
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}

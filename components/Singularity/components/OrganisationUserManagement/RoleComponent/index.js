@@ -23,16 +23,16 @@ import {
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginBottom: theme.spacing(0),
-      marginTop: theme.spacing(0),
+      marginBottom: theme.spacingNum(0),
+      marginTop: theme.spacingNum(0),
       transition   : theme.transitions.create(['margin-bottom', 'margin-top'], {
         easing  : theme.transitions.easing.sharp,
         duration: theme.transitions.duration.shorter
       }),
     },
     root_expanded : {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1)
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(1)
     },
     autoLeft: {
       marginLeft: 'auto'
@@ -53,14 +53,14 @@ const useStyles = makeStyles((theme)=>{
       width: '100%'
     },
     avatar: {
-      height: theme.spacing(6),
-      width: theme.spacing(6)
+      height: theme.spacingNum(6),
+      width: theme.spacingNum(6)
     },
     resourceList: {
       backgroundColor: theme.palette.background.default,
       borderTop: `thin solid ${theme.palette.divider}`,
-      marginTop: theme.spacing(3),
-      maxHeight: theme.spacing(45),
+      marginTop: theme.spacingNum(3),
+      maxHeight: theme.spacingNum(45),
       width: '100%',
       overflow: 'auto'
     },
@@ -79,9 +79,9 @@ const useStyles = makeStyles((theme)=>{
     },
     resourceIcon: {
       background: theme.palette.divider,
-      width: theme.spacing(6),
-      height: theme.spacing(6),
-      padding: theme.spacing(.75),
+      width: theme.spacingNum(6),
+      height: theme.spacingNum(6),
+      padding: theme.spacingNum(.75),
       borderRadius: '50%',
     },
     accordionHeading: {

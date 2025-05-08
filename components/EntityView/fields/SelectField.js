@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
       textAlign : 'left'
     },
     searchInput: {
-      padding: theme.spacing(1),
+      padding: theme.spacingNum(1),
     },
     listItem : {
       display: 'block',

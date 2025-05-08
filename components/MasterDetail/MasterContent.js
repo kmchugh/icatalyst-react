@@ -15,14 +15,14 @@ const useStyles = makeStyles((theme) => ({
   },
   separator: {
     width          : 1,
-    height: theme.spacing(6),
+    height: theme.spacingNum(6),
     backgroundColor: theme.palette.divider,
-    marginLeft : theme.spacing(1),
-    marginRight : theme.spacing(2),
+    marginLeft : theme.spacingNum(1),
+    marginRight : theme.spacingNum(2),
   },
   mobileNavButton : {
-    width: theme.spacing(6),
-    height: theme.spacing(6)
+    width: theme.spacingNum(6),
+    height: theme.spacingNum(6)
   }
 }));
 

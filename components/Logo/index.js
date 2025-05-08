@@ -15,10 +15,10 @@ const styles = (theme) => {
     },
     logoWrapper : {
       background: theme.palette.primary.contrastText,
-      width     : theme.spacing(4),
-      height    : theme.spacing(4),
+      width     : theme.spacingNum(4),
+      height    : theme.spacingNum(4),
       borderRadius : '50%',
-      padding : theme.spacing(.75),
+      padding : theme.spacingNum(.75),
       display : 'flex',
       alignItems : 'center',
       transition: theme.transitions.create(['width', 'height'], {

@@ -104,11 +104,11 @@ const useStyles = makeStyles((theme)=>{
         height: 'auto!important'
       },
       '&.density-expanded .MuiTableCell-root' : {
-        paddingTop: theme.spacing(3),
-        paddingBottom: theme.spacing(3),
+        paddingTop: theme.spacingNum(3),
+        paddingBottom: theme.spacingNum(3),
       },
       '&.density-expanded .MuiTableRow-root' : {
-        height: theme.spacing(10)
+        height: theme.spacingNum(10)
       },
     },
     checkbox : {
@@ -499,8 +499,8 @@ const Table = ({
                 rowsPerPage={pageSize}
                 page={pageIndex}
                 onRefresh={onRefresh}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
                 title={title}
               />
             </ThemeProvider>

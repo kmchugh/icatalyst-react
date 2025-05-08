@@ -47,23 +47,23 @@ const useStyles = makeStyles((theme) => ({
       '& $contentWrapper' : {
       },
       '& $centerColumn' : {
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        marginLeft: theme.spacingNum(2),
+        marginRight: theme.spacingNum(2),
       }
     },
 
     '&.mode-cardedInside'   : {
       '& $content' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderRadius: theme.spacing(1),
-        marginBottom: theme.spacing(2),
+        borderRadius: theme.spacingNum(1),
+        marginBottom: theme.spacingNum(2),
       },
       '& $contentWrapper' : {
         flexDirection: 'column'
       },
       '& $centerColumn' : {
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
+        marginLeft: theme.spacingNum(2),
+        marginRight: theme.spacingNum(2),
         overflow: 'hidden'
       },
     },
@@ -127,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardedHeaderSpacerFn : ({headerHeight})=>{
     return {
-      height: headerHeight !== undefined ? (headerHeight +1) : theme.spacing(8)
+      height: headerHeight !== undefined ? (headerHeight +1) : theme.spacingNum(8)
     };
   },
   cardedHeaderSpacer : {
@@ -135,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardedFooterSpacerFn : ({footerHeight})=>{
     return {
-      height: footerHeight !== undefined ? footerHeight : theme.spacing(8)
+      height: footerHeight !== undefined ? footerHeight : theme.spacingNum(8)
     };
   },
   cardedFooterSpacer : {

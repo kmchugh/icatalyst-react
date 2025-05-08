@@ -20,18 +20,18 @@ const useStyles = makeStyles((theme)=>{
         flexDirection : 'row',
 
         ['& > *'] : {
-          width : theme.spacing(24),
-          height : theme.spacing(24)
+          width : theme.spacingNum(24),
+          height : theme.spacingNum(24)
         }
       }
     },
     itemRoot : {
       width: '100%',
       height: '100%',
-      paddingRight : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
       ['&:last-child']:{
         paddingRight : 0,
-        paddingLeft : theme.spacing(1),
+        paddingLeft : theme.spacingNum(1),
       }
     },
     buttonBase  : {
@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme)=>{
       borderColor : theme.palette.primary.main,
       borderStyle : 'solid',
       borderRadius : theme.shape.borderRadius,
-      paddingTop : theme.spacing(1),
-      paddingBottom : theme.spacing(1),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingTop : theme.spacingNum(1),
+      paddingBottom : theme.spacingNum(1),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       backgroundColor: theme.palette.secondary.contrastText,
       color: theme.palette.secondary.main,
       display: 'flex',
@@ -61,8 +61,8 @@ const useStyles = makeStyles((theme)=>{
       color: theme.palette.action.disabled
     },
     icon : {
-      marginBottom : theme.spacing(2),
-      fontSize : `${theme.spacing(4)}!important`
+      marginBottom : theme.spacingNum(2),
+      fontSize : `${theme.spacingNum(4)}!important`
     }
   };
 });

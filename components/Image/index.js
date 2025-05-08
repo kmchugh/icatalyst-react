@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
   spinner : {
     position : 'absolute',
-    width : theme.spacing(2),
-    height : theme.spacing(2),
-    top : `calc(50% - ${theme.spacing(1)})`,
-    left : `calc(50% - ${theme.spacing(1)})`,
+    width : theme.spacingNum(2),
+    height : theme.spacingNum(2),
+    top : `calc(50% - ${theme.spacingNum(1)})`,
+    left : `calc(50% - ${theme.spacingNum(1)})`,
     animation: '$rotating 2s linear infinite'
   },
   '@keyframes rotating': {

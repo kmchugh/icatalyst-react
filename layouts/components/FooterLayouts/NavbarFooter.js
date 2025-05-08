@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
   logo : {
     width: 'auto',
     height: 'auto',
-    maxWidth: theme.spacing(4),
-    maxHeight: theme.spacing(4),
-    paddingTop: theme.spacing(.5),
-    paddingBottom: theme.spacing(.5),
-    paddingRight: theme.spacing(1),
+    maxWidth: theme.spacingNum(4),
+    maxHeight: theme.spacingNum(4),
+    paddingTop: theme.spacingNum(.5),
+    paddingBottom: theme.spacingNum(.5),
+    paddingRight: theme.spacingNum(1),
     transition   : theme.transitions.create(['padding', 'width', 'height'], {
       easing  : theme.transitions.easing.sharp,
       duration: theme.transitions.duration.shorter
@@ -32,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.shorter
     }),
     opacity: 1,
-    maxHeight: theme.spacing(4),
+    maxHeight: theme.spacingNum(4),
     overflow: 'hidden',
-    lineHeight: theme.spacing(4)
+    lineHeight: theme.spacingNum(4)
   }
 }));
 

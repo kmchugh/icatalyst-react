@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       display: 'flex',
       flexDirection: 'column',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       borderRadius: theme.shape.borderRadius,
       border: `thin solid ${border}`,
       backgroundColor: background,
@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme) => {
       minHeight: '100%'
     },
     errorList: {
-      margin: theme.spacing(2),
+      margin: theme.spacingNum(2),
     },
     errorIcon: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacingNum(2),
       color: text
     },
     errorTitle: {
@@ -52,11 +52,11 @@ const useStyles = makeStyles((theme) => {
     },
     error: {
       listStyle: 'circle',
-      marginLeft: theme.spacing(3)
+      marginLeft: theme.spacingNum(3)
     },
     errorActionWrapper: {
       textAlign: 'center',
-      margin: theme.spacing(2)
+      margin: theme.spacingNum(2)
     }
   };
 });

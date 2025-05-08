@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme)=>{
     contentWrapper: {
       width: '100%',
       flexGrow: 1,
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
     },
     errorWrapper: {
       padding: 0,

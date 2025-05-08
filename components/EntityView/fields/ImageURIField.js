@@ -8,8 +8,8 @@ import Image from '../../Image';
 const useStyles = makeStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2),
       display: 'flex',
       flexDirection: 'row',
       alignItems : 'center'
@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme)=>{
     textField : {
       flexBasis: '70%',
       flexGrow: 1,
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacingNum(2)
     },
     imageWrapper : {
       flexBasis: '25%',
       flexGrow: 0,
-      height: theme.spacing(10),
+      height: theme.spacingNum(10),
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',

@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => {
       flex: '0 0 auto'
     },
     dialogAppBar: {
-      paddingLeft: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
     },
     contentWrapper : {
       overflow : 'hidden',
@@ -91,14 +91,16 @@ const Dialog = (props)=>{
       }}
       aria-labelledby={title && 'alert-dialog-title'}
       aria-describedby={description && 'alert-dialog-description'}
-      TransitionComponent={TransitionComponent || (fullScreen ? TransitionFull : TransitionDialog)}
-      TransitionProps={{ role: 'presentation' }}
       keepMounted
       classes={classes}
-      PaperProps={{
-        style : style
-      }}
       onClick={(e)=>{e.stopPropagation();}}
+      slotProps={{
+        paper: { style },
+        transition: { role: 'presentation' }
+      }}
+      slots={{
+        transition: TransitionComponent || (fullScreen ? TransitionFull : TransitionDialog),
+      }}
     >
       {showTitle && (
         <AppBar

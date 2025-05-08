@@ -18,15 +18,15 @@ const isValidEmail = (value) => {
 const useStyles = makeStyles((theme) => {
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2)
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2)
     },
     chipWrapper : {
 
     },
     chip : {
-      marginRight : theme.spacing(1),
-      marginBottom : theme.spacing(1)
+      marginRight : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(1)
     },
 
 

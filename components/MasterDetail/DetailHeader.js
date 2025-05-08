@@ -16,42 +16,42 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginTop: theme.spacingNum(2),
+    marginBottom: theme.spacingNum(2),
     color : theme.palette.primary.contrastText
   },
   detailWrapper : {
     maxWidth: '100%',
   },
   linkWrapper : {
-    marginBottom: theme.spacing(1.5),
+    marginBottom: theme.spacingNum(1.5),
     '& .material-icons' : {
-      fontSize : theme.spacing(2.5),
+      fontSize : theme.spacingNum(2.5),
     },
     '& *' : {
       verticalAlign: 'middle'
     }
   },
   details : {
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacingNum(1),
     display: 'flex',
     alignItems: 'center',
     maxWidth: '100%',
 
     '& .fa-users' : {
-      width: theme.spacing(6),
-      height: theme.spacing(6),
+      width: theme.spacingNum(6),
+      height: theme.spacingNum(6),
     }
   },
   featureImage : {
-    maxWidth : theme.spacing(6),
-    maxHeight: theme.spacing(6),
+    maxWidth : theme.spacingNum(6),
+    maxHeight: theme.spacingNum(6),
     borderRadius: theme.shape.borderRadius,
   },
   detailText : {
     overflow: 'hidden',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(2),
+      marginLeft: theme.spacingNum(2),
     }
   },
 
