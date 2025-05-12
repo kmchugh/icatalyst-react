@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme)=>{
       height: theme.spacingNum(3),
       borderRadius: '50%',
       textAlign : 'center',
-      lineHeight: theme.spacing(3),
+      lineHeight: theme.spacingNum(3),
       marginRight: theme.spacingNum(1),
     },
     stepDescription : {

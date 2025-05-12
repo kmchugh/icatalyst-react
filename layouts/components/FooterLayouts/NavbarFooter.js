@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     opacity: 1,
     maxHeight: theme.spacingNum(4),
     overflow: 'hidden',
-    lineHeight: theme.spacing(4)
+    lineHeight: theme.spacingNum(4)
   }
 }));
 
