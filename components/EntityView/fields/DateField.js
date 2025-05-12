@@ -1,13 +1,12 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {FormControl, InputLabel, FormHelperText} from '@mui/material';
-import {DatePicker, MuiPickersContext} from '@material-ui/pickers';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {makeStyles} from '@mui/styles';
-import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
-import moment from '@icatalyst/@moment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 
 const useStyles = makeStyles((theme) => {
@@ -25,10 +24,6 @@ const useStyles = makeStyles((theme) => {
 const NEVER = 9223372036854776000;
 
 const DateField = (props) => {
-
-  const utils = useContext(MuiPickersContext);
-  // Monkey patching until the date-picker v5 comes out, expected in ~Nov-Dec 2021
-  patchPicker(utils, moment);
 
   const classes = useStyles();
 
@@ -73,10 +68,11 @@ const DateField = (props) => {
         <DatePicker
           disabled={readonly}
           autoOk={true}
-          value={value >= NEVER ? null : value}
+          value={(value >= NEVER || !value) ? null : dayjs(value)}
           variant="inline"
           readOnly={readonly}
           inputVariant="outlined"
+          format="ddd MMM DD YYYY HH:mm:ss [GMT]Z" 
           autoFocus={autoFocus}
           onChange={(date)=>{
             onChange && onChange(null, {
@@ -85,6 +81,11 @@ const DateField = (props) => {
           }}
           labelFunc={(date, invalid = '') => {
             return date ? date.toString() : invalid;
+          }}
+          sx={{
+            '.MuiInputAdornment-root': {
+              display: readonly && 'none',
+            }
           }}
         />
       </LocalizationProvider>
