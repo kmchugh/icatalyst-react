@@ -154,7 +154,7 @@ const useStyles = makeStyles((theme) => {
             opacity: 0
           },
           '& .role': {
-            lineHeight: theme.spacing(1)
+            lineHeight: theme.spacingNum(1)
           },
           '& .avatar'            : {
             width  : theme.spacingNum(6),
