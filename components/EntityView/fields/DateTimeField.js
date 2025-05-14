@@ -1,11 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {FormControl, InputLabel, FormHelperText} from '@mui/material';
-import {DateTimePicker, MuiPickersContext} from '@material-ui/pickers';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import {makeStyles} from '@mui/styles';
-import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
-import moment from '@icatalyst/@moment';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -22,10 +21,6 @@ const useStyles = makeStyles((theme) => {
 const NEVER = 9223372036854776000;
 
 const DateTimeField = (props) => {
-
-  const utils = useContext(MuiPickersContext);
-  // Monkey patching until the date-picker v5 comes out, expected in ~Nov-Dec 2021
-  patchPicker(utils, moment);
 
   const classes = useStyles();
 
@@ -67,7 +62,7 @@ const DateTimeField = (props) => {
       }
 
       <DateTimePicker
-        value={value >= NEVER ? null : value}
+        value={(value >= NEVER || !value) ? null : dayjs(value)}
         variant="inline"
         readOnly={readonly}
         inputVariant="outlined"
@@ -81,7 +76,7 @@ const DateTimeField = (props) => {
           date ? date.toString() : invalid
         }
       />
-
+      
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}
       </FormHelperText>

@@ -14,11 +14,10 @@ import {CssBaseline} from '@mui/material';
 import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 import LocalizationProvider from '../localization/LocalizationProvider';
-
+import { LocalizationProvider as MuiLocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { create } from 'jss';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 reportWebVitals(({name, delta, value, id})=>{
   if (typeof gtag !== 'undefined') {
@@ -71,7 +70,7 @@ export default function createApp({
 
   const App = ()=>{
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiLocalizationProvider dateAdapter={AdapterDayjs}>
         <AppContextComponent
           routes={routes}
           applicationConfig={contextConfig}
@@ -109,7 +108,7 @@ export default function createApp({
             </Provider>
           </StylesProvider>
         </AppContextComponent>
-      </MuiPickersUtilsProvider>
+      </MuiLocalizationProvider>
     );
   };
   return App;

@@ -4,8 +4,6 @@ import clsx from 'clsx';
 import {FormControl, InputLabel, FormHelperText} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {makeStyles} from '@mui/styles';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 
@@ -46,7 +44,7 @@ const DateField = (props) => {
   } = field;
 
   const hasErrors = errors && errors.length > 0;  
-
+  
   return (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
@@ -63,33 +61,29 @@ const DateField = (props) => {
           {label}
         </InputLabel>
       }
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-
-        <DatePicker
-          disabled={readonly}
-          autoOk={true}
-          value={(value >= NEVER || !value) ? null : dayjs(value)}
-          variant="inline"
-          readOnly={readonly}
-          inputVariant="outlined"
-          format="ddd MMM DD YYYY HH:mm:ss [GMT]Z" 
-          autoFocus={autoFocus}
-          onChange={(date)=>{
-            onChange && onChange(null, {
-              [id] : date.valueOf()
-            });
-          }}
-          labelFunc={(date, invalid = '') => {
-            return date ? date.toString() : invalid;
-          }}
-          sx={{
-            '.MuiInputAdornment-root': {
-              display: readonly && 'none',
-            }
-          }}
-        />
-      </LocalizationProvider>
-
+      <DatePicker
+        disabled={readonly}
+        autoOk={true}
+        value={(value >= NEVER || !value) ? null : dayjs(value)}
+        variant="inline"
+        readOnly={readonly}
+        inputVariant="outlined"
+        format="ddd MMM DD YYYY HH:mm:ss [GMT]Z" 
+        autoFocus={autoFocus}
+        onChange={(date)=>{
+          onChange && onChange(null, {
+            [id] : date.valueOf()
+          });
+        }}
+        labelFunc={(date, invalid = '') => {
+          return date ? date.toString() : invalid;
+        }}
+        sx={{
+          '.MuiInputAdornment-root': {
+            display: readonly && 'none',
+          }
+        }}
+      />
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}
       </FormHelperText>
