@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme)=>{
       borderRadius: '50%',
     },
     accordionHeading: {
+    },
+    accordionDetails:{
+      display:'flex'
     }
   };
 });
@@ -284,6 +287,7 @@ const RoleComponent = ({
                       <ListItemIcon>
                         <Button
                           variant="outlined"
+                          color="inherit"
                           disabled={(isOwner && !demoteRoleResource) || (!isOwner && !promoteRoleResource)}
                           onClick={(e)=>{
                             e.stopPropagation();
@@ -330,7 +334,7 @@ const RoleComponent = ({
             </List>
           </div>
         </AccordionDetails>
-        <AccordionDetails>
+        <AccordionDetails className={clsx(styles.accordionDetails)}>
           { allowUserManagement && (
             <Button
               className={clsx(styles.autoLeft)}
