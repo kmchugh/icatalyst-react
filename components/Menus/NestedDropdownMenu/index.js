@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme) => ({
     ['&:hover'] : {
       background : alpha(theme.palette.secondary.main, .25),
     }
+  },
+  iconButton:{
+    height:'100%'
   }
 }));
 
@@ -111,7 +114,7 @@ const NestedDropdownMenu = ({
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
         }}
-        size="large" />
+        size="large" className={clsx(classes.iconButton)} />
       <Popper placement={placement} open={open} anchorEl={anchorEl}  modifiers={{
         // offset: {
         //   enabled: true,
