@@ -77,7 +77,6 @@ const useStyles = makeStyles((theme) => {
     title: {
       maxWidth: '100%',
       textTransform: 'capitalize',
-      padding: `${theme.spacingNum(0)} ${theme.spacingNum(3)}`,
       fontSize: theme.spacingNum(2.5),
       whiteSpace: 'nowrap',
       overflow: 'hidden',
@@ -302,12 +301,13 @@ const FAQComponent = ({
                   <Grid className={classes.headerTitle}>
                     <Typography
                       className={clsx(classes.title)}
-                      dangerouslySetInnerHTML={{
+                      sx={{ px: 3, py: 0 }}                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.title),
                       }}
                     />
                     <Typography
                       className={clsx(classes.title, classes.excerpt)}
+                      sx={{ px: 3, py: 0 }} 
                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.excerpt),
                       }}
