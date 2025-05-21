@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
+import { useTheme } from '@mui/material';
 import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import { useLocation } from 'react-router-dom';

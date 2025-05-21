@@ -1,6 +1,7 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
+import { useTheme } from '@mui/material';
 import clsx from 'clsx';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';

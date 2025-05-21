@@ -3,7 +3,8 @@ import {Typography, LinearProgress} from '@mui/material';
 import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
+import { useTheme } from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
 const useStyles = makeStyles(()=>{

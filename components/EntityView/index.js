@@ -3,7 +3,8 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
+import { useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import {Typography} from '@mui/material';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles} from '@mui/styles';
+import { useTheme } from '@mui/material';
 import Image from '@icatalyst/components/Image';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';

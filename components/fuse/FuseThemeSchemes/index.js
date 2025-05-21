@@ -1,6 +1,6 @@
 import Typography from '@mui/material/Typography';
 import React, {useContext} from 'react';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';

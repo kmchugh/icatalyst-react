@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
-import {useTheme} from '@mui/styles';
+import { useTheme } from '@mui/material';
 
 const useStyles = makeStyles((theme)=>{
   return {

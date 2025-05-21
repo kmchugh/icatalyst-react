@@ -3,7 +3,8 @@ import { FuseScrollbars } from '../fuse';
 import {Dialog, Slide, Typography, AppBar, Toolbar} from '@mui/material';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
+
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { useSwipeable } from 'react-swipeable';

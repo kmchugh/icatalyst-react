@@ -1,7 +1,7 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import Icon from '../Icon';
 import clsx from 'clsx';

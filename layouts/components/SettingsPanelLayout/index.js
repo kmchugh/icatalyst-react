@@ -5,7 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import Slide from '@mui/material/Slide';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';

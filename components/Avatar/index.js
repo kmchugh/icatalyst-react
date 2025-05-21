@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Image from '../Image';
-import {makeStyles, useTheme} from '@mui/styles';
+import {makeStyles } from '@mui/styles';
+import { useTheme } from '@mui/material';
 
 const useStyles = makeStyles(theme => ({
   root  : (config)=>({

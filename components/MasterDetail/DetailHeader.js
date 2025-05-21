@@ -4,7 +4,7 @@ import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
 import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';

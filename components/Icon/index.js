@@ -8,7 +8,7 @@ import React from 'react';
 import {Icon as MUIIcon} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
 
