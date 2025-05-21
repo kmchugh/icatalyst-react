@@ -1,30 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@mui/material';
+import {FormControl} from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import {makeStyles} from '@mui/styles';
 import dayjs from 'dayjs';
-
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-    },
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-  };
-});
 
 const NEVER = 9223372036854776000;
 
 const DateField = (props) => {
-
-  const classes = useStyles();
-
 
   const {readonly = false,
     onChange,
@@ -44,7 +27,6 @@ const DateField = (props) => {
   } = field;
 
   const hasErrors = errors && errors.length > 0;  
-  
   return (
     <FormControl
       className={clsx('mt-8 mb-16', props.className)}
@@ -56,19 +38,15 @@ const DateField = (props) => {
       error={hasErrors}
       required={required}
     >
-      {
-        showLabel && <InputLabel shrink={!!value} id={`${id}-label`} className={clsx(classes.inputLabel)}>
-          {label}
-        </InputLabel>
-      }
       <DatePicker
+        label={showLabel ? label : ''}
         disabled={readonly}
         autoOk={true}
         value={(value >= NEVER || !value) ? null : dayjs(value)}
         variant="inline"
         readOnly={readonly}
         inputVariant="outlined"
-        format="ddd MMM DD YYYY HH:mm:ss [GMT]Z" 
+        format="ddd MMM DD YYYY HH:mm:ss [GMT]Z"
         autoFocus={autoFocus}
         onChange={(date)=>{
           onChange && onChange(null, {
@@ -83,10 +61,13 @@ const DateField = (props) => {
             display: readonly && 'none',
           }
         }}
+        slotProps={{
+          textField: {
+            helperText: hasErrors ? errors[0] : description,
+            error: hasErrors,
+          },
+        }}
       />
-      <FormHelperText error={hasErrors}>
-        {hasErrors ? errors[0] : description}
-      </FormHelperText>
     </FormControl>
   );
 };

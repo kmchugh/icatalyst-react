@@ -1,29 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@mui/material';
+import {FormControl} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import {makeStyles} from '@mui/styles';
 import dayjs from 'dayjs';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-    },
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-  };
-});
 
 const NEVER = 9223372036854776000;
 
 const DateTimeField = (props) => {
-
-  const classes = useStyles();
-
 
   const {readonly = false,
     onChange,
@@ -55,13 +39,8 @@ const DateTimeField = (props) => {
       error={hasErrors}
       required={required}
     >
-      {
-        showLabel && <InputLabel shrink={!!value} id={`${id}-label`} className={clsx(classes.inputLabel)}>
-          {label}
-        </InputLabel>
-      }
-
       <DateTimePicker
+        label={showLabel ? label : ''}
         value={(value >= NEVER || !value) ? null : dayjs(value)}
         variant="inline"
         readOnly={readonly}
@@ -75,11 +54,13 @@ const DateTimeField = (props) => {
         labelFunc={(date, invalid = '') =>
           date ? date.toString() : invalid
         }
+        slotProps={{
+          textField: {
+            helperText: hasErrors ? errors[0] : description,
+            error: hasErrors,
+          },
+        }}
       />
-      
-      <FormHelperText error={hasErrors}>
-        {hasErrors ? errors[0] : description}
-      </FormHelperText>
     </FormControl>
   );
 };
