@@ -1,18 +1,18 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material';
+import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
 
 import {PropTypes} from 'prop-types';
+import { useSelector } from 'react-redux';
 
 function ThemeModern(props) {
-
+  
   const theme = useSelector(({icatalyst}) => icatalyst.settings.current.themes.mainTheme );
-
+  
   return (
     <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={theme}>
+      <MUIThemeProvider theme={theme}>
         {props.children}
-      </ThemeProvider>
+      </MUIThemeProvider>
     </StyledEngineProvider>
   );
 }

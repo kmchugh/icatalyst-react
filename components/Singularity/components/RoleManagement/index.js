@@ -7,7 +7,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../Singularity';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {isSafari} from 'react-device-detect';
-import { ThemeProvider, StyledEngineProvider } from '@mui/material';
+import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/styles';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
 import RoleComponent from '../OrganisationUserManagement/RoleComponent';
@@ -330,17 +331,19 @@ const RoleManagement = ({
     >
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={themes.toolbarTheme}>
-          <div className={clsx(styles.tabWrapper)}>
-            <DetailContentTabs
-              config={config}
-              tabs={tabs}
-              backUrl={backUrl}
-              selectedTab={selectedTab}
-              onTabChanged={()=>{
+          <MUIThemeProvider theme={themes.toolbarTheme}>
+            <div className={clsx(styles.tabWrapper)}>
+              <DetailContentTabs
+                config={config}
+                tabs={tabs}
+                backUrl={backUrl}
+                selectedTab={selectedTab}
+                onTabChanged={()=>{
                 // Nothing to do
-              }}
-            />
-          </div>
+                }}
+              />
+            </div>
+          </MUIThemeProvider>
         </ThemeProvider>
       </StyledEngineProvider>
       <div className={clsx(styles.errorWrapper)}>

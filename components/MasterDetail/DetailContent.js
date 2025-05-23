@@ -2,7 +2,8 @@ import React, {useState, useEffect, useContext} from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
-import { Button, ThemeProvider, StyledEngineProvider } from '@mui/material';
+import { Button, StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/styles';
 import Icon from '../Icon';
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@mui/styles';
@@ -208,26 +209,28 @@ const DetailContent = ({
     <div className={clsx(classes.root)}>
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={themes.toolbarTheme}>
-          <DetailContentTabs
-            config={config}
-            tabs={tabs}
-            backUrl={backUrl}
-            selectedTab={selectedTab}
-            onTabChanged={(index)=>{
-              setSelectedTab((selected)=>{
-                return {
-                  prev : selected.current,
-                  current : index
-                };
-              });
-              const path = tabs[index].path;
-              if (!path) {
-                history.push(match.url);
-              } else {
-                history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-              }
-            }}
-          />
+          <MUIThemeProvider theme={themes.toolbarTheme}>
+            <DetailContentTabs
+              config={config}
+              tabs={tabs}
+              backUrl={backUrl}
+              selectedTab={selectedTab}
+              onTabChanged={(index)=>{
+                setSelectedTab((selected)=>{
+                  return {
+                    prev : selected.current,
+                    current : index
+                  };
+                });
+                const path = tabs[index].path;
+                if (!path) {
+                  history.push(match.url);
+                } else {
+                  history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+                }
+              }}
+            />
+          </MUIThemeProvider>
         </ThemeProvider>
       </StyledEngineProvider>
       <div className={clsx(classes.errorWrapper)}>

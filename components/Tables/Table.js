@@ -7,7 +7,8 @@ import {useGlobalFilter, usePagination,
 } from 'react-table';
 import {FuseLoading} from '../fuse';
 import makeStyles from '@mui/styles/makeStyles';
-import { ThemeProvider, StyledEngineProvider, Tooltip } from '@mui/material';
+import { StyledEngineProvider, Tooltip, ThemeProvider as MUIThemeProvider } from '@mui/material';
+import { ThemeProvider } from '@mui/styles';
 import clsx from 'clsx';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
@@ -403,6 +404,7 @@ const Table = ({
         <TableContainer className={clsx(classes.tableWrapper)}>
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes.toolbarTheme}>
+              <MUIThemeProvider theme={themes.toolbarTheme}>
               <TableToolbar
                 className={clsx(classes.tableToolbar)}
                 title={title}
@@ -464,6 +466,7 @@ const Table = ({
                   </ToggleButtonGroup>
                 }
               />
+              </MUIThemeProvider>
             </ThemeProvider>
           </StyledEngineProvider>
 
@@ -494,15 +497,17 @@ const Table = ({
 
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes.footerTheme}>
-              <TablePagination
-                count={data.length}
-                rowsPerPage={pageSize}
-                page={pageIndex}
-                onRefresh={onRefresh}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-                title={title}
-              />
+              <MUIThemeProvider theme={themes.footerTheme}>
+                <TablePagination
+                  count={data.length}
+                  rowsPerPage={pageSize}
+                  page={pageIndex}
+                  onRefresh={onRefresh}
+                  onChangePage={handleChangePage}
+                  onChangeRowsPerPage={handleChangeRowsPerPage}
+                  title={title}
+                />
+              </MUIThemeProvider>
             </ThemeProvider>
           </StyledEngineProvider>
         </TableContainer>
