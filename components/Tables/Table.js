@@ -405,67 +405,67 @@ const Table = ({
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes.toolbarTheme}>
               <MUIThemeProvider theme={themes.toolbarTheme}>
-              <TableToolbar
-                className={clsx(classes.tableToolbar)}
-                title={title}
-                icon={icon}
-                PrependHeaderComponent={PrependHeaderComponent}
-                inputComponent={
-                  <ClearableInput
-                    label="search"
-                    icon="search"
-                    fullWidth={true}
-                    value={searchFilter}
-                    onChange={setSearchFilter}
-                  />
-                }
-                actions={[{
-                  title : 'delete',
-                  icon : 'delete',
-                  onClick : ()=>{
-                    onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
-                  },
-                  show : canDelete && Object.keys(selectedRowIds).length > 0,
-                },{
-                  title : 'add',
-                  icon : 'add',
-                  onClick : ()=>{
-                    onAddClicked && onAddClicked();
-                  },
-                  show : canAdd && Object.keys(selectedRowIds).length === 0
-                }].filter(i=>i.show)}
-                switchComponent={
-                  <ToggleButtonGroup
-                    value={mode}
-                    exclusive
-                    onChange={(e, mode)=>{
-                      updateSettings((values)=>{
-                        return {
-                          ...values,
-                          density : mode
-                        };
-                      }, settingsInstanceID);
-                    }}
-                    aria-label="table size"
-                  >
-                    <Tooltip title="condensed" value="condensed">
-                      <ToggleButton className={clsx(classes.toggleButton)} aria-label="condensed">
-                        <Icon>format_align_justify</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                    <Tooltip title="regular" value="regular">
-                      <ToggleButton className={clsx(classes.toggleButton)} aria-label="regular">
-                        <Icon>view_headline</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                    <Tooltip title="expanded" value="expanded">
-                      <ToggleButton className={clsx(classes.toggleButton)} aria-label="expanded">
-                        <Icon>menu</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                  </ToggleButtonGroup>
-                }
-              />
+                <TableToolbar
+                  className={clsx(classes.tableToolbar)}
+                  title={title}
+                  icon={icon}
+                  PrependHeaderComponent={PrependHeaderComponent}
+                  inputComponent={
+                    <ClearableInput
+                      label="search"
+                      icon="search"
+                      fullWidth={true}
+                      value={searchFilter}
+                      onChange={setSearchFilter}
+                    />
+                  }
+                  actions={[{
+                    title : 'delete',
+                    icon : 'delete',
+                    onClick : ()=>{
+                      onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
+                    },
+                    show : canDelete && Object.keys(selectedRowIds).length > 0,
+                  },{
+                    title : 'add',
+                    icon : 'add',
+                    onClick : ()=>{
+                      onAddClicked && onAddClicked();
+                    },
+                    show : canAdd && Object.keys(selectedRowIds).length === 0
+                  }].filter(i=>i.show)}
+                  switchComponent={
+                    <ToggleButtonGroup
+                      value={mode}
+                      exclusive
+                      onChange={(e, mode)=>{
+                        updateSettings((values)=>{
+                          return {
+                            ...values,
+                            density : mode
+                          };
+                        }, settingsInstanceID);
+                      }}
+                      aria-label="table size"
+                    >
+                      <Tooltip title="condensed" value="condensed">
+                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="condensed">
+                          <Icon>format_align_justify</Icon>
+                        </ToggleButton>
+                      </Tooltip>
+                      <Tooltip title="regular" value="regular">
+                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="regular">
+                          <Icon>view_headline</Icon>
+                        </ToggleButton>
+                      </Tooltip>
+                      <Tooltip title="expanded" value="expanded">
+                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="expanded">
+                          <Icon>menu</Icon>
+                        </ToggleButton>
+                      </Tooltip>
+                    </ToggleButtonGroup>
+                  }
+                />
               </MUIThemeProvider>
             </ThemeProvider>
           </StyledEngineProvider>
