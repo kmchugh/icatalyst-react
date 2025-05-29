@@ -122,6 +122,8 @@ const useStyles = makeStyles((theme) => {
     },
     iconButton: {
       marginTop: theme.spacingNum(1),
+      fontSize: '3.6rem',
+      fontWeight: 'bold'
     },
     featureImg: {
       width: 80,
@@ -241,7 +243,6 @@ const FAQComponent = ({
   ) : (
     <div className={clsx(classes.root, className)}>
       <div
-        variant='h4'
         className={clsx(classes.headTitle)}
       >
         <Icon
