@@ -5,6 +5,7 @@ import moment from '../../../../@moment';
 import {definition as edgeTypeDefinition} from './edgeType.reducer';
 import {definition as roleDefinition} from './roles.reducer';
 import {definition as groupDefinition} from './groups.reducer';
+import ResourceSharing from '../../../ResourceSharing';
 
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i;
 const isValidEmail = (value) => {
@@ -132,6 +133,7 @@ const definition = createModel({
       type : 'datetime'
     },
   ],
+  wizardComponent: ResourceSharing,
   getReducerRoot : ({icatalyst})=>{
     return icatalyst.singularity.resourceAccess;
   },

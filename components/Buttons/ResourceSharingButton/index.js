@@ -403,7 +403,7 @@ ResourceSharingButton.propTypes={
     edgeTypes : PropTypes.arrayOf(PropTypes.string)
   })),
   onSaved : PropTypes.func,
-  variant : PropTypes.oneOf(['button', 'iconbutton', 'listitem']),
+  variant : PropTypes.oneOf(['button', 'iconbutton', 'listitem', 'none']),
   accessTypeProps : PropTypes.object,
   label : PropTypes.string,
   open : PropTypes.bool
