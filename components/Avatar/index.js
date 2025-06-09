@@ -1,31 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { styled, useTheme } from '@mui/material/styles';
 import clsx from 'clsx';
 import Image from '../Image';
-import {makeStyles, useTheme} from '@mui/styles';
 
-const useStyles = makeStyles(theme => ({
-  root  : (config)=>({
-    display : 'flex',
-    backgroundColor : config.backgroundColor,
-    borderColor: config.color,
-    boxSizing : 'content-box',
-    borderWidth: !config.border ? 0 : theme.spacingNum(1),
-    overflow: 'hidden'
-  }),
-  circular : {
-    borderRadius :'50%',
-
-    ['& img'] : {
-      borderRadius : '50%',
-      width: '100%'
-    }
-  },
-  image : {
-    objectFit : 'cover',
-    backgroundSize : 'cover'
-  }
+const Root = styled('div', {
+  shouldForwardProp: (prop) =>
+    !['backgroundColor', 'border', 'color', 'variant'].includes(prop),
+})(({ theme, backgroundColor, color, border, variant }) => ({
+  display: 'flex',
+  backgroundColor,
+  borderColor: color,
+  boxSizing: 'content-box',
+  borderWidth: border ? theme.spacing(1) : 0,
+  overflow: 'hidden',
+  borderRadius: variant === 'circular' ? '50%' : undefined,
+  '& img': variant === 'circular' ? { borderRadius: '50%', width: '100%' } : {},
 }));
+
+const StyledImage = styled(Image)({
+  objectFit: 'cover',
+  backgroundSize: 'cover',
+});
 
 const Avatar = ({
   backgroundColor,
@@ -37,28 +33,27 @@ const Avatar = ({
   color,
   variant = 'circular',
   border = true,
-})=>{
+}) => {
   const theme = useTheme();
   const bg = backgroundColor || theme.palette.background.default;
   const fg = color || theme.palette.secondary.light;
 
-  const classes = useStyles({
-    backgroundColor : reverse ? fg : bg,
-    color : reverse ? bg : fg,
-    border
-  });
-
   return (
-    <div className={clsx(classes.root, classes[variant], className)}>
-      <Image
-        className={clsx(classes.image)}
-        backgroundColor={reverse ? fg : bg}
+    <Root
+      backgroundColor={reverse ? fg : bg}
+      color={reverse ? bg : fg}
+      border={border}
+      variant={variant}
+      className={clsx(className)}
+    >
+      <StyledImage
         src={src}
         alt={alt}
+        backgroundColor={reverse ? fg : bg}
         defaultSrc={'assets/images/placeholders/blank-profile.svg'}
         {...imgProps}
       />
-    </div>
+    </Root>
   );
 };
 

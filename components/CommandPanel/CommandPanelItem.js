@@ -1,35 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      display : 'flex',
-      flexDirection : 'row',
-      alignItems: 'center',
-      overflow: 'hidden',
-      paddingLeft: theme.spacingNum(1),
-      paddingRight: theme.spacingNum(1)
-    }
-  };
-});
+const Root = styled('div')(({ theme }) => ({
+  display : 'flex',
+  flexDirection : 'row',
+  alignItems: 'center',
+  overflow: 'hidden',
+  paddingLeft: theme.spacingNum(1),
+  paddingRight: theme.spacingNum(1)
+}));
 
 const CommandPanelItem = ({
   className,
   style = {},
   children
 })=>{
-  const styles = useStyles();
 
   return (
-    <div
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={{...style}}
     >
       {children}
-    </div>
+    </Root>
   );
 };
 

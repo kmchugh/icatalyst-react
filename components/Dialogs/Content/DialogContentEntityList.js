@@ -1,7 +1,6 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import DialogContent from './DialogContent';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
@@ -9,46 +8,42 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { styled } from '@mui/system';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden'
-    },
-    errorWrapper: {
-      padding: 0,
-      marginBottom: theme.spacingNum(1),
-      flexShrink: 1,
-      flexGrow: 0,
-    },
-    errorWrapperComponent: {
-      padding: 0,
-    },
-    entityList : {
-      flexShrink: 1,
-      flex: 1,
-      overflow: 'auto',
-      marginTop: theme.spacingNum(1),
-      marginBottom: theme.spacingNum(1),
-      borderWidth: 'thin',
-      borderColor: theme.palette.divider,
-      borderRadius: theme.shape.borderRadius,
-      '&::-webkit-scrollbar-thumb' : {
-        backgroundColor: `${mostReadable(
-          tinycolor(theme.palette.background.paper),
-          [
-            theme.palette.secondary.light,
-            theme.palette.secondary.dark,
-          ], {}
-        ).toHexString()}`,
-      }
+
+const ErrorWrapper = styled('div')(({ theme }) => ({
+  padding: 0,
+  marginBottom: theme.spacingNum(1),
+  flexShrink: 1,
+  flexGrow: 0,
+}));
+
+const ErrorWrapperComponent = styled('div')(() => ({
+  padding: 0,
+}));
+
+const EntityList = styled(List)(({ theme }) => ({
+  flexShrink: 1,
+  flex: 1,
+  overflow: 'auto',
+  marginTop: theme.spacingNum(1),
+  marginBottom: theme.spacingNum(1),
+  borderWidth: 'thin',
+  borderColor: theme.palette.divider,
+  borderRadius: theme.shape.borderRadius,
+    '&::-webkit-scrollbar-thumb' : {
+      backgroundColor: `${mostReadable(
+        tinycolor(theme.palette.background.paper),
+        [
+          theme.palette.secondary.light,
+          theme.palette.secondary.dark,
+        ], {}
+      ).toHexString()}`,
     }
-  };
-});
+}));
 
 const DialogContentEntityView = ({
   definition,
@@ -62,7 +57,6 @@ const DialogContentEntityView = ({
   ...rest
 })=>{
 
-  const classes = useStyles();
 
   const [dialogErrors, setDialogErrors] = useState(null);
   const [updating, setUpdating] = useState(false);
@@ -95,13 +89,13 @@ const DialogContentEntityView = ({
     }]}
   >
     <>
-      <div className={clsx(classes.errorWrapper)}>
+      <ErrorWrapper>
         {
           (dialogErrors && dialogErrors.length > 0) && (
-            <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={dialogErrors}/>
+            <ErrorWrapperComponent  errors={dialogErrors}/>
           )
         }
-      </div>
+      </ErrorWrapper>
       {updating && <FuseLoading title={updatingTitle}/>}
       {!updating &&
         <>
@@ -111,7 +105,7 @@ const DialogContentEntityView = ({
             </Typography>
           }
 
-          <List className={clsx(classes.entityList, entityListClassName)}>
+          <EntityList className={clsx(entityListClassName)}>
             {entities.map((item)=>{
               return (
                 <ListItem key={definition.getIdentity(item)}>
@@ -122,7 +116,7 @@ const DialogContentEntityView = ({
                 </ListItem>
               );
             })}
-          </List>
+          </EntityList>
 
           { confirmation &&
             <Typography variant="body1">Are you sure?</Typography>

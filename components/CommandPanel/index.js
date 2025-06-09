@@ -1,6 +1,6 @@
 import React, {useRef, useLayoutEffect, useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {makeStyles, styled} from '@mui/styles';
 import clsx from 'clsx';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
@@ -54,6 +54,49 @@ const useStyles = makeStyles((theme)=>{
     }
   };
 });
+const Root = styled(Paper)(({ theme }) => ({
+  minWidth: theme.spacingNum(10)
+}));
+const ContentStyle = styled('div')(({ theme }) => ({
+  overflow : 'hidden',
+  display : 'flex',
+  flexDirection : 'row',
+  alignItems : 'center',
+  padding : theme.spacingNum(.5),
+}));
+const Spacer = styled('div')({
+  flex: 1
+});
+const IconButtonStyle = styled(IconButton)(({ theme }) => ({
+  width: theme.spacingNum(4),
+  height: theme.spacingNum(4),
+}));
+const MenuWrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  borderLeftStyle : 'solid',
+  borderLeftColor : theme.palette.divider,
+  borderLeftWidth : 'thin',
+  marginLeft : theme.spacingNum(.5),
+  paddingLeft : theme.spacingNum(.5),
+  alignItems : 'center'
+}));
+const CollapsedMenuWrapper = styled('div')(({ theme }) => ({
+  borderLeftStyle : 'solid',
+  borderLeftColor : theme.palette.divider,
+  borderLeftWidth : 'thin',
+  marginLeft : theme.spacingNum(.5),
+}));
+const DropdownMenuStyle = styled(DropdownMenu)(({ theme }) => ({
+'.menuIcon': {
+  marginLeft : theme.spacingNum(0),
+  },}));
+const ComponentWrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection : 'row',
+  alignItems : 'center',
+  flex: 1
+}));
 
 const CommandPanel = ({
   style,
@@ -156,17 +199,15 @@ const CommandPanel = ({
   const renderMenu = (menu)=>{
     return menu.map((item, i)=>{
       if (Array.isArray(item)) {
-        return (<div
+        return (<MenuWrapper
           key={i}
-          className={clsx(styles.menuWrapper)}
           id={i}
         >
           {renderMenu(item)}
-        </div>);
+        </MenuWrapper>);
       } else {
         return item.component ? item.component : (
-          <IconButton
-            className={clsx(styles.iconButton)}
+          <IconButtonStyle
             key={item.key || item.title}
             disabled={item.disabled}
             color={item.color}
@@ -181,31 +222,28 @@ const CommandPanel = ({
   };
 
   return (
-    <Paper
+    <Root
       style={style}
       elevation={elevation}
       className={clsx(
-        styles.root,
         className
       )}>
-      <div ref={contentRef} className={clsx(styles.content)}>
+      <ContentStyle ref={contentRef}>
         {hasPrimary && (renderMenu(primary))}
-        <div className={clsx(styles.spacer)}/>
+        <Spacer/>
         { (secondaryMenus && secondaryMenus.length > 0) && (
         // Filter to the number of items with combined width less than overflow
           (secondaryItems.visible.map((m)=>{
             return (
-              <div
+              <MenuWrapper
                 key={m.id}
-                className={clsx(styles.menuWrapper)}
                 id={m.id}
               >
                 {
                   m.items.map((i)=>{
                     return i.component ? i.component : (
-                      <IconButton
+                      <IconButtonStyle
                         id={i.id}
-                        className={clsx(styles.iconButton)}
                         disabled={i.disabled}
                         key={i.title}
                         color={i.color}
@@ -217,29 +255,26 @@ const CommandPanel = ({
                     );
                   })
                 }
-              </div>
+              </MenuWrapper>
             );
           }))
         )}
         {
           overflow > 0 && (
-            <div
-              className={clsx(styles.collapsedMenuWrapper)}
-            >
-              <DropdownMenu
+            <CollapsedMenuWrapper>
+              <DropdownMenuStyle
                 menu={secondaryItems.collapsed.flatMap((m, i, s)=>{
                   return [
                     ...m.items.map((i)=>{
                       return i.component ? (
-                        <div
+                        <ComponentWrapper
                           key={`collapsed_${i.component.key}`}
-                          className={clsx(styles.componentWrapper)}
                           onClick={(e)=>{
                             e.stopPropagation();
                           }}
                         >
                           {i.component}
-                        </div>
+                        </ComponentWrapper>
                       ) : i;
                     }),
                     i === s.length-1 ? null : (
@@ -258,11 +293,11 @@ const CommandPanel = ({
                   menuIcon : clsx(styles.collapsedMenuIconStyle)
                 }}
               />
-            </div>
+            </CollapsedMenuWrapper>
           )
         }
-      </div>
-    </Paper>
+      </ContentStyle>
+    </Root>
   );
 };
 

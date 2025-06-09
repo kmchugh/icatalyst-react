@@ -3,20 +3,17 @@ import Icon from '@icatalyst/components/Icon';
 import {Paper, Input, InputAdornment} from '@mui/material';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
-import makeStyles from '@mui/styles/makeStyles';
 import clsx from 'clsx';
+import { styled } from '@mui/styles';
 
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacingNum(1),
-    paddingRight: theme.spacingNum(1),
-    paddingTop: theme.spacingNum(.5),
-    paddingBottom: theme.spacingNum(.5),
-    display: 'flex',
-    flexGrow: 1,
-    flexShrink: 1,
-  }
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  paddingLeft: theme.spacingNum(1),
+  paddingRight: theme.spacingNum(1),
+  paddingTop: theme.spacingNum(.5),
+  paddingBottom: theme.spacingNum(.5),
+  display: 'flex',
+  flexGrow: 1,
+  flexShrink: 1,
 }));
 
 
@@ -27,10 +24,9 @@ const ClearableInput = ({
   value,
   className
 })=>{
-  const classes = useStyles();
 
   return (
-    <Paper className={clsx(classes.root, className)} elevation={1}>
+    <StyledPaper className={clsx(className)} elevation={1}>
       {
         <Input
           placeholder={label}
@@ -64,7 +60,7 @@ const ClearableInput = ({
           }
         />
       }
-    </Paper>
+    </StyledPaper>
   );
 };
 

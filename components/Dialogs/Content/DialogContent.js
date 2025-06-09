@@ -2,7 +2,6 @@ import React, {useImperativeHandle} from 'react';
 import PropTypes from 'prop-types';
 
 import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import {DialogContent as NativeContent,
   DialogActions, Divider,
   Button
@@ -11,32 +10,28 @@ import Icon from '../../Icon';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../../../store/actions/dialog.actions';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { styled } from '@mui/material/styles';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-      overflow : 'hidden',
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    contentWrapper : {
-      display: 'flex',
-      flexDirection: 'column',
-      '&::-webkit-scrollbar-thumb' : {
-        backgroundColor: `${mostReadable(
-          tinycolor(theme.palette.background.paper),
-          [
-            theme.palette.secondary.light,
-            theme.palette.secondary.dark,
-          ], {}
-        ).toHexString()}`,
-      }
-    },
-    actionWrapper : {
 
-    }
-  };
-});
+const Root = styled('div')(({ theme }) => ({
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+const NativeContentStyle = styled(NativeContent)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: mostReadable(
+      tinycolor(theme.palette.background.paper),
+      [theme.palette.secondary.light, theme.palette.secondary.dark],
+      {}
+    ).toHexString(),
+  },
+}));
+
+const DialogActionsStyle = styled(DialogActions)(({ theme }) => ({}));
 
 const DialogContent = React.forwardRef(({
   actions,
@@ -53,7 +48,6 @@ const DialogContent = React.forwardRef(({
   style
 }, ref) => {
 
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   const onCloseHandler = ((e)=>{
@@ -67,23 +61,23 @@ const DialogContent = React.forwardRef(({
 
 
   return (
-    <div className={clsx(classes.root, className)} style={style}>
-      <NativeContent component="div" className={clsx(classes.contentWrapper)}>
+    <Root className={clsx(className)} style={style}>
+      <NativeContentStyle component="div" >
         {children}
-      </NativeContent>
+      </NativeContentStyle>
 
       {
         (actions || !hideCloseButton) && (
           <>
             <Divider variant="middle"/>
 
-            <DialogActions className={clsx(classes.actionWrapper)}>
+            <DialogActionsStyle >
 
               {
                 actions && actions.map((action)=>(
                   <Button
                     key={action.key || action.title}
-                    className={clsx(classes.actionButton, action.className)}
+                    className={clsx(action.className)}
                     color={action.color || 'primary'}
                     startIcon={action.icon && (
                       <Icon>{action.icon}</Icon>
@@ -105,7 +99,7 @@ const DialogContent = React.forwardRef(({
               { !hideCloseButton &&
                 (
                   <Button
-                    className={clsx(classes.actionButton, closeButtonClassName)}
+                    className={clsx(closeButtonClassName)}
                     color="secondary"
                     startIcon={closeIcon && (
                       <Icon>{closeIcon}</Icon>
@@ -119,11 +113,11 @@ const DialogContent = React.forwardRef(({
                 )
               }
 
-            </DialogActions>
+            </DialogActionsStyle>
           </>
         )
       }
-    </div>
+    </Root>
   );
 });
 

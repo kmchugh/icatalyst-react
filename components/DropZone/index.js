@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import {Icon} from '@mui/material';
 import _ from '@icatalyst/@lodash';
 import PropTypes from 'prop-types';
@@ -10,12 +10,12 @@ import * as Actions from '../../store/actions/message.actions';
 import { useDispatch } from 'react-redux';
 import Tooltip from '@mui/material/Tooltip';
 
-const useStyles = makeStyles(theme => ({
-  root : {
-    position : 'relative'
-  },
-  dropzone : {
-    borderRadius : theme.shape.borderRadius,
+
+const Root = styled('div')(() => ({
+  position: 'relative',
+}));
+const Dropzone = styled('div')(({ theme }) => ({
+   borderRadius : theme.shape.borderRadius,
     transition: theme.transitions.create(['opacity'], {
       easing  : theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.shorter
@@ -43,18 +43,12 @@ const useStyles = makeStyles(theme => ({
       }),
       opacity: 1
     }
-  },
-  success : {
-    backgroundColor: theme.palette.success[50]
-  },
-  error : {
-    backgroundColor: theme.palette.error[50],
-  }
+
 }));
 
 
+
 function Dropzone(props){
-  const styles = useStyles();
   const dispatch = useDispatch();
 
   const {
@@ -143,10 +137,10 @@ function Dropzone(props){
   const [notify, setNotify] = useState(false);
 
   return (
-    <div
+    <Root
       onMouseOver={showDropZone}
       {...getRootProps()}
-      className={clsx(styles.root, className)}
+      className={clsx(className)}
     >
       <input {...getInputProps()} />
       {
@@ -157,17 +151,16 @@ function Dropzone(props){
           <Tooltip
             title={title}
           >
-            <div
+            <Dropzone
               style={props.hoverStyle}
               onMouseOut={hideDropZone}
-              className={clsx(styles.dropzone)}
             >
               <Icon fontSize="large">cloud_upload</Icon>
-            </div>
+            </Dropzone>
           </Tooltip>
         )
       }
-    </div>
+    </Root>
   );
 }
 

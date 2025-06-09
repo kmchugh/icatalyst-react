@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
 import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import DialogContent from './DialogContent';
 import EntityView from '../../EntityView';
 import {useForm} from '../../../hooks/fuse';
@@ -9,19 +9,14 @@ import _ from '../../../@lodash';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
 
-    },
-    entityView: {
-      marginBottom : theme.spacingNum(2),
-    },
-    errorWrapper: {
-      padding: 0,
-    }
-  };
-});
+const EntityViewStyle = styled(EntityView)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}));
+
+const ErrorWrapperStyle = styled(ErrorWrapper)(() => ({
+  padding: 0,
+}));
 
 const DialogContentEntityView = ({
   definition,
@@ -36,7 +31,6 @@ const DialogContentEntityView = ({
   ...rest
 })=>{
 
-  const classes = useStyles();
   const { form, handleChange, resetForm } = useForm(entity || definition.generateModel());
 
   const [errors, setErrors] = useState({});
@@ -131,14 +125,14 @@ const DialogContentEntityView = ({
       <div className="mb-8">
         {
           (dialogErrors && dialogErrors.length > 0) && (
-            <ErrorWrapper className={clsx(classes.errorWrapper)} errors={dialogErrors}/>
+            <ErrorWrapperStyle errors={dialogErrors}/>
           )
         }
       </div>
       {updating && <FuseLoading title={updatingTitle}/>}
       {!updating &&
-        <EntityView
-          className={clsx(classes.entityView, entityViewClassName, 'min-w-sm md:min-width-md')}
+        <EntityViewStyle
+          className={clsx(entityViewClassName, 'min-w-sm md:min-width-md')}
           definition={definition}
           hideReadOnly={true}
           model={form}

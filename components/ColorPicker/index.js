@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
 import clsx from 'clsx';
 import {ColorPicker as NativeComponent, createColor } from 'material-ui-color';
+import { styled } from '@mui/styles';
 
-const useStyles = makeStyles((/*theme*/)=>{
-  return {
-    root : {}
-  };
+const Root = styled('div')({
+
 });
 
 const ColorPicker = ({
@@ -18,7 +16,6 @@ const ColorPicker = ({
   hideTextfield = false,
   defaultColor = null
 })=>{
-  const styles = useStyles();
   const [colorValue, setColorValue] = useState();
 
   const handleChange = (color = null)=>{
@@ -42,18 +39,17 @@ const ColorPicker = ({
   }, [value]);
 
   return (
-    <div
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={{...style}}
     >
       <NativeComponent
         hideTextfield={hideTextfield}
         defaultValue={defaultColor}
-        className={clsx(styles.colorPicker)}
         onChange={handleChange}
         value={colorValue}
       />
-    </div>
+    </Root>
   );
 };
 

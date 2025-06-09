@@ -5,8 +5,8 @@ import {Dialog as NativeDialog,
 import IconButton from '../IconButton';
 
 import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
 
 const TransitionFull = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
@@ -16,23 +16,16 @@ const TransitionDialog = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const Root = styled(NativeDialog)({
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-    },
-    dialogDescription : {
-      flex: '0 0 auto'
-    },
-    dialogAppBar: {
-      paddingLeft: theme.spacingNum(2),
-    },
-    contentWrapper : {
-      overflow : 'hidden',
-      display: 'flex',
-      flex: 1
-    }
-  };
+});
+const AppBarStyle = styled(AppBar)(({ theme }) => ({
+  paddingLeft: theme.spacingNum(2),
+}));
+const ContentWrapper = styled('div')({
+  overflow : 'hidden',
+  display: 'flex',
+  flex: 1
 });
 
 
@@ -51,7 +44,6 @@ const Dialog = (props)=>{
     style,
     TransitionComponent,
   } = props;
-  const styles = useStyles();
 
   /*
   Workaround for accessibility issues with modal dialogs
@@ -81,8 +73,8 @@ const Dialog = (props)=>{
   }
 
   return (
-    <NativeDialog
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       open={Boolean(open)}
       fullWidth={fullWidth}
       fullScreen={fullScreen}
@@ -103,9 +95,8 @@ const Dialog = (props)=>{
       }}
     >
       {showTitle && (
-        <AppBar
+        <AppBarStyle
           position="static"
-          className={clsx(styles.dialogAppBar)}
           color={appBarColor}
           elevation={elevation}
         >
@@ -146,16 +137,14 @@ const Dialog = (props)=>{
               />
             }
           </div>
-        </AppBar>
+        </AppBarStyle>
       )}
 
-      <div
-        className={clsx(styles.contentWrapper)}
-      >
+      <ContentWrapper>
         {children}
-      </div>
+      </ContentWrapper>
 
-    </NativeDialog>
+    </Root>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import IconButton from '../../IconButton';
 import _ from '../../../@lodash';
@@ -22,31 +22,23 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
-const useStyles = makeStyles((/*theme*/)=>{
-  return {
-    root : {},
-    page1 : {
-      display: 'flex',
-      flexDirection : 'column'
-    },
-    cardHeader : {
-      overflow : 'hidden',
-      ['& .MuiCardHeader-content'] : {
-        overflow : 'hidden'
-      }
-    },
-    cardMedia : {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    cardContent : {
-      flexGrow: 1,
-    },
-    listItem : {
-      width: '100%',
-      padding : 0,
-    }
-  };
+const Root = styled('div')({
+  
+});
+const Page1 = styled('div')({
+  display: 'flex',
+  flexDirection : 'column'
+});
+const CardMediaStyle = styled(CardMedia)({
+  height: 0,
+  paddingTop: '56.25%',
+});
+const CardContentStyle = styled(CardContent)({
+  flexGrow: 1,
+});
+const ListItemStyle = styled(ListItem)({
+  width: '100%',
+  padding : 0,
 });
 
 const ResourceSharingButton = ({
@@ -64,7 +56,6 @@ const ResourceSharingButton = ({
   label,
   open = false,
 })=>{
-  const styles = useStyles();
   const history = useHistory();
   const iconButtonDefaults = {
     size : 'small',
@@ -120,7 +111,7 @@ const ResourceSharingButton = ({
   const resourceType = definition.resourceName ? definition.resourceName : definition.name;
 
   return resourceOwner ? (
-    <div className={clsx(styles.root, className)}>
+    <Root className={clsx(className)}>
       <Wizard
         ref={wizardRef}
         finishButtonIcon="email"
@@ -135,7 +126,6 @@ const ResourceSharingButton = ({
           edgeTypes : null
         }}
         definition={resourceInviteDefinition}
-        className={clsx(styles.wizard)}
         open={showWizard}
         title={iconProps.title}
         onClosed={()=>{
@@ -197,18 +187,16 @@ const ResourceSharingButton = ({
           minHeight : 350,
           layout : [()=>{
             return (
-              <div key="intro" className={clsx(styles.page1)}>
+              <Page1 key="intro" >
 
                 {featureImage && (
-                  <CardMedia
-                    className={clsx(styles.cardMedia)}
+                  <CardMediaStyle
                     image={featureImage}
                     title={primaryText}
                   />
                 )}
 
-                <CardContent
-                  className={clsx(styles.cardContent)}
+                <CardContentStyle
                 >
                   <Typography
                     variant="h6"
@@ -224,8 +212,8 @@ const ResourceSharingButton = ({
                     {secondaryText}
                   </Typography>
 
-                </CardContent>
-              </div>
+                </CardContentStyle>
+              </Page1>
             );
           }]
         }, {
@@ -365,8 +353,7 @@ const ResourceSharingButton = ({
         </Button>
       }
       { variant === 'listitem' &&
-        <ListItem
-          className={clsx(styles.listItem)}
+        <ListItemStyle
           aria-label={iconProps.title}
           disabled={disabled}
           onClick={handleClick}
@@ -379,9 +366,9 @@ const ResourceSharingButton = ({
             primary={iconProps.title}
             secondary={iconProps.subtitle}
           />
-        </ListItem>
+        </ListItemStyle>
       }
-    </div>
+    </Root>
   ) : null;
 };
 

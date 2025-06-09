@@ -1,20 +1,22 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { useResizeDetector } from 'react-resize-detector';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
 
-const useStyles = makeStyles((/*theme*/)=>{
-  return {
-    root : {
-      height: '100%',
-      width: '100%',
-      overflow: 'hidden'
-    }
-  };
+
+const Root = styled('div')({
+  height: '100%',
+  width: '100%',
+  overflow: 'hidden'
 });
+const ReactEchartsCoreStyle = styled(ReactEchartsCore)({
+  height: '100%',
+  width: '100%',
+  overflow: 'hidden'
+})
 
 const BaseChart = forwardRef(({
   className,
@@ -22,7 +24,6 @@ const BaseChart = forwardRef(({
   debounce = 200,
   ...rest
 }, ref)=>{
-  const styles = useStyles();
   const [renderChart, setRenderChart] = useState(false);
   const [dimensions, setDimensions] = useState(null);
 
@@ -45,13 +46,12 @@ const BaseChart = forwardRef(({
   }, [width, height]);
 
   return (
-    <div
-      className={clsx(styles.root)}
+    <Root
       ref={containerRef}
     >
-      {(renderChart && dimensions) && <ReactEchartsCore
+      {(renderChart && dimensions) && <ReactEchartsCoreStyle
         {...rest}
-        className={clsx(styles.root, className)}
+        className={clsx(className)}
         style={{
           height: `${dimensions.height}px`,
           width: `${dimensions.width}px`,
@@ -60,7 +60,7 @@ const BaseChart = forwardRef(({
         ref={ref}
       />
       }
-    </div>
+    </Root>
   );
 });
 
