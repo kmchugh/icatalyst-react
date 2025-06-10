@@ -14,35 +14,35 @@ import Tooltip from '@mui/material/Tooltip';
 const Root = styled('div')(() => ({
   position: 'relative',
 }));
-const Dropzone = styled('div')(({ theme }) => ({
-   borderRadius : theme.shape.borderRadius,
+const DropzoneStyle = styled('div')(({ theme }) => ({
+  borderRadius : theme.shape.borderRadius,
+  transition: theme.transitions.create(['opacity'], {
+    easing  : theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.shorter
+  }),
+  opacity: 0,
+  backgroundColor: alpha(theme.palette.secondary.main, .25),
+  color: theme.palette.secondary.text,
+  minWidth: '100%',
+  minHeight: '100%',
+  position: 'absolute',
+  cursor: 'pointer',
+  top: 0,
+  left: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '&.rejected': {
+    backgroundColor: theme.palette.error[50],
+  },
+
+  ['&:hover'] : {
     transition: theme.transitions.create(['opacity'], {
       easing  : theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.shorter
     }),
-    opacity: 0,
-    backgroundColor: alpha(theme.palette.secondary.main, .25),
-    color: theme.palette.secondary.text,
-    minWidth: '100%',
-    minHeight: '100%',
-    position: 'absolute',
-    cursor: 'pointer',
-    top: 0,
-    left: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    '&.rejected': {
-      backgroundColor: theme.palette.error[50],
-    },
-
-    ['&:hover'] : {
-      transition: theme.transitions.create(['opacity'], {
-        easing  : theme.transitions.easing.easeInOut,
-        duration: theme.transitions.duration.shorter
-      }),
-      opacity: 1
-    }
+    opacity: 1
+  }
 
 }));
 
@@ -151,12 +151,12 @@ function Dropzone(props){
           <Tooltip
             title={title}
           >
-            <Dropzone
+            <DropzoneStyle
               style={props.hoverStyle}
               onMouseOut={hideDropZone}
             >
               <Icon fontSize="large">cloud_upload</Icon>
-            </Dropzone>
+            </DropzoneStyle>
           </Tooltip>
         )
       }

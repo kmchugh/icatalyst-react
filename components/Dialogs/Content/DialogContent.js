@@ -13,7 +13,7 @@ import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { styled } from '@mui/material/styles';
 
 
-const Root = styled('div')(({ theme }) => ({
+const Root = styled('div')(() => ({
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
@@ -31,7 +31,7 @@ const NativeContentStyle = styled(NativeContent)(({ theme }) => ({
   },
 }));
 
-const DialogActionsStyle = styled(DialogActions)(({ theme }) => ({}));
+const DialogActionsStyle = styled(DialogActions)(() => ({}));
 
 const DialogContent = React.forwardRef(({
   actions,

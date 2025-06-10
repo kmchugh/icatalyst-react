@@ -16,7 +16,7 @@ const ReactEchartsCoreStyle = styled(ReactEchartsCore)({
   height: '100%',
   width: '100%',
   overflow: 'hidden'
-})
+});
 
 const BaseChart = forwardRef(({
   className,

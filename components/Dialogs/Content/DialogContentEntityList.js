@@ -2,19 +2,17 @@ import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import DialogContent from './DialogContent';
-import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
 
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { styled } from '@mui/system';
 
 
-const ErrorWrapper = styled('div')(({ theme }) => ({
+const ErrorWrapperStyle = styled('div')(({ theme }) => ({
   padding: 0,
   marginBottom: theme.spacingNum(1),
   flexShrink: 1,
@@ -34,15 +32,15 @@ const EntityList = styled(List)(({ theme }) => ({
   borderWidth: 'thin',
   borderColor: theme.palette.divider,
   borderRadius: theme.shape.borderRadius,
-    '&::-webkit-scrollbar-thumb' : {
-      backgroundColor: `${mostReadable(
-        tinycolor(theme.palette.background.paper),
-        [
-          theme.palette.secondary.light,
-          theme.palette.secondary.dark,
-        ], {}
-      ).toHexString()}`,
-    }
+  '&::-webkit-scrollbar-thumb' : {
+    backgroundColor: `${mostReadable(
+      tinycolor(theme.palette.background.paper),
+      [
+        theme.palette.secondary.light,
+        theme.palette.secondary.dark,
+      ], {}
+    ).toHexString()}`,
+  }
 }));
 
 const DialogContentEntityView = ({
@@ -89,13 +87,13 @@ const DialogContentEntityView = ({
     }]}
   >
     <>
-      <ErrorWrapper>
+      <ErrorWrapperStyle>
         {
           (dialogErrors && dialogErrors.length > 0) && (
             <ErrorWrapperComponent  errors={dialogErrors}/>
           )
         }
-      </ErrorWrapper>
+      </ErrorWrapperStyle>
       {updating && <FuseLoading title={updatingTitle}/>}
       {!updating &&
         <>
