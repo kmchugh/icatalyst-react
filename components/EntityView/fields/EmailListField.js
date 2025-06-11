@@ -6,7 +6,7 @@ import {
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 
 // TODO : Move this to a service or utility
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,}$)/i;
@@ -15,31 +15,17 @@ const isValidEmail = (value) => {
   return !!(EMAIL_PATTERN.test(value));
 };
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2)
-    },
-    chipWrapper : {
+const Root = styled(NativeTextField)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+}));
 
-    },
-    chip : {
-      marginRight : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(1)
-    },
+const ChipWrapper = styled('div')(() => ({}));
 
-
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-    select : {
-      textAlign : 'left'
-    }
-  };
-});
+const ChipStyled = styled(Chip)(({ theme }) => ({
+  marginRight: theme.spacing(1),
+  marginBottom: theme.spacing(1),
+}));
 
 
 const EmailListField = ({readonly = false,
@@ -49,7 +35,6 @@ const EmailListField = ({readonly = false,
   className,
 })=>{
 
-  const classes = useStyles();
 
   const [inputValue, setInputValue] = useState('');
   const [inputErrors, setInputErrors] = useState(errors);
@@ -149,8 +134,8 @@ const EmailListField = ({readonly = false,
   return (
     <div>
       {!readonly && (
-        <NativeTextField
-          className={clsx(classes.root, className)}
+        <Root
+          className={clsx(className)}
           id={id}
           name={id}
           label={label}
@@ -175,12 +160,11 @@ const EmailListField = ({readonly = false,
       )}
 
       {
-        (readonly || showChips) && <div className={clsx(classes.chipWrapper)}>
+        (readonly || showChips) && <ChipWrapper>
           {
             value && value.map((email)=>{
               return (
-                <Chip
-                  className={clsx(classes.chip)}
+                <ChipStyled
                   key={email}
                   label={email}
                   onDelete={readonly ? null : ()=>handleDeleteEmail(email)}
@@ -188,7 +172,7 @@ const EmailListField = ({readonly = false,
               );
             })
           }
-        </div>
+        </ChipWrapper>
       }
     </div>
   );

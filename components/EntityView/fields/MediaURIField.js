@@ -1,31 +1,29 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import TextField from '@mui/material/TextField';
 import Media from '../../Media';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2),
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems : 'center'
-    },
-    textField : {
-      flexBasis: '70%',
-      flexGrow: 1,
-      marginRight: theme.spacingNum(2)
-    },
-    media : {
-      flexBasis: '25%',
-      flexGrow: 0,
-      height: theme.spacingNum(10),
-    }
-  };
-});
+const Root = styled('div')(({ theme }) => ({
+  marginTop : theme.spacingNum(1),
+  marginBottom : theme.spacingNum(2),
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems : 'center'
+}));
+
+const TextFieldWrapper = styled(TextField)(({ theme }) => ({
+  flexBasis: '70%',
+  flexGrow: 1,
+  marginRight: theme.spacingNum(2)
+}));
+
+const MediaStyle = styled(Media)(({ theme }) => ({
+  flexBasis: '25%',
+  flexGrow: 0,
+  height: theme.spacingNum(10),
+}));
 
 const MediaURIField = ({
   className,
@@ -36,8 +34,6 @@ const MediaURIField = ({
   errors,
   field
 })=>{
-  const styles = useStyles();
-
   const {
     id,
     required,
@@ -58,12 +54,11 @@ const MediaURIField = ({
   const hasErrors = errors && errors.length > 0;
 
   return (
-    <div
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={style}
     >
-      <TextField
-        className={clsx(styles.textField)}
+      <TextFieldWrapper
         id={id}
         name={id}
         label={label}
@@ -89,8 +84,7 @@ const MediaURIField = ({
         rows={1}
         value={image}
       />
-      <Media
-        className={clsx(styles.media)}
+      <MediaStyle
         src={image}
         onLoad={(e, source)=>{
           const updatedImage = source;
@@ -106,7 +100,7 @@ const MediaURIField = ({
           });
         }}
       />
-    </div>
+    </Root>
   );
 };
 

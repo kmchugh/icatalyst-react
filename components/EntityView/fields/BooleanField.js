@@ -5,33 +5,47 @@ import FormHelperText  from '@mui/material/FormHelperText';
 import Checkbox  from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop: theme.spacingNum(1),
-      marginBottom: theme.spacingNum(2),
-    },
-    checkbox : {
-      ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
-        color: mostReadable(
-          tinycolor(theme.palette.background.paper),
-          [
-            theme.palette.primary.light,
-            theme.palette.primary.dark,
-            theme.palette.primary.main,
-          ]
-        ).toHex8String()
-      }
-    }
-  };
-});
+// const useStyles = makeStyles((theme)=>{
+//   return {
+//     root : {
+//       marginTop: theme.spacingNum(1),
+//       marginBottom: theme.spacingNum(2),
+//     },
+//     checkbox : {
+//       ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
+//         color: mostReadable(
+//           tinycolor(theme.palette.background.paper),
+//           [
+//             theme.palette.primary.light,
+//             theme.palette.primary.dark,
+//             theme.palette.primary.main,
+//           ]
+//         ).toHex8String()
+//       }
+//     }
+//   };
+// });
+const Root = styled(FormControl)(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+}));
 
+const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
+  '&.MuiCheckbox-colorPrimary.Mui-checked': {
+    color: mostReadable(
+      tinycolor(theme.palette.background.paper),
+      [
+        theme.palette.primary.light,
+        theme.palette.primary.dark,
+        theme.palette.primary.main,
+      ]
+    ).toHex8String(),
+  },
+}));
 const BooleanField = (props) => {
-
-  const styles = useStyles();
 
   const {readonly = false,
     onChange,
@@ -50,8 +64,8 @@ const BooleanField = (props) => {
   const hasErrors = errors && errors.length > 0;
 
   return (
-    <FormControl
-      className={clsx(clsx(styles.root), props.className)}
+    <Root
+      className={clsx(props.className)}
       fullWidth
       variant="outlined"
       error={hasErrors}
@@ -61,8 +75,7 @@ const BooleanField = (props) => {
         labelPlacement={labelPlacement}
         disabled={readonly}
         control={
-          <Checkbox
-            className={clsx(styles.checkbox)}
+          <StyledCheckbox
             required={required}
             name={id}
             id={id}
@@ -83,7 +96,7 @@ const BooleanField = (props) => {
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}
       </FormHelperText>
-    </FormControl>
+    </Root>
   );
 };
 

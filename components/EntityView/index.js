@@ -62,6 +62,51 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const ColStyle = styled('div')(({ theme }) => ({
+  ['& .MuiFormLabel-root.Mui-focused:not([class*="Mui-error"])'] : {
+    color: mostReadable(tinycolor(theme.palette.background.default), [
+      theme.palette.primary.light,
+      theme.palette.primary.main,
+      theme.palette.primary.dark,
+    ]).toHex8String()
+  },
+  display: 'flex',
+  flexDirection: 'column',
+  maxWidth: '100%',
+  '& > *': {
+    marginBottom: theme.spacingNum(1),
+    flex: '1 0 0%',
+    '&:last-child': {
+      marginBottom: 0,
+    },
+  },
+  '& > .MuiDivider-root': {
+    maxHeight: 1,
+    minHeight: 1,
+  },
+}));
+
+const Row = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  '& > *': {
+    marginRight: theme.spacingNum(2),
+    flex: '1 0 0%',
+    '&:last-child': {
+      marginRight: 0,
+    },
+  },
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    '& > *': {
+      marginRight: 0,
+      marginBottom: theme.spacingNum(2),
+    },
+  },
+}));
+
+const ComponentStyle = styled(Component)({});
+
 const EntityView = ({
   definition,
   model,
@@ -107,7 +152,7 @@ const EntityView = ({
           }
 
           let Component = getComponent(fieldDef);
-          return (hideReadOnly && fieldDef.readonly) ? null : <Component
+          return (hideReadOnly && fieldDef.readonly) ? null : <ComponentStyle
             value={fieldDef.getValue ? fieldDef.getValue(model) : model[field]}
             field={fieldDef}
             entity={model}
@@ -120,7 +165,6 @@ const EntityView = ({
               } : onChange
             }
             errors={errors && errors[field]}
-            className={clsx(classes.entityField)}
             style={{
               paddingLeft : theme.spacingNum(fieldDef.indent || 0)
             }}
@@ -133,13 +177,13 @@ const EntityView = ({
   const entityKey = `${definition.name}_entityView`;
   const layout = (typeof definition.layout) === 'function' ? definition.layout(definition, model) : definition.layout;
   return (
-    <div key={entityKey} className={clsx(classes.root, classes.col, 'col', className)}>
+    <ColStyle key={entityKey} className={clsx('col', className)}>
       {
         (layout || []).map((field, index, layout)=>{
           return renderField(field, index, layout, 'row', entityKey);
         })
       }
-    </div>
+    </ColStyle>
   );
 };
 

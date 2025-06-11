@@ -21,7 +21,32 @@ import { useHistory } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-
+// const useStyles = makeStyles((/*theme*/)=>{
+//   return {
+//     root : {},
+//     page1 : {
+//       display: 'flex',
+//       flexDirection : 'column'
+//     },
+//     cardHeader : {
+//       overflow : 'hidden',
+//       ['& .MuiCardHeader-content'] : {
+//         overflow : 'hidden'
+//       }
+//     },
+//     cardMedia : {
+//       height: 0,
+//       paddingTop: '56.25%', // 16:9
+//     },
+//     cardContent : {
+//       flexGrow: 1,
+//     },
+//     listItem : {
+//       width: '100%',
+//       padding : 0,
+//     }
+//   };
+// });
 const Root = styled('div')({
   
 });

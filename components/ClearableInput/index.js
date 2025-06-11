@@ -5,6 +5,18 @@ import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
 import clsx from 'clsx';
 import { styled } from '@mui/styles';
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     paddingLeft: theme.spacingNum(1),
+//     paddingRight: theme.spacingNum(1),
+//     paddingTop: theme.spacingNum(.5),
+//     paddingBottom: theme.spacingNum(.5),
+//     display: 'flex',
+//     flexGrow: 1,
+//     flexShrink: 1,
+//   }
+// }
+// ));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   paddingLeft: theme.spacingNum(1),

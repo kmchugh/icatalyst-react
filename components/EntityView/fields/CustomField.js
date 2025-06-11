@@ -3,25 +3,29 @@ import {FormControl,
   InputLabel, FormHelperText} from '@mui/material';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-    customField : {
-      paddingTop : theme.spacingNum(1.5),
-      paddingBottom : theme.spacingNum(1),
-    }
-  };
-});
+// const useStyles = makeStyles((theme) => {
+//   return {
+//     inputLabel : {
+//       backgroundColor : theme.palette.background.paper,
+//       paddingLeft: '.5em',
+//       paddingRight: '.5em'
+//     },
+//     customField : {
+//       paddingTop : theme.spacingNum(1.5),
+//       paddingBottom : theme.spacingNum(1),
+//     }
+//   };
+// });
+const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
+  backgroundColor : theme.palette.background.paper,
+  paddingLeft: '.5em',
+  paddingRight: '.5em'
+}));
+
 
 const CustomField = (props) => {
-
-  const classes = useStyles();
 
   const {readonly = false,
     onChange,
@@ -35,6 +39,10 @@ const CustomField = (props) => {
     description,
     Component
   } = field;
+  const CustomFieldWrapper = styled(Component)(({ theme }) => ({
+    paddingTop: theme.spacing(1.5),
+    paddingBottom: theme.spacing(1),
+  }));
 
   const hasErrors = errors && errors.length > 0;
 
@@ -46,16 +54,14 @@ const CustomField = (props) => {
       error={hasErrors}
       required={required}
     >
-      <InputLabel
+      <InputLabelStyle
         shrink={true}
         id={`${id}-label`}
-        className={clsx(classes.inputLabel)}
       >
         {label}
-      </InputLabel>
+      </InputLabelStyle>
 
-      <Component
-        className={clsx(classes.customField)}
+      <CustomFieldWrapper
         labelId={`${id}-label`}
         field={field}
         value={value || ''}

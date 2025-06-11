@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 
 import clsx from 'clsx';
 
@@ -13,16 +13,10 @@ import { useDeepCompareEffect } from '../../../hooks/fuse';
 
 // import Typography from '@mui/material/Typography';
 
-
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2)
-    }
-  };
-});
-
+const FormControlStyle = styled(FormControl)(({ theme }) => ({
+  marginTop: theme.spacingNum(1),
+  marginBottom: theme.spacingNum(2),
+}));
 
 const TagField = ({
   className,
@@ -33,7 +27,6 @@ const TagField = ({
   errors,
   field
 }) => {
-  const styles = useStyles();
 
   const {
     id,
@@ -92,8 +85,8 @@ const TagField = ({
   };
 
   return (
-    <FormControl
-      className={clsx(styles.root, className)}
+    <FormControlStyle
+      className={clsx(className)}
       style={style}
       variant="outlined"
       fullWidth
@@ -109,7 +102,6 @@ const TagField = ({
         autoSelect={false}
         multiple={multiple}
         freeSolo={freeSolo}
-        className={clsx(styles.select)}
         fullWidth={true}
         options={options || []}
         renderTags={(value, getTagProps)=>{
@@ -145,7 +137,7 @@ const TagField = ({
           );
         }}
       />
-    </FormControl>
+    </FormControlStyle>
   );
 };
 

@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import {TextField as NativeTextField} from '@mui/material';
-
-const useStyles = makeStyles((/*theme*/)=>{
-  return {
-    root : {}
-  };
-});
+const Root = styled(NativeTextField)(() => ({
+}));
 
 const NumberField = (props) => {
 
@@ -18,8 +14,6 @@ const NumberField = (props) => {
     errors, field,
     className, style = {},
   } = props;
-
-  const styles = useStyles();
 
   const {
     id,
@@ -36,8 +30,8 @@ const NumberField = (props) => {
 
   const hasErrors = errors && errors.length > 0;
 
-  return (<NativeTextField
-    className={clsx('mt-8 mb-16', styles.root, className)}
+  return (<Root
+    className={clsx('mt-8 mb-16',className)}
     style={{...style}}
     id={id}
     name={id}

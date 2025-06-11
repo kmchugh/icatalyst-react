@@ -16,38 +16,25 @@ import Icon from '../../Icon';
 
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-    select : {
-      textAlign : 'left'
-    },
-    avatar : {
-      marginRight : theme.spacingNum(1),
-    },
-    searchInput: {
-      padding: theme.spacingNum(1),
-    },
-    listItem : {
-      overflow : 'hidden',
-      ['& .MuiListItemText-secondary'] : {
-        overflow: 'hidden',
-        width: '100%',
-        textOverflow : 'ellipsis'
-      }
-    }
-  };
-});
+const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
+  backgroundColor : theme.palette.background.paper,
+  paddingLeft: '.5em',
+  paddingRight: '.5em'
+}));
+
+const AvatarWrapper = styled(Avatar)(({ theme }) => ({
+  marginRight : theme.spacingNum(1),
+}));
+
+const SearchInput = styled(TextField)(({ theme }) => ({
+  padding: theme.spacingNum(1),
+}));
 
 const DefaultListItem = ({
   item,
@@ -58,16 +45,15 @@ const DefaultListItem = ({
   getFeatureImage = null,
   className
 })=>{
-  const styles = useStyles();
 
   return (
     <ListItem className={className} component="div">
       { !hideFeatureImage && (
-        <Avatar className={clsx(styles.avatar)}>
+        <AvatarWrapper>
           <Image
             src={getFeatureImage(item)}
           />
-        </Avatar>
+        </AvatarWrapper>
       )}
       <ListItemText
         primary={getPrimaryText(item)}
@@ -98,8 +84,6 @@ const LoadingIcon = ()=>{
 };
 
 const EntitySelectField = (props) => {
-
-  const classes = useStyles();
   const {t} = useContext(LocalizationContext);
 
   const [loading, setLoading] = useState(false);
@@ -149,6 +133,19 @@ const EntitySelectField = (props) => {
     emptyItem,
     entities = null
   } = field;
+  const Select = styled(ListComponent)(() => ({
+    textAlign: 'left',
+  }));
+  
+  const ListItemComponentStyle = styled(ListItemComponent)(() => ({
+    overflow: 'hidden',
+    '& .MuiListItemText-secondary': {
+      overflow: 'hidden',
+      width: '100%',
+      textOverflow: 'ellipsis',
+    },
+  }));
+  
 
   const [searchData, setSearchData] = useState('');
   const applyFilter = (label) =>{
@@ -206,13 +203,12 @@ const EntitySelectField = (props) => {
       required={required}
     >
       {
-        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
+        showLabel && <InputLabelStyle shrink={!!value} id={`${name}-label`}>
           {label}
-        </InputLabel>
+        </InputLabelStyle>
       }
 
-      <ListComponent
-        className={clsx(classes.select)}
+      <Select
         MenuProps={{ autoFocus: autoFocus }}
         labelId={`${name}-label`}
         id={id}
@@ -230,9 +226,8 @@ const EntitySelectField = (props) => {
         }}
         onClose={() => setSearchData('')}
       >
-        <TextField
+        <SearchInput
           autoFocus
-          className={classes.searchInput}
           placeholder={`${t('Search')}...`}
           InputProps={{
             startAdornment: (
@@ -256,8 +251,7 @@ const EntitySelectField = (props) => {
             const {id, value = id} = item;
             return (
               <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
-                <ListItemComponent
-                  className={clsx(classes.listItem)}
+                <ListItemComponentStyle
                   dense
                   disableGutters
                   key={item[identityFieldName]}
@@ -281,7 +275,7 @@ const EntitySelectField = (props) => {
             );
           })
         }
-      </ListComponent>
+      </Select>
 
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}

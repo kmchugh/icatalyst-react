@@ -8,34 +8,32 @@ import { TextField,InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import _ from '../../../@lodash';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-const useStyles = makeStyles((theme) => {
-  return {
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-    select : {
-      textAlign : 'left'
-    },
-    searchInput: {
-      padding: theme.spacingNum(1),
-    },
-    listItem : {
-      display: 'block',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    }
-  };
-});
+const InputLabelStyled = styled(InputLabel)(({ theme }) => ({
+  backgroundColor : theme.palette.background.paper,
+  paddingLeft: '.5em',
+  paddingRight: '.5em'
+}));
+
+const SelectStyled = styled(NativeSelectField)(() => ({
+  textAlign : 'left'
+}));
+
+const SearchInput = styled(TextField)(({ theme }) => ({
+  padding: theme.spacingNum(1),
+}));
+
+const ListItemStyled = styled(MenuItem)(() => ({
+  display: 'block',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+}));
 
 const SelectField = (props) => {
 
-  const classes = useStyles();
   const {t} = useContext(LocalizationContext);
 
   const {readonly = false,
@@ -65,12 +63,11 @@ const SelectField = (props) => {
       error={hasErrors}
       required={required}
     >
-      <InputLabel id={`${id}-label`} className={clsx(classes.inputLabel)}>
+      <InputLabelStyled id={`${id}-label`}>
         {label}
-      </InputLabel>
+      </InputLabelStyled>
 
-      <NativeSelectField
-        className={clsx(classes.select)}
+      <SelectStyled
         MenuProps={{ autoFocus: false }}
         labelId={`${id}-label`}
         id={id}
@@ -88,9 +85,8 @@ const SelectField = (props) => {
         onClose={() => setSearchData('')}
         disabled={readonly}
       >
-        <TextField
+        <SearchInput
           autoFocus
-          className={classes.searchInput}
           placeholder={`${t('Search')}...`}
           InputProps={{
             startAdornment: (
@@ -111,14 +107,14 @@ const SelectField = (props) => {
           ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
-              <MenuItem key={id} value={value} className={classes.listItem}>
+              <ListItemStyled key={id} value={value}>
                 {label}
-              </MenuItem>
+              </ListItemStyled>
             );
           })
         }
 
-      </NativeSelectField>
+      </SelectStyled>
 
       <FormHelperText error={hasErrors}>
         {hasErrors ? errors[0] : description}

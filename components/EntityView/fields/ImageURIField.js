@@ -1,38 +1,66 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import TextField from '@mui/material/TextField';
 import Image from '../../Image';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2),
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems : 'center'
-    },
-    textField : {
-      flexBasis: '70%',
-      flexGrow: 1,
-      marginRight: theme.spacingNum(2)
-    },
-    imageWrapper : {
-      flexBasis: '25%',
-      flexGrow: 0,
-      height: theme.spacingNum(10),
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    image : {
-      borderRadius : theme.shape.borderRadius
-    }
-  };
-});
+// const useStyles = makeStyles((theme)=>{
+//   return {
+//     root : {
+//       marginTop : theme.spacingNum(1),
+//       marginBottom : theme.spacingNum(2),
+//       display: 'flex',
+//       flexDirection: 'row',
+//       alignItems : 'center'
+//     },
+//     textField : {
+//       flexBasis: '70%',
+//       flexGrow: 1,
+//       marginRight: theme.spacingNum(2)
+//     },
+//     imageWrapper : {
+//       flexBasis: '25%',
+//       flexGrow: 0,
+//       height: theme.spacingNum(10),
+//       overflow: 'hidden',
+//       display: 'flex',
+//       alignItems: 'center',
+//       justifyContent: 'center'
+//     },
+//     image : {
+//       borderRadius : theme.shape.borderRadius
+//     }
+//   };
+// });
+const Root = styled('div')(({ theme }) => ({
+  marginTop: theme.spacing(1),
+  marginBottom: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+}));
+
+const TextFieldWrapper = styled(TextField)(({ theme }) => ({
+  flexBasis: '70%',
+  flexGrow: 1,
+  marginRight: theme.spacing(2),
+}));
+
+const ImageWrapper = styled('div')(({ theme }) => ({
+  flexBasis: '25%',
+  flexGrow: 0,
+  height: theme.spacing(10),
+  overflow: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const ImageStyle = styled(Image)(({ theme }) => ({
+  borderRadius: theme.shape.borderRadius,
+}));
+
 
 const ImageURIField = ({
   className,
@@ -43,7 +71,6 @@ const ImageURIField = ({
   errors,
   field
 })=>{
-  const styles = useStyles();
 
   const {
     id,
@@ -65,12 +92,11 @@ const ImageURIField = ({
   const hasErrors = errors && errors.length > 0;
 
   return (
-    <div
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={style}
     >
-      <TextField
-        className={clsx(styles.textField)}
+      <TextFieldWrapper
         id={id}
         name={id}
         label={label}
@@ -96,11 +122,8 @@ const ImageURIField = ({
         rows={1}
         value={image}
       />
-      <div
-        className={clsx(styles.imageWrapper)}
-      >
-        <Image
-          className={clsx(styles.image)}
+      <ImageWrapper>
+        <ImageStyle
           style={{
             height: '100%'
           }}
@@ -119,8 +142,8 @@ const ImageURIField = ({
             });
           }}
         />
-      </div>
-    </div>
+      </ImageWrapper>
+    </Root>
   );
 };
 

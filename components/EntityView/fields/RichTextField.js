@@ -1,27 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import RichTextEditor from '../../RichTextEditor';
 import TextField from '@mui/material/TextField';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2),
-    },
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: theme.spacingNum(.5),
-      paddingRight: theme.spacingNum(.5)
-    },
-    inputControl : {
-      display: 'block',
-      padding: 0
-    }
-  };
-});
+const Root = styled(TextField)(({ theme }) => ({
+  marginTop : theme.spacingNum(1),
+  marginBottom : theme.spacingNum(2),
+}));
 
 const RichTextField = ({
   className,
@@ -31,8 +18,6 @@ const RichTextField = ({
   errors,
   field
 })=>{
-  const styles = useStyles();
-
   const {
     id,
     required,
@@ -50,8 +35,8 @@ const RichTextField = ({
     maxLength>256;
 
   return (
-    <TextField
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       id={id}
       name={id}
       label={label}
