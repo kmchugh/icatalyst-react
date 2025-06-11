@@ -130,7 +130,7 @@ export function getCleanText(text) {
       'hgroup': ['id', 'name'],
       'hr': ['id', 'name'],
       'i': ['id', 'name'],
-      'iframe': ['id', 'name', 'src'],
+      'iframe': ['id', 'name', 'src', 'width', 'height'],
       'img': ['alt', 'id', 'name', 'src'],
       'input': ['id', 'name'],
       'ins': ['id', 'name'],
