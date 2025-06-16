@@ -1,101 +1,59 @@
-import React, {useRef, useLayoutEffect, useState, useMemo, useEffect} from 'react';
+import React, { useRef, useLayoutEffect, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, styled} from '@mui/styles';
 import clsx from 'clsx';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
 import IconButton from '../IconButton';
 import DropdownMenu from '../Menus/DropdownMenu';
-import {generateHash} from '../../utilities';
+import { generateHash } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      minWidth: theme.spacingNum(10)
-    },
-    content : {
-      overflow : 'hidden',
-      display : 'flex',
-      flexDirection : 'row',
-      alignItems : 'center',
-      padding : theme.spacingNum(.5),
-    },
-    spacer : {
-      flex: 1
-    },
-    iconButton : {
-      width : theme.spacingNum(4),
-      height : theme.spacingNum(4),
-    },
-    menuWrapper : {
-      display: 'flex',
-      flexDirection: 'row',
-      borderLeftStyle : 'solid',
-      borderLeftColor : theme.palette.divider,
-      borderLeftWidth : 'thin',
-      marginLeft : theme.spacingNum(.5),
-      paddingLeft : theme.spacingNum(.5),
-      alignItems : 'center'
-    },
-    collapsedMenuWrapper : {
-      borderLeftStyle : 'solid',
-      borderLeftColor : theme.palette.divider,
-      borderLeftWidth : 'thin',
-      marginLeft : theme.spacingNum(.5),
-    },
-    collapsedMenuIconStyle : {
-      marginLeft : theme.spacingNum(0),
-    },
-    componentWrapper : {
-      display: 'flex',
-      flexDirection : 'row',
-      alignItems : 'center',
-      flex: 1
-    }
-  };
-});
 const Root = styled(Paper)(({ theme }) => ({
-  minWidth: theme.spacingNum(10)
+  minWidth: theme.spacing(10),
 }));
-const ContentStyle = styled('div')(({ theme }) => ({
-  overflow : 'hidden',
-  display : 'flex',
-  flexDirection : 'row',
-  alignItems : 'center',
-  padding : theme.spacingNum(.5),
+
+const Content = styled('div')(({ theme }) => ({
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: theme.spacing(0.5),
 }));
-const Spacer = styled('div')({
-  flex: 1
-});
-const IconButtonStyle = styled(IconButton)(({ theme }) => ({
-  width: theme.spacingNum(4),
-  height: theme.spacingNum(4),
-}));
+
+const Spacer = styled('div')(() => ({ flex: 1 }));
+
 const MenuWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
-  borderLeftStyle : 'solid',
-  borderLeftColor : theme.palette.divider,
-  borderLeftWidth : 'thin',
-  marginLeft : theme.spacingNum(.5),
-  paddingLeft : theme.spacingNum(.5),
-  alignItems : 'center'
+  borderLeft: `thin solid ${theme.palette.divider}`,
+  marginLeft: theme.spacing(0.5),
+  paddingLeft: theme.spacing(0.5),
+  alignItems: 'center',
 }));
+
 const CollapsedMenuWrapper = styled('div')(({ theme }) => ({
-  borderLeftStyle : 'solid',
-  borderLeftColor : theme.palette.divider,
-  borderLeftWidth : 'thin',
-  marginLeft : theme.spacingNum(.5),
+  borderLeft: `thin solid ${theme.palette.divider}`,
+  marginLeft: theme.spacing(0.5),
+
+  '& .menuIcon': {
+    marginLeft : theme.spacing(0),
+  }
 }));
-const DropdownMenuStyle = styled(DropdownMenu)(({ theme }) => ({
-'.menuIcon': {
-  marginLeft : theme.spacingNum(0),
-  },}));
-const ComponentWrapper = styled('div')(({ theme }) => ({
+
+const CollapsedMenuIcon = styled('div')(({ theme }) => ({
+  marginLeft: theme.spacing(0),
+}));
+
+const ComponentWrapper = styled('div')(() => ({
   display: 'flex',
-  flexDirection : 'row',
-  alignItems : 'center',
-  flex: 1
+  flexDirection: 'row',
+  alignItems: 'center',
+  flex: 1,
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  width: theme.spacing(4),
+  height: theme.spacing(4),
 }));
 
 const CommandPanel = ({
@@ -104,9 +62,7 @@ const CommandPanel = ({
   elevation = 1,
   primary = null,
   secondary = null,
-})=>{
-  const styles = useStyles();
-
+}) => {
   const contentRef = useRef(null);
   const [overflow, setOverflow] = useState(0);
 
@@ -196,117 +152,78 @@ const CommandPanel = ({
     });
   }, [secondaryMenus]);
 
-  const renderMenu = (menu)=>{
-    return menu.map((item, i)=>{
-      if (Array.isArray(item)) {
-        return (<MenuWrapper
-          key={i}
-          id={i}
-        >
-          {renderMenu(item)}
-        </MenuWrapper>);
-      } else {
-        return item.component ? item.component : (
-          <IconButtonStyle
-            key={item.key || item.title}
-            disabled={item.disabled}
-            color={item.color}
-            size="small"
-            icon={item.icon}
-            title={item.title}
-            onClick={item.onClick}
-          />
-        );
-      }
-    });
-  };
+  const renderMenu = (menu) => menu.map((item, i) =>
+    Array.isArray(item) ? (
+      <MenuWrapper key={i} id={i.toString()}>{renderMenu(item)}</MenuWrapper>
+    ) : item.component ? (
+      item.component
+    ) : (
+      <StyledIconButton
+        key={item.key || item.title}
+        id={item.id}
+        disabled={item.disabled}
+        color={item.color}
+        size="small"
+        icon={item.icon}
+        title={item.title}
+        onClick={item.onClick}
+      />
+    )
+  );
 
   return (
-    <Root
-      style={style}
-      elevation={elevation}
-      className={clsx(
-        className
-      )}>
-      <ContentStyle ref={contentRef}>
-        {hasPrimary && (renderMenu(primary))}
-        <Spacer/>
-        { (secondaryMenus && secondaryMenus.length > 0) && (
-        // Filter to the number of items with combined width less than overflow
-          (secondaryItems.visible.map((m)=>{
-            return (
-              <MenuWrapper
-                key={m.id}
-                id={m.id}
-              >
-                {
-                  m.items.map((i)=>{
-                    return i.component ? i.component : (
-                      <IconButtonStyle
-                        id={i.id}
-                        disabled={i.disabled}
-                        key={i.title}
-                        color={i.color}
-                        size="small"
-                        icon={i.icon}
-                        title={i.title}
-                        onClick={i.onClick}
-                      />
-                    );
-                  })
-                }
-              </MenuWrapper>
-            );
-          }))
+    <Root style={style} elevation={elevation} className={clsx(className)}>
+      <Content ref={contentRef}>
+        {hasPrimary && renderMenu(primary)}
+        <Spacer />
+        {secondaryItems.visible.map((m) => (
+          <MenuWrapper key={m.id} id={m.id}>
+            {m.items.map((i) =>
+              i.component ? (
+                i.component
+              ) : (
+                <StyledIconButton
+                  key={i.title}
+                  id={i.id}
+                  disabled={i.disabled}
+                  color={i.color}
+                  size="small"
+                  icon={i.icon}
+                  title={i.title}
+                  onClick={i.onClick}
+                />
+              )
+            )}
+          </MenuWrapper>
+        ))}
+        {overflow > 0 && (
+          <CollapsedMenuWrapper>
+            <DropdownMenu
+              menu={secondaryItems.collapsed.flatMap((m, i, s) => [
+                ...m.items.map((i) =>
+                  i.component ? (
+                    <ComponentWrapper
+                      key={`collapsed_${i.component.key}`}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {i.component}
+                    </ComponentWrapper>
+                  ) : i
+                ),
+                i === s.length - 1
+                  ? null
+                  : <Divider key={`divider_${i}`} style={{ width: '100%' }} />,
+              ])}
+              classes={{
+                menuIcon: CollapsedMenuIcon.className,
+              }}
+            />
+          </CollapsedMenuWrapper>
         )}
-        {
-          overflow > 0 && (
-            <CollapsedMenuWrapper>
-              <DropdownMenuStyle
-                menu={secondaryItems.collapsed.flatMap((m, i, s)=>{
-                  return [
-                    ...m.items.map((i)=>{
-                      return i.component ? (
-                        <ComponentWrapper
-                          key={`collapsed_${i.component.key}`}
-                          onClick={(e)=>{
-                            e.stopPropagation();
-                          }}
-                        >
-                          {i.component}
-                        </ComponentWrapper>
-                      ) : i;
-                    }),
-                    i === s.length-1 ? null : (
-                      <Divider
-                        style={{
-                          height: '1px',
-                          width: '100%'
-                        }}
-                        key={`divider_${i}`}
-                        orientation="horizontal"
-                      />
-                    )
-                  ];
-                })}
-                classes={{
-                  menuIcon : clsx(styles.collapsedMenuIconStyle)
-                }}
-              />
-            </CollapsedMenuWrapper>
-          )
-        }
-      </ContentStyle>
+      </Content>
     </Root>
   );
 };
-
-const MenuItemPropTypes = PropTypes.shape({
-  color : PropTypes.string,
-  title : PropTypes.string,
-  subtitle : PropTypes.string,
-  icon : PropTypes.string
-});
 
 CommandPanel.propTypes={
   className : PropTypes.oneOfType([
@@ -319,9 +236,7 @@ CommandPanel.propTypes={
   ]),
   elevation : PropTypes.number,
   primary : PropTypes.array,
-  secondary : PropTypes.arrayOf(
-    PropTypes.arrayOf(MenuItemPropTypes)
-  )
+  secondary : PropTypes.array,
 };
 
 export default CommandPanel;

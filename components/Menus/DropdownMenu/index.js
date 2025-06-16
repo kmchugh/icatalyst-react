@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import { styled } from '@mui/material/styles';
 
 import IconButton from '../../IconButton';
 import Icon from '../../Icon';
@@ -14,36 +14,36 @@ import ListItemText from '@mui/material/ListItemText';
 
 import PropTypes from 'prop-types';
 
-const styles = (theme) => {
-  return {
-    root : {
-      cursor: 'default'
-    },
-    primaryItem : {
-      display : 'flex',
-      flexDirection: 'row',
-      alignItems : 'center',
-    },
-    menuIcon : {
-      marginLeft : theme.spacingNum(1),
-    },
-    listItem : {
-      padding: 0,
-      paddingRight: theme.spacingNum(2)
-    },
-    customItemWrapper : {
-      overflow : 'inherit'
-    },
-    sublistItem : {
-      paddingRight: 0,
-    },
-    sublistItemText : {
-      flexGrow: 1
-    },
-  };
-};
+const Root = styled('div')(() => ({
+  cursor: 'default'
+}));
 
-const useStyles = makeStyles(styles);
+const PrimaryItem = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center'
+}));
+
+const MenuIcon = styled(IconButton)(({ theme }) => ({
+  marginLeft: theme.spacing(1)
+}));
+
+const StyledListItem = styled(ListItem)(({ theme }) => ({
+  padding: 0,
+  paddingRight: theme.spacing(2)
+}));
+
+const CustomItemWrapper = styled('div')(() => ({
+  overflow: 'inherit'
+}));
+
+const SubListItem = styled(ListItem)(() => ({
+  paddingRight: 0
+}));
+
+const SubListItemText = styled(ListItemText)(() => ({
+  flexGrow: 1
+}));
 
 function DropdownMenu({
   size = 'small',
@@ -51,7 +51,6 @@ function DropdownMenu({
   id = 'menu',
   icon = 'more_vertical',
   menu,
-  classes = {},
   anchorOrigin = {
     vertical : 'bottom',
     horizontal: 'right'
@@ -66,7 +65,6 @@ function DropdownMenu({
   color= 'inherit',
   className,
 }){
-  const styles = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuID = `menu-${id}`;
 
@@ -83,8 +81,8 @@ function DropdownMenu({
   };
 
   return (
-    <div className={clsx(styles.root, className, classes.root)}>
-      <div className={clsx(styles.primaryItem)}>
+    <Root className={clsx(className, 'root')}>
+      <PrimaryItem>
         { label && (
           <ListItemText
             primary={label}
@@ -92,17 +90,18 @@ function DropdownMenu({
             onClick={openMenu}
           />
         )}
-        <IconButton
+        <MenuIcon
           title={title}
           color={color}
-          className={clsx(styles.menuIcon, classes.menuIcon)}
+          className="menuIcon"
           component="div"
           size={size}
           icon={icon}
           aria-haspopup={true}
           aria-controls={anchorEl ? menuID : undefined}
-          onClick={openMenu}/>
-      </div>
+          onClick={openMenu}
+        />
+      </PrimaryItem>
       <Menu
         id={menuID}
         getContentAnchorEl={null}
@@ -112,107 +111,75 @@ function DropdownMenu({
         keepMounted
         open={!!anchorEl}
         onClose={closeMenu}
-        className={clsx(styles.menu, classes.menu)}
+        className='menu'
         TransitionComponent={Fade}
       >
         {
-          menu.filter(i=>i).map((menuitem)=>{
-            const isElement = React.isValidElement(menuitem);
+          menu.filter(i=>i).map((menuItem) => {
+            const isElement = React.isValidElement(menuItem);
             const {
               title,
               onClick,
               icon,
               subtitle,
-              menu,
+              menu: subMenu,
               iconColor = 'inherit',
               showLabel = true
-            } = menuitem;
+            } = menuItem;
 
             return (
               <MenuItem
-                className={clsx(isElement ? styles.customItemWrapper : '')}
-                key={menuitem.key || menuitem.id || menuitem.title}
-                disabled={menuitem.disabled}
-                selected={menuitem.selected}
-                onClick={(e)=>{
+                className={clsx(isElement && CustomItemWrapper)}
+                key={menuItem.key || menuItem.id || menuItem.title}
+                disabled={menuItem.disabled}
+                selected={menuItem.selected}
+                onClick={(e) => {
                   e.stopPropagation();
                   closeMenu(e);
                   if (!isElement) {
                     onClick && onClick(e);
                   }
-                }}>
-                {
-                  menu && (
-                    <ListItem
-                      className={clsx(
-                        styles.listItem,
-                        classes.listItem,
-                        styles.sublistItem,
-                        classes.sublistItem
-                      )}
-                      component="div"
-                      aria-label={title}
-                    >
+                }}
+              >
+                {subMenu ? (
+                  <SubListItem component="div" aria-label={title} className='listItem sublistItem'>
+                    {icon && (
+                      <ListItemIcon>
+                        <Icon color={iconColor}>{icon}</Icon>
+                      </ListItemIcon>
+                    )}
+                    <SubListItemText primary={title} secondary={subtitle} className='sublistItemText'/>
+                    <DropdownMenu
+                      icon="chevron_right"
+                      menu={subMenu}
+                      anchorOrigin={{
+                        vertical : 'top',
+                        horizontal: 'left'
+                      }}
+                      transformOrigin={{
+                        vertical : 'top',
+                        horizontal: 'left'
+                      }}
+                      onClose={closeMenu}
+                    />
+                  </SubListItem>
+                ) : (
+                  isElement ? menuItem : (
+                    <StyledListItem component="div" aria-label={title} className='listItem'>
                       {icon && (
                         <ListItemIcon>
                           <Icon color={iconColor}>{icon}</Icon>
                         </ListItemIcon>
                       )}
-
-                      <ListItemText
-                        primary={title}
-                        secondary={subtitle}
-                        className={clsx(
-                          styles.sublistItemText,
-                          classes.sublistItemText
-                        )}
-                      />
-                      <DropdownMenu
-                        icon="chevron_right"
-                        menu={menu}
-                        anchorOrigin={{
-                          vertical : 'top',
-                          horizontal: 'left'
-                        }}
-                        transformOrigin={{
-                          vertical : 'top',
-                          horizontal: 'left'
-                        }}
-                        onClose={closeMenu}
-                      />
-                    </ListItem>
+                      {showLabel && <ListItemText primary={title} secondary={subtitle} />}
+                    </StyledListItem>
                   )
-                }
-                {
-                  (!menu) && (
-                    isElement ? menuitem : (
-                      <ListItem
-                        className={clsx(styles.listItem, classes.listItem)}
-                        aria-label={title}
-                        component="div"
-                      >
-                        {icon && (
-                          <ListItemIcon>
-                            <Icon color={iconColor}>{icon}</Icon>
-                          </ListItemIcon>
-                        )}
-
-                        {
-                          showLabel && (<ListItemText
-                            primary={title}
-                            secondary={subtitle}
-                          />)
-                        }
-                      </ListItem>
-                    )
-                  )
-                }
+                )}
               </MenuItem>
             );
-          })
-        }
+          })}
       </Menu>
-    </div>
+    </Root>
   );
 }
 
@@ -265,8 +232,6 @@ DropdownMenu.propTypes = {
     ]).isRequired
   }),
   onClose : PropTypes.func,
-  classes : PropTypes.object
 };
-
 
 export default DropdownMenu;
