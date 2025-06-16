@@ -1,36 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import ColorPicker from '../../../ColorPicker';
 import FormControl  from '@mui/material/FormControl';
 import FormControlLabel  from '@mui/material/FormControlLabel';
 import FormHelperText  from '@mui/material/FormHelperText';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {},
-    disabledSwatchColor : ({value})=>{
-      return {
-        background: `none ${value || theme.palette.background.default}`
-      };
-    },
-    disabledSwatch : {
-      width: theme.spacingNum(3),
-      height: theme.spacingNum(3),
-      minWidth: theme.spacingNum(3),
-      border: `0px solid ${theme.palette.divider}`,
-      content: ' ',
-      padding: 0,
-      borderRadius: theme.spacingNum(0.5),
-      backgroundSize : `${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
-      boxShadow: '0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%)',
-      backgroundPosition: '0 0, 4px 0, 4px -4px, 0px 4px',
-      marginRight : theme.spacingNum(1),
-      cursor: 'default'
-    }
-  };
-});
+const Root = styled(FormControl)(() => ({}));
+
+const DisabledSwatch = styled('div')(({ theme ,value}) => ({
+  width: theme.spacing(3),
+  height: theme.spacing(3),
+  minWidth: theme.spacing(3),
+  border: `0px solid ${theme.palette.divider}`,
+  content: ' ',
+  padding: 0,
+  borderRadius: theme.spacing(0.5),
+  backgroundSize: `${theme.spacing(1)} ${theme.spacing(1)}`,
+  boxShadow: '0 4px 6px rgb(50 50 93 / 11%), 0 1px 3px rgb(0 0 0 / 8%)',
+  backgroundPosition: '0 0, 4px 0, 4px -4px, 0px 4px',
+  marginRight: theme.spacing(1),
+  cursor: 'default',
+  background: `none ${value || theme.palette.background.default}`,
+}));
 
 const ColorSelectField = ({
   className,
@@ -41,9 +34,6 @@ const ColorSelectField = ({
   errors,
   field
 })=>{
-  const styles = useStyles({
-    value
-  });
 
   const {
     id,
@@ -56,8 +46,8 @@ const ColorSelectField = ({
   const hasErrors = errors && errors.length > 0;
 
   return (
-    <FormControl
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={{...style}}
       fullWidth
       variant="outlined"
@@ -70,8 +60,7 @@ const ColorSelectField = ({
         disabled={readonly}
         control={
           readonly ? (
-            <div className={clsx(styles.disabledSwatch, styles.disabledSwatchColor)}>
-            </div>
+            <DisabledSwatch value={value} />
           ) : (
             <ColorPicker
               id={id}
@@ -95,7 +84,7 @@ const ColorSelectField = ({
         {hasErrors ? errors[0] : description}
       </FormHelperText>
 
-    </FormControl>
+    </Root>
   );
 };
 

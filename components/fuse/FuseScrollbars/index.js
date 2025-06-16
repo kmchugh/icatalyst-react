@@ -1,4 +1,4 @@
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import MobileDetect from 'mobile-detect';
 import PerfectScrollbar from 'perfect-scrollbar';
@@ -25,21 +25,16 @@ const handlerNameByEvent = {
 };
 Object.freeze(handlerNameByEvent);
 
-const useStyles = makeStyles((theme) => {
-  return {
-    root: {
-      '& .ps__thumb-y' : {
-        backgroundColor: theme.palette.primary.compliment
-      }
-    }
-  };
-});
+const Root = styled('div')(({ theme }) => ({
+  '& .ps__thumb-y' : {
+    backgroundColor: theme.palette.primary.compliment
+  }
+}));
 
 const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
   ref = ref || createRef();
   const ps = useRef(null);
   const handlerByEvent = useRef(new Map());
-  const classes = useStyles();
   const { customScrollbars, role } = props;
 
   const hookUpEvents = useCallback(() => {
@@ -131,9 +126,9 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
   );
 
   return (
-    <div
+    <Root
       id={props.id}
-      className={clsx(classes.root, props.className)}
+      className={clsx(props.className)}
       role={role}
       style={
         props.customScrollbars && (props.enable || true) && !isMobile
@@ -148,7 +143,7 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
       ref={ref}
     >
       {props.children}
-    </div>
+    </Root>
   );
 });
 

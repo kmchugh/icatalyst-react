@@ -8,26 +8,6 @@ import clsx from 'clsx';
 import {styled} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-// const useStyles = makeStyles((theme)=>{
-//   return {
-//     root : {
-//       marginTop: theme.spacingNum(1),
-//       marginBottom: theme.spacingNum(2),
-//     },
-//     checkbox : {
-//       ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
-//         color: mostReadable(
-//           tinycolor(theme.palette.background.paper),
-//           [
-//             theme.palette.primary.light,
-//             theme.palette.primary.dark,
-//             theme.palette.primary.main,
-//           ]
-//         ).toHex8String()
-//       }
-//     }
-//   };
-// });
 const Root = styled(FormControl)(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(2),

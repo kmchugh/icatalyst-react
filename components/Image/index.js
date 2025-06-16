@@ -1,37 +1,34 @@
 import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import { keyframes, useTheme } from '@mui/material/styles';
+import {styled} from '@mui/styles';
 import Icon from '../Icon';
-import clsx from 'clsx';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 
-const useStyles = makeStyles((theme) => ({
-  loadingWrapper  : {
-    position : 'relative',
-  },
-  spinner : {
-    position : 'absolute',
-    width : theme.spacingNum(2),
-    height : theme.spacingNum(2),
-    top : `calc(50% - ${theme.spacingNum(1)})`,
-    left : `calc(50% - ${theme.spacingNum(1)})`,
-    animation: '$rotating 2s linear infinite'
-  },
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
-}));
+const rotating = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
+const LoadingWrapper = styled('div')({
+  position : 'relative',
+});
+
+const IconStyle = styled(Icon)(({ theme }) => ({
+  position : 'absolute',
+  width : theme.spacingNum(2),
+  height : theme.spacingNum(2),
+  top : `calc(50% - ${theme.spacingNum(1)})`,
+  left : `calc(50% - ${theme.spacingNum(1)})`,
+  animation: `${rotating} 2s linear infinite`,
+}));
 function Image(props) {
   const theme = useTheme();
-  const classes = useStyles();
 
   const {
     backgroundColor = theme.palette.background.default,
@@ -105,14 +102,14 @@ function Image(props) {
   }, [props, source, bgColor]);
 
   return !loaded ? (
-    <div className={clsx(classes.loadingWrapper)}
+    <LoadingWrapper
       style={{
         color : spinnerColor
       }}
     >
       {image}
-      <Icon className={clsx(classes.spinner)}>fa spinner</Icon>
-    </div>
+      <IconStyle>fa spinner</IconStyle>
+    </LoadingWrapper>
   ) : image;
 }
 

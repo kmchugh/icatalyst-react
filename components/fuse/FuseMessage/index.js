@@ -4,7 +4,7 @@ import {green, amber, blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
 import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
-import {makeStyles} from '@mui/styles';
+import {makeStyles,styled} from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   root   : {},
@@ -25,6 +25,27 @@ const useStyles = makeStyles(theme => ({
     color          : '#FFFFFF'
   }
 }));
+const Root = styled(Snackbar)(() => ({}));
+
+// const Success = styled('div')(() => ({
+//    backgroundColor: green[600],
+//    color          : '#FFFFFF'
+// }));
+
+// const Error = styled('div')(({ theme }) => ({
+//   backgroundColor: theme.palette.error.dark,
+//   color          : theme.palette.getContrastText(theme.palette.error.dark)
+// }));
+
+// const Info = styled('div')(() => ({
+//   backgroundColor: blue[600],
+//   color          : '#FFFFFF'
+// }));
+
+// const Warning = styled('div')(() => ({
+//   backgroundColor: amber[600],
+//   color          : '#FFFFFF'
+// }));
 
 const variantIcon = {
   success: 'check_circle',
@@ -42,7 +63,7 @@ function FuseMessage()
   const classes = useStyles();
 
   return (
-    <Snackbar
+    <Root
       {...options}
       open={state}
       onClose={() => dispatch(Actions.hideMessage())}
@@ -78,7 +99,7 @@ function FuseMessage()
           </IconButton>
         ]}
       />
-    </Snackbar>
+    </Root>
   );
 }
 

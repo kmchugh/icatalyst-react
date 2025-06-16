@@ -7,10 +7,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/styles';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings }
 // from 'app/auth/store/userSlice';
@@ -19,35 +18,38 @@ import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import layoutDefaults from '@icatalyst/layouts/layoutDefaults';
 
-const useStyles = makeStyles(theme => ({
-  root: {},
-  formControl: {
-    margin: '6px 0',
-    width: '100%',
-    '&:last-child': {
-      marginBottom: 0
-    }
-  },
-  group: {},
-  formGroupTitle: {
-    position: 'absolute',
-    top: -10,
-    left: 8,
-    fontWeight: 600,
-    padding: '0 4px',
-    backgroundColor: theme.palette.background.paper
-  },
-  formGroup: {
-    position: 'relative',
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: 2,
-    padding: '12px 12px 0 12px',
-    margin: '24px 0 16px 0',
-    '&:first-of-type': {
-      marginTop: 16
-    }
+const Root = styled('div')``;
+
+const FormControlStyle = styled(FormControl)({
+  margin: '6px 0',
+  width: '100%',
+  '&:last-child': {
+    marginBottom: 0
+  }
+});
+
+const RadioGroupStyle = styled(RadioGroup)``;
+
+const FormGroupTitle = styled(Typography)(({ theme }) => ({
+  position: 'absolute',
+  top: -10,
+  left: 8,
+  fontWeight: 600,
+  padding: '0 4px',
+  backgroundColor: theme.palette.background.paper
+}));
+
+const FormGroup = styled('div')(({ theme }) => ({
+  position: 'relative',
+  border: `1px solid ${theme.palette.divider}`,
+  borderRadius: 2,
+  padding: '12px 12px 0 12px',
+  margin: '24px 0 16px 0',
+  '&:first-of-type': {
+    marginTop: 16
   }
 }));
+
 
 function FuseSettings(props) {
   const dispatch = useDispatch();
@@ -56,8 +58,7 @@ function FuseSettings(props) {
   const {user} = singularityContext;
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
-
-  const classes = useStyles(props);
+  const {/*value,name,handleThemeChange*/} = props;
 
   function handleChange(event) {
     const newSettings = _.set(
@@ -156,15 +157,14 @@ function FuseSettings(props) {
   };
 
   const LayoutSelect = () => (
-    <FormControl component="fieldset" className={classes.formControl}>
+    <FormControlStyle component="fieldset">
       <FormLabel component="legend" className="text-14">
         Style
       </FormLabel>
 
-      <RadioGroup
+      <RadioGroupStyle
         aria-label="Layout Style"
         name="layout.style"
-        className={classes.group}
         value={settings.layout.style}
         onChange={handleChange}
       >
@@ -173,28 +173,27 @@ function FuseSettings(props) {
         //   <FormControlLabel key={key} value={key} control={<Radio />} label={layout.title} />
         // ))}
         }
-      </RadioGroup>
-    </FormControl>
+      </RadioGroupStyle>
+    </FormControlStyle>
   );
 
   const DirectionSelect = () => (
-    <FormControl component="fieldset" className={classes.formControl}>
+    <FormControlStyle component="fieldset" >
       <FormLabel component="legend" className="text-14">
         Direction
       </FormLabel>
 
-      <RadioGroup
+      <RadioGroupStyle
         aria-label="Layout Style"
         name="direction"
-        className={classes.group}
         value={settings.direction}
         onChange={handleChange}
         row
       >
         <FormControlLabel key="rtl" value="rtl" control={<Radio />} label="RTL" />
         <FormControlLabel key="ltr" value="ltr" control={<Radio />} label="LTR" />
-      </RadioGroup>
-    </FormControl>
+      </RadioGroupStyle>
+    </FormControlStyle>
   );
 
   const getForm = (form, prefix) => {
@@ -203,14 +202,13 @@ function FuseSettings(props) {
       switch (formControl.type) {
       case 'radio': {
         return (
-          <FormControl key={target} component="fieldset" className={classes.formControl}>
+          <FormControlStyle key={target} component="fieldset">
             <FormLabel component="legend" className="text-14">
               {formControl.title}
             </FormLabel>
-            <RadioGroup
+            <RadioGroupStyle
               aria-label={formControl.title}
               name={`layout.config.${target}`}
-              className={classes.group}
               value={_.get(settings.layout.config, target)}
               onChange={handleChange}
               row={formControl.options.length < 4}
@@ -223,13 +221,13 @@ function FuseSettings(props) {
                   label={opt.name}
                 />
               ))}
-            </RadioGroup>
-          </FormControl>
+            </RadioGroupStyle>
+          </FormControlStyle>
         );
       }
       case 'switch': {
         return (
-          <FormControl key={target} component="fieldset" className={classes.formControl}>
+          <FormControlStyle key={target} component="fieldset">
             <FormControlLabel
               classes={
                 {
@@ -250,18 +248,18 @@ function FuseSettings(props) {
                 </FormLabel>
               }
             />
-          </FormControl>
+          </FormControlStyle>
         );
       }
       case 'group': {
         return (
-          <div key={target} className={classes.formGroup}>
-            <Typography className={classes.formGroupTitle} color="textSecondary">
+          <FormGroup key={target}>
+            <FormGroupTitle color="textSecondary">
               {formControl.title}
-            </Typography>
+            </FormGroupTitle>
 
             {getForm(formControl.children, key)}
-          </div>
+          </FormGroup>
         );
       }
       default: {
@@ -281,11 +279,11 @@ function FuseSettings(props) {
 
 
   return (
-    <div className={classes.root}>
-      <div className={classes.formGroup}>
-        <Typography className={classes.formGroupTitle} color="textSecondary">
+    <Root>
+      <FormGroup>
+        <FormGroupTitle color="textSecondary">
           Layout
-        </Typography>
+        </FormGroupTitle>
 
         <LayoutSelect />
 
@@ -294,40 +292,40 @@ function FuseSettings(props) {
         <Typography className="my-16 text-12 italic" color="textSecondary">
           *Not all option combinations are available
         </Typography>
-      </div>
+      </FormGroup>
 
-      <div className={clsx(classes.formGroup, 'pb-16')}>
-        <Typography className={classes.formGroupTitle} color="textSecondary">
+      <FormGroup className={'pb-16'}>
+        <FormGroupTitle color="textSecondary">
           Theme
-        </Typography>
+        </FormGroupTitle>
 
-        <FormControl component="fieldset" className={classes.formControl}>
+        <FormControlStyle component="fieldset">
           <FormLabel component="legend" className="text-14">
             Main
           </FormLabel>
           <ThemeSelect value={settings.layout.theme.main} name="theme.main" handleThemeChange={handleChange} />
-        </FormControl>
-        <FormControl component="fieldset" className={classes.formControl}>
+        </FormControlStyle>
+        <FormControlStyle component="fieldset">
           <FormLabel component="legend" className="text-14">
             Navbar
           </FormLabel>
           <ThemeSelect value={settings.layout.theme.navbar} name="theme.navbar" handleThemeChange={handleChange} />
-        </FormControl>
-        <FormControl component="fieldset" className={classes.formControl}>
+        </FormControlStyle>
+        <FormControlStyle component="fieldset">
           <FormLabel component="legend" className="text-14">
             Toolbar
           </FormLabel>
           <ThemeSelect value={settings.layout.theme.toolbar} name="theme.toolbar" handleThemeChange={handleChange} />
-        </FormControl>
-        <FormControl component="fieldset" className={classes.formControl}>
+        </FormControlStyle>
+        <FormControlStyle component="fieldset">
           <FormLabel component="legend" className="text-14">
             Footer
           </FormLabel>
           <ThemeSelect value={settings.layout.theme.footer} name="theme.footer" handleThemeChange={handleChange} />
-        </FormControl>
-      </div>
+        </FormControlStyle>
+      </FormGroup>
 
-      <FormControl component="fieldset" className={classes.formControl}>
+      <FormControlStyle component="fieldset">
         <FormLabel component="legend" className="text-14">
           Custom Scrollbars
         </FormLabel>
@@ -337,9 +335,9 @@ function FuseSettings(props) {
           aria-label="Custom Scrollbars"
           name="customScrollbars"
         />
-      </FormControl>
+      </FormControlStyle>
 
-      <FormControl component="fieldset" className={classes.formControl}>
+      <FormControlStyle component="fieldset">
         <FormLabel component="legend" className="text-14">
           Animations
         </FormLabel>
@@ -349,10 +347,10 @@ function FuseSettings(props) {
           aria-label="Animations"
           name="animations"
         />
-      </FormControl>
+      </FormControlStyle>
 
       <DirectionSelect />
-    </div>
+    </Root>
   );
 }
 

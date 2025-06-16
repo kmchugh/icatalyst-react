@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
@@ -9,42 +9,40 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    minHeight          : 48,
-    '&.active'         : {
-      backgroundColor            : theme.palette.secondary.main,
-      color                      : theme.palette.secondary.contrastText + '!important',
-      pointerEvents              : 'none',
-      '& .list-item-text-primary': {
-        color: 'inherit'
-      },
-      '& .list-item-icon'        : {
-        color: 'inherit'
-      }
+const ListItemStyle = styled(ListItem)(({ theme }) => ({
+  minHeight          : 48,
+  '&.active'         : {
+    backgroundColor            : theme.palette.secondary.main,
+    color                      : theme.palette.secondary.contrastText + '!important',
+    pointerEvents              : 'none',
+    '& .list-item-text-primary': {
+      color: 'inherit'
     },
-    '& .list-item-icon': {},
+    '& .list-item-icon'        : {
+      color: 'inherit'
+    }
+  },
+  '& .list-item-icon': {},
+  '& .list-item-text': {
+    padding: '0 0 0 16px'
+  },
+  color              : theme.palette.text.primary,
+  textDecoration     : 'none!important',
+  '&.dense'          : {
+    padding            : '8px 12px 8px 12px',
+    minHeight          : 40,
     '& .list-item-text': {
-      padding: '0 0 0 16px'
-    },
-    color              : theme.palette.text.primary,
-    textDecoration     : 'none!important',
-    '&.dense'          : {
-      padding            : '8px 12px 8px 12px',
-      minHeight          : 40,
-      '& .list-item-text': {
-        padding: '0 0 0 8px'
-      }
+      padding: '0 0 0 8px'
     }
   }
 }));
+
 
 function FuseNavHorizontalLink(props)
 {
   const dispatch = useDispatch();
   const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
-  const classes = useStyles(props);
   const {item, dense} = props;
 
   if ( !FuseUtils.hasPermission(item.auth, userRole) )
@@ -53,12 +51,12 @@ function FuseNavHorizontalLink(props)
   }
 
   return (
-    <ListItem
+    <ListItemStyle
       button
       component="a"
       href={item.url}
       target={item.target ? item.target : '_blank'}
-      className={clsx('list-item', classes.root, dense && 'dense')}
+      className={clsx('list-item', dense && 'dense')}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
     >
       {item.icon && (
@@ -68,7 +66,7 @@ function FuseNavHorizontalLink(props)
       {item.badge && (
         <FuseNavBadge className="ml-8" badge={item.badge}/>
       )}
-    </ListItem>
+    </ListItemStyle>
   );
 }
 

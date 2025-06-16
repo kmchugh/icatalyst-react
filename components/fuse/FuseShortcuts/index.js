@@ -9,7 +9,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import makeStyles from '@mui/styles/makeStyles';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import clsx from 'clsx';
@@ -20,21 +19,22 @@ import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
 import { amber } from '@mui/material/colors';
+import { styled } from '@mui/styles';
 
-const useStyles = makeStyles({
-  root: {
-    '&.horizontal': {},
-    '&.vertical': {
-      flexDirection: 'column'
-    }
-  },
-  item: {
-    textDecoration: 'none!important',
-    color: 'inherit'
-  },
-  addIcon: {
-    color: amber[600]
+const Root = styled('div')({
+  '&.horizontal': {},
+  '&.vertical': {
+    flexDirection: 'column'
   }
+});
+
+const LinkStyle = styled(Link)({
+  textDecoration: 'none!important',
+  color: 'inherit'
+});
+
+const AddIcon = styled(Icon)({
+  color: amber[600]
 });
 
 function FuseShortcuts(props) {
@@ -44,7 +44,6 @@ function FuseShortcuts(props) {
 
   const navigationData = []; // useSelector(selectNavigation);
 
-  const classes = useStyles(props);
   const searchInputRef = useRef(null);
   const [addMenu, setAddMenu] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -92,7 +91,7 @@ function FuseShortcuts(props) {
 
   function ShortcutMenuItem({ item, onToggle }) {
     return (
-      <Link to={item.url} className={classes.item} role="button">
+      <LinkStyle to={item.url} role="button">
         <MenuItem key={item.id}>
           <ListItemIcon className="min-w-40">
             {item.icon ? (
@@ -112,7 +111,7 @@ function FuseShortcuts(props) {
             <Icon color="action">{shortcuts.includes(item.id) ? 'star' : 'star_border'}</Icon>
           </IconButton>
         </MenuItem>
-      </Link>
+      </LinkStyle>
     );
   }
   ShortcutMenuItem.propTypes = {
@@ -126,9 +125,8 @@ function FuseShortcuts(props) {
   };
 
   return (
-    <div
+    <Root
       className={clsx(
-        classes.root,
         props.variant,
         'flex flex-1',
         props.variant === 'vertical' && 'flex-grow-0 flex-shrink',
@@ -145,7 +143,7 @@ function FuseShortcuts(props) {
           {shortcutItems.map(
             item =>
               item && (
-                <Link to={item.url} key={item.id} className={classes.item} role="button">
+                <LinkStyle to={item.url} key={item.id}  role="button">
                   <Tooltip
                     title={item.title}
                     placement={props.variant === 'horizontal' ? 'bottom' : 'left'}
@@ -158,7 +156,7 @@ function FuseShortcuts(props) {
                       )}
                     </IconButton>
                   </Tooltip>
-                </Link>
+                </LinkStyle>
               )
           )}
 
@@ -172,7 +170,7 @@ function FuseShortcuts(props) {
               aria-haspopup="true"
               onClick={addMenuClick}
               size="large">
-              <Icon className={classes.addIcon}>star</Icon>
+              <AddIcon>star</AddIcon>
             </IconButton>
           </Tooltip>
         </>
@@ -232,7 +230,7 @@ function FuseShortcuts(props) {
           ))
         }
       </Menu>
-    </div>
+    </Root>
   );
 }
 

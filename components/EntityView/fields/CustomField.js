@@ -5,19 +5,6 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {styled} from '@mui/styles';
 
-// const useStyles = makeStyles((theme) => {
-//   return {
-//     inputLabel : {
-//       backgroundColor : theme.palette.background.paper,
-//       paddingLeft: '.5em',
-//       paddingRight: '.5em'
-//     },
-//     customField : {
-//       paddingTop : theme.spacingNum(1.5),
-//       paddingBottom : theme.spacingNum(1),
-//     }
-//   };
-// });
 const InputLabelStyle = styled(InputLabel)(({ theme }) => ({
   backgroundColor : theme.palette.background.paper,
   paddingLeft: '.5em',

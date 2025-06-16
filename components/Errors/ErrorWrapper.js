@@ -1,5 +1,5 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
@@ -7,59 +7,70 @@ import { Typography } from '@mui/material';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-
-const useStyles = makeStyles((theme) => {
+const getErrorColors = (theme) => {
   const background = mostReadable(tinycolor(theme.palette.background.default), [
     theme.palette.error.dark,
     theme.palette.error.main,
     theme.palette.error.light,
   ]).toHex8String();
+
   const border = mostReadable(tinycolor(background), [
     theme.palette.error.dark,
     theme.palette.error.main,
     theme.palette.error.light,
   ]).toHex8String();
+
   const text = mostReadable(tinycolor(background), [
     theme.palette.error.contrastText,
     theme.palette.error.dark,
     theme.palette.error.main,
     theme.palette.error.light,
-  ]
-  );
+  ]).toHex8String();
+
+  return { background, border, text };
+};
+const Root = styled('div')(({ theme }) => {
+  const { background, border, text } = getErrorColors(theme);
   return {
-    root: {
-      display: 'flex',
-      flexDirection: 'column',
-      padding: theme.spacingNum(2),
-      borderRadius: theme.shape.borderRadius,
-      border: `thin solid ${border}`,
-      backgroundColor: background,
-      color: text,
-      width: '100%',
-      position: 'relative!important',
-      minHeight: '100%'
-    },
-    errorList: {
-      margin: theme.spacingNum(2),
-    },
-    errorIcon: {
-      marginRight: theme.spacingNum(2),
-      color: text
-    },
-    errorTitle: {
-      display: 'flex',
-      alignItems: 'center'
-    },
-    error: {
-      listStyle: 'circle',
-      marginLeft: theme.spacingNum(3)
-    },
-    errorActionWrapper: {
-      textAlign: 'center',
-      margin: theme.spacingNum(2)
-    }
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacingNum(2),
+    borderRadius: theme.shape.borderRadius,
+    border: `thin solid ${border}`,
+    backgroundColor: background,
+    color: text,
+    width: '100%',
+    position: 'relative!important',
+    minHeight: '100%'
   };
 });
+
+const ErrorList = styled('ul')(({ theme }) => ({
+  margin: theme.spacingNum(2),
+}));
+
+const ErrorIcon = styled(Icon)(({ theme }) => {
+  const { text } = getErrorColors(theme);
+  return {
+    marginRight: theme.spacingNum(2),
+    color: text
+  };
+});
+
+const ErrorTitle = styled('div')(() => ({
+  display: 'flex',
+  alignItems: 'center'
+}));
+
+const ErrorStyle = styled('li')(({ theme }) => ({
+  listStyle: 'circle',
+  marginLeft: theme.spacingNum(3)
+}));
+
+const ErrorActionWrapper = styled('div')(({ theme }) => ({
+  textAlign: 'center',
+  margin: theme.spacingNum(2)
+}));
 
 
 const ErrorComponent = ({errors,
@@ -71,41 +82,40 @@ const ErrorComponent = ({errors,
   if (!errors || errors.length === 0) {
     return null;
   }
-  const classes = useStyles();
   return (
-    <div role={role} aria-atomic={true} className={clsx(classes.root, className)}>
+    <Root role={role} aria-atomic={true} className={clsx(className)}>
       {title &&
         (
-          <div className={clsx(classes.errorTitle)}>
-            <Icon className={clsx(classes.errorIcon)}>error</Icon>
+          <ErrorTitle>
+            <ErrorIcon>error</ErrorIcon>
             <Typography className="flex-shrink" variant="h5" component="h1">
               {title}
             </Typography>
-          </div>
+          </ErrorTitle>
         )
       }
       {
-        process.env.NODE_ENV !== 'production' && <ul className={clsx(classes.errorList)}>
+        process.env.NODE_ENV !== 'production' && <ErrorList>
           {
             errors.filter((e, index, self)=>{
               return self.findIndex((error)=>error.message === e.message) === index;
             }).map(e=>{
               const message = e.message || e.toString();
               return (
-                <li className={clsx(classes.error)} key={message}>
+                <ErrorStyle key={message}>
                   <Error>{message || 'Unknown Error'}</Error>
-                </li>
+                </ErrorStyle>
               );
             })
           }
-        </ul>
+        </ErrorList>
       }
       {
-        actionComponent && <div className={clsx(classes.errorActionWrapper)}>
+        actionComponent && <ErrorActionWrapper>
           {actionComponent}
-        </div>
+        </ErrorActionWrapper>
       }
-    </div>
+    </Root>
   );
 };
 

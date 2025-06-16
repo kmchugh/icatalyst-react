@@ -1,6 +1,6 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
+import {useTheme,styled} from '@mui/styles';
 import clsx from 'clsx';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -8,35 +8,34 @@ import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import colorbrewer from './colorBrewer';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      marginTop : theme.spacingNum(1),
-      marginBottom : theme.spacingNum(2)
-    },
-    select : {
-    },
-    colorSwatches : {
-      display: 'flex',
-      flexDirection: 'row',
-      flexGrow: 1
-    },
-    colorSwatch : {
-      height: theme.spacingNum(1),
-      width: theme.spacingNum(1),
-      borderWidth: 'thin',
-      borderColor: theme.palette.divider,
-      borderRadius: theme.shape.borderRadius,
-      flexGrow: 1
-    },
-    menuItem : {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      paddingBottom: theme.spacingNum(1)
-    },
-  };
-});
+const Root = styled(FormControl)(({ theme }) => ({
+  marginTop : theme.spacingNum(1),
+  marginBottom : theme.spacingNum(2)
+}));
+
+const AutocompleteStyle = styled(Autocomplete)(() => ({}));
+
+const ColorSwatches = styled('div')(() => ({
+  display: 'flex',
+  flexDirection: 'row',
+  flexGrow: 1
+}));
+
+const ColorSwatch = styled('div')(({ theme }) => ({
+  height: theme.spacingNum(1),
+  width: theme.spacingNum(1),
+  borderWidth: 'thin',
+  borderColor: theme.palette.divider,
+  borderRadius: theme.shape.borderRadius,
+  flexGrow: 1
+}));
+
+const MenuItem = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  paddingBottom: theme.spacingNum(1)
+}));
 
 const PaletteSelectField = ({
   className,
@@ -47,7 +46,6 @@ const PaletteSelectField = ({
   errors,
   field
 })=>{
-  const styles = useStyles();
   const theme = useTheme();
 
   const {
@@ -113,15 +111,15 @@ const PaletteSelectField = ({
   const hasErrors = errors && errors.length > 0;
 
   return (
-    <FormControl
-      className={clsx(styles.root, className)}
+    <Root
+      className={clsx(className)}
       style={style}
       variant="outlined"
       fullWidth
       error={errors && errors.length > 0}
       required={required}
     >
-      <Autocomplete
+      <AutocompleteStyle
         id={id}
         name={id}
         value={selected}
@@ -129,7 +127,6 @@ const PaletteSelectField = ({
         autoHighlight={true}
         autoSelect={true}
         freeSolo={false}
-        className={clsx(styles.select)}
         fullWidth={true}
         options={colors}
         groupBy={(option)=>option.paletteName}
@@ -143,14 +140,13 @@ const PaletteSelectField = ({
         renderOption={(props, option) => {
           return (
             <li {...props}>
-              <div className={clsx(styles.menuItem)}>
+              <MenuItem>
                 <Typography>{option.label}</Typography>
-                <div className={clsx(styles.colorSwatches)}>
+                <ColorSwatches>
                   {
                     option.value.map((color)=>{
                       return (
-                        <div
-                          className={clsx(styles.colorSwatch)}
+                        <ColorSwatch
                           key={`${option.id}_${color}`}
                           style={{
                             backgroundColor : color
@@ -159,8 +155,8 @@ const PaletteSelectField = ({
                       );
                     })
                   }
-                </div>
-              </div>
+                </ColorSwatches>
+              </MenuItem>
             </li>
           );
         }}
@@ -181,7 +177,7 @@ const PaletteSelectField = ({
           );
         }}
       />
-    </FormControl>
+    </Root>
   );
 };
 

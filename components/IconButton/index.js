@@ -3,27 +3,21 @@ import { Tooltip, IconButton as NativeButton} from '@mui/material';
 import Icon from '../Icon';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 
-const useStyles = makeStyles(()=>{
-  return {
-    root : {
-    },
-    iconButton : {
+const Root = styled('span')({});
 
-    },
-    icon : {
-      // This is a fix for fontawesome icons of different sizes
-      // not centering in the icon button
-      '& .svg-inline--fa' : {
-        width: '100%',
-      }
-    }
-  };
+const StyledIconButton = styled(NativeButton)({});
+
+const IconWrapper = styled(Icon)({
+  // This is a fix for fontawesome icons of different sizes
+  // not centering in the icon button
+  '& .svg-inline--fa' : {
+    width: '100%',
+  }
 });
 
 const IconButton = (props)=>{
-  const classes = useStyles();
   const {
     title,
     icon,
@@ -39,21 +33,20 @@ const IconButton = (props)=>{
     <Tooltip
       title={title || ''}
     >
-      <span id={id} className={clsx(classes.root)}>
-        <NativeButton
-          className={clsx(classes.iconButton, className)}
+      <Root id={id}>
+        <StyledIconButton
+          className={clsx(className)}
           color={color}
           aria-label={title}
           onClick={onClick}
           size={size}
           {...rest}
         >
-          <Icon
+          <IconWrapper
             size={size}
-            className={clsx(classes.icon)}
-          >{icon}</Icon>
-        </NativeButton>
-      </span>
+          >{icon}</IconWrapper>
+        </StyledIconButton>
+      </Root>
     </Tooltip>
   );
 };

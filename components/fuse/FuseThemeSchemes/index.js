@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import React, {useContext} from 'react';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings } from 'app/auth/store/userSlice';
@@ -9,9 +9,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
-const useStyles = makeStyles(() => ({
-  root: {}
-}));
+
+const Root = styled('div')({
+});
 
 function SchemePreview({ theme, className, id, onSelect }) {
   const _theme = useTheme();
@@ -92,8 +92,8 @@ function FuseThemeSchemes(props) {
   const {user} = singularityContext;
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
+  const {} = props;
 
-  const classes = useStyles(props);
 
   function handleSchemeSelect(themeId) {
     const newSettings = {
@@ -116,7 +116,7 @@ function FuseThemeSchemes(props) {
   }
 
   return (
-    <div className={classes.root}>
+    <Root>
       <div className="flex flex-wrap w-full -mx-8">
         {Object.entries(themes)
           .filter(([key]) => !(key === 'mainThemeDark' || key === 'mainThemeLight'))
@@ -126,7 +126,7 @@ function FuseThemeSchemes(props) {
             </div>
           ))}
       </div>
-    </div>
+    </Root>
   );
 }
 

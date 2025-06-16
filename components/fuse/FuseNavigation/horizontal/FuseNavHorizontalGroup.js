@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
 import {withRouter} from 'react-router-dom';
 import clsx from 'clsx';
@@ -12,45 +12,46 @@ import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
-const useStyles = makeStyles(theme => ({
-  root       : {
-    color              : theme.palette.text.primary,
-    '& .list-item-text': {
-      padding: '0 0 0 16px'
+const ListItemStyle = styled(ListItem)(({ theme }) => ({
+  color              : theme.palette.text.primary,
+  '& .list-item-text': {
+    padding: '0 0 0 16px'
+  },
+  '&.level-0'        : {
+    height      : 48,
+    borderRadius: 4,
+    '&:hover'   : {
+      background: 'transparent'
     },
+  },
+  '&.dense'          : {
+    padding            : '8px 12px 8px 12px',
+    minHeight          : 40,
     '&.level-0'        : {
-      height      : 48,
-      borderRadius: 4,
-      '&:hover'   : {
-        background: 'transparent'
-      },
+      height: 44
     },
-    '&.dense'          : {
-      padding            : '8px 12px 8px 12px',
-      minHeight          : 40,
-      '&.level-0'        : {
-        height: 44
-      },
-      '& .list-item-text': {
-        padding: '0 0 0 8px'
-      }
+    '& .list-item-text': {
+      padding: '0 0 0 8px'
     }
-  },
-  children   : {},
-  popper     : {
-    zIndex: 999
-  },
-  popperClose: {
-    pointerEvents: 'none'
   }
+  
 }));
+
+const Children = styled('ul')(() => ({}));
+
+const StyledPopper = styled('div', {
+  shouldForwardProp: (prop) => !['opened'].includes(prop),
+})(({ opened }) => ({
+  zIndex: 999,
+  pointerEvents: opened ? 'auto' : 'none',
+}));
+
 
 function FuseNavHorizontalGroup(props)
 {
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
 
-  const classes = useStyles(props);
   const [opened, setOpened] = useState(false);
   const {item, nestedLevel, dense} = props;
 
@@ -67,9 +68,9 @@ function FuseNavHorizontalGroup(props)
       <Reference>
         {({ref}) => (
           <div ref={ref}>
-            <ListItem
+            <ListItemStyle
               button
-              className={clsx('list-item', classes.root, 'relative', 'level-' + nestedLevel, dense && 'dense')}
+              className={clsx('list-item', 'relative', 'level-' + nestedLevel, dense && 'dense')}
               onMouseEnter={() => handleToggle(true)}
               onMouseLeave={() => handleToggle(false)}
               aria-owns={opened ? 'menu-list-grow' : null}
@@ -84,7 +85,7 @@ function FuseNavHorizontalGroup(props)
                   <Icon className="text-16 arrow-icon">keyboard_arrow_right</Icon>
                 </IconButton>
               )}
-            </ListItem>
+            </ListItemStyle>
           </div>
         )}
       </Reference>
@@ -96,14 +97,14 @@ function FuseNavHorizontalGroup(props)
         >
           {({ref, style, placement}) => (
             opened && (
-              <div
+              <StyledPopper
                 ref={ref}
+                opened={opened}
                 style={{
                   ...style,
                   zIndex: 999 + nestedLevel
                 }}
                 data-placement={placement}
-                className={clsx(classes.popper, {[classes.popperClose]: !opened})}
               >
                 <Grow in={opened} id="menu-list-grow" style={{transformOrigin: '0 0 0'}}>
                   <Paper
@@ -111,7 +112,7 @@ function FuseNavHorizontalGroup(props)
                     onMouseLeave={() => handleToggle(false)}
                   >
                     {item.children && (
-                      <ul className={clsx(classes.children, 'pl-0')}>
+                      <Children className={clsx('pl-0')}>
                         {
                           item.children.map((item) => (
                             <React.Fragment key={item.id}>
@@ -134,11 +135,11 @@ function FuseNavHorizontalGroup(props)
                             </React.Fragment>
                           ))
                         }
-                      </ul>
+                      </Children>
                     )}
                   </Paper>
                 </Grow>
-              </div>
+              </StyledPopper>
             )
           )}
         </Popper>,

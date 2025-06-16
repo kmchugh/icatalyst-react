@@ -3,109 +3,60 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
+import {useTheme,styled} from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-const useStyles = makeStyles((theme) => ({
-  root : {
-    ['& .MuiFormLabel-root.Mui-focused:not([class*="Mui-error"])'] : {
-      color: mostReadable(tinycolor(theme.palette.background.default), [
-        theme.palette.primary.light,
-        theme.palette.primary.main,
-        theme.palette.primary.dark,
-      ]).toHex8String()
+const Row = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+
+  '& > *' : {
+    marginRight: theme.spacing(2),
+    flex: '1 0 0%',
+
+    '&:last-child' : {
+      marginRight: 0
     }
   },
-  col : {
-    display: 'flex',
+
+  [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
-    maxWidth: '100%',
 
     '& > *' : {
-      marginBottom: theme.spacingNum(1),
-      flex: '1 0 0%',
+      marginRight: 0,
+      marginBottom: theme.spacing(2),
+    }
+  }
+}));
 
-      '&:last-child' : {
-        marginBottom: 0
-      }
-    },
-
-    '& > .MuiDivider-root' : {
-      maxHeight: 1,
-      minHeight: 1,
-    },
-  },
-  row : {
-    display: 'flex',
-    flexDirection: 'row',
-
-    '& > *' : {
-      marginRight: theme.spacingNum(2),
-      flex: '1 0 0%',
-
-      '&:last-child' : {
-        marginRight: 0
-      }
-    },
-
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'column',
-
-      '& > *' : {
-        marginRight: 0,
-        marginBottom: theme.spacingNum(2),
-      }
+const Col = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  maxWidth: '100%',
+  '& > *' : {
+    marginBottom: theme.spacingNum(1),
+    flex: '1 0 0%',
+    '&:last-child' : {
+      marginBottom: 0
     }
   },
-  entityField : {
+  '& > .MuiDivider-root' : {
+    maxHeight: 1,
+    minHeight: 1,
   },
 }));
 
-const ColStyle = styled('div')(({ theme }) => ({
+const Root = styled('div')(({ theme }) => ({
   ['& .MuiFormLabel-root.Mui-focused:not([class*="Mui-error"])'] : {
     color: mostReadable(tinycolor(theme.palette.background.default), [
       theme.palette.primary.light,
       theme.palette.primary.main,
       theme.palette.primary.dark,
     ]).toHex8String()
-  },
-  display: 'flex',
-  flexDirection: 'column',
-  maxWidth: '100%',
-  '& > *': {
-    marginBottom: theme.spacingNum(1),
-    flex: '1 0 0%',
-    '&:last-child': {
-      marginBottom: 0,
-    },
-  },
-  '& > .MuiDivider-root': {
-    maxHeight: 1,
-    minHeight: 1,
-  },
+  }
 }));
 
-const Row = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  '& > *': {
-    marginRight: theme.spacingNum(2),
-    flex: '1 0 0%',
-    '&:last-child': {
-      marginRight: 0,
-    },
-  },
-  [theme.breakpoints.down('md')]: {
-    flexDirection: 'column',
-    '& > *': {
-      marginRight: 0,
-      marginBottom: theme.spacingNum(2),
-    },
-  },
-}));
-
-const ComponentStyle = styled(Component)({});
 
 const EntityView = ({
   definition,
@@ -118,7 +69,6 @@ const EntityView = ({
   hideReadOnly
 }) => {
   const dispatch = useDispatch;
-  const classes = useStyles();
   const theme = useTheme();
 
   if (!model) {
@@ -126,16 +76,17 @@ const EntityView = ({
   }
 
   function renderField(field, index, layout, orientation, key){
+    const Wrapper = orientation === 'row' ? Row : Col;
     // If the field is an array then change the orientation
     // And render the contents
     if (Array.isArray(field)) {
       key = !key ? `${orientation}_${index}` : `${key}|${orientation}_${index}`;
       const wrapper = (
-        <div key={key} className={clsx(classes[orientation], orientation)}>
+        <Wrapper key={key}>
           {field.map((field, i)=>{
             return renderField(field, i, layout, orientation === 'row' ? 'col' : 'row', key);
           })}
-        </div>
+        </Wrapper>
       );
       return wrapper;
     } else {
@@ -152,7 +103,8 @@ const EntityView = ({
           }
 
           let Component = getComponent(fieldDef);
-          return (hideReadOnly && fieldDef.readonly) ? null : <ComponentStyle
+          const EntityField = styled(Component)(() => ({}));
+          return (hideReadOnly && fieldDef.readonly) ? null : <EntityField
             value={fieldDef.getValue ? fieldDef.getValue(model) : model[field]}
             field={fieldDef}
             entity={model}
@@ -166,7 +118,7 @@ const EntityView = ({
             }
             errors={errors && errors[field]}
             style={{
-              paddingLeft : theme.spacingNum(fieldDef.indent || 0)
+              paddingLeft : theme.spacing(fieldDef.indent || 0)
             }}
           />;
         };
@@ -177,13 +129,13 @@ const EntityView = ({
   const entityKey = `${definition.name}_entityView`;
   const layout = (typeof definition.layout) === 'function' ? definition.layout(definition, model) : definition.layout;
   return (
-    <ColStyle key={entityKey} className={clsx('col', className)}>
+    <Root key={entityKey} className={clsx('col', className)}>
       {
         (layout || []).map((field, index, layout)=>{
           return renderField(field, index, layout, 'row', entityKey);
         })
       }
-    </ColStyle>
+    </Root>
   );
 };
 

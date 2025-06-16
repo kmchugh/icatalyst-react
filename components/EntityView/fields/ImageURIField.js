@@ -5,34 +5,6 @@ import clsx from 'clsx';
 import TextField from '@mui/material/TextField';
 import Image from '../../Image';
 
-// const useStyles = makeStyles((theme)=>{
-//   return {
-//     root : {
-//       marginTop : theme.spacingNum(1),
-//       marginBottom : theme.spacingNum(2),
-//       display: 'flex',
-//       flexDirection: 'row',
-//       alignItems : 'center'
-//     },
-//     textField : {
-//       flexBasis: '70%',
-//       flexGrow: 1,
-//       marginRight: theme.spacingNum(2)
-//     },
-//     imageWrapper : {
-//       flexBasis: '25%',
-//       flexGrow: 0,
-//       height: theme.spacingNum(10),
-//       overflow: 'hidden',
-//       display: 'flex',
-//       alignItems: 'center',
-//       justifyContent: 'center'
-//     },
-//     image : {
-//       borderRadius : theme.shape.borderRadius
-//     }
-//   };
-// });
 const Root = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(1),
   marginBottom: theme.spacing(2),

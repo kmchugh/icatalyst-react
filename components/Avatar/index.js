@@ -3,29 +3,6 @@ import PropTypes from 'prop-types';
 import { styled, useTheme } from '@mui/material/styles';
 import clsx from 'clsx';
 import Image from '../Image';
-// const useStyles = makeStyles(theme => ({
-//   root  : (config)=>({
-//     display : 'flex',
-//     backgroundColor : config.backgroundColor,
-//     borderColor: config.color,
-//     boxSizing : 'content-box',
-//     borderWidth: !config.border ? 0 : theme.spacingNum(1),
-//     overflow: 'hidden'
-//   }),
-//   circular : {
-//     borderRadius :'50%',
-
-//     ['& img'] : {
-//       borderRadius : '50%',
-//       width: '100%'
-//     }
-//   },
-//   image : {
-//     objectFit : 'cover',
-//     backgroundSize : 'cover'
-//   }
-// }));
-
 
 const Root = styled('div', {
   shouldForwardProp: (prop) =>

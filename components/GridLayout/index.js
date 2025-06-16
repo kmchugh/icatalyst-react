@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import clsx from 'clsx';
 import {getFromLocalStore, saveToLocalStore} from '@icatalyst/utilities/localstorage';
 import _ from '@icatalyst/@lodash';
@@ -10,20 +10,16 @@ import GridItem from './GridItem';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      height: '100%',
-      overflowX : 'hidden',
-      overflowY : 'auto'
-    },
-    gridRoot : {
-      ['& .react-grid-item.react-grid-placeholder'] : {
-        backgroundColor : theme.palette.divider
-      }
-    }
-  };
-});
+const Root = styled('div')(() => ({
+  height: '100%',
+  overflowX : 'hidden',
+  overflowY : 'auto'
+}));
+const ResponsiveGridLayoutStyle = styled(ResponsiveGridLayout)(({ theme }) => ({
+  ['& .react-grid-item.react-grid-placeholder'] : {
+    backgroundColor : theme.palette.divider
+  }
+}));
 
 const GridLayout = React.forwardRef(({
   className,
@@ -43,7 +39,6 @@ const GridLayout = React.forwardRef(({
   onDragStart,
   gridClassName
 }, ref)=>{
-  const styles = useStyles();
 
   const minmax = (value = 0, min = 1, max = 1)=>{
     return Math.min(Math.max(value, min), max);
@@ -139,18 +134,18 @@ const GridLayout = React.forwardRef(({
   }, [data]);
 
   return (
-    <div
-      className={clsx(styles.root, className)}
+    <Root
+      className={className}
       style={{...style}}
     >
-      <ResponsiveGridLayout
+      <ResponsiveGridLayoutStyle
         ref={ref}
         style={{
           height : '100vh',
         }}
         margin={margin}
         containerPadding={containerPadding}
-        className={clsx(styles.gridRoot, gridClassName)}
+        className={clsx(gridClassName)}
         draggableHandle={`.${dragHandleClass}`}
         isDroppable={isDroppable}
         onDrop={onDrop}
@@ -204,8 +199,8 @@ const GridLayout = React.forwardRef(({
             </ItemWrapperComponent>
           );
         })}
-      </ResponsiveGridLayout>
-    </div>
+      </ResponsiveGridLayoutStyle>
+    </Root>
   );
 });
 

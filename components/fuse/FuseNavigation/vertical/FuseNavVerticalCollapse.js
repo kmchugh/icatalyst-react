@@ -1,8 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Collapse, IconButton, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import FuseNavVerticalGroup from './FuseNavVerticalGroup';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
@@ -12,32 +11,25 @@ import {SingularityContext} from '@icatalyst/components/Singularity';
 import Icon from '@icatalyst/components/Icon';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    padding : 0,
-    '&.open': {
-      backgroundColor: 'rgba(0,0,0,.08)'
-    }
+const Root = styled('ul')(({ isOpen }) => ({
+  padding: 0,
+  backgroundColor: isOpen ? 'rgba(0,0,0,.08)' : 'inherit',
+}));
+
+const StyledListItem = styled(ListItem)(({ theme, nestedLevel}) => ({
+  height      : theme.spacingNum(5),
+  width       : `calc(100% - ${theme.spacingNum(2)})`,
+  borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+  paddingRight: theme.spacingNum(2.5),
+  paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+  color       : theme.palette.text.primary,
+  '&.square'  : {
+    width       : '100%',
+    borderRadius: '0'
   },
-  itemFn: ({nestedLevel})=>{
-    return {
-      height      : theme.spacingNum(5),
-      width       : `calc(100% - ${theme.spacingNum(2)})`,
-      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
-      paddingRight: theme.spacingNum(2.5),
-      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
-      color       : theme.palette.text.primary,
-    };
+  '& .list-item-icon'        : {
+    maxWidth: theme.spacingNum(2)
   },
-  item: {
-    '&.square'  : {
-      width       : '100%',
-      borderRadius: '0'
-    },
-    '& .list-item-icon'        : {
-      maxWidth: theme.spacingNum(2)
-    },
-  }
 }));
 
 function needsToBeOpened(location, item)
@@ -77,8 +69,6 @@ function FuseNavVerticalCollapse(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
   const {item, nestedLevel, active} = props;
-
-  const classes = useStyles(props);
 
   const [open, setOpen] = useState(() => needsToBeOpened(props.location, props.item));
 
@@ -130,11 +120,12 @@ function FuseNavVerticalCollapse(props)
       }
     </React.Fragment>
   ) : (
-    <ul className={clsx(classes.root, open && 'open')}>
+    <Root isOpen={open}>
 
-      <ListItem
-        className={clsx(classes.item, classes.itemFn, active)}
+      <StyledListItem
         onClick={handleClick}
+        nestedLevel={nestedLevel}
+        className={active ? 'active' : ''} 
       >
         {item.icon && (
           <Icon color="action" className="list-item-icon text-16 flex-shrink-0 mr-16">{item.icon}</Icon>
@@ -157,7 +148,7 @@ function FuseNavVerticalCollapse(props)
             {open ? 'expand_less' : 'expand_more'}
           </Icon>
         </IconButton>
-      </ListItem>
+      </StyledListItem>
 
       {item.children && (
         <Collapse in={open} className="collapse-children">
@@ -187,7 +178,7 @@ function FuseNavVerticalCollapse(props)
           }
         </Collapse>
       )}
-    </ul>
+    </Root>
   );
 }
 

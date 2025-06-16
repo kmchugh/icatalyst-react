@@ -9,26 +9,18 @@ import {Icon as MUIIcon} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
+import {styled} from '@mui/styles';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {},
-    'font-small' : {
-      fontSize: `${theme.spacingNum(2)}!important`
-    },
-    'font-default' : {
-      fontSize: `${theme.spacingNum(3)}!important`
-    },
-    'font-large' : {
-      fontSize: `${theme.spacingNum(4)}!important`
-    },
-    'font-inherit' : {
-      fontSize: 'inherit!important'
-    }
-  };
-});
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)(({ theme, definedSize }) => ({
+  fontSize:
+  definedSize === 'small'
+    ? `${theme.spacingNum(2)}!important`
+    : definedSize === 'large'
+      ? `${theme.spacingNum(4)}!important`
+      : definedSize === 'default'
+        ? `${theme.spacingNum(3)}!important`
+        : 'inherit!important',
+}));
 
 const fa_font_map = {
   'inherit' : undefined,
@@ -46,7 +38,6 @@ const Icon = ({
   ...rest
 })=>{
   const theme = useTheme();
-  const classes = useStyles();
   const definedSize = size || fontSize;
   // if (fontSize) {
   //   console.warn('fontSize has been deprecated on Icon, use size instead');
@@ -55,8 +46,8 @@ const Icon = ({
   if (children.startsWith('fa ')) {
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
-    return <FontAwesomeIcon
-      className={clsx(classes[`font-${definedSize}`])}
+    return <StyledFontAwesomeIcon
+      definedSize={definedSize}
       style={((color && color !== 'inherit') && [
         'action',
         'primary',

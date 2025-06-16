@@ -8,44 +8,41 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
-import {makeStyles} from '@mui/styles';
+import {styled} from '@mui/styles';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    minHeight          : 48,
-    '&.active'         : {
-      backgroundColor            : theme.palette.secondary.main,
-      color                      : theme.palette.secondary.contrastText + '!important',
-      pointerEvents              : 'none',
-      '& .list-item-text-primary': {
-        color: 'inherit'
-      },
-      '& .list-item-icon'        : {
-        color: 'inherit'
-      }
+const ListItemStyle = styled(ListItem)(({ theme }) => ({
+  minHeight          : 48,
+  '&.active'         : {
+    backgroundColor            : theme.palette.secondary.main,
+    color                      : theme.palette.secondary.contrastText + '!important',
+    pointerEvents              : 'none',
+    '& .list-item-text-primary': {
+      color: 'inherit'
     },
-    '& .list-item-icon': {},
+    '& .list-item-icon'        : {
+      color: 'inherit'
+    }
+  },
+  '& .list-item-icon': {},
+  '& .list-item-text': {
+    padding: '0 0 0 16px'
+  },
+  color              : theme.palette.text.primary,
+  textDecoration     : 'none!important',
+  '&.dense'          : {
+    padding            : '8px 12px 8px 12px',
+    minHeight          : 40,
     '& .list-item-text': {
-      padding: '0 0 0 16px'
-    },
-    color              : theme.palette.text.primary,
-    textDecoration     : 'none!important',
-    '&.dense'          : {
-      padding            : '8px 12px 8px 12px',
-      minHeight          : 40,
-      '& .list-item-text': {
-        padding: '0 0 0 8px'
-      }
+      padding: '0 0 0 8px'
     }
   }
 }));
+
 
 function FuseNavHorizontalItem(props)
 {
   const dispatch = useDispatch();
   const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
-
-  const classes = useStyles(props);
   const {item, dense} = props;
 
   if ( !FuseUtils.hasPermission(item.auth, userRole) )
@@ -54,12 +51,12 @@ function FuseNavHorizontalItem(props)
   }
 
   return (
-    <ListItem
+    <ListItemStyle
       button
       component={NavLinkAdapter}
       to={item.url}
       activeClassName="active"
-      className={clsx('list-item', classes.root, dense && 'dense')}
+      className={clsx('list-item', dense && 'dense')}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
       exact={item.exact}
     >
@@ -70,7 +67,7 @@ function FuseNavHorizontalItem(props)
       {item.badge && (
         <FuseNavBadge className="ml-8" badge={item.badge}/>
       )}
-    </ListItem>
+    </ListItemStyle>
   );
 }
 

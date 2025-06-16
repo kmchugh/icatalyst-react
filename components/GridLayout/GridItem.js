@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
+import {styled, useTheme} from '@mui/styles';
 import clsx from 'clsx';
 
 import Typography from '@mui/material/Typography';
@@ -9,51 +9,52 @@ import Paper from '@mui/material/Paper';
 import Icon from '../Icon';
 import DropdownMenu from '../Menus/DropdownMenu';
 
-const useStyles = makeStyles((theme)=>{
-  return {
-    root : {
-      overflow : 'hidden',
-      display : 'flex',
-      flexDirection : 'column'
-    },
-    contentHeader : {
-      flexShrink : 0,
-      flexGrow : 0,
-      display: 'flex',
-      flexDirection : 'row',
-      alignItems : 'center',
-      minHeight : theme.spacingNum(3)
-    },
-    content : {
-      overflow : 'hidden',
-      flexGrow : 1
-    },
-    dragHandle : {
-      overflow : 'hidden',
-      cursor : 'pointer',
-      color : 'transparent',
-      marginLeft : theme.spacingNum(.5),
-      marginRight : theme.spacingNum(1),
-      marginTop : theme.spacingNum(-0.5),
-      flexShrink: 0
-    },
-    titleWrapper : {
-      display: 'flex',
-      flexDirection : 'row',
-      flexGrow : 1,
-      flexShrink : 1,
-      alignItems : 'center',
-      overflow: 'hidden',
-      minHeight: theme.spacingNum(4)
-    },
-    title : {
-      fontWeight: 'bold',
-      paddingLeft: theme.spacingNum(1),
-      paddingRight: theme.spacingNum(1),
-      paddingTop : theme.spacingNum(.5)
-    },
-  };
-});
+const PaperStyle = styled(Paper)(() => ({
+  overflow : 'hidden',
+  display : 'flex',
+  flexDirection : 'column'
+}));
+
+const ContentHeader = styled('div')(({ theme }) => ({
+  flexShrink : 0,
+  flexGrow : 0,
+  display: 'flex',
+  flexDirection : 'row',
+  alignItems : 'center',
+  minHeight : theme.spacingNum(3)
+}));
+
+const Content = styled('div')(() => ({
+  overflow : 'hidden',
+  flexGrow : 1
+}));
+
+const DragHandle = styled('span')(({ theme }) => ({
+  overflow : 'hidden',
+  cursor : 'pointer',
+  color : 'transparent',
+  marginLeft : theme.spacingNum(.5),
+  marginRight : theme.spacingNum(1),
+  marginTop : theme.spacingNum(-0.5),
+  flexShrink: 0
+}));
+
+const TitleWrapper = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection : 'row',
+  flexGrow : 1,
+  flexShrink : 1,
+  alignItems : 'center',
+  overflow: 'hidden',
+  minHeight: theme.spacingNum(4)
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+  fontWeight: 'bold',
+  paddingLeft: theme.spacingNum(1),
+  paddingRight: theme.spacingNum(1),
+  paddingTop : theme.spacingNum(.5)
+}));
 
 const GridItem = React.forwardRef(({
   className,
@@ -68,21 +69,20 @@ const GridItem = React.forwardRef(({
   showChrome = true,
   ...rest
 }, ref)=>{
-  const styles = useStyles();
   const theme = useTheme();
 
   const isCompact = variant === 'compact';
 
   return (
-    <Paper
+    <PaperStyle
       ref={ref}
-      className={clsx(styles.root, className)}
+      className={clsx(className)}
       style={{...style}}
       {...rest}
     >
       {showChrome && (
-        <div className={clsx(styles.contentHeader)}>
-          <span className={clsx(styles.dragHandle, 'dragHandle')}>
+        <ContentHeader>
+          <DragHandle className="dragHandle">
             <Icon
               size={isCompact ? 'small' : 'medium'}
               title="drag"
@@ -97,25 +97,24 @@ const GridItem = React.forwardRef(({
               drag_indicator
             </Icon>
             tttt
-          </span>
-          <div className={clsx(styles.titleWrapper)}>
+          </DragHandle>
+          <TitleWrapper>
             {
               React.isValidElement(title) ?
                 title :
                 <Tooltip title={title || ''}>
-                  <Typography
+                  <Title
                     variant="subtitle1"
                     style={isCompact ? {
                       fontSize : theme.spacingNum(1.5)
                     } : {
                       fontSize : theme.spacingNum(2),
                     }}
-                    className={clsx(styles.title)}
                     noWrap
                     component="h2"
                   >
                     {title}
-                  </Typography>
+                  </Title>
                 </Tooltip>
             }
             {icon && (
@@ -125,7 +124,7 @@ const GridItem = React.forwardRef(({
                 {icon}
               </Icon>
             )}
-          </div>
+          </TitleWrapper>
           { menu && (
             <DropdownMenu
               menu={[]}
@@ -133,12 +132,12 @@ const GridItem = React.forwardRef(({
               title={menuTitle}
             />
           )}
-        </div>
+        </ContentHeader>
       )}
-      <div className={clsx(styles.content)}>
+      <Content>
         {children}
-      </div>
-    </Paper>
+      </Content>
+    </PaperStyle>
   );
 });
 

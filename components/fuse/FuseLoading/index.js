@@ -3,24 +3,21 @@ import {Typography, LinearProgress} from '@mui/material';
 import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
+import {useTheme,styled} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 
-const useStyles = makeStyles(()=>{
-  return {
-    root : {
-      alignSelf: 'center',
-      height: '100%',
-      display : 'flex',
-      flexGrow : 1,
-      flexShrink : 1,
-      flexDirection : 'column',
-      alignItems : 'center',
-      justifyContent : 'center',
-      overflow : 'hidden'
-    },
-  };
-});
+
+const Root = styled('div')(() => ({
+  alignSelf: 'center',
+  height: '100%',
+  display : 'flex',
+  flexGrow : 1,
+  flexShrink : 1,
+  flexDirection : 'column',
+  alignItems : 'center',
+  justifyContent : 'center',
+  overflow : 'hidden'
+}));
 
 function FuseLoading({
   className,
@@ -32,7 +29,6 @@ function FuseLoading({
   textColor = 'textSecondary'
 })
 {
-  const classes = useStyles();
   const theme = useTheme();
 
   color = color || mostReadable(
@@ -55,8 +51,8 @@ function FuseLoading({
   }
 
   return (
-    <div
-      className={clsx(classes.root, className)}
+    <Root
+      className={clsx(className)}
       style={{...style}}
     >
       {title && <Typography className="text-20 mb-16" color={textColor}>{title}</Typography>}
@@ -66,7 +62,7 @@ function FuseLoading({
         color={color}
         id={id}
       />
-    </div>
+    </Root>
   );
 }
 
