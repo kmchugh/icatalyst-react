@@ -1,7 +1,5 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import DialogContent from './DialogContent';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
@@ -11,8 +9,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Typography from '@mui/material/Typography';
 
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       display: 'flex',
@@ -95,10 +94,10 @@ const DialogContentEntityView = ({
     }]}
   >
     <>
-      <div className={clsx(classes.errorWrapper)}>
+      <div className={cxMui(classes.errorWrapper)}>
         {
           (dialogErrors && dialogErrors.length > 0) && (
-            <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={dialogErrors}/>
+            <ErrorWrapper className={cxMui(classes.errorWrapperComponent)} errors={dialogErrors}/>
           )
         }
       </div>
@@ -111,7 +110,7 @@ const DialogContentEntityView = ({
             </Typography>
           }
 
-          <List className={clsx(classes.entityList, entityListClassName)}>
+          <List className={cxMui(classes.entityList, entityListClassName)}>
             {entities.map((item)=>{
               return (
                 <ListItem key={definition.getIdentity(item)}>

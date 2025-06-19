@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {ColorPicker as NativeComponent, createColor } from 'material-ui-color';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {}
   };
@@ -43,13 +42,13 @@ const ColorPicker = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <NativeComponent
         hideTextfield={hideTextfield}
         defaultValue={defaultColor}
-        className={clsx(styles.colorPicker)}
+        className={cxMui(styles.colorPicker)}
         onChange={handleChange}
         value={colorValue}
       />

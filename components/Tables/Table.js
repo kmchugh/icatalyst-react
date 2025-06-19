@@ -6,10 +6,8 @@ import {useGlobalFilter, usePagination,
   useTable
 } from 'react-table';
 import {FuseLoading} from '../fuse';
-import makeStyles from '@mui/styles/makeStyles';
 import { StyledEngineProvider, Tooltip, ThemeProvider as MUIThemeProvider } from '@mui/material';
 import { ThemeProvider } from '@mui/styles';
-import clsx from 'clsx';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
 import TableToolbar from './TableToolbar';
@@ -26,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const TABLE_SETTINGS_ID = 'icat_table';
 
@@ -80,7 +79,7 @@ registerSettings({
 
 
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -226,7 +225,7 @@ const Table = ({
       const measure = ()=>{
         const containingElement = _tableRef.current.parentNode;
         const height = containingElement.clientHeight;
-        const headerElement = containingElement.querySelector(`.${clsx(classes.tableHeader)}`);
+        const headerElement = containingElement.querySelector(`.${cxMui(classes.tableHeader)}`);
 
         const headerHeight = headerElement ? headerElement.clientHeight : 0;
         const newHeight = height - headerHeight;
@@ -315,7 +314,7 @@ const Table = ({
       const { getToggleAllRowsSelectedProps, rows, toggleRowSelected} = props;
       return (
         <div className="max-w-42">
-          <Checkbox className={clsx(classes.tableHeaderCheckbox)} {...getToggleAllRowsSelectedProps()} onChange={(e)=>{
+          <Checkbox className={cxMui(classes.tableHeaderCheckbox)} {...getToggleAllRowsSelectedProps()} onChange={(e)=>{
             rows.forEach((r)=>{
               if (isSelectable(r.original)) {
                 toggleRowSelected(r.id, e.target.checked);
@@ -338,7 +337,7 @@ const Table = ({
           e.stopPropagation();
         }} className="max-w-42">
           <Checkbox
-            className={clsx(classes.checkbox)}
+            className={cxMui(classes.checkbox)}
             color="primary"
             onChange={(e)=>{
               return onChange(e);
@@ -395,18 +394,18 @@ const Table = ({
   }
 
   return (
-    <div ref={_tableRef} className={clsx(classes.root, className, `density-${mode}`)}>
+    <div ref={_tableRef} className={cxMui(classes.root, className, `density-${mode}`)}>
       {updating && <FuseLoading/>}
       {!updating && (!data || data.length === 0) && (
         EmptyListComponent
       )}
       {!updating && data && data.length > 0 && (
-        <TableContainer className={clsx(classes.tableWrapper)}>
+        <TableContainer className={cxMui(classes.tableWrapper)}>
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={themes.toolbarTheme}>
               <MUIThemeProvider theme={themes.toolbarTheme}>
                 <TableToolbar
-                  className={clsx(classes.tableToolbar)}
+                  className={cxMui(classes.tableToolbar)}
                   title={title}
                   icon={icon}
                   PrependHeaderComponent={PrependHeaderComponent}
@@ -449,17 +448,17 @@ const Table = ({
                       aria-label="table size"
                     >
                       <Tooltip title="condensed" value="condensed">
-                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="condensed">
+                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="condensed">
                           <Icon>format_align_justify</Icon>
                         </ToggleButton>
                       </Tooltip>
                       <Tooltip title="regular" value="regular">
-                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="regular">
+                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="regular">
                           <Icon>view_headline</Icon>
                         </ToggleButton>
                       </Tooltip>
                       <Tooltip title="expanded" value="expanded">
-                        <ToggleButton className={clsx(classes.toggleButton)} aria-label="expanded">
+                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="expanded">
                           <Icon>menu</Icon>
                         </ToggleButton>
                       </Tooltip>
@@ -470,10 +469,10 @@ const Table = ({
             </ThemeProvider>
           </StyledEngineProvider>
 
-          <div className={clsx(classes.tableScroll, 'flex-1')}>
-            <MuiTable className={clsx(classes.table)} {...getTableProps()}>
+          <div className={cxMui(classes.tableScroll, 'flex-1')}>
+            <MuiTable className={cxMui(classes.table)} {...getTableProps()}>
               <TableHeader
-                className={clsx(classes.tableHeader)}
+                className={cxMui(classes.tableHeader)}
                 headerGroups={headerGroups}
                 style={{
                   width: tableWidth
@@ -481,7 +480,7 @@ const Table = ({
               />
 
               <TableBody
-                className={clsx(classes.tableBody)}
+                className={cxMui(classes.tableBody)}
                 style={{
                   maxHeight: tableHeight,
                   width: tableWidth

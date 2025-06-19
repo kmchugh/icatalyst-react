@@ -4,9 +4,8 @@ import {Dialog as NativeDialog,
 } from '@mui/material';
 import IconButton from '../IconButton';
 
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const TransitionFull = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
@@ -17,7 +16,7 @@ const TransitionDialog = React.forwardRef(function Transition(props, ref) {
 });
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
     },
@@ -82,7 +81,7 @@ const Dialog = (props)=>{
 
   return (
     <NativeDialog
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       open={Boolean(open)}
       fullWidth={fullWidth}
       fullScreen={fullScreen}
@@ -105,11 +104,11 @@ const Dialog = (props)=>{
       {showTitle && (
         <AppBar
           position="static"
-          className={clsx(styles.dialogAppBar)}
+          className={cxMui(styles.dialogAppBar)}
           color={appBarColor}
           elevation={elevation}
         >
-          <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
+          <div className={cxMui('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
             <div className="flex flex-1 flex-col items-start justify-center mr-16">
               <Typography
                 id="alert-dialog-title"
@@ -150,7 +149,7 @@ const Dialog = (props)=>{
       )}
 
       <div
-        className={clsx(styles.contentWrapper)}
+        className={cxMui(styles.contentWrapper)}
       >
         {children}
       </div>

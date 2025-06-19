@@ -1,8 +1,6 @@
 import React, {useImperativeHandle} from 'react';
 import PropTypes from 'prop-types';
 
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import {DialogContent as NativeContent,
   DialogActions, Divider,
   Button
@@ -11,8 +9,9 @@ import Icon from '../../Icon';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../../../store/actions/dialog.actions';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       overflow : 'hidden',
@@ -67,8 +66,8 @@ const DialogContent = React.forwardRef(({
 
 
   return (
-    <div className={clsx(classes.root, className)} style={style}>
-      <NativeContent component="div" className={clsx(classes.contentWrapper)}>
+    <div className={cxMui(classes.root, className)} style={style}>
+      <NativeContent component="div" className={cxMui(classes.contentWrapper)}>
         {children}
       </NativeContent>
 
@@ -77,13 +76,13 @@ const DialogContent = React.forwardRef(({
           <>
             <Divider variant="middle"/>
 
-            <DialogActions className={clsx(classes.actionWrapper)}>
+            <DialogActions className={cxMui(classes.actionWrapper)}>
 
               {
                 actions && actions.map((action)=>(
                   <Button
                     key={action.key || action.title}
-                    className={clsx(classes.actionButton, action.className)}
+                    className={cxMui(classes.actionButton, action.className)}
                     color={action.color || 'primary'}
                     startIcon={action.icon && (
                       <Icon>{action.icon}</Icon>
@@ -105,7 +104,7 @@ const DialogContent = React.forwardRef(({
               { !hideCloseButton &&
                 (
                   <Button
-                    className={clsx(classes.actionButton, closeButtonClassName)}
+                    className={cxMui(classes.actionButton, closeButtonClassName)}
                     color="secondary"
                     startIcon={closeIcon && (
                       <Icon>{closeIcon}</Icon>
