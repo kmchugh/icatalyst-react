@@ -69,7 +69,6 @@ const MasterDetailPage = ({
       console.warn(`You have not set a selector root for definition ${title}`);
     },
   } = definition;
-  
   const [canAdd, setCanAdd] = useState(false);
   const [canDelete, setCanDelete] = useState(false);
   const [isCancelled, setIsCancelled] = useState(false);
