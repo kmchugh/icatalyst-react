@@ -1,15 +1,14 @@
 import React from 'react';
 import {Icon, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root: {
     minHeight          : 48,
     '&.active'         : {
@@ -58,7 +57,7 @@ function FuseNavHorizontalLink(props)
       component="a"
       href={item.url}
       target={item.target ? item.target : '_blank'}
-      className={clsx('list-item', classes.root, dense && 'dense')}
+      className={cxMui('list-item', classes.root, dense && 'dense')}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
     >
       {item.icon && (

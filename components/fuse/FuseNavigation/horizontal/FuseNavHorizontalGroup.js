@@ -1,9 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {Manager, Reference, Popper} from 'react-popper';
 import * as ReactDOM from 'react-dom';
@@ -11,8 +9,9 @@ import FuseNavHorizontalCollapse from './FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root       : {
     color              : theme.palette.text.primary,
     '& .list-item-text': {
@@ -69,7 +68,7 @@ function FuseNavHorizontalGroup(props)
           <div ref={ref}>
             <ListItem
               button
-              className={clsx('list-item', classes.root, 'relative', 'level-' + nestedLevel, dense && 'dense')}
+              className={cxMui('list-item', classes.root, 'relative', 'level-' + nestedLevel, dense && 'dense')}
               onMouseEnter={() => handleToggle(true)}
               onMouseLeave={() => handleToggle(false)}
               aria-owns={opened ? 'menu-list-grow' : null}
@@ -103,7 +102,7 @@ function FuseNavHorizontalGroup(props)
                   zIndex: 999 + nestedLevel
                 }}
                 data-placement={placement}
-                className={clsx(classes.popper, {[classes.popperClose]: !opened})}
+                className={cxMui(classes.popper, {[classes.popperClose]: !opened})}
               >
                 <Grow in={opened} id="menu-list-grow" style={{transformOrigin: '0 0 0'}}>
                   <Paper
@@ -111,7 +110,7 @@ function FuseNavHorizontalGroup(props)
                     onMouseLeave={() => handleToggle(false)}
                   >
                     {item.children && (
-                      <ul className={clsx(classes.children, 'pl-0')}>
+                      <ul className={cxMui(classes.children, 'pl-0')}>
                         {
                           item.children.map((item) => (
                             <React.Fragment key={item.id}>

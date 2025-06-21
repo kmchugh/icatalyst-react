@@ -1,17 +1,16 @@
 import React, {useContext} from 'react';
 import {ListSubheader} from '@mui/material';
 import Icon from '../../../Icon';
-import makeStyles from '@mui/styles/makeStyles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '../../../Singularity';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     itemFn: ({nestedLevel})=>{
       return {
@@ -81,9 +80,9 @@ function FuseNavVerticalGroup(props)
   ) : (
     <React.Fragment>
 
-      <ListSubheader disableSticky={true} className={clsx(classes.item, classes.itemFn, 'list-subheader flex items-center', item.icon ? 'icon' : 'iconless')}>
+      <ListSubheader disableSticky={true} className={cxMui(classes.item, classes.itemFn, 'list-subheader flex items-center', item.icon ? 'icon' : 'iconless')}>
         {item.icon && (
-          <Icon color="action" className={clsx(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
+          <Icon color="action" className={cxMui(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
         )}
         <span className="list-subheader-text uppercase text-12">
           {t(item.title)}

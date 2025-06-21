@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
 import {Drawer} from '@mui/material';
 import {useMediaQuery, useTheme} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
 import NavbarLayout from './NavbarLayout';
 import {useDispatch, useSelector} from 'react-redux';
 import {useSettingsContext} from '../../../components/Settings/SettingsProvider';
 import {registerSettings} from '../../../components/Settings/SettingsProvider';
 import _ from '../../../@lodash';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
 const NAVBAR_SETTINGS_ID = 'icat_navbar';
 
@@ -34,44 +33,38 @@ registerSettings({
   }]
 });
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme, {navbarWidth, navbarFoldedWidth}) => {
   return {
-    wrapper({navbarWidth}){
-      return {
-        display                     : 'flex',
-        flexDirection               : 'column',
-        zIndex                      : 4,
-        [theme.breakpoints.up('lg')]: {
-          width   : navbarWidth,
-          minWidth: navbarWidth
-        }
-      };
+    wrapper: {
+      display                     : 'flex',
+      flexDirection               : 'column',
+      zIndex                      : 4,
+      [theme.breakpoints.up('lg')]: {
+        width   : navbarWidth,
+        minWidth: navbarWidth
+      }
     },
-    wrapperFolded({navbarFoldedWidth}) {
-      return {
-        [theme.breakpoints.up('lg')]: {
-          width   : `${navbarFoldedWidth}px !important`,
-          minWidth: `${navbarFoldedWidth}px !important`,
-        }
-      };
+    wrapperFolded: {
+      [theme.breakpoints.up('lg')]: {
+        width   : `${navbarFoldedWidth}px !important`,
+        minWidth: `${navbarFoldedWidth}px !important`,
+      }
     },
-    navbar({navbarWidth}){
-      return {
-        display      : 'flex',
-        overflow     : 'hidden',
-        flexDirection: 'column',
-        flex         : '1 1 auto',
-        width        : navbarWidth,
-        minWidth     : navbarWidth,
-        height       : '100%',
-        zIndex       : 4,
-        transition   : theme.transitions.create(['width', 'min-width'], {
-          easing  : theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.shorter
-        }),
-        boxShadow    : theme.shadows[3],
-        backgroundColor: theme.palette.background.default
-      };
+    navbar: {
+      display      : 'flex',
+      overflow     : 'hidden',
+      flexDirection: 'column',
+      flex         : '1 1 auto',
+      width        : navbarWidth,
+      minWidth     : navbarWidth,
+      height       : '100%',
+      zIndex       : 4,
+      transition   : theme.transitions.create(['width', 'min-width'], {
+        easing  : theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.shorter
+      }),
+      boxShadow    : theme.shadows[3],
+      backgroundColor: theme.palette.background.default
     },
     left           : {
       left: 0
@@ -79,20 +72,16 @@ const useStyles = makeStyles((theme) => {
     right          : {
       right: 0
     },
-    folded({navbarFoldedWidth}) {
-      return {
-        position: 'absolute',
-        width   : navbarFoldedWidth,
-        minWidth: navbarFoldedWidth,
-        top     : 0,
-        bottom  : 0
-      };
+    folded: {
+      position: 'absolute',
+      width   : navbarFoldedWidth,
+      minWidth: navbarFoldedWidth,
+      top     : 0,
+      bottom  : 0
     },
-    foldedAndOpened({navbarWidth}){
-      return {
-        width   : navbarWidth,
-        minWidth: navbarWidth
-      };
+    foldedAndOpened: {
+      width   : navbarWidth,
+      minWidth: navbarWidth
     },
     navbarContent  : {
       flex: '1 1 auto',
@@ -245,7 +234,7 @@ function NavbarWrapper()
   return (
     <div id="app-navbar" role="navigation"
       className={
-        clsx(
+        cxMui(
           classes.wrapper,
           folded && classes.wrapperFolded
         )}
@@ -253,7 +242,7 @@ function NavbarWrapper()
       {!isLgDown && (<>
         <div
           className={
-            clsx(
+            cxMui(
               classes.navbar,
               classes[config.navbar.position],
               folded && classes.folded,

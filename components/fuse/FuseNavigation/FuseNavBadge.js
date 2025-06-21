@@ -1,10 +1,9 @@
 import React from 'react';
-import {makeStyles} from '@mui/styles';
 import Icon from '@icatalyst/components/Icon';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root: ({badge})=>{
     return {
       padding        : `0 ${theme.spacingNum(1)}`,
@@ -28,7 +27,7 @@ function FuseNavBadge(props)
 
   return (
     <div
-      className={clsx(classes.root, className, 'item-badge')}
+      className={cxMui(classes.root, className, 'item-badge')}
     >
       {
         badge.icon &&

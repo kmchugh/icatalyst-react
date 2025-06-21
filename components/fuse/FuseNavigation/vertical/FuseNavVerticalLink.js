@@ -1,17 +1,16 @@
 import React, {useContext} from 'react';
 import {ListItem, ListItemText} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
-import {makeStyles} from '@mui/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   itemFn: ({nestedLevel})=>{
     return {
       height      : theme.spacingNum(5),
@@ -69,7 +68,7 @@ function FuseNavVerticalLink(props)
       component="a"
       href={item.url}
       target={item.target ? item.target : '_blank'}
-      className={clsx(classes.item, classes.itemFn, 'list-item', active)}
+      className={cxMui(classes.item, classes.itemFn, 'list-item', active)}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
     >
       {item.icon && (

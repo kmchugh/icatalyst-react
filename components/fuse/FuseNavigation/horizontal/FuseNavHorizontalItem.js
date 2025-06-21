@@ -3,14 +3,13 @@ import {Icon, ListItem, ListItemText} from '@mui/material';
 import NavLinkAdapter from '../NavLinkAdapter';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
-import {makeStyles} from '@mui/styles';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root: {
     minHeight          : 48,
     '&.active'         : {
@@ -59,7 +58,7 @@ function FuseNavHorizontalItem(props)
       component={NavLinkAdapter}
       to={item.url}
       activeClassName="active"
-      className={clsx('list-item', classes.root, dense && 'dense')}
+      className={cxMui('list-item', classes.root, dense && 'dense')}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
       exact={item.exact}
     >

@@ -2,12 +2,11 @@ import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Icon from '../Icon';
-import clsx from 'clsx';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   loadingWrapper  : {
     position : 'relative',
   },
@@ -105,13 +104,13 @@ function Image(props) {
   }, [props, source, bgColor]);
 
   return !loaded ? (
-    <div className={clsx(classes.loadingWrapper)}
+    <div className={cxMui(classes.loadingWrapper)}
       style={{
         color : spinnerColor
       }}
     >
       {image}
-      <Icon className={clsx(classes.spinner)}>fa spinner</Icon>
+      <Icon className={cxMui(classes.spinner)}>fa spinner</Icon>
     </div>
   ) : image;
 }

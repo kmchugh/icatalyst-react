@@ -1,8 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Collapse, IconButton, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import FuseNavVerticalGroup from './FuseNavVerticalGroup';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
@@ -11,8 +9,9 @@ import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Icon from '@icatalyst/components/Icon';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root: {
     padding : 0,
     '&.open': {
@@ -130,10 +129,10 @@ function FuseNavVerticalCollapse(props)
       }
     </React.Fragment>
   ) : (
-    <ul className={clsx(classes.root, open && 'open')}>
+    <ul className={cxMui(classes.root, open && 'open')}>
 
       <ListItem
-        className={clsx(classes.item, classes.itemFn, active)}
+        className={cxMui(classes.item, classes.itemFn, active)}
         onClick={handleClick}
       >
         {item.icon && (

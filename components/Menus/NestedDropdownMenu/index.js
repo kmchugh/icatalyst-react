@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import clsx from 'clsx';
 
 import {
   ListSubheader,
@@ -13,11 +12,11 @@ import {
 import IconButton from '../../IconButton';
 import MenuItem from './component/MenuItem';
 import { alpha } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   paper: {
     width: 360, 
     maxHeight: '50vh',
@@ -106,7 +105,7 @@ const NestedDropdownMenu = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)} style={styles.root}>
+    <div className={cxMui(classes.root, className)} style={styles.root}>
       <IconButton
         title={iconTitle}
         icon={icon}
@@ -114,7 +113,7 @@ const NestedDropdownMenu = ({
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
         }}
-        size="large" className={clsx(classes.iconButton)} />
+        size="large" className={cxMui(classes.iconButton)} />
       <Popper placement={placement} open={open} anchorEl={anchorEl}  modifiers={{
         // offset: {
         //   enabled: true,
@@ -127,14 +126,14 @@ const NestedDropdownMenu = ({
           setIsOpen(false);
           setAnchorEl(null);
         }}>
-          <Paper className={clsx(classes.paper)} style={styles.paper}>
+          <Paper className={cxMui(classes.paper)} style={styles.paper}>
             <List
-              className={clsx(classes.list)}
+              className={cxMui(classes.list)}
               style={styles.list}
               component="nav"
               aria-labelledby="nested-list-subheader"
               subheader={
-                <ListSubheader className={clsx(classes.subHeader)} style={styles.subHeader}>
+                <ListSubheader className={cxMui(classes.subHeader)} style={styles.subHeader}>
                   {subHeader}
                 </ListSubheader>
               }
@@ -156,14 +155,14 @@ const NestedDropdownMenu = ({
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
                   onClickItem={()=>onClickItem(item)}
-                  className={clsx(classes.listItem, item.isDelete && classes.listItemText,value === item.name && classes.listItemSelected)}
+                  className={cxMui(classes.listItem, item.isDelete && classes.listItemText,value === item.name && classes.listItemSelected)}
                   style={styles.listItemText}
                   onChildClickItem={onClickItem}
                 />
               ))}
               {isCreate && (
                 <Button 
-                  className={clsx(classes.addMoreButton)} 
+                  className={cxMui(classes.addMoreButton)} 
                   variant="text" 
                   startIcon={<Icon>add</Icon> }
                   onClick={addNewItem}

@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
 import {ListItem, ListItemText} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
-import {makeStyles} from '@mui/styles';
 import NavLinkAdapter from '../NavLinkAdapter';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
@@ -12,8 +10,9 @@ import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {mostReadable} from '@ctrl/tinycolor';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
 
   const activeBackground = theme.palette.navigation_active_background ?
     theme.palette.navigation_active_background.main :
@@ -97,7 +96,7 @@ function FuseNavVerticalItem(props)
       component={NavLinkAdapter}
       to={item.url}
       activeClassName="active"
-      className={clsx(classes.item, classes.itemFn, active)}
+      className={cxMui(classes.item, classes.itemFn, active)}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
       exact={item.exact}
     >

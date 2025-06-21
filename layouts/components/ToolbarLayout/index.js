@@ -1,12 +1,12 @@
 import React from 'react';
 import {AppBar, Box, Toolbar} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton';
 import UserMenu from '@icatalyst/components/UserMenu';
 import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
 import {useSelector} from 'react-redux';
+import { createMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   separator: {
     width          : 1,
     height         : 64,
