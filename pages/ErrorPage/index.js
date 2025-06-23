@@ -4,7 +4,7 @@ import {FuseAnimate} from '@icatalyst/components/fuse';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import { createMuiStyles, cxMui } from '../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../utilities';
 
 const useStyles = createMuiStyles((theme)=>{
   return {
@@ -52,7 +52,7 @@ const useStyles = createMuiStyles((theme)=>{
 
 const ErrorPage = (props) => {
 
-  const classes =useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const { state = {
     title : 'An Error has Occurred',

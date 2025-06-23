@@ -5,6 +5,16 @@ import { useTheme } from '@mui/material/styles';
 import Icon from '../Icon';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 import { createMuiStyles, cxMui } from '../../utilities';
+import { keyframes } from '@emotion/css';
+
+const rotating = keyframes({
+  from: {
+    transform: 'rotate(0deg)'
+  },
+  to: {
+    transform: 'rotate(360deg)'
+  }
+});
 
 const useStyles = createMuiStyles((theme) => ({
   loadingWrapper  : {
@@ -16,16 +26,16 @@ const useStyles = createMuiStyles((theme) => ({
     height : theme.spacingNum(2),
     top : `calc(50% - ${theme.spacingNum(1)})`,
     left : `calc(50% - ${theme.spacingNum(1)})`,
-    animation: '$rotating 2s linear infinite'
+    animation: `${rotating} 2s linear infinite`
   },
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
+  // '@keyframes rotating': {
+  //   from: {
+  //     transform: 'rotate(0deg)'
+  //   },
+  //   to: {
+  //     transform: 'rotate(360deg)'
+  //   }
+  // },
 }));
 
 function Image(props) {

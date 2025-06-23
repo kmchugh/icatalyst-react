@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles(() => ({
   root: {}
@@ -92,7 +92,7 @@ function FuseThemeSchemes(props) {
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   function handleSchemeSelect(themeId) {
     const newSettings = {

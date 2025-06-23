@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { AppContext } from '../../../contexts';
 import {Typography} from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles((theme)=>{
   return {
@@ -51,7 +51,7 @@ const useStyles = createMuiStyles((theme)=>{
 
 function FuseSplashScreen(props)
 {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {message, messageColor} = props;
 
   const {applicationConfig} = useContext(AppContext);

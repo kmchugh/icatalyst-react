@@ -10,6 +10,16 @@ import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 import { createMuiStyles, cxMui } from '../../../utilities';
+import { keyframes } from '@emotion/css';
+
+const rotating = keyframes({
+  from: {
+    transform: 'rotate(0deg)'
+  },
+  to: {
+    transform: 'rotate(360deg)'
+  }
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   const theme = useTheme();
@@ -48,18 +58,18 @@ const useStyles = createMuiStyles(theme => ({
   },
   settingsButton: {
     '& $buttonIcon': {
-      animation: '$rotating 3s linear infinite'
+      animation: `${rotating} 3s linear infinite`
     }
   },
   schemesButton: {},
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
+  // '@keyframes rotating': {
+  //   from: {
+  //     transform: 'rotate(0deg)'
+  //   },
+  //   to: {
+  //     transform: 'rotate(360deg)'
+  //   }
+  // },
   buttonIcon: {
     fontSize: 20
   },

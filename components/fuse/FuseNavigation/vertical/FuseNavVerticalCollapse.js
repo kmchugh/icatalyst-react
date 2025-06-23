@@ -9,7 +9,7 @@ import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Icon from '@icatalyst/components/Icon';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root: {
@@ -77,7 +77,7 @@ function FuseNavVerticalCollapse(props)
   const {t} = useContext(LocalizationContext);
   const {item, nestedLevel, active} = props;
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const [open, setOpen] = useState(() => needsToBeOpened(props.location, props.item));
 

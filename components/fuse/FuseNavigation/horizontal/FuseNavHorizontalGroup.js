@@ -9,7 +9,7 @@ import FuseNavHorizontalCollapse from './FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root       : {
@@ -49,7 +49,7 @@ function FuseNavHorizontalGroup(props)
   const singularityContext = useContext(SingularityContext);
   const {isInRole} = singularityContext;
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [opened, setOpened] = useState(false);
   const {item, nestedLevel, dense} = props;
 

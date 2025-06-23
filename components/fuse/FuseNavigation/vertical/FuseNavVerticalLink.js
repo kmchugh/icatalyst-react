@@ -8,7 +8,7 @@ import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   itemFn: ({nestedLevel})=>{
@@ -54,7 +54,7 @@ function FuseNavVerticalLink(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {item, active} = props;
 
   if ( !isInRole(item.auth) )

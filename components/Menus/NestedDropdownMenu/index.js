@@ -14,7 +14,7 @@ import MenuItem from './component/MenuItem';
 import { alpha } from '@mui/material/styles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles((theme) => ({
   paper: {
@@ -77,7 +77,7 @@ const NestedDropdownMenu = ({
   ...props
 })=>{
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setIsOpen] = useState(isOpen || false);
   const [menuItems, setMenuItems] = useState([]);

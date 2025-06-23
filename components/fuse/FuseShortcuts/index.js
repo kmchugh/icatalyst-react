@@ -18,7 +18,7 @@ import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
 import { amber } from '@mui/material/colors';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles({
   root: {
@@ -43,7 +43,7 @@ function FuseShortcuts(props) {
 
   const navigationData = []; // useSelector(selectNavigation);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const searchInputRef = useRef(null);
   const [addMenu, setAddMenu] = useState(null);
   const [searchText, setSearchText] = useState('');

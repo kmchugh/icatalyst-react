@@ -4,7 +4,7 @@ import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton'
 import UserMenu from '@icatalyst/components/UserMenu';
 import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
 import {useSelector} from 'react-redux';
-import { createMuiStyles } from '../../../utilities';
+import { createMuiStyles, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   separator: {
@@ -19,7 +19,7 @@ function ToolbarComponent(props)
 
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   return (
     <AppBar id="app-toolbar" className="flex relative z-10" color="default">

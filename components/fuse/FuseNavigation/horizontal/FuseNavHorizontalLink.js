@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root: {
@@ -43,7 +43,7 @@ function FuseNavHorizontalLink(props)
   const dispatch = useDispatch();
   const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {item, dense} = props;
 
   if ( !FuseUtils.hasPermission(item.auth, userRole) )

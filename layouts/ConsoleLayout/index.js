@@ -18,7 +18,7 @@ import NavbarWrapperLayout from '../components/NavbarLayouts/NavbarWrapperLayout
 import SettingsPanelLayout from '../components/SettingsPanelLayout';
 import SessionPanel from '../../components/Session/SessionPanel';
 import StateDialog from '../../components/Dialogs/StateDialog';
-import { createMuiStyles, cxMui } from '../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../utilities';
 
 const useStyles = createMuiStyles(theme => {
   return {
@@ -195,7 +195,7 @@ ScrollWrapper.propTypes = {
 
 function Layout(props) {
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const appContext = useContext(AppContext);
   const { routes } = appContext;
 

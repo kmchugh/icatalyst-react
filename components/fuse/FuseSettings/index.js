@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import layoutDefaults from '@icatalyst/layouts/layoutDefaults';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root: {},
@@ -56,7 +56,7 @@ function FuseSettings(props) {
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   function handleChange(event) {
     const newSettings = _.set(

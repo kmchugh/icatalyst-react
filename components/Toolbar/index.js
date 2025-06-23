@@ -1,7 +1,7 @@
 import React from 'react';
 import {Toolbar as NativeToolbar } from '@mui/material';
 import PropTypes from 'prop-types';
-import { createMuiStyles, cxMui } from '../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../utilities';
 
 const useStyles = createMuiStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ const useStyles = createMuiStyles((theme) => ({
 }));
 
 const Toolbar = (props)=>{
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const {primaryTools, secondaryTools} = props;
 

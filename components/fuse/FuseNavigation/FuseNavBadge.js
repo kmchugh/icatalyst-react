@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '@icatalyst/components/Icon';
 import PropTypes from 'prop-types';
-import { createMuiStyles, cxMui } from '../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root: ({badge})=>{
@@ -22,7 +22,7 @@ const useStyles = createMuiStyles(theme => ({
 
 function FuseNavBadge(props)
 {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {className, badge} = props;
 
   return (

@@ -8,7 +8,7 @@ import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '../../../Singularity';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles((theme)=>{
   return {
@@ -40,7 +40,7 @@ function FuseNavVerticalGroup(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const {item, nestedLevel, active} = props;
 

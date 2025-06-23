@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import IconButton from '../../../IconButton';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles((theme) => ({
   list: {
@@ -60,7 +60,7 @@ const MenuItem = ({
   onChildClickItem,
   ...props
 }) => {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {

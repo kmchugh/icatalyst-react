@@ -19,4 +19,16 @@ const createMuiStyles = (stylesFn) => {
 // Utility function to combine multiple class names
 const cxMui = (...args) => cx(...args);
 
-export { createMuiStyles, cxMui, useTheme as useMuiTheme };
+const useMergedMuiStyles = (useGeneratedStyles, props = {}) => {
+  const generated = useGeneratedStyles(props);
+  const passedClasses = props.classes || {};
+
+  const merged = Object.keys(generated).reduce((acc, key) => {
+    acc[key] = cx(generated[key], passedClasses[key]);
+    return acc;
+  }, {});
+
+  return merged;
+};
+
+export { createMuiStyles, cxMui, useTheme as useMuiTheme, useMergedMuiStyles };

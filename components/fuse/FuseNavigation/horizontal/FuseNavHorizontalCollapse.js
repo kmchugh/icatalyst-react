@@ -11,7 +11,7 @@ import FuseNavHorizontalGroup from './FuseNavHorizontalGroup';
 import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
 import FuseNavBadge from './../FuseNavBadge';
-import { createMuiStyles, cxMui } from '../../../../utilities';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
 const useStyles = createMuiStyles(theme => ({
   root       : {
@@ -45,7 +45,7 @@ function FuseNavHorizontalCollapse(props)
 {
   const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [opened, setOpened] = useState(false);
   const {item, nestedLevel, dense} = props;
 
