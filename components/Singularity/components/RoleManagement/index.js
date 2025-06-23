@@ -220,9 +220,9 @@ const RoleManagement = ({
     }]);
   }, [definition, entity]);
 
-  useEffect(()=>{
+  useEffect(()=>{    
     refreshRoleData();
-  }, [definition, entity]);
+  }, []);
 
   const handleAddResourceClick = ({
     roleID
