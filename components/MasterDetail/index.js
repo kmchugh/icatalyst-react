@@ -196,7 +196,7 @@ const MasterDetailPage = ({
     let request;
 
     if (reducer && !reducer.loaded) {
-      console.log('Loading..........')
+      console.log('Loading..........');
       loadEntities();
       // return loadEntities();
     } else if (!reducer) {
@@ -207,7 +207,7 @@ const MasterDetailPage = ({
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
       if (parentMasterDetailContext) {
-        console.log('Loading..........')
+        console.log('Loading..........');
 
         loadEntities();
         // return loadEntities();
