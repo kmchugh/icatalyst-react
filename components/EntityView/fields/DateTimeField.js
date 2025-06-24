@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import {FormControl} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
+import { cxMui } from '../../../utilities';
 
 const NEVER = 9223372036854776000;
 
@@ -30,7 +30,7 @@ const DateTimeField = (props) => {
 
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       id={id}
       name={id}
       label={label}

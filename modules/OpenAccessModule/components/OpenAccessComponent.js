@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
-import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import { useLocation } from 'react-router-dom';
 import { getParams } from '../../../utilities/getParams';
@@ -15,11 +13,12 @@ import {useSelector, useDispatch} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { alpha } from '@mui/material/styles';
 import { definition as authProviderDefinition } from '../../../components/Singularity/store/reducers/authProviders.reducer';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../../utilities';
 
 const PROVIDER_KEY = 'b145043b-28b9-46e4-b55f-02daf8291045';
 const PROVIDER_SIGNOUT_KEY = 'ce95d9a5-5065-464a-af8f-064c926e2f6c';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display : 'flex',
@@ -93,7 +92,7 @@ const useStyles = makeStyles((theme)=>{
 const OpenAccessComponent = ({
   className
 })=>{
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const singularityContext = useContext(SingularityContext);
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const dispatch = useDispatch();
@@ -177,18 +176,18 @@ const OpenAccessComponent = ({
   }
 
   return (
-    <div className={clsx(styles.root, styles.backgroundCoverFN, className)}>
+    <div className={cxMui(styles.root, styles.backgroundCoverFN, className)}>
       { (inAuthFlow || gettingAuthProvider) && (
-        <div className={clsx(styles.loadingWrapper)}>
+        <div className={cxMui(styles.loadingWrapper)}>
           <FuseLoading/>
         </div>
       )}
       { (!inAuthFlow && authProvider && !gettingAuthProvider) && (
         <InfoPage
-          className={clsx(styles.infoPage)}
+          className={cxMui(styles.infoPage)}
           icon={
             <div>
-              <Image className={clsx(styles.logoIcon)}
+              <Image className={cxMui(styles.logoIcon)}
                 src={config.clientLogo}
                 defaultSrc={
                   mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
@@ -201,9 +200,9 @@ const OpenAccessComponent = ({
           title={`Welcome to ${config.clientName}`}
           info="You are not currently logged in.  Not to worry, you are just a click away."
           action={(
-            <div className={clsx(styles.actionWrapper)}>
+            <div className={cxMui(styles.actionWrapper)}>
 
-              <div className={clsx(styles.action)}>
+              <div className={cxMui(styles.action)}>
                 {!loggingIn && <Button
                   color="primary"
                   variant="contained"
@@ -215,13 +214,13 @@ const OpenAccessComponent = ({
                   {`Log in with ${authProvider.name}`}
                 </Button>}
                 {loggingIn && <FuseLoading
-                  className={clsx(styles.loader)}
+                  className={cxMui(styles.loader)}
                   title="Connecting"
                 />}
               </div>
 
               <div
-                className={clsx(styles.resetLogin)}
+                className={cxMui(styles.resetLogin)}
               >
                 <IconButton
                   icon="vpn_key"
@@ -239,10 +238,10 @@ const OpenAccessComponent = ({
       )}
       { (!inAuthFlow && !authProvider && !gettingAuthProvider) && (
         <InfoPage
-          className={clsx(styles.infoPage)}
+          className={cxMui(styles.infoPage)}
           icon={
             <div>
-              <Image className={clsx(styles.logoIcon)}
+              <Image className={cxMui(styles.logoIcon)}
                 src={config.clientLogo}
                 defaultSrc={
                   mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
@@ -255,9 +254,9 @@ const OpenAccessComponent = ({
           title={`Welcome to ${config.clientName}`}
           info="You are not currently logged in.  Not to worry, you are just a click away."
           action={(
-            <div className={clsx(styles.actionWrapper)}>
+            <div className={cxMui(styles.actionWrapper)}>
 
-              <div className={clsx(styles.action)}>
+              <div className={cxMui(styles.action)}>
                 <Button
                   color="primary"
                   variant="contained"
@@ -271,7 +270,7 @@ const OpenAccessComponent = ({
 
               <Typography variant="body1">OR</Typography>
 
-              <div className={clsx(styles.action)}>
+              <div className={cxMui(styles.action)}>
                 <Button
                   color="primary"
                   variant="contained"

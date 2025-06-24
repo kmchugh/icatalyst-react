@@ -5,8 +5,7 @@ import {
 } from '@mui/material';
 
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
 // TODO : Move this to a service or utility
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,}$)/i;
@@ -15,7 +14,7 @@ const isValidEmail = (value) => {
   return !!(EMAIL_PATTERN.test(value));
 };
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       marginTop : theme.spacingNum(1),
@@ -150,7 +149,7 @@ const EmailListField = ({readonly = false,
     <div>
       {!readonly && (
         <NativeTextField
-          className={clsx(classes.root, className)}
+          className={cxMui(classes.root, className)}
           id={id}
           name={id}
           label={label}
@@ -175,12 +174,12 @@ const EmailListField = ({readonly = false,
       )}
 
       {
-        (readonly || showChips) && <div className={clsx(classes.chipWrapper)}>
+        (readonly || showChips) && <div className={cxMui(classes.chipWrapper)}>
           {
             value && value.map((email)=>{
               return (
                 <Chip
-                  className={clsx(classes.chip)}
+                  className={cxMui(classes.chip)}
                   key={email}
                   label={email}
                   onDelete={readonly ? null : ()=>handleDeleteEmail(email)}
