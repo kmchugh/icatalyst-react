@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import { InputLabel, TextField } from '@mui/material';
 import { IconButton } from '@icatalyst/components';
 import { getCleanText } from '@icatalyst/utilities/getCleanText';
 import {RichTextEditor} from '@icatalyst/components';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     minHeight: theme.spacingNum(4),
     width: '100%',
@@ -105,7 +104,7 @@ const EditableLabel = ({
       classes={{
         root: classes.inherit
       }}
-      className={clsx(classes.label)}
+      className={cxMui(classes.label)}
     >
       {editorValue.current}
     </InputLabel>
@@ -118,7 +117,7 @@ const EditableLabel = ({
         value={value || ''}
         multiline={true}
         onChange={(e, text) => onValueUpdated(text)}
-        className={clsx(classes.ckeditor)}
+        className={cxMui(classes.ckeditor)}
         updateOnBlur = {updateOnBlur}
         {...rest}
       />
@@ -131,7 +130,7 @@ const EditableLabel = ({
           dir : dir
         }}
         ref={editorRef}
-        className={clsx(Component.props.className)}
+        className={cxMui(Component.props.className)}
         onBlur={handleFocusOut}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
@@ -146,13 +145,13 @@ const EditableLabel = ({
 
   return (
     <div
-      className={clsx(classes.root,className)}
+      className={cxMui(classes.root,className)}
       onClick={!useEditButton ? ()=>(setEditable(true)) : null}
     >
       {
         (!editable && useEditButton) && (
           <IconButton
-            className={clsx(classes.editButton, 'edit')}
+            className={cxMui(classes.editButton, 'edit')}
             title="edit"
             icon="edit"
             size="small"
@@ -164,7 +163,7 @@ const EditableLabel = ({
       {
         (editable && useEditButton) && (
           <IconButton
-            className={clsx(classes.editButton)}
+            className={cxMui(classes.editButton)}
             title="finish"
             icon="check"
             size="small"
@@ -173,7 +172,7 @@ const EditableLabel = ({
       }
       {
         !editable && !richtext && (
-          <div className={clsx(classes.labelWrapper)}>
+          <div className={cxMui(classes.labelWrapper)}>
             {Component}
           </div>
         )

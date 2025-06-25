@@ -2,10 +2,9 @@ import React from 'react';
 import { Tooltip, IconButton as NativeButton} from '@mui/material';
 import Icon from '../Icon';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
     },
@@ -39,9 +38,9 @@ const IconButton = (props)=>{
     <Tooltip
       title={title || ''}
     >
-      <span id={id} className={clsx(classes.root)}>
+      <span id={id} className={cxMui(classes.root)}>
         <NativeButton
-          className={clsx(classes.iconButton, className)}
+          className={cxMui(classes.iconButton, className)}
           color={color}
           aria-label={title}
           onClick={onClick}
@@ -50,7 +49,7 @@ const IconButton = (props)=>{
         >
           <Icon
             size={size}
-            className={clsx(classes.icon)}
+            className={cxMui(classes.icon)}
           >{icon}</Icon>
         </NativeButton>
       </span>
