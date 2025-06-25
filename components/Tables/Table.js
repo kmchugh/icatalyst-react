@@ -7,7 +7,6 @@ import {useGlobalFilter, usePagination,
 } from 'react-table';
 import {FuseLoading} from '../fuse';
 import { StyledEngineProvider, Tooltip, ThemeProvider as MUIThemeProvider } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
 import Icon from '../Icon';
 import EmptyTable from './EmptyTable';
 import TableToolbar from './TableToolbar';
@@ -402,71 +401,69 @@ const Table = ({
       {!updating && data && data.length > 0 && (
         <TableContainer className={cxMui(classes.tableWrapper)}>
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.toolbarTheme}>
-              <MUIThemeProvider theme={themes.toolbarTheme}>
-                <TableToolbar
-                  className={cxMui(classes.tableToolbar)}
-                  title={title}
-                  icon={icon}
-                  PrependHeaderComponent={PrependHeaderComponent}
-                  inputComponent={
-                    <ClearableInput
-                      label="search"
-                      icon="search"
-                      fullWidth={true}
-                      value={searchFilter}
-                      onChange={setSearchFilter}
-                    />
-                  }
-                  actions={[{
-                    title : 'delete',
-                    icon : 'delete',
-                    onClick : ()=>{
-                      onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
-                    },
-                    show : canDelete && Object.keys(selectedRowIds).length > 0,
-                  },{
-                    title : 'add',
-                    icon : 'add',
-                    onClick : ()=>{
-                      onAddClicked && onAddClicked();
-                    },
-                    show : canAdd && Object.keys(selectedRowIds).length === 0
-                  }].filter(i=>i.show)}
-                  switchComponent={
-                    <ToggleButtonGroup
-                      value={mode}
-                      exclusive
-                      onChange={(e, mode)=>{
-                        updateSettings((values)=>{
-                          return {
-                            ...values,
-                            density : mode
-                          };
-                        }, settingsInstanceID);
-                      }}
-                      aria-label="table size"
-                    >
-                      <Tooltip title="condensed" value="condensed">
-                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="condensed">
-                          <Icon>format_align_justify</Icon>
-                        </ToggleButton>
-                      </Tooltip>
-                      <Tooltip title="regular" value="regular">
-                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="regular">
-                          <Icon>view_headline</Icon>
-                        </ToggleButton>
-                      </Tooltip>
-                      <Tooltip title="expanded" value="expanded">
-                        <ToggleButton className={cxMui(classes.toggleButton)} aria-label="expanded">
-                          <Icon>menu</Icon>
-                        </ToggleButton>
-                      </Tooltip>
-                    </ToggleButtonGroup>
-                  }
-                />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.toolbarTheme}>
+              <TableToolbar
+                className={cxMui(classes.tableToolbar)}
+                title={title}
+                icon={icon}
+                PrependHeaderComponent={PrependHeaderComponent}
+                inputComponent={
+                  <ClearableInput
+                    label="search"
+                    icon="search"
+                    fullWidth={true}
+                    value={searchFilter}
+                    onChange={setSearchFilter}
+                  />
+                }
+                actions={[{
+                  title : 'delete',
+                  icon : 'delete',
+                  onClick : ()=>{
+                    onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
+                  },
+                  show : canDelete && Object.keys(selectedRowIds).length > 0,
+                },{
+                  title : 'add',
+                  icon : 'add',
+                  onClick : ()=>{
+                    onAddClicked && onAddClicked();
+                  },
+                  show : canAdd && Object.keys(selectedRowIds).length === 0
+                }].filter(i=>i.show)}
+                switchComponent={
+                  <ToggleButtonGroup
+                    value={mode}
+                    exclusive
+                    onChange={(e, mode)=>{
+                      updateSettings((values)=>{
+                        return {
+                          ...values,
+                          density : mode
+                        };
+                      }, settingsInstanceID);
+                    }}
+                    aria-label="table size"
+                  >
+                    <Tooltip title="condensed" value="condensed">
+                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="condensed">
+                        <Icon>format_align_justify</Icon>
+                      </ToggleButton>
+                    </Tooltip>
+                    <Tooltip title="regular" value="regular">
+                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="regular">
+                        <Icon>view_headline</Icon>
+                      </ToggleButton>
+                    </Tooltip>
+                    <Tooltip title="expanded" value="expanded">
+                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="expanded">
+                        <Icon>menu</Icon>
+                      </ToggleButton>
+                    </Tooltip>
+                  </ToggleButtonGroup>
+                }
+              />
+            </MUIThemeProvider>
           </StyledEngineProvider>
 
           <div className={cxMui(classes.tableScroll, 'flex-1')}>
@@ -495,19 +492,17 @@ const Table = ({
           </div>
 
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.footerTheme}>
-              <MUIThemeProvider theme={themes.footerTheme}>
-                <TablePagination
-                  count={data.length}
-                  rowsPerPage={pageSize}
-                  page={pageIndex}
-                  onRefresh={onRefresh}
-                  onChangePage={handleChangePage}
-                  onChangeRowsPerPage={handleChangeRowsPerPage}
-                  title={title}
-                />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.footerTheme}>
+              <TablePagination
+                count={data.length}
+                rowsPerPage={pageSize}
+                page={pageIndex}
+                onRefresh={onRefresh}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                title={title}
+              />
+            </MUIThemeProvider>
           </StyledEngineProvider>
         </TableContainer>
       )}

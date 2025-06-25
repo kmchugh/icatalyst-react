@@ -5,7 +5,6 @@ import AppContextComponent from '../contexts/App';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@mui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
-import  Theme from '../components/Theme';
 import  ThemeModern from '../components/ThemeModern';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
@@ -86,23 +85,21 @@ export default function createApp({
                 <SettingsProvider getReducerRoot={({icatalyst})=>{
                   return icatalyst.settings;
                 }}>
-                  <Theme>
-                    <ThemeModern>
-                      <ErrorBoundary>
-                        <Router history={history}>
-                          <Singularity config={{
-                            ...singularityConfig,
-                            mapRoles : mapAuthRoles,
-                            // Allows customisation of the roles that are displayed to the user
-                            filterDisplayRoles : filterDisplayRoles,
-                          }}>
-                            <CssBaseline/>
-                            <Layout/>
-                          </Singularity>
-                        </Router>
-                      </ErrorBoundary>
-                    </ThemeModern>
-                  </Theme>
+                  <ThemeModern>
+                    <ErrorBoundary>
+                      <Router history={history}>
+                        <Singularity config={{
+                          ...singularityConfig,
+                          mapRoles : mapAuthRoles,
+                          // Allows customisation of the roles that are displayed to the user
+                          filterDisplayRoles : filterDisplayRoles,
+                        }}>
+                          <CssBaseline/>
+                          <Layout/>
+                        </Singularity>
+                      </Router>
+                    </ErrorBoundary>
+                  </ThemeModern>
                 </SettingsProvider>
               </LocalizationProvider>
             </Provider>

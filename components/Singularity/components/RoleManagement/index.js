@@ -6,7 +6,6 @@ import {SingularityContext} from '../../../Singularity';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {isSafari} from 'react-device-detect';
 import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
 import RoleComponent from '../OrganisationUserManagement/RoleComponent';
@@ -329,21 +328,19 @@ const RoleManagement = ({
       style={{...style}}
     >
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={themes.toolbarTheme}>
-          <MUIThemeProvider theme={themes.toolbarTheme}>
-            <div className={cxMui(styles.tabWrapper)}>
-              <DetailContentTabs
-                config={config}
-                tabs={tabs}
-                backUrl={backUrl}
-                selectedTab={selectedTab}
-                onTabChanged={()=>{
+        <MUIThemeProvider theme={themes.toolbarTheme}>
+          <div className={cxMui(styles.tabWrapper)}>
+            <DetailContentTabs
+              config={config}
+              tabs={tabs}
+              backUrl={backUrl}
+              selectedTab={selectedTab}
+              onTabChanged={()=>{
                 // Nothing to do
-                }}
-              />
-            </div>
-          </MUIThemeProvider>
-        </ThemeProvider>
+              }}
+            />
+          </div>
+        </MUIThemeProvider>
       </StyledEngineProvider>
       <div className={cxMui(styles.errorWrapper)}>
         {

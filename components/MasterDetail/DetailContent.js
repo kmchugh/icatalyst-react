@@ -3,7 +3,6 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
 import { Button, StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
 import Icon from '../Icon';
 import {useForm} from '../../hooks/fuse';
 import { Route, Switch } from 'react-router-dom';
@@ -207,30 +206,28 @@ const DetailContent = ({
   return (
     <div className={cxMui(classes.root)}>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={themes.toolbarTheme}>
-          <MUIThemeProvider theme={themes.toolbarTheme}>
-            <DetailContentTabs
-              config={config}
-              tabs={tabs}
-              backUrl={backUrl}
-              selectedTab={selectedTab}
-              onTabChanged={(index)=>{
-                setSelectedTab((selected)=>{
-                  return {
-                    prev : selected.current,
-                    current : index
-                  };
-                });
-                const path = tabs[index].path;
-                if (!path) {
-                  history.push(match.url);
-                } else {
-                  history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-                }
-              }}
-            />
-          </MUIThemeProvider>
-        </ThemeProvider>
+        <MUIThemeProvider theme={themes.toolbarTheme}>
+          <DetailContentTabs
+            config={config}
+            tabs={tabs}
+            backUrl={backUrl}
+            selectedTab={selectedTab}
+            onTabChanged={(index)=>{
+              setSelectedTab((selected)=>{
+                return {
+                  prev : selected.current,
+                  current : index
+                };
+              });
+              const path = tabs[index].path;
+              if (!path) {
+                history.push(match.url);
+              } else {
+                history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+              }
+            }}
+          />
+        </MUIThemeProvider>
       </StyledEngineProvider>
       <div className={cxMui(classes.errorWrapper)}>
         {

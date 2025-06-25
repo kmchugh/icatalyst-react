@@ -5,8 +5,6 @@ import {renderRoutes} from 'react-router-config';
 import { AppContext } from '../../contexts';
 import {PropTypes} from 'prop-types';
 import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
-
 import FuseScrollbars from '../../components/fuse/FuseScrollbars';
 import FuseMessage from '../../components/fuse/FuseMessage';
 import FuseSuspense from '../../components/fuse/FuseSuspense';
@@ -120,11 +118,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll !== 'body' && config.toolbar.position === 'inside')
           ) && (
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.toolbarTheme}>
-              <MUIThemeProvider theme={themes.toolbarTheme}>
-                <ToolbarLayout />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.toolbarTheme}>
+              <ToolbarLayout />
+            </MUIThemeProvider>
           </StyledEngineProvider>
         )
       }
@@ -137,11 +133,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll !== 'body' && config.toolbar.position === 'inside')
             ) && (
             <StyledEngineProvider injectFirst>
-              <ThemeProvider theme={themes.navbarTheme}>
-                <MUIThemeProvider theme={themes.navbarTheme}>
-                  <ToolbarLayout />
-                </MUIThemeProvider>
-              </ThemeProvider>
+              <MUIThemeProvider theme={themes.navbarTheme}>
+                <ToolbarLayout />
+              </MUIThemeProvider>
             </StyledEngineProvider>
           )
         }
@@ -154,11 +148,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
               (scroll !== 'body' && config.footer.position === 'inside')
             )) && (
             <StyledEngineProvider injectFirst>
-              <ThemeProvider theme={themes.footerTheme}>
-                <MUIThemeProvider theme={themes.footerTheme}>
-                  <Footer />
-                </MUIThemeProvider>
-              </ThemeProvider>
+              <MUIThemeProvider theme={themes.footerTheme}>
+                <Footer />
+              </MUIThemeProvider>
             </StyledEngineProvider>
           )
         }
@@ -171,11 +163,9 @@ function ScrollWrapper({children, scrollType, config, className, role}) {
             (scroll !== 'body' && config.footer.position === 'inside')
           )) && (
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.footerTheme}>
-              <MUIThemeProvider theme={themes.footerTheme}>
-                <Footer />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.footerTheme}>
+              <Footer />
+            </MUIThemeProvider>
           </StyledEngineProvider>
         )
       }
@@ -212,11 +202,9 @@ function Layout(props) {
       <div className="flex flex-1 flex-col overflow-hidden relative h-full">
         {scroll === 'content' && config.toolbar.display && config.toolbar.position === 'outside' && (
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.toolbarTheme}>
-              <MUIThemeProvider theme={themes.toolbarTheme}>
-                <ToolbarLayout />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.toolbarTheme}>
+              <ToolbarLayout />
+            </MUIThemeProvider>
           </StyledEngineProvider>
         )}
         <ScrollWrapper className="overflow-auto" scrollType="body" config={config}>
@@ -224,22 +212,18 @@ function Layout(props) {
             {
               config.navbar.display && config.navbar.position === 'left' &&
               <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={themes.navbarTheme}>
-                  <MUIThemeProvider theme={themes.navbarTheme}>
-                    <NavbarWrapperLayout />
-                  </MUIThemeProvider>
-                </ThemeProvider>
+                <MUIThemeProvider theme={themes.navbarTheme}>
+                  <NavbarWrapperLayout />
+                </MUIThemeProvider>
               </StyledEngineProvider>
             }
 
             <div className={classes.contentWrapper}>
               {scroll === 'body' && config.toolbar.display && config.toolbar.position === 'inside' && (
                 <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={themes.toolbarTheme}>
-                    <MUIThemeProvider theme={themes.toolbarTheme}>
-                      <ToolbarLayout />
-                    </MUIThemeProvider>
-                  </ThemeProvider>
+                  <MUIThemeProvider theme={themes.toolbarTheme}>
+                    <ToolbarLayout />
+                  </MUIThemeProvider>
                 </StyledEngineProvider>
               )}
               <ScrollWrapper role="main" className={classes.content} scrollType="content" config={config}>
@@ -251,30 +235,24 @@ function Layout(props) {
               </ScrollWrapper>
               {scroll === 'body' && config.footer.display && config.footer.position === 'inside' && (
                 <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={themes.footerTheme}>
-                    <MUIThemeProvider theme={themes.footerTheme}>
-                      <Footer />
-                    </MUIThemeProvider>
-                  </ThemeProvider>
+                  <MUIThemeProvider theme={themes.footerTheme}>
+                    <Footer />
+                  </MUIThemeProvider>
                 </StyledEngineProvider>
               )}
               { config.themeSettingsPanel.display && (
                 <StyledEngineProvider injectFirst>
-                  <ThemeProvider theme={themes.panelTheme}>
-                    <MUIThemeProvider theme={themes.panelTheme}>
-                      <SettingsPanelLayout />
-                    </MUIThemeProvider>
-                  </ThemeProvider>
+                  <MUIThemeProvider theme={themes.panelTheme}>
+                    <SettingsPanelLayout />
+                  </MUIThemeProvider>
                 </StyledEngineProvider>
               ) }
               {
                 config.userSettingsPanel.display && (
                   <StyledEngineProvider injectFirst>
-                    <ThemeProvider theme={themes.panelTheme}>
-                      <MUIThemeProvider theme={themes.panelTheme}>
-                        <SessionPanel />
-                      </MUIThemeProvider>
-                    </ThemeProvider>
+                    <MUIThemeProvider theme={themes.panelTheme}>
+                      <SessionPanel />
+                    </MUIThemeProvider>
                   </StyledEngineProvider>
                 )
               }
@@ -283,11 +261,9 @@ function Layout(props) {
             {
               config.navbar.display && config.navbar.position === 'right' &&
               <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={themes.navbarTheme}>
-                  <MUIThemeProvider theme={themes.navbarTheme}>
-                    <NavbarWrapperLayout />
-                  </MUIThemeProvider>
-                </ThemeProvider>
+                <MUIThemeProvider theme={themes.navbarTheme}>
+                  <NavbarWrapperLayout />
+                </MUIThemeProvider>
               </StyledEngineProvider>
             }
 
@@ -295,11 +271,9 @@ function Layout(props) {
         </ScrollWrapper>
         {scroll === 'content' && config.footer.display && config.footer.position === 'outside' && (
           <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={themes.footerTheme}>
-              <MUIThemeProvider theme={themes.footerTheme}>
-                <Footer />
-              </MUIThemeProvider>
-            </ThemeProvider>
+            <MUIThemeProvider theme={themes.footerTheme}>
+              <Footer />
+            </MUIThemeProvider>
           </StyledEngineProvider>
         )}
       </div>
