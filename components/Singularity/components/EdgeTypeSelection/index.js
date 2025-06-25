@@ -1,7 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as edgeDefinition} from '../../store/reducers/edgeType.reducer';
@@ -9,8 +7,9 @@ import FuseLoading from '../../../fuse/FuseLoading';
 import {ButtonBase, Tooltip} from '@mui/material';
 import Icon from '../../../Icon';
 import _ from '../../../../@lodash';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -146,14 +145,14 @@ const EdgeTypeSelection = ({
   }, [reducer]);
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       {updating && <FuseLoading/>}
       {(!updating && data) ? data.map((edgeType)=>{
         const isSelected = _.isEqual(value, edgeType.value);
         const isDisabled = readonly;
         return (
           <Tooltip key={edgeType.guid} title={isDisabled ? '' : edgeType.title}>
-            <div className={clsx(styles.itemRoot)}>
+            <div className={cxMui(styles.itemRoot)}>
               <ButtonBase
                 disabled={isDisabled}
                 value={edgeType.value}
@@ -169,13 +168,13 @@ const EdgeTypeSelection = ({
                   });
                 }}
                 variant="outlined"
-                className={clsx(styles.buttonBase,
+                className={cxMui(styles.buttonBase,
                   (isDisabled && !isSelected) ? styles.disabled : null,
                   isSelected ? styles.selected : null,
                   className)
                 }
               >
-                <Icon fontSize="large" className={clsx(styles.icon)}>{edgeType.icon}</Icon>
+                <Icon fontSize="large" className={cxMui(styles.icon)}>{edgeType.icon}</Icon>
                 {edgeType.description}
               </ButtonBase>
             </div>

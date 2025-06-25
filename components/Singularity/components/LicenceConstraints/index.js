@@ -1,7 +1,5 @@
 import React, {useContext, useState, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Autocomplete from '@mui/material/Autocomplete';
 import Typography from '@mui/material/Typography';
@@ -22,8 +20,9 @@ import {definition as edgeTypeDefinition} from '@icatalyst/components/Singularit
 import {useSelector} from 'react-redux';
 import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
 import _ from '@icatalyst/@lodash';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
@@ -248,7 +247,7 @@ const LicenceConstraints = ({
         allowClose : true,
         children : (
           <DialogContent
-            className={clsx(styles.dialog)}
+            className={cxMui(styles.dialog)}
             hideCloseButton={true}
             actions={
               [
@@ -274,7 +273,7 @@ const LicenceConstraints = ({
           >
             {
               <EntityView
-                className={clsx('min-w-sm md:min-width-md')}
+                className={cxMui('min-w-sm md:min-width-md')}
                 definition={{
                   name : 'roleConstraint',
                   layout: ['limit'],
@@ -309,7 +308,7 @@ const LicenceConstraints = ({
 
   return edgesReducer.loading ? <FuseLoading/> : (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Typography>Select Roles to add to this Licence</Typography>
@@ -338,13 +337,13 @@ const LicenceConstraints = ({
         }}
       />
 
-      <List className={clsx(styles.constraintList)}>
+      <List className={cxMui(styles.constraintList)}>
         {
           constraintRoles.map((r)=>{
             const isDefault = r.isDefault;
             const constraintLimit = constraints[r.guid] ? constraints[r.guid].limit : 0;
             return (
-              <ListItem key={r.guid} className={clsx(styles.constraintListItem)}>
+              <ListItem key={r.guid} className={cxMui(styles.constraintListItem)}>
                 <ListItemAvatar>
                   <Tooltip
                     title={isDefault ? 'New Users will be added to this role' : ''}
@@ -359,15 +358,15 @@ const LicenceConstraints = ({
                   </Tooltip>
                 </ListItemAvatar>
                 <div
-                  className={clsx(styles.constraintLimit)}
+                  className={cxMui(styles.constraintLimit)}
                 >
                   <Typography
-                    className={clsx(styles.constraintLimitText)}
+                    className={cxMui(styles.constraintLimitText)}
                   >
                     {constraintLimit}
                   </Typography>
                   <IconButton
-                    className={clsx(styles.iconButton)}
+                    className={cxMui(styles.iconButton)}
                     size="small"
                     icon="edit"
                     onClick={()=>{
@@ -377,12 +376,12 @@ const LicenceConstraints = ({
                   />
                 </div>
                 <ListItemText
-                  className={clsx(styles.constraintText, isDefault && styles.constraintTextDefault)}
+                  className={cxMui(styles.constraintText, isDefault && styles.constraintTextDefault)}
                   primary={r.name}
                   secondary={r.description}
                 />
                 <IconButton
-                  className={clsx(styles.iconButton)}
+                  className={cxMui(styles.iconButton)}
                   size="small"
                   icon="delete"
                   onClick={()=>handleRemoveRole(r.guid)}
