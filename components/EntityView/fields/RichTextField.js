@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import RichTextEditor from '../../RichTextEditor';
 import TextField from '@mui/material/TextField';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginTop : theme.spacingNum(1),
@@ -51,7 +50,7 @@ const RichTextField = ({
 
   return (
     <TextField
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       id={id}
       name={id}
       label={label}
