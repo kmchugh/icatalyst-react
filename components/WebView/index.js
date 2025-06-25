@@ -1,11 +1,10 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import {FuseLoading} from '../fuse';
 import Modal from '@mui/material/Modal';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       width: '100%',
@@ -35,7 +34,7 @@ const WebView = ({
   return (
     <div
       id={id}
-      className={clsx(classes.root)}
+      className={cxMui(classes.root)}
     >
       { (!uri || !loaded) && (
         <Modal
@@ -43,14 +42,14 @@ const WebView = ({
           open={!loaded}
           disablePortal={true}
         >
-          <div className={clsx(classes.modalWrapper)}>
+          <div className={cxMui(classes.modalWrapper)}>
             <FuseLoading/>
           </div>
         </Modal>
       )}
       { (uri) && (
         <iframe
-          className={clsx(classes.iframe)}
+          className={cxMui(classes.iframe)}
           title={title}
           src={uri}
           width="100%"

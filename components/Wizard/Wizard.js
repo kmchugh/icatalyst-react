@@ -1,7 +1,5 @@
 import React, {useState, useImperativeHandle, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {Dialog, DialogContent} from '../Dialogs';
 import EntityView    from '../EntityView';
 import {useForm} from '../../hooks/fuse';
@@ -9,8 +7,9 @@ import {Typography} from '@mui/material';
 import Icon from '../Icon';
 import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     contentRoot : {
@@ -260,7 +259,7 @@ const Wizard = React.forwardRef(({
 
   return open && (
     <Dialog
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       open={wizardOpen}
       title={pageTitle || title}
       showTitle={showPageTitle}
@@ -277,7 +276,7 @@ const Wizard = React.forwardRef(({
         ref={contentRef}
         actions={actions}
         hideCloseButton={hideCloseButton}
-        className={clsx(styles.contentRoot)}
+        className={cxMui(styles.contentRoot)}
         style={{
           minHeight : minHeight
         }}
@@ -291,7 +290,7 @@ const Wizard = React.forwardRef(({
         {updating && <FuseLoading title={updatingTitle}/>}
         {!updating && showProgress && (
           <div
-            className={clsx(styles.stepsWrapper)}
+            className={cxMui(styles.stepsWrapper)}
           >
             {
               progressSteps.flatMap((page, i)=>{
@@ -308,7 +307,7 @@ const Wizard = React.forwardRef(({
 
                   <div
                     key={i}
-                    className={clsx(
+                    className={cxMui(
                       styles.stepWrapper,
                       position === -1 ? styles.wrapperCompleted : null,
                       position === 0 ? styles.wrapperCurrent : null,
@@ -319,7 +318,7 @@ const Wizard = React.forwardRef(({
                     }}
                   >
                     <div
-                      className={clsx(
+                      className={cxMui(
                         styles.stepLabel,
                         position === -1 ? styles.stepCompleted : null,
                         position === 0 ? styles.stepCurrent : null,
@@ -337,7 +336,7 @@ const Wizard = React.forwardRef(({
                     {subtitle && (
                       <Typography
                         variant="caption"
-                        className={clsx(
+                        className={cxMui(
                           styles.stepDescription,
                           position === 0 ?
                             styles.textBold :
@@ -350,7 +349,7 @@ const Wizard = React.forwardRef(({
                     )}
                   </div>,
 
-                  <div key={`${i}_divider`} className={clsx(styles.stepDivider)}/>
+                  <div key={`${i}_divider`} className={cxMui(styles.stepDivider)}/>
                 ];
               }).filter((c, i, s)=>i!==s.length-1)
             }
@@ -360,7 +359,7 @@ const Wizard = React.forwardRef(({
         <div className="mb-8">
           {
             (dialogErrors && dialogErrors.length > 0) && (
-              <ErrorWrapper className={clsx(styles.errorWrapper)} errors={dialogErrors}/>
+              <ErrorWrapper className={cxMui(styles.errorWrapper)} errors={dialogErrors}/>
             )
           }
         </div>
@@ -374,7 +373,7 @@ const Wizard = React.forwardRef(({
         }
         { !updating && (
           <EntityView
-            className={clsx(styles.entityView, entityViewClassName)}
+            className={cxMui(styles.entityView, entityViewClassName)}
             definition={{
               ...definition,
               layout : layout
