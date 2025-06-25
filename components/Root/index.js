@@ -4,11 +4,10 @@ import { AppContext } from '../../contexts';
 import {useLocation} from 'react-router-dom';
 import { SingularityContext } from '../Singularity';
 import FuseLoading from '../fuse/FuseLoading';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       width: '100%',
@@ -41,7 +40,7 @@ const Root = ()=>{
     prioritisedRoutes.find(r=>r.routeConfig && r.routeConfig.defaultRoute) || prioritisedRoutes[0];
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       {
         !initialised && <FuseLoading/>
       }
