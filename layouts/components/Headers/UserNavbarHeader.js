@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
 import {AppBar, Typography} from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import UserRoles from '@icatalyst/components/UserRoles';
 import Avatar from '@icatalyst/components/Avatar';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root  : {
     '&.user': {
       '& .username, & .role': {
@@ -51,14 +50,14 @@ function UserNavbarHeader({className})
       elevation={0}
       component="div"
       classes={{root: classes.root}}
-      className={clsx('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
+      className={cxMui('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
     >
-      <Typography noWrap={true} className={clsx(classes.username, 'username text-16 whitespace-no-wrap')} color="inherit">{user && user.displayname}</Typography>
+      <Typography noWrap={true} className={cxMui(classes.username, 'username text-16 whitespace-no-wrap')} color="inherit">{user && user.displayname}</Typography>
       <UserRoles className="role text-center ml-16 mr-16 min-h-16 text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit"/>
 
       <Avatar
         reverse
-        className={clsx(classes.avatar, 'avatar')}
+        className={cxMui(classes.avatar, 'avatar')}
         alt={(user && user.displayname) || 'user profile image'}
         src={user && user.profileimageuri}
       />

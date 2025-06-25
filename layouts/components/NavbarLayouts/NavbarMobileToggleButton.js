@@ -4,11 +4,10 @@ import Icon from '@icatalyst/components/Icon';
 import * as Actions from 'app/store/actions';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root: {
     },
@@ -43,7 +42,7 @@ function NavbarMobileToggleButton({
       color="inherit"
       disableRipple
       size="large">
-      {children || <Icon className={clsx(classes.icon)}>menu</Icon>}
+      {children || <Icon className={cxMui(classes.icon)}>menu</Icon>}
     </IconButton>
   );
 }
