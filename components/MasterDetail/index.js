@@ -38,7 +38,6 @@ const MasterDetailPage = ({
   const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
-  console.log('parentMasterDetailContext',parentMasterDetailContext);
   
   if (definition === null) {
     definition = matchRoutes(routes, match.path)[0].route.routeConfig;
@@ -75,7 +74,6 @@ const MasterDetailPage = ({
   const [isCancelled, setIsCancelled] = useState(false);
 
   const reducer = useSelector(getReducerRoot);
-  console.log('definition',definition,reducer);
 
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
@@ -186,10 +184,7 @@ const MasterDetailPage = ({
       }));
     }
   };
-  console.log('updating-data', updating);  
   useDeepCompareEffect(()=>{
-    console.log('Changed deps:',  definition, reducer, auth,reducer.loaded ,parentMasterDetailContext);
-
     setErrors(null);
     if (!auth) {
       return;
@@ -198,7 +193,6 @@ const MasterDetailPage = ({
     let request;
 
     if (reducer && !reducer.loaded) {
-      console.log('Loading..........reducer.loaded');
       loadEntities();
       // return loadEntities();
     } else if (!reducer) {
@@ -209,7 +203,6 @@ const MasterDetailPage = ({
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
       if (parentMasterDetailContext) {
-        console.log('Loading..........parentMasterDetailContext');
 
         loadEntities();
         // return loadEntities();
