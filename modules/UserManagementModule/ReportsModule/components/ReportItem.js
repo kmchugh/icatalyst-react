@@ -1,7 +1,5 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardActions from '@mui/material/CardActions';
@@ -11,7 +9,8 @@ import Button from '@mui/material/Button';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 import { useHistory } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
-const useStyles = makeStyles((theme)=>{
+import { createMuiStyles, cxMui } from '../../../../utilities';
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     content : {
@@ -41,7 +40,7 @@ const ReportItem = ({
 
   return (
     <Card
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       onClick={()=>{
         history.push(reportURL);
@@ -51,9 +50,9 @@ const ReportItem = ({
         title={report.title}
       />
 
-      <CardContent className={clsx(styles.content)}>
+      <CardContent className={cxMui(styles.content)}>
         <Icon
-          className={clsx(styles.icon)}
+          className={cxMui(styles.icon)}
           size="large"
           color="primary"
         >
@@ -62,7 +61,7 @@ const ReportItem = ({
       </CardContent>
 
       <CardActions disableSpacing>
-        <div className={clsx(styles.spacer)}/>
+        <div className={cxMui(styles.spacer)}/>
         <Button
           key="new"
           color="primary"

@@ -1,14 +1,13 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import { Wizard } from '@icatalyst/components/Wizard';
 // import { useDispatch } from 'react-redux';
 // import { SingularityContext } from '@icatalyst/components/Singularity';
 import {definition as organisationDefinition} from '../../../../components/Singularity/store/reducers/organisations.reducer';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {}
   };
@@ -31,7 +30,7 @@ const OrganisationWizard = ({
 
   return (
     <Wizard
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       open={open}
       finishButtonIcon="save"
