@@ -1,7 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
-import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { SingularityContext } from '@icatalyst/components/Singularity';
 
@@ -21,8 +19,9 @@ import Image from '@icatalyst/components/Image';
 import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
 import { FuseLoading } from '@icatalyst/components/fuse';
 import { getCleanText } from '@icatalyst/utilities/getCleanText';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       background: theme.palette.background.default,
@@ -241,13 +240,13 @@ const FAQComponent = ({
   return hasAccess ? (
     <FuseLoading title='Loading...' />
   ) : (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       <div
-        className={clsx(classes.headTitle)}
+        className={cxMui(classes.headTitle)}
       >
         <Icon
           size='large'
-          className={clsx(classes.iconButton)}
+          className={cxMui(classes.iconButton)}
         >
           question_answer
         </Icon>
@@ -261,7 +260,7 @@ const FAQComponent = ({
 
         <Icon
           size='large'
-          className={clsx(classes.iconButton)}
+          className={cxMui(classes.iconButton)}
         >
           question_answer
         </Icon>
@@ -270,7 +269,7 @@ const FAQComponent = ({
         sx={{
           width: { xs: '100%', sm: '80%', md: '60%' },
         }}
-        className={clsx(classes.searchWrapper)}
+        className={cxMui(classes.searchWrapper)}
       >
         <ClearableInput
           label='Search with Keywords'
@@ -285,13 +284,13 @@ const FAQComponent = ({
           return (
             <Accordion
               key={element.guid}
-              className={clsx(classes.accordion)}
+              className={cxMui(classes.accordion)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls='panel1a-content'
                 id='panel1a-header'
-                className={clsx(classes.accordionSummary)}
+                className={cxMui(classes.accordionSummary)}
               >
                 <Grid container className={classes.titleContainer}>
                   <Image
@@ -301,13 +300,13 @@ const FAQComponent = ({
                   />
                   <Grid className={classes.headerTitle}>
                     <Typography
-                      className={clsx(classes.title)}
+                      className={cxMui(classes.title)}
                       sx={{ px: 3, py: 0 }}                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.title),
                       }}
                     />
                     <Typography
-                      className={clsx(classes.title, classes.excerpt)}
+                      className={cxMui(classes.title, classes.excerpt)}
                       sx={{ px: 3, py: 0 }} 
                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.excerpt),
@@ -317,10 +316,10 @@ const FAQComponent = ({
                 </Grid>
               </AccordionSummary>
               <AccordionDetails>
-                <div className={clsx(classes.accordionContent)}>
+                <div className={cxMui(classes.accordionContent)}>
                   <Grid container>
                     {element.mediaurl && (
-                      <video className={clsx(classes.accordionVideo)} controls>
+                      <video className={cxMui(classes.accordionVideo)} controls>
                         <source src={element.mediaurl} type='video/mp4' />
                       </video>
                     )}
@@ -328,7 +327,7 @@ const FAQComponent = ({
                       <Grid
                         sm={12}
                         md={element.mediaurl ? 5 : 10}
-                        className={clsx(classes.contentDetail)}
+                        className={cxMui(classes.contentDetail)}
                       >
                         <Typography
                           dangerouslySetInnerHTML={{
@@ -339,15 +338,15 @@ const FAQComponent = ({
                     )}
                   </Grid>
 
-                  <div className={clsx(classes.tagArea)}>
+                  <div className={cxMui(classes.tagArea)}>
                     {element.tags && (
-                      <div className={clsx(classes.accordionChip)}>
+                      <div className={cxMui(classes.accordionChip)}>
                         <Typography variant='subtitle2'>Tags :</Typography>
                         {element.tags.split(';').map((item) => (
                           <Chip
                             key={item}
                             label={item}
-                            className={clsx(classes.chip)}
+                            className={cxMui(classes.chip)}
                             onClick={() => setSearchData(item)}
                           />
                         ))}
@@ -355,11 +354,11 @@ const FAQComponent = ({
                     )}
 
                     {element.category && (
-                      <div className={clsx(classes.category)}>
+                      <div className={cxMui(classes.category)}>
                         <Typography variant='subtitle2'>Category :</Typography>
                         <Chip
                           label={element.category}
-                          className={clsx(classes.chip)}
+                          className={cxMui(classes.chip)}
                           onClick={() => setSearchData(element.category)}
                         />
                       </div>
