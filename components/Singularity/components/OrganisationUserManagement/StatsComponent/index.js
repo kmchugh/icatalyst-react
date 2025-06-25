@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import moment from '../../../../../@moment';
 import {LocalizationContext} from '../../../../../localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -72,12 +71,12 @@ const StatsComponent = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Paper
         className={
-          clsx(
+          cxMui(
             styles.panel,
             styles.licencePanel
           )
@@ -116,7 +115,7 @@ const StatsComponent = ({
             <Paper
               key={name}
               className={
-                clsx(
+                cxMui(
                   styles.panel,
                   styles.statPanel
                 )
@@ -127,7 +126,7 @@ const StatsComponent = ({
                 variant="h6"
                 component="h4"
                 className={
-                  clsx(
+                  cxMui(
                     styles.statLabel
                   )
                 }
@@ -135,7 +134,7 @@ const StatsComponent = ({
                 {t(name)}
               </Typography>
               <div className={
-                clsx(styles.stat,
+                cxMui(styles.stat,
                   (stat === undefined || stat === null) && styles.stat_string,
                   (stat !== undefined && stat !== null) && styles.stat_number,
                 )

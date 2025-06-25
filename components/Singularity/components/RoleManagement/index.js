@@ -1,7 +1,5 @@
 import React, {useContext, useState, useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../Singularity';
@@ -19,9 +17,10 @@ import EntityView from '../../../EntityView';
 import {useForm} from '../../../../hooks/fuse';
 import { withRouter } from 'react-router-dom';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       // Safari doesn't like the height set on this component
@@ -326,13 +325,13 @@ const RoleManagement = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={themes.toolbarTheme}>
           <MUIThemeProvider theme={themes.toolbarTheme}>
-            <div className={clsx(styles.tabWrapper)}>
+            <div className={cxMui(styles.tabWrapper)}>
               <DetailContentTabs
                 config={config}
                 tabs={tabs}
@@ -346,20 +345,20 @@ const RoleManagement = ({
           </MUIThemeProvider>
         </ThemeProvider>
       </StyledEngineProvider>
-      <div className={clsx(styles.errorWrapper)}>
+      <div className={cxMui(styles.errorWrapper)}>
         {
-          responseErrors && <ErrorWrapper className={clsx(styles.errorWrapperComponent)} errors={responseErrors}/>
+          responseErrors && <ErrorWrapper className={cxMui(styles.errorWrapperComponent)} errors={responseErrors}/>
         }
       </div>
       <div
-        className={clsx(styles.contentWrapper)}
+        className={cxMui(styles.contentWrapper)}
       >
         <div
-          className={clsx(styles.entityViewWrapper)}
+          className={cxMui(styles.entityViewWrapper)}
         >
 
           {form && <EntityView
-            className={clsx(styles.entityView)}
+            className={cxMui(styles.entityView)}
             definition={definition}
             model={form || entity}
             readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}

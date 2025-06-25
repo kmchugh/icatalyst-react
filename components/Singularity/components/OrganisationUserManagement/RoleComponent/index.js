@@ -1,7 +1,5 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Icon from '../../../../Icon';
 import Avatar from '../../../../Avatar';
 import IconButton from '../../../../IconButton';
@@ -19,8 +17,9 @@ import {
   ListItemText,
   Button,
 } from '@mui/material';
+import { createMuiStyles, cxMui } from '../../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginBottom: theme.spacingNum(0),
@@ -139,7 +138,7 @@ const RoleComponent = ({
 
   return (
     <div
-      className={clsx(
+      className={cxMui(
         styles.root,
         expanded && styles.root_expanded,
         className
@@ -148,7 +147,7 @@ const RoleComponent = ({
     >
       <Accordion
         expanded={expanded}
-        className={clsx(
+        className={cxMui(
           styles.accordion,
           expanded && styles.accordion_expanded,
         )}
@@ -157,7 +156,7 @@ const RoleComponent = ({
         }}
       >
         <AccordionSummary
-          className={clsx(styles.accordionHeading)}
+          className={cxMui(styles.accordionHeading)}
           expandIcon={(
             <Icon
               color="action"
@@ -170,7 +169,7 @@ const RoleComponent = ({
           id={`${role.guid}_header`}
         >
           <div
-            className={clsx(styles.accordionSummary)}
+            className={cxMui(styles.accordionSummary)}
           >
             {!isAdmin && (
               <Typography
@@ -202,7 +201,7 @@ const RoleComponent = ({
         </AccordionSummary>
 
         <AccordionDetails>
-          <div className={clsx(styles.accordionContent)}>
+          <div className={cxMui(styles.accordionContent)}>
             {!isAdmin && (
               <Typography
                 color="textSecondary"
@@ -229,7 +228,7 @@ const RoleComponent = ({
             )}
 
             <List
-              className={clsx(styles.resourceList)}
+              className={cxMui(styles.resourceList)}
             >
               {resources.map(resource=>{
                 const {edges} = resource;
@@ -247,12 +246,12 @@ const RoleComponent = ({
 
                 return (
                   <ListItem
-                    className={clsx(styles.resourceListItem)}
+                    className={cxMui(styles.resourceListItem)}
                     key={resource.guid}
                   >
                     <ListItemIcon>
                       {!icon && <Avatar
-                        className={clsx(styles.avatar)}
+                        className={cxMui(styles.avatar)}
                         border={false}
                         alt={(resource.displayName) || t('resource profile image')}
                         src={resource.profileImageUri}
@@ -260,14 +259,14 @@ const RoleComponent = ({
                       {icon && (
                         <Icon
                           size="large"
-                          className={clsx(styles.resourceIcon)}
+                          className={cxMui(styles.resourceIcon)}
                         >
                           {icon}
                         </Icon>
                       )}
                     </ListItemIcon>
                     <ListItemText
-                      className={clsx(
+                      className={cxMui(
                         styles.listItemresourceName,
                         isOwner && styles.listItemresourceName_owner,
                       )}
@@ -334,10 +333,10 @@ const RoleComponent = ({
             </List>
           </div>
         </AccordionDetails>
-        <AccordionDetails className={clsx(styles.accordionDetails)}>
+        <AccordionDetails className={cxMui(styles.accordionDetails)}>
           { allowUserManagement && (
             <Button
-              className={clsx(styles.autoLeft)}
+              className={cxMui(styles.autoLeft)}
               variant="outlined"
               color="primary"
               disabled={!addResourceToRole}

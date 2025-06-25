@@ -1,16 +1,15 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import DialogContentEntityView from '../../../Dialogs/Content/DialogContentEntityView';
 import { createModel } from '../../../../utilities/createModel';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
 const EMAIL_PATTERN = /^(([^<>()\\[\]\\.,;:\s@\\"]+(\.[^<>()\\[\]\\.,;:\s@\\"]+)*)|(\\".+\\"))@(([^<>()[\]\\.,;:\s@\\"]+\.)+[^<>()[\]\\.,;:\s@\\"]{2,})$/i;
 const isValidEmail = (value) => {
   return !!EMAIL_PATTERN.test(value);
 };
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {}
   };
@@ -46,7 +45,7 @@ const UserEmailInputDialogContent = ({
 
   return (
     <DialogContentEntityView
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       definition={emailDefinition}
       onSaved={(value, callback)=>{
