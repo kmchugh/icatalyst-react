@@ -5,12 +5,11 @@ import Image from '@icatalyst/components/Image';
 import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import {MasterDetailContext} from './index';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     display: 'flex',
     width: '100%',
@@ -81,11 +80,11 @@ const DetailHeader = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)}>
-      <div className={clsx(classes.detailWrapper)}>
+    <div className={cxMui(classes.root, className)}>
+      <div className={cxMui(classes.detailWrapper)}>
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
           <Typography
-            className={clsx(classes.linkWrapper)}
+            className={cxMui(classes.linkWrapper)}
             component={Link}
             role="button"
             to={backUrl}
@@ -99,17 +98,17 @@ const DetailHeader = ({
         </FuseAnimate>
 
         <FuseAnimate animation="transition.slideRightIn" delay={300}>
-          <div className={clsx(classes.details)}>
+          <div className={cxMui(classes.details)}>
 
             {featureImage ? (
-              <Image className={clsx(classes.featureImage)}
+              <Image className={cxMui(classes.featureImage)}
                 src={featureImage}
                 alt={definition.getPrimaryText(textModel)}
                 sx={{ display: { xs: 'none', sm: 'block' } }}
               />
             ) : <Icon>{icon}</Icon>}
 
-            <div className={clsx(classes.detailText)}>
+            <div className={cxMui(classes.detailText)}>
               <Typography noWrap={true} variant="h5">
                 {definition.getPrimaryText(textModel)}
               </Typography>

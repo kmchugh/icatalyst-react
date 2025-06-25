@@ -6,11 +6,10 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 // import Hidden from '@mui/material/Hidden';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import {useMediaQuery, useTheme} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
   },
   separator: {
@@ -55,7 +54,7 @@ const MasterContent = (props)=>{
       PrependHeaderComponent={
         config.mode === 'chromeless' && isLgDown ? (
           <>
-            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+            <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
             <div className={classes.separator}/>
           </>
         ) : null

@@ -1,11 +1,10 @@
 import React from 'react';
 import {Typography} from '@mui/material';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
 import Image from '@icatalyst/components/Image';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
 const styles = (theme) => {
   return {
@@ -37,7 +36,7 @@ const styles = (theme) => {
 };
 
 
-const useStyles = makeStyles(styles);
+const useStyles = createMuiStyles(styles);
 
 function Logo({
   showTitle = true,
@@ -46,12 +45,12 @@ function Logo({
 {
   const classes = useStyles();
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   return (
-    <div className={clsx(classes.root, className)}>
-      <div className={clsx(classes.logoWrapper, 'logo-icon')}>
-        <Image className={clsx(classes.logoIcon)}
+    <div className={cxMui(classes.root, className)}>
+      <div className={cxMui(classes.logoWrapper, 'logo-icon')}>
+        <Image className={cxMui(classes.logoIcon)}
           src={config.clientLogo}
           defaultSrc={
             mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
@@ -60,7 +59,7 @@ function Logo({
           }
           alt={`logo for ${config.clientName}`}/>
       </div>
-      {showTitle && <Typography variant="h1" className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
+      {showTitle && <Typography variant="h1" className={cxMui(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
     </div>
   );
 }
