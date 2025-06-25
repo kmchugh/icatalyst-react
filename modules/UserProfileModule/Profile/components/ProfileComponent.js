@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {
   SettingsView
 } from '../../../../components/Settings';
 
 import {Card, CardContent} from '@mui/material';
 import TitledPage from '../../../../pages/TitledPage';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
@@ -41,16 +40,16 @@ const ProfileComponent = ({
   return (
     <TitledPage
       title="Profile"
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
     >
       <Card
-        className={clsx(styles.settingsWrapper)}
+        className={cxMui(styles.settingsWrapper)}
       >
         <CardContent
-          className={clsx(styles.cardContent)}
+          className={cxMui(styles.cardContent)}
         >
           <SettingsView
-            className={clsx(styles.settings)}
+            className={cxMui(styles.settings)}
             settingsWhitelist={['User']}
             displayHeaders={false}
           />
