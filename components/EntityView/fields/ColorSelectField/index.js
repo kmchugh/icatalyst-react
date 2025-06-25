@@ -6,13 +6,11 @@ import FormControlLabel  from '@mui/material/FormControlLabel';
 import FormHelperText  from '@mui/material/FormHelperText';
 import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = createMuiStyles((theme)=>{
+const useStyles = createMuiStyles((theme, { value })=>{
   return {
     root : {},
-    disabledSwatchColor : ({value})=>{
-      return {
-        background: `none ${value || theme.palette.background.default}`
-      };
+    disabledSwatchColor : {
+      background: `none ${value || theme.palette.background.default}`
     },
     disabledSwatch : {
       width: theme.spacingNum(3),

@@ -8,7 +8,10 @@ import { createMuiStyles, cxMui } from '../../utilities';
 // Uncomment this to quickly see a list of plugins
 // console.log(Editor.builtinPlugins.map( plugin => plugin.pluginName ));
 
-const useStyles = createMuiStyles((theme)=>{
+const useStyles = createMuiStyles((theme, {
+  rows,
+  multiline
+})=>{
   return {
     root : {
       ['& .ck'] : {
@@ -32,22 +35,14 @@ const useStyles = createMuiStyles((theme)=>{
         boxShadow: 'none!important'
       }
     },
-    rows : ({
-      rows
-    })=>{
-      return {
-        minHeight: theme.spacingNum(rows*2.1)
-      };
+    rows : {
+      minHeight: theme.spacingNum(rows*2.1)
     },
-    multiline : ({
-      multiline
-    })=>{
-      return !multiline ? {
-        ['& .ck.ck-editor__editable_inline'] : {
-          overflow: 'hidden'
-        }
-      } : {};
-    }
+    multiline : !multiline ? {
+      ['& .ck.ck-editor__editable_inline'] : {
+        overflow: 'hidden'
+      }
+    } : {}
   };
 });
 

@@ -18,7 +18,7 @@ import { createMuiStyles, cxMui, useMuiTheme } from '../../../utilities';
 const PROVIDER_KEY = 'b145043b-28b9-46e4-b55f-02daf8291045';
 const PROVIDER_SIGNOUT_KEY = 'ce95d9a5-5065-464a-af8f-064c926e2f6c';
 
-const useStyles = createMuiStyles((theme)=>{
+const useStyles = createMuiStyles((theme, { backgroundImage })=>{
   return {
     root : {
       display : 'flex',
@@ -36,13 +36,11 @@ const useStyles = createMuiStyles((theme)=>{
       alignSelf: 'center',
       justifySelf: 'center'
     },
-    backgroundCoverFN : ({backgroundImage})=>{
-      return backgroundImage ? {
-        backgroundImage: `url('${backgroundImage}')`,
-        objectFit : 'cover',
-        backgroundSize : 'cover'
-      } : {};
-    },
+    backgroundCoverFN : backgroundImage ? {
+      backgroundImage: `url('${backgroundImage}')`,
+      objectFit : 'cover',
+      backgroundSize : 'cover'
+    } : {},
     logoIcon : {
       width: theme.spacingNum(16),
       height: theme.spacingNum(16)

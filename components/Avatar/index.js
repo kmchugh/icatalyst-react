@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import Image from '../Image';
 import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = createMuiStyles(theme => ({
-  root  : (config)=>({
+const useStyles = createMuiStyles((theme, {
+  backgroundColor,
+  color,
+  border
+}) => ({
+  root  : {
     display : 'flex',
-    backgroundColor : config.backgroundColor,
-    borderColor: config.color,
+    backgroundColor : backgroundColor,
+    borderColor: color,
     boxSizing : 'content-box',
-    borderWidth: !config.border ? 0 : theme.spacingNum(1),
+    borderWidth: !border ? 0 : theme.spacingNum(1),
     overflow: 'hidden'
-  }),
+  },
   circular : {
     borderRadius :'50%',
 
