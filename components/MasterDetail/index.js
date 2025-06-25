@@ -196,7 +196,7 @@ const MasterDetailPage = ({
     let request;
 
     if (reducer && !reducer.loaded) {
-      console.log('Loading..........reducer && !reducer.loaded');
+      console.log('Loading..........reducer.loaded');
       loadEntities();
       // return loadEntities();
     } else if (!reducer) {
