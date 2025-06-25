@@ -1,14 +1,13 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { Typography } from '@mui/material';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   const background = mostReadable(tinycolor(theme.palette.background.default), [
     theme.palette.error.dark,
     theme.palette.error.main,
@@ -73,11 +72,11 @@ const ErrorComponent = ({errors,
   }
   const classes = useStyles();
   return (
-    <div role={role} aria-atomic={true} className={clsx(classes.root, className)}>
+    <div role={role} aria-atomic={true} className={cxMui(classes.root, className)}>
       {title &&
         (
-          <div className={clsx(classes.errorTitle)}>
-            <Icon className={clsx(classes.errorIcon)}>error</Icon>
+          <div className={cxMui(classes.errorTitle)}>
+            <Icon className={cxMui(classes.errorIcon)}>error</Icon>
             <Typography className="flex-shrink" variant="h5" component="h1">
               {title}
             </Typography>
@@ -85,14 +84,14 @@ const ErrorComponent = ({errors,
         )
       }
       {
-        process.env.NODE_ENV !== 'production' && <ul className={clsx(classes.errorList)}>
+        process.env.NODE_ENV !== 'production' && <ul className={cxMui(classes.errorList)}>
           {
             errors.filter((e, index, self)=>{
               return self.findIndex((error)=>error.message === e.message) === index;
             }).map(e=>{
               const message = e.message || e.toString();
               return (
-                <li className={clsx(classes.error)} key={message}>
+                <li className={cxMui(classes.error)} key={message}>
                   <Error>{message || 'Unknown Error'}</Error>
                 </li>
               );
@@ -101,7 +100,7 @@ const ErrorComponent = ({errors,
         </ul>
       }
       {
-        actionComponent && <div className={clsx(classes.errorActionWrapper)}>
+        actionComponent && <div className={cxMui(classes.errorActionWrapper)}>
           {actionComponent}
         </div>
       }
