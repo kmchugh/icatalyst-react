@@ -148,7 +148,7 @@ const MasterDetailPage = ({
   }, [definition]);
 
   const loadEntities = ()=>{
-    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
+    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES'] && !updating) {
       if (!auth.retrieveAll) {
         setErrors([t('You do not have access to this operation')]);
         return;
@@ -172,7 +172,7 @@ const MasterDetailPage = ({
             setIsCancelled(true);
           }
         }
-        setUpdating(false);
+        setUpdating(() => false);
       }, {
         accessToken : accessToken,
         params : {
@@ -184,7 +184,7 @@ const MasterDetailPage = ({
       }));
     }
   };
-
+  console.log('updating-data', updating);
   useDeepCompareEffect(()=>{
     console.log('Changed deps:',  definition, reducer, auth,reducer.loaded ,parentMasterDetailContext);
 
@@ -196,7 +196,7 @@ const MasterDetailPage = ({
     let request;
 
     if (reducer && !reducer.loaded) {
-      console.log('Loading..........');
+      console.log('Loading..........reducer.loaded');
       loadEntities();
       // return loadEntities();
     } else if (!reducer) {
@@ -207,7 +207,7 @@ const MasterDetailPage = ({
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
       if (parentMasterDetailContext) {
-        console.log('Loading..........');
+        console.log('Loading..........parentMasterDetailContext');
 
         loadEntities();
         // return loadEntities();
