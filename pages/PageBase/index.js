@@ -1,6 +1,4 @@
 import React, {useRef, useImperativeHandle, useState} from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
 import {
@@ -12,8 +10,9 @@ import ToolbarContentWrapper from './ToolbarContentWrapper';
 import ScrollWrapper from './ScrollWrapper';
 import ContentWrapper from './ContentWrapper';
 import HeaderWrapper from './HeaderWrapper';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -242,14 +241,14 @@ const Page = React.forwardRef((props, ref) => {
   }));
 
   return (
-    <div className={clsx(classes.root, `mode-${settings.mode}`, `scroll-${settings.scroll}`, className)} ref={rootRef}>
+    <div className={cxMui(classes.root, `mode-${settings.mode}`, `scroll-${settings.scroll}`, className)} ref={rootRef}>
 
       <ToolbarContentWrapper
         position="outside"
         mode={settings.mode}
         contentConfig={settings.header}
         toolbarConfig={settings.headerToolbar}
-        className={clsx(classes.rowBg, 'flex-0')}
+        className={cxMui(classes.rowBg, 'flex-0')}
         toolbar={headerToolbar}
       >
         <HeaderWrapper
@@ -261,11 +260,11 @@ const Page = React.forwardRef((props, ref) => {
           {header}
         </HeaderWrapper>
       </ToolbarContentWrapper>
-      <div className={clsx(classes.rowBg, 'flex')}>
+      <div className={cxMui(classes.rowBg, 'flex')}>
         { (displayLeftSidePanel) &&
             <PageSidePanelHeader
               variant={settings.leftSidePanel.variant}
-              className={clsx(classes.leftSidePanelFn, classes.sidePanelHeader, 'sidepanel-left')}>
+              className={cxMui(classes.leftSidePanelFn, classes.sidePanelHeader, 'sidepanel-left')}>
               {leftSidePanel && leftSidePanel.header}
             </PageSidePanelHeader>
         }
@@ -274,7 +273,7 @@ const Page = React.forwardRef((props, ref) => {
           mode={settings.mode}
           contentConfig={settings.header}
           toolbarConfig={settings.headerToolbar}
-          className={clsx(classes.centerColumn)}
+          className={cxMui(classes.centerColumn)}
           toolbar={headerToolbar}
         >
           <HeaderWrapper
@@ -290,14 +289,14 @@ const Page = React.forwardRef((props, ref) => {
         { (displayRightSidePanel) &&
           <PageSidePanelHeader
             variant={settings.rightSidePanel.variant}
-            className={clsx(classes.rightSidePanelFn, classes.sidePanelHeader, 'sidepanel-right')}>
+            className={cxMui(classes.rightSidePanelFn, classes.sidePanelHeader, 'sidepanel-right')}>
             {rightSidePanel && rightSidePanel.header}
           </PageSidePanelHeader>
         }
       </div>
 
 
-      <ScrollWrapper className={clsx(classes.contentWrapper)} scrollType="sidepanels" config={settings}>
+      <ScrollWrapper className={cxMui(classes.contentWrapper)} scrollType="sidepanels" config={settings}>
         { (displayLeftSidePanel) &&
           <PageSidePanel
             header={leftSidePanel.header}
@@ -307,7 +306,7 @@ const Page = React.forwardRef((props, ref) => {
             position="left"
             variant={settings.leftSidePanel.variant}
             config={settings}
-            className={clsx(classes.leftSidePanelFn, classes.sidePanelContent,
+            className={cxMui(classes.leftSidePanelFn, classes.sidePanelContent,
               'sidepanel-left')}
             openPanel={()=>{setLeftSidePanelVisible(true);}}
             closePanel={()=>{setLeftSidePanelVisible(false);}}
@@ -316,12 +315,12 @@ const Page = React.forwardRef((props, ref) => {
           </PageSidePanel>
         }
 
-        {settings.mode === 'cardedInside' && <div className={clsx(classes.rowBg, classes.cardedInsideSpacer, classes.cardedHeaderSpacer, classes.cardedHeaderSpacerFn)}/>}
-        {settings.mode === 'cardedInside' && <div className={clsx(classes.rowBg, classes.cardedInsideSpacer, classes.cardedFooterSpacer, classes.cardedFooterSpacerFn)}/>}
+        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedHeaderSpacer, classes.cardedHeaderSpacerFn)}/>}
+        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedFooterSpacer, classes.cardedFooterSpacerFn)}/>}
 
         <ContentWrapper
           config={settings}
-          className={clsx(classes.content, classes.centerColumn)}
+          className={cxMui(classes.content, classes.centerColumn)}
         >
           {children}
         </ContentWrapper>
@@ -335,7 +334,7 @@ const Page = React.forwardRef((props, ref) => {
             position="right"
             variant={settings.rightSidePanel.variant}
             config={settings}
-            className={clsx(classes.rightSidePanelFn, classes.sidePanelContent,
+            className={cxMui(classes.rightSidePanelFn, classes.sidePanelContent,
               'sidepanel-right')}
             openPanel={()=>{setRightSidePanelVisible(true);}}
             closePanel={()=>{setRightSidePanelVisible(false);}}
@@ -345,11 +344,11 @@ const Page = React.forwardRef((props, ref) => {
         }
       </ScrollWrapper>
 
-      <div className={clsx(classes.rowBg, 'flex')}>
+      <div className={cxMui(classes.rowBg, 'flex')}>
         { (displayLeftSidePanel) &&
           <PageSidePanelFooter
             variant={settings.leftSidePanel.variant}
-            className={clsx(classes.leftSidePanelFn, classes.sidePanelFooter, 'sidepanel-left')}>
+            className={cxMui(classes.leftSidePanelFn, classes.sidePanelFooter, 'sidepanel-left')}>
             {leftSidePanel && leftSidePanel.footer}
           </PageSidePanelFooter>
         }
@@ -359,7 +358,7 @@ const Page = React.forwardRef((props, ref) => {
           mode={settings.mode}
           contentConfig={settings.footer}
           toolbarConfig={settings.headerToolbar}
-          className={clsx(classes.centerColumn, settings.mode === 'carded' ? 'mb-16' : 'mb-0')}
+          className={cxMui(classes.centerColumn, settings.mode === 'carded' ? 'mb-16' : 'mb-0')}
           toolbar={footerToolbar}
           reverse={true}
         >
@@ -369,7 +368,7 @@ const Page = React.forwardRef((props, ref) => {
         { (displayRightSidePanel) &&
           <PageSidePanelFooter
             variant={settings.rightSidePanel.variant}
-            className={clsx(classes.rightSidePanelFn, classes.sidePanelFooter, 'sidepanel-right')}>
+            className={cxMui(classes.rightSidePanelFn, classes.sidePanelFooter, 'sidepanel-right')}>
             {rightSidePanel && rightSidePanel.footer}
           </PageSidePanelFooter>
         }
@@ -382,7 +381,7 @@ const Page = React.forwardRef((props, ref) => {
         reverse={true}
         contentConfig={settings.footer}
         toolbarConfig={settings.footerToolbar}
-        className={clsx(classes.rowBg, 'flex-0')}
+        className={cxMui(classes.rowBg, 'flex-0')}
         toolbar={footerToolbar}
       >
         {footer}

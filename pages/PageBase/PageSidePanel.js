@@ -1,13 +1,12 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
 // import Hidden from '@mui/material/Hidden';
 import {useMediaQuery, useTheme} from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     widthFn: ({width})=>{
       return {
@@ -65,7 +64,7 @@ export const PageSidePanelHeader = ({
 
   return variant === 'permanent' && !isLgDown && (
     <>
-      <div className={clsx(classes.headerRoot, className)}>
+      <div className={cxMui(classes.headerRoot, className)}>
         {children}
       </div>
     </>
@@ -90,7 +89,7 @@ export const PageSidePanelFooter = ({
   
   return variant === 'permanent' && !isLgDown && (
     <>
-      <div className={clsx(classes.footerRoot, className)}>
+      <div className={cxMui(classes.footerRoot, className)}>
         {children}
       </div>
     </>
@@ -163,8 +162,8 @@ export const PageSidePanel = ({
             },
           }}
           classes={{
-            root: clsx(classes.root, variant, !open ? classes.hidden : null),
-            paper: clsx(
+            root: cxMui(classes.root, variant, !open ? classes.hidden : null),
+            paper: cxMui(
               classes.contentWrapper,
               classes.widthFn,
               variant,
@@ -183,7 +182,7 @@ export const PageSidePanel = ({
           container={rootRef.current}
         >
           {header && header}
-          <ScrollWrapper scrollType="content" config={config} className={clsx('flex-shrink')}>
+          <ScrollWrapper scrollType="content" config={config} className={cxMui('flex-shrink')}>
             {children}
           </ScrollWrapper>
           {footer && footer}
@@ -191,7 +190,7 @@ export const PageSidePanel = ({
       )}
       {variant === 'permanent' && !isLgDown && (
         <>
-          <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
+          <ScrollWrapper scrollType="content" config={config} className={cxMui(classes.root, className)}>
             {children}
           </ScrollWrapper>
         </>
