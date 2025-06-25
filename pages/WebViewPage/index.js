@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import TitledPage from '../TitledPage';
 import WebView from '../../components/WebView';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       paddingBottom: 0,
@@ -33,8 +32,8 @@ const WebViewPage = ({
 
   return (
     <TitledPage
-      className={clsx(styles.root, className)}
-      headerClassName={clsx(styles.pageHeader)}
+      className={cxMui(styles.root, className)}
+      headerClassName={cxMui(styles.pageHeader)}
       title={title}
     >
       <WebView

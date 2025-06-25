@@ -1,10 +1,9 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import PageToolbar from './PageToolbar';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     '&.mode-simple' : {
       '& $wrapper' : {
@@ -47,7 +46,7 @@ function ToolbarContentWrapper({
   const classes = useStyles();
 
   return (contentConfig.position === position || toolbarConfig.position === position) ? (
-    <div className={clsx(classes.root, `position-${position}`, `mode-${mode}`, reverse && 'reverse', className)}>
+    <div className={cxMui(classes.root, `position-${position}`, `mode-${mode}`, reverse && 'reverse', className)}>
       {
         (!reverse && children && contentConfig.display && contentConfig.position === position) && (
           <div className={classes.wrapper}>
@@ -58,7 +57,7 @@ function ToolbarContentWrapper({
 
       {
         (toolbar && toolbarConfig.display && toolbarConfig.position === position) && (
-          <PageToolbar className={clsx(classes.toolbar)}>
+          <PageToolbar className={cxMui(classes.toolbar)}>
             {toolbar}
           </PageToolbar>
         )
