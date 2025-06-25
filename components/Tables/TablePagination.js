@@ -1,12 +1,11 @@
 import React from 'react';
 import {TablePagination as NativeTablePagination} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import PaginationActions from './PaginationActions';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       flexShrink: 0,
@@ -77,7 +76,7 @@ const TablePagination = ({
 
   return (
     <NativeTablePagination
-      className={clsx(classes.root)}
+      className={cxMui(classes.root)}
       classes= {{
         root : classes.paginationRoot,
         toolbar : classes.paginationToolbar,

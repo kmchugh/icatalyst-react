@@ -4,12 +4,11 @@ import IconButton from '@icatalyst/components/IconButton';
 import {Typography} from '@mui/material';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       display: 'flex',
@@ -76,24 +75,24 @@ const EmptyTable = ({
 
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {NavigationComponent && (
-        <div className={clsx(classes.navigationWrapper)}>
+        <div className={cxMui(classes.navigationWrapper)}>
           {NavigationComponent}
         </div>
       )}
-      <div className={clsx(classes.contentWrapper)}>
-        {showIcon && <Icon className={clsx(classes.icon)}>{icon}</Icon>}
-        <Typography variant="h4" className={clsx(classes.title)}>{title}</Typography>
+      <div className={cxMui(classes.contentWrapper)}>
+        {showIcon && <Icon className={cxMui(classes.icon)}>{icon}</Icon>}
+        <Typography variant="h4" className={cxMui(classes.title)}>{title}</Typography>
         {
-          action && <Typography variant="subtitle1" className={clsx(classes.info)}>{action}</Typography>
+          action && <Typography variant="subtitle1" className={cxMui(classes.info)}>{action}</Typography>
         }
         {
-          help && <Typography variant="caption" className={clsx(classes.help)}>{help}</Typography>
+          help && <Typography variant="caption" className={cxMui(classes.help)}>{help}</Typography>
         }
         {
           onRefresh && <IconButton
-            className={clsx(classes.refreshButton)}
+            className={cxMui(classes.refreshButton)}
             title={t('refresh')}
             icon="refresh"
             onClick={onRefresh}
