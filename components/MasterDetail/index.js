@@ -38,6 +38,7 @@ const MasterDetailPage = ({
   const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
+  
   if (definition === null) {
     definition = matchRoutes(routes, match.path)[0].route.routeConfig;
   }
@@ -60,6 +61,7 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
+  const [isCaptureCall,setIsCaptureCall] = useState(false);
   const {
     title,
     operations,
@@ -72,6 +74,7 @@ const MasterDetailPage = ({
   const [isCancelled, setIsCancelled] = useState(false);
 
   const reducer = useSelector(getReducerRoot);
+
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   useEffect(()=>{
@@ -144,7 +147,7 @@ const MasterDetailPage = ({
   }, [definition]);
 
   const loadEntities = ()=>{
-    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
+    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES'] && !isCaptureCall) {
       if (!auth.retrieveAll) {
         setErrors([t('You do not have access to this operation')]);
         return;
@@ -156,6 +159,7 @@ const MasterDetailPage = ({
           setErrors(err.errors || err);
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
+          setIsCaptureCall(()=>true);
           if (parentMasterDetailContext) {
             setData(res
               .filter(definition.filterPayload || (()=>true))
@@ -168,7 +172,7 @@ const MasterDetailPage = ({
             setIsCancelled(true);
           }
         }
-        setUpdating(false);
+        setUpdating(()=>false);
       }, {
         accessToken : accessToken,
         params : {
@@ -180,7 +184,6 @@ const MasterDetailPage = ({
       }));
     }
   };
-
   useDeepCompareEffect(()=>{
     setErrors(null);
     if (!auth) {
@@ -200,6 +203,7 @@ const MasterDetailPage = ({
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
       if (parentMasterDetailContext) {
+
         loadEntities();
         // return loadEntities();
       }
