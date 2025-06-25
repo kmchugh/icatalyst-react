@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import Icon from '../../components/Icon';
 import {Typography} from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 // import Hidden from '@mui/material/Hidden';
@@ -10,8 +8,9 @@ import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/Nav
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import {useMediaQuery, useTheme} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       display: 'flex',
@@ -106,21 +105,21 @@ const InfoPage = ({
     <div
       ref={pageRef}
       style={style}
-      className={clsx(classes.root, 'max-w-md text-center', className)}
+      className={cxMui(classes.root, 'max-w-md text-center', className)}
     >
       {
         // If the toolbar is not displayed then we need
         // to allow access to the navigation
         (!toolbar.display && renderNavigation) && isLgDown && (
           <>
-            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+            <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
           </>
         )
       }
 
       {
         iconText ? (
-          <Icon color="primary" className={clsx(classes.icon)}>{icon}</Icon>
+          <Icon color="primary" className={cxMui(classes.icon)}>{icon}</Icon>
         ) : icon
       }
 
@@ -129,7 +128,7 @@ const InfoPage = ({
       <Typography
         variant="h4"
         component="h1"
-        className={clsx(classes.title)}
+        className={cxMui(classes.title)}
         style={textColor ? {
           color : textColor
         } : undefined}
@@ -141,7 +140,7 @@ const InfoPage = ({
           <Typography
             variant="subtitle1"
             component="div"
-            className={clsx(classes.info)}
+            className={cxMui(classes.info)}
             style={textColor ? {
               color : textColor
             } : undefined}
@@ -156,7 +155,7 @@ const InfoPage = ({
           <Typography
             variant="caption"
             component="div"
-            className={clsx(classes.action)}
+            className={cxMui(classes.action)}
             style={textColor ? {
               color : textColor
             } : undefined}

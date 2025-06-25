@@ -1,11 +1,10 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import {Box, IconButton} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles(() => ({
+const useStyles = createMuiStyles(() => ({
   root: {
     display : 'flex',
     flexDirection: 'column',
@@ -36,32 +35,32 @@ function HeaderWrapper({
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       { (hasLeftSidePanel || hasRightSidePanel ) && (
-        <Box className={clsx(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
+        <Box className={cxMui(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
           { (hasLeftSidePanel ) ?
             <IconButton
-              className={clsx(classes.iconButton)}
+              className={cxMui(classes.iconButton)}
               onClick={()=>{
                 openLeftSidePanel && openLeftSidePanel();
               }}
               color="inherit"
               disableRipple
               size="large">
-              <Icon className={clsx(classes.icon)}>menu</Icon>
+              <Icon className={cxMui(classes.icon)}>menu</Icon>
             </IconButton> : <div></div>
           }
 
           { (hasRightSidePanel) ?
             <IconButton
-              className={clsx(classes.iconButton)}
+              className={cxMui(classes.iconButton)}
               onClick={()=>{
                 openRightSidePanel && openRightSidePanel();
               }}
               color="inherit"
               disableRipple
               size="large">
-              <Icon className={clsx(classes.icon)}>menu</Icon>
+              <Icon className={cxMui(classes.icon)}>menu</Icon>
             </IconButton> : <div></div>
           }
 
