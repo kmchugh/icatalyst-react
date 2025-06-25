@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { AppBar, Toolbar, Typography } from '@mui/material';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import IconButton from '../IconButton';
 import Icon from '../Icon';
 import {FuseAnimate} from '../fuse';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       paddingLeft: theme.spacingNum(2),
@@ -101,29 +100,29 @@ const TableToolbar = ({
   const classes = useStyles();
 
   return (
-    <AppBar color="secondary" position="relative" className={clsx(classes.root, className)}>
-      <Toolbar className={clsx(PrependHeaderComponent ? classes.toolbarPrepend : classes.toolbar)}>
+    <AppBar color="secondary" position="relative" className={cxMui(classes.root, className)}>
+      <Toolbar className={cxMui(PrependHeaderComponent ? classes.toolbarPrepend : classes.toolbar)}>
         {
           PrependHeaderComponent
         }
-        <div className={clsx(classes.titleWrapper)}>
+        <div className={cxMui(classes.titleWrapper)}>
           {
             icon &&
             <Icon fontSize="large">{icon}</Icon>
           }
           { title &&
-            <Typography variant="h5" color="inherit" className={clsx(classes.title)}>
+            <Typography variant="h5" color="inherit" className={cxMui(classes.title)}>
               {title}
             </Typography>
           }
         </div>
 
-        <div className={clsx(classes.inputWrapper)}>
+        <div className={cxMui(classes.inputWrapper)}>
           {inputComponent && inputComponent}
         </div>
 
-        <div className={clsx(classes.controlWrapper)}>
-          <div className={clsx(classes.actionWrapper)}>
+        <div className={cxMui(classes.controlWrapper)}>
+          <div className={cxMui(classes.actionWrapper)}>
             {
               actions && actions.map(({title, icon, onClick})=>(
                 <FuseAnimate
@@ -131,7 +130,7 @@ const TableToolbar = ({
                   animation="transition.expandIn">
                   <IconButton
                     key={title}
-                    className={clsx(classes.actionButton)}
+                    className={cxMui(classes.actionButton)}
                     title={title}
                     onClick={onClick}
                     icon={icon}
@@ -141,13 +140,13 @@ const TableToolbar = ({
             }
           </div>
 
-          <div className={clsx(classes.switchWrapper)}>
+          <div className={cxMui(classes.switchWrapper)}>
             {switchComponent && switchComponent}
             {
               switches && switches.map(({title, icon, onClick, active})=>(
                 <IconButton
                   key={title}
-                  className={clsx(classes.switchButton, active && classes.switchButtonActive)}
+                  className={cxMui(classes.switchButton, active && classes.switchButtonActive)}
                   title={title}
                   onClick={onClick}
                   icon={icon}

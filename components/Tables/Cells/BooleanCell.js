@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import {Checkbox} from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { cxMui, createMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
@@ -37,12 +36,12 @@ const BooleanCell = ({
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       <Checkbox
         classes={{
           root : classes.checkboxRoot
         }}
-        className={clsx(classes.checkbox)}
+        className={cxMui(classes.checkbox)}
         color="default"
         disableRipple={true}
         checked={value}

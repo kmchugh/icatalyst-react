@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       wordBreak: 'break-word'
@@ -22,7 +21,7 @@ const DefaultCell = (props)=>{
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {field.format ? field.format(value) : value}
     </div>
   );
