@@ -12,7 +12,7 @@ import {mostReadable} from '@ctrl/tinycolor';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = createMuiStyles((theme) => {
+const useStyles = createMuiStyles((theme, { nestedLevel }) => {
 
   const activeBackground = theme.palette.navigation_active_background ?
     theme.palette.navigation_active_background.main :
@@ -31,18 +31,16 @@ const useStyles = createMuiStyles((theme) => {
     ]);
 
   return {
-    itemFn: ({nestedLevel})=>{
-      return {
-        height      : theme.spacingNum(5),
-        width       : `calc(100% - ${theme.spacingNum(2)})`,
-        borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
-        paddingRight: theme.spacingNum(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
-        color       : theme.palette.text.primary,
-        cursor                     : 'pointer',
-        textDecoration             : 'none!important',
-        textTransform              : 'capitalize'
-      };
+    itemFn: {
+      height      : theme.spacingNum(5),
+      width       : `calc(100% - ${theme.spacingNum(2)})`,
+      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+      paddingRight: theme.spacingNum(2.5),
+      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+      color       : theme.palette.text.primary,
+      cursor                     : 'pointer',
+      textDecoration             : 'none!important',
+      textTransform              : 'capitalize'
     },
     item: {
       '&.active'                 : {

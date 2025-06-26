@@ -10,16 +10,14 @@ import {SingularityContext} from '../../../Singularity';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = createMuiStyles((theme)=>{
+const useStyles = createMuiStyles((theme, { nestedLevel })=>{
   return {
-    itemFn: ({nestedLevel})=>{
-      return {
-        height      : theme.spacingNum(5),
-        width       : `calc(100% - ${theme.spacingNum(2)})`,
-        borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
-        paddingRight: theme.spacingNum(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
-      };
+    itemFn: {
+      height      : theme.spacingNum(5),
+      width       : `calc(100% - ${theme.spacingNum(2)})`,
+      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+      paddingRight: theme.spacingNum(2.5),
+      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
     },
     item: {
     },

@@ -10,17 +10,15 @@ import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = createMuiStyles(theme => ({
-  itemFn: ({nestedLevel})=>{
-    return {
-      height      : theme.spacingNum(5),
-      width       : `calc(100% - ${theme.spacingNum(2)})`,
-      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
-      paddingRight: theme.spacingNum(2.5),
-      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
-      color                      : theme.palette.text.primary,
-      textDecoration             : 'none!important'
-    };
+const useStyles = createMuiStyles((theme, { nestedLevel }) => ({
+  itemFn: {
+    height      : theme.spacingNum(5),
+    width       : `calc(100% - ${theme.spacingNum(2)})`,
+    borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+    paddingRight: theme.spacingNum(2.5),
+    paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+    color                      : theme.palette.text.primary,
+    textDecoration             : 'none!important'
   },
   item: {
     '&.active'                 : {

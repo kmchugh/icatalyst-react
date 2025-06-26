@@ -3,20 +3,18 @@ import Icon from '@icatalyst/components/Icon';
 import PropTypes from 'prop-types';
 import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = createMuiStyles(theme => ({
-  root: ({badge})=>{
-    return {
-      padding        : `0 ${theme.spacingNum(1)}`,
-      fontSize       : theme.typography.caption.fontSize,
-      fontWeight     : theme.typography.button.fontWeight,
-      height         : theme.spacingNum(2.5),
-      minWidth       : theme.spacingNum(2.5),
-      borderRadius   : theme.spacingNum(2.5),
-      display        : 'flex',
-      alignItems     : 'center',
-      backgroundColor: badge.background || theme.palette.secondary.main,
-      color          : badge.color || theme.palette.secondary.contrastText
-    };
+const useStyles = createMuiStyles((theme, { badge }) => ({
+  root: {
+    padding        : `0 ${theme.spacingNum(1)}`,
+    fontSize       : theme.typography.caption.fontSize,
+    fontWeight     : theme.typography.button.fontWeight,
+    height         : theme.spacingNum(2.5),
+    minWidth       : theme.spacingNum(2.5),
+    borderRadius   : theme.spacingNum(2.5),
+    display        : 'flex',
+    alignItems     : 'center',
+    backgroundColor: badge.background || theme.palette.secondary.main,
+    color          : badge.color || theme.palette.secondary.contrastText
   }
 }));
 
