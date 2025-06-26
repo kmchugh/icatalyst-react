@@ -19,7 +19,7 @@ const useStyles = createMuiStyles((theme)=>{
       display : 'flex',
       flexDirection : 'row',
       justifyContent : 'space-between',
-      '-webkit-justify-content': 'space-between',
+      WebkitJustifyContent: 'space-between',
       marginBottom : theme.spacingNum(2)
     },
     stepWrapper : {

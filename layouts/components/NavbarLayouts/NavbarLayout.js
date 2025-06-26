@@ -19,7 +19,7 @@ const useStyles = createMuiStyles((theme)=>({
     flex: 1,
     overflowX                   : 'hidden',
     overflowY                   : 'auto',
-    '-webkit-overflow-scrolling': 'touch',
+    WebkitOverflowScrolling: 'touch',
     background                  : 'linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)',
     backgroundRepeat            : 'no-repeat',
     backgroundSize              : '100% 40px, 100% 10px',

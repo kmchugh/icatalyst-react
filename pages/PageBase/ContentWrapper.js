@@ -6,7 +6,7 @@ import { createMuiStyles, cxMui } from '../../utilities';
 const useStyles = createMuiStyles((theme) => ({
   root: {
     flex: '1 1 auto',
-    '-webkit-overflow-scrolling': 'touch',
+    WebkitOverflowScrolling: 'touch',
 
     '&.mode-simple' : {
       paddingLeft : theme.spacingNum(2),
