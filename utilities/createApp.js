@@ -2,7 +2,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContextComponent from '../contexts/App';
-import { StylesProvider, jssPreset, createGenerateClassName } from '@mui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  ThemeModern from '../components/ThemeModern';
@@ -15,7 +14,6 @@ import history from '../@history';
 import reportWebVitals from './reportWebVitals';
 import LocalizationProvider from '../localization/LocalizationProvider';
 import { LocalizationProvider as MuiLocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { create } from 'jss';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 reportWebVitals(({name, delta, value, id})=>{
@@ -29,13 +27,6 @@ reportWebVitals(({name, delta, value, id})=>{
       transport: 'beacon'
     });
   }
-});
-
-const generateClassName = createGenerateClassName();
-const jss = create({
-  ...jssPreset(),
-  plugins: [...jssPreset().plugins],
-  insertionPoint: 'custom-insertion-point',
 });
 
 export default function createApp({
@@ -76,34 +67,32 @@ export default function createApp({
           layouts={layouts}
           themes={themes}
         >
-          <StylesProvider jss={jss} generateClassName={generateClassName}>
-            <Provider store={store}>
-              <LocalizationProvider
-                debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
-                loadLanguages={loadLanguages}
-              >
-                <SettingsProvider getReducerRoot={({icatalyst})=>{
-                  return icatalyst.settings;
-                }}>
-                  <ThemeModern>
-                    <ErrorBoundary>
-                      <Router history={history}>
-                        <Singularity config={{
-                          ...singularityConfig,
-                          mapRoles : mapAuthRoles,
-                          // Allows customisation of the roles that are displayed to the user
-                          filterDisplayRoles : filterDisplayRoles,
-                        }}>
-                          <CssBaseline/>
-                          <Layout/>
-                        </Singularity>
-                      </Router>
-                    </ErrorBoundary>
-                  </ThemeModern>
-                </SettingsProvider>
-              </LocalizationProvider>
-            </Provider>
-          </StylesProvider>
+          <Provider store={store}>
+            <LocalizationProvider
+              debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
+              loadLanguages={loadLanguages}
+            >
+              <SettingsProvider getReducerRoot={({icatalyst})=>{
+                return icatalyst.settings;
+              }}>
+                <ThemeModern>
+                  <ErrorBoundary>
+                    <Router history={history}>
+                      <Singularity config={{
+                        ...singularityConfig,
+                        mapRoles : mapAuthRoles,
+                        // Allows customisation of the roles that are displayed to the user
+                        filterDisplayRoles : filterDisplayRoles,
+                      }}>
+                        <CssBaseline/>
+                        <Layout/>
+                      </Singularity>
+                    </Router>
+                  </ErrorBoundary>
+                </ThemeModern>
+              </SettingsProvider>
+            </LocalizationProvider>
+          </Provider>
         </AppContextComponent>
       </MuiLocalizationProvider>
     );
