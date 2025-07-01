@@ -159,7 +159,7 @@ const MasterDetailPage = ({
           setErrors(err.errors || err);
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
-          if (parentMasterDetailContext && !isChildRetrieved) {
+          if (parentMasterDetailContext) {
             setIsChildRetrieved(()=>true);
             setData(res
               .filter(definition.filterPayload || (()=>true))
@@ -202,7 +202,7 @@ const MasterDetailPage = ({
     } else {
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
-      if (parentMasterDetailContext) {
+      if (parentMasterDetailContext && !isChildRetrieved) {
 
         loadEntities();
         // return loadEntities();
