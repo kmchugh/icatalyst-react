@@ -23,44 +23,42 @@ const useStyles = createMuiStyles((theme) => ({
     '&.mode-chromeless'   : {
       margin: 0,
       padding: 0,
-      '& $content' : {
+      '& .custom-content' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
       },
-      '& $contentWrapper' : {
+      '& .custom-contentWrapper' : {
         margin: 0,
         padding: 0,
       },
-      '& $centerColumn' : {
+      '& .custom-centerColumn' : {
         margin: 0,
         padding: 0,
       },
-      '& $rowBg' : {
+      '& .custom-rowBg' : {
         display: 'none'
       }
     },
 
     '&.mode-carded'   : {
-      '& $content' : {
+      '& .custom-content' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
       },
-      '& $contentWrapper' : {
-      },
-      '& $centerColumn' : {
+      '& .custom-centerColumn' : {
         marginLeft: theme.spacingNum(2),
         marginRight: theme.spacingNum(2),
       }
     },
 
     '&.mode-cardedInside'   : {
-      '& $content' : {
+      '& .custom-content' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
         borderRadius: theme.spacingNum(1),
         marginBottom: theme.spacingNum(2),
       },
-      '& $contentWrapper' : {
+      '& .custom-contentWrapper' : {
         flexDirection: 'column'
       },
-      '& $centerColumn' : {
+      '& .custom-centerColumn' : {
         marginLeft: theme.spacingNum(2),
         marginRight: theme.spacingNum(2),
         overflow: 'hidden'
@@ -69,7 +67,7 @@ const useStyles = createMuiStyles((theme) => ({
 
     '&.scroll-body'   : {
       height  : 'auto',
-      '& $contentWrapper' : {
+      '& .custom-contentWrapper' : {
         flex    : '1 0 100%',
         overflow: 'auto'
       }
@@ -77,7 +75,7 @@ const useStyles = createMuiStyles((theme) => ({
     '&.scroll-sidepanels': {
       'height' : '100%',
 
-      '& $contentWrapper': {
+      '& .custom-contentWrapper': {
         flex    : '1 1 100%',
         overflow: 'auto'
       }
@@ -87,11 +85,11 @@ const useStyles = createMuiStyles((theme) => ({
       overflow : 'hidden',
 
 
-      '& $contentWrapper': {
+      '& .custom-contentWrapper': {
         flex    : '1 1 100%',
         overflow: 'hidden'
       },
-      '& $content'       : {
+      '& .custom-content'       : {
         overflow: 'auto'
       }
     },
@@ -248,7 +246,7 @@ const Page = React.forwardRef((props, ref) => {
         mode={settings.mode}
         contentConfig={settings.header}
         toolbarConfig={settings.headerToolbar}
-        className={cxMui(classes.rowBg, 'flex-0')}
+        className={cxMui(classes.rowBg, 'flex-0', 'custom-rowBg')}
         toolbar={headerToolbar}
       >
         <HeaderWrapper
@@ -260,7 +258,7 @@ const Page = React.forwardRef((props, ref) => {
           {header}
         </HeaderWrapper>
       </ToolbarContentWrapper>
-      <div className={cxMui(classes.rowBg, 'flex')}>
+      <div className={cxMui(classes.rowBg, 'flex', 'custom-rowBg')}>
         { (displayLeftSidePanel) &&
             <PageSidePanelHeader
               variant={settings.leftSidePanel.variant}
@@ -273,7 +271,7 @@ const Page = React.forwardRef((props, ref) => {
           mode={settings.mode}
           contentConfig={settings.header}
           toolbarConfig={settings.headerToolbar}
-          className={cxMui(classes.centerColumn)}
+          className={cxMui(classes.centerColumn, 'custom-centerColumn')}
           toolbar={headerToolbar}
         >
           <HeaderWrapper
@@ -296,7 +294,7 @@ const Page = React.forwardRef((props, ref) => {
       </div>
 
 
-      <ScrollWrapper className={cxMui(classes.contentWrapper)} scrollType="sidepanels" config={settings}>
+      <ScrollWrapper className={cxMui(`${classes.contentWrapper} custom-contentWrapper`)} scrollType="sidepanels" config={settings}>
         { (displayLeftSidePanel) &&
           <PageSidePanel
             header={leftSidePanel.header}
@@ -315,12 +313,12 @@ const Page = React.forwardRef((props, ref) => {
           </PageSidePanel>
         }
 
-        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedHeaderSpacer, classes.cardedHeaderSpacerFn)}/>}
-        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedFooterSpacer, classes.cardedFooterSpacerFn)}/>}
+        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedHeaderSpacer, classes.cardedHeaderSpacerFn, 'custom-rowBg')}/>}
+        {settings.mode === 'cardedInside' && <div className={cxMui(classes.rowBg, classes.cardedInsideSpacer, classes.cardedFooterSpacer, classes.cardedFooterSpacerFn, 'custom-rowBg')}/>}
 
         <ContentWrapper
           config={settings}
-          className={cxMui(classes.content, classes.centerColumn)}
+          className={cxMui(classes.content, classes.centerColumn, 'custom-content custom-centerColumn')}
         >
           {children}
         </ContentWrapper>
@@ -344,7 +342,7 @@ const Page = React.forwardRef((props, ref) => {
         }
       </ScrollWrapper>
 
-      <div className={cxMui(classes.rowBg, 'flex')}>
+      <div className={cxMui(classes.rowBg, 'flex', 'custom-rowBg')}>
         { (displayLeftSidePanel) &&
           <PageSidePanelFooter
             variant={settings.leftSidePanel.variant}
@@ -358,7 +356,7 @@ const Page = React.forwardRef((props, ref) => {
           mode={settings.mode}
           contentConfig={settings.footer}
           toolbarConfig={settings.headerToolbar}
-          className={cxMui(classes.centerColumn, settings.mode === 'carded' ? 'mb-16' : 'mb-0')}
+          className={cxMui(classes.centerColumn, settings.mode === 'carded' ? 'mb-16' : 'mb-0', 'custom-centerColumn')}
           toolbar={footerToolbar}
           reverse={true}
         >
@@ -381,7 +379,7 @@ const Page = React.forwardRef((props, ref) => {
         reverse={true}
         contentConfig={settings.footer}
         toolbarConfig={settings.footerToolbar}
-        className={cxMui(classes.rowBg, 'flex-0')}
+        className={cxMui(classes.rowBg, 'flex-0', 'custom-rowBg')}
         toolbar={footerToolbar}
       >
         {footer}
