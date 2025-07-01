@@ -35,19 +35,11 @@ const useStyles = createMuiStyles(theme => {
         boxShadow: theme.shadows[3]
       },
       '&.scroll-body'   : {
-        '& $wrapper'       : {
+        '& .custom-wrapper'       : {
           height  : 'auto',
           flex    : '0 0 auto',
           overflow: 'auto'
         },
-        '& $contentWrapper': {},
-        '& $content'       : {
-        }
-      },
-      '&.scroll-content': {
-        '& $wrapper'       : {},
-        '& $contentWrapper': {},
-        '& $content'       : {}
       },
       '& .navigation'   : {
         '& .list-subheader-text, & .list-item-text, & .item-badge, & .arrow-icon': {
@@ -208,7 +200,7 @@ function Layout(props) {
           </StyledEngineProvider>
         )}
         <ScrollWrapper className="overflow-auto" scrollType="body" config={config}>
-          <div className={classes.wrapper}>
+          <div className={`${classes.wrapper} custom-wrapper`}>
             {
               config.navbar.display && config.navbar.position === 'left' &&
               <StyledEngineProvider injectFirst>

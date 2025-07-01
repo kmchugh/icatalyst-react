@@ -87,7 +87,7 @@ const useStyles = createMuiStyles((theme, {navbarWidth, navbarFoldedWidth}) => {
       flex: '1 1 auto',
     },
     foldedAndClosed: {
-      '& $navbarContent': {
+      '&#custom-navbar': {
         '& .nav-footer-link' : {
 
           textAlign: 'center',
@@ -241,6 +241,7 @@ function NavbarWrapper()
     >
       {!isLgDown && (<>
         <div
+          id='custom-navbar'
           className={
             cxMui(
               classes.navbar,
