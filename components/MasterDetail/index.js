@@ -61,7 +61,7 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
-  const [isChildEntityRetrieve, setIsChildEntityRetrieve] = useState(false);
+  const [isChildRetrieved, setIsChildRetrieved] = useState(false);
   const {
     title,
     operations,
@@ -159,8 +159,8 @@ const MasterDetailPage = ({
           setErrors(err.errors || err);
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
-          if (parentMasterDetailContext && !isChildEntityRetrieve) {
-            setIsChildEntityRetrieve(()=>true);
+          if (parentMasterDetailContext && !isChildRetrieved) {
+            setIsChildRetrieved(()=>true);
             setData(res
               .filter(definition.filterPayload || (()=>true))
               .map(definition.transformPayload || ((i)=>i))
