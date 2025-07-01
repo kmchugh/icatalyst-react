@@ -61,7 +61,7 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
-  const [isCaptureCall,setIsCaptureCall] = useState(false);
+  const [isChildEntityRetrieve, setIsChildEntityRetrieve] = useState(false);
   const {
     title,
     operations,
@@ -147,7 +147,7 @@ const MasterDetailPage = ({
   }, [definition]);
 
   const loadEntities = ()=>{
-    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES'] && !isCaptureCall) {
+    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
         setErrors([t('You do not have access to this operation')]);
         return;
@@ -159,8 +159,8 @@ const MasterDetailPage = ({
           setErrors(err.errors || err);
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
-          setIsCaptureCall(()=>true);
-          if (parentMasterDetailContext) {
+          if (parentMasterDetailContext && !isChildEntityRetrieve) {
+            setIsChildEntityRetrieve(()=>true);
             setData(res
               .filter(definition.filterPayload || (()=>true))
               .map(definition.transformPayload || ((i)=>i))
