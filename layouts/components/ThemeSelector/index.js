@@ -42,7 +42,7 @@ const ThemeSelector = ({
 
   return (
     <Select
-      className={cxMui(styles.root, className)}
+      className={cxMui(className, styles.root)}
       labelId={`${id}-label`}
       id={id}
       name={id}
