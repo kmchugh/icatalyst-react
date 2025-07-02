@@ -17,7 +17,7 @@ const useStyles = createMuiStyles((theme, { value })=>{
       height: theme.spacingNum(3),
       minWidth: theme.spacingNum(3),
       border: `0px solid ${theme.palette.divider}`,
-      content: ' ',
+      content: '" "',
       padding: 0,
       borderRadius: theme.spacingNum(0.5),
       backgroundSize : `${theme.spacingNum(1)} ${theme.spacingNum(1)}`,

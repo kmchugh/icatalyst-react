@@ -125,7 +125,7 @@ const useStyles = createMuiStyles((theme, {navbarWidth, navbarFoldedWidth}) => {
           color: `${theme.palette.action.disabled}!important`
         },
         '& .list-subheader.iconless:before'                : {
-          content  : '""',
+          content  : '" "',
           display  : 'block',
           position : 'absolute',
           minWidth : theme.spacingNum(2),
