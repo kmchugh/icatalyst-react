@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import AppContextComponent from '../contexts/App';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
-import  ThemeModern from '../components/ThemeModern';
+import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
@@ -75,7 +75,7 @@ export default function createApp({
               <SettingsProvider getReducerRoot={({icatalyst})=>{
                 return icatalyst.settings;
               }}>
-                <ThemeModern>
+                <Theme>
                   <ErrorBoundary>
                     <Router history={history}>
                       <Singularity config={{
@@ -89,7 +89,7 @@ export default function createApp({
                       </Singularity>
                     </Router>
                   </ErrorBoundary>
-                </ThemeModern>
+                </Theme>
               </SettingsProvider>
             </LocalizationProvider>
           </Provider>
