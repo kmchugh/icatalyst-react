@@ -283,6 +283,7 @@ const MasterDetailPage = ({
                       (err, res)=>{
                         if (!err) {
                           definition.onAdded && definition.onAdded(res, dispatch, getState);
+                          setIsChildRetrieved(false);
                         }
                         callback(err, res);
                       }, {
