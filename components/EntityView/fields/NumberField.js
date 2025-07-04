@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {TextField as NativeTextField} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {}
   };
@@ -37,7 +36,7 @@ const NumberField = (props) => {
   const hasErrors = errors && errors.length > 0;
 
   return (<NativeTextField
-    className={clsx('mt-8 mb-16', styles.root, className)}
+    className={cxMui('mt-8 mb-16', styles.root, className)}
     style={{...style}}
     id={id}
     name={id}

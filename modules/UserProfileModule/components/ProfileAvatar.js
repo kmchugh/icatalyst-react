@@ -1,7 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Avatar from '../../../components/Avatar';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import DropZone from '../../../components/DropZone';
@@ -10,8 +8,9 @@ import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import {uploadFile} from '../../../components/Singularity/store/actions/file.actions';
 import { useDispatch } from 'react-redux';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       width: '100%',
@@ -87,17 +86,17 @@ const ProfileAvatar = ({
   };
 
   return updating ? (<FuseLoading title="Updating..."/>) : (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       <Typography
-        className={clsx(styles.title)}
+        className={cxMui(styles.title)}
         component="h2"
         variant="h5"
       >
         Profile Image
       </Typography>
-      <div className={clsx(styles.dropzoneWrapper)}>
+      <div className={cxMui(styles.dropzoneWrapper)}>
         <DropZone
-          className={clsx(styles.dropzone)}
+          className={cxMui(styles.dropzone)}
           basePath={('profile/').toLowerCase()}
           value={[imageUrl]}
           onFilesDropped={onFileUpdated}
@@ -105,7 +104,7 @@ const ProfileAvatar = ({
           title="Drag an image or click to upload"
         >
           <Avatar
-            className={clsx(styles.avatar)}
+            className={cxMui(styles.avatar)}
             border={false}
             alt={(user && user.displayname) || 'user profile image'}
             src={imageUrl}

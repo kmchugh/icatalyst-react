@@ -1,8 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
@@ -19,8 +17,9 @@ import moment from '../../../../@moment';
 import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
 import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
 import { alpha } from '@mui/material/styles';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   const fadedBackground = alpha(theme.palette.error.light, .45);
   return {
     root : {
@@ -249,17 +248,17 @@ const CreateInvitation = ()=>{
   }
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       {!entity && (
-        <div className={clsx(classes.errorView)}>
+        <div className={cxMui(classes.errorView)}>
           <Typography variant='h2'>Could not create invite</Typography>
         </div>
       )}
       {
         !updating && (dialogErrors && dialogErrors.length > 0) &&
           (
-            <div className={clsx(classes.error_wrapper)}>
-              <div className={clsx(classes.error_list)}>
+            <div className={cxMui(classes.error_wrapper)}>
+              <div className={cxMui(classes.error_list)}>
                 {dialogErrors.map((error, i)=>{
                   return (<Alert severity="error" key={error + '_' + i}>{error.message || error}</Alert>);
                 })}
@@ -272,7 +271,7 @@ const CreateInvitation = ()=>{
       }
       {entity && (
         <EntityView
-          className={clsx(classes.entityView)}
+          className={cxMui(classes.entityView)}
           definition={definition}
           hideReadOnly={true}
           model={form}
@@ -280,17 +279,17 @@ const CreateInvitation = ()=>{
           onChange={handleChange}
         />
       )}
-      <div className={clsx(classes.formWrapper)}>
+      <div className={cxMui(classes.formWrapper)}>
         {(form && (!form.emails || form.emails.length === 0)) && (
           <Typography color="error">Please enter email addresses</Typography>
         )}
 
         {(form && form.emails && form.emails.length > 0) && (
-          <div className={clsx(classes.invites)}>
+          <div className={cxMui(classes.invites)}>
             {
               form.emails.map((email, i)=>{
                 return (
-                  <div className={clsx(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
+                  <div className={cxMui(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
                     <Typography className="title">
                       {email}
                     </Typography>
@@ -310,9 +309,9 @@ const CreateInvitation = ()=>{
         )}
       </div>
       {entity && (
-        <div className={clsx(classes.actionWrapper)}>
+        <div className={cxMui(classes.actionWrapper)}>
           <Button
-            className={clsx(classes.actionButton)}
+            className={cxMui(classes.actionButton)}
             color={'primary'}
             startIcon={
               <Icon>email</Icon>
@@ -367,7 +366,7 @@ const CreateInvitation = ()=>{
             Send
           </Button>
           <Button
-            className={clsx(classes.actionButton)}
+            className={cxMui(classes.actionButton)}
             color="secondary"
             startIcon={
               <Icon>close</Icon>

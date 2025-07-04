@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import PageHeader from '../../components/PageHeader';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display : 'flex',
@@ -40,14 +39,14 @@ const TitledPage = ({
   const styles = useStyles();
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       <PageHeader
         title={title}
         size={headerSize}
-        className={clsx(styles.header, headerClassName)}
+        className={cxMui(styles.header, headerClassName)}
         actions={actions}
       />
-      <div className={clsx(styles.pageContent, contentClassName)}>
+      <div className={cxMui(styles.pageContent, contentClassName)}>
         {children}
       </div>
     </div>

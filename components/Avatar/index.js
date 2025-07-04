@@ -1,18 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import Image from '../Image';
-import {makeStyles, useTheme} from '@mui/styles';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles(theme => ({
-  root  : (config)=>({
+const useStyles = createMuiStyles((theme, {
+  backgroundColor,
+  color,
+  border
+}) => ({
+  root  : {
     display : 'flex',
-    backgroundColor : config.backgroundColor,
-    borderColor: config.color,
+    backgroundColor : backgroundColor,
+    borderColor: color,
     boxSizing : 'content-box',
-    borderWidth: !config.border ? 0 : theme.spacingNum(1),
+    borderWidth: !border ? 0 : theme.spacingNum(1),
     overflow: 'hidden'
-  }),
+  },
   circular : {
     borderRadius :'50%',
 
@@ -38,7 +41,7 @@ const Avatar = ({
   variant = 'circular',
   border = true,
 })=>{
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const bg = backgroundColor || theme.palette.background.default;
   const fg = color || theme.palette.secondary.light;
 
@@ -49,9 +52,9 @@ const Avatar = ({
   });
 
   return (
-    <div className={clsx(classes.root, classes[variant], className)}>
+    <div className={cxMui(classes.root, classes[variant], className)}>
       <Image
-        className={clsx(classes.image)}
+        className={cxMui(classes.image)}
         backgroundColor={reverse ? fg : bg}
         src={src}
         alt={alt}

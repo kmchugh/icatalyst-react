@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import { cxMui } from '../../../utilities';
 
 
 const PassWordField = (props) => {
@@ -30,7 +30,7 @@ const PassWordField = (props) => {
 
   return (
     <TextField
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       id={id}
       label={label}
       type={showPassword ? 'text' : 'password'}

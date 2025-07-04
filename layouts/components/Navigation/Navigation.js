@@ -1,8 +1,8 @@
 import React from 'react';
 import FuseNavigation from '@icatalyst/components/fuse/FuseNavigation';
-import clsx from 'clsx';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
+import { cxMui } from '../../../utilities';
 
 function Navigation(props)
 {
@@ -10,7 +10,7 @@ function Navigation(props)
 
   return (
     <FuseNavigation
-      className={clsx('navigation', props.className)}
+      className={cxMui('navigation', props.className)}
       navigation={navigation}
       layout={props.layout}
       dense={props.dense}/>

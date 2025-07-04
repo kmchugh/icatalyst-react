@@ -1,5 +1,3 @@
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import MobileDetect from 'mobile-detect';
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
@@ -7,6 +5,7 @@ import PropTypes from 'prop-types';
 import React, { createRef, useCallback, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import withRouterAndRef from '../withRouterAndRef';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
 const md = new MobileDetect(window.navigator.userAgent);
 const isMobile = md.mobile();
@@ -25,7 +24,7 @@ const handlerNameByEvent = {
 };
 Object.freeze(handlerNameByEvent);
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       '& .ps__thumb-y' : {
@@ -133,7 +132,7 @@ const FuseScrollbars = React.forwardRef(function FuseScrollbars(props, ref){
   return (
     <div
       id={props.id}
-      className={clsx(classes.root, props.className)}
+      className={cxMui(classes.root, props.className)}
       role={role}
       style={
         props.customScrollbars && (props.enable || true) && !isMobile

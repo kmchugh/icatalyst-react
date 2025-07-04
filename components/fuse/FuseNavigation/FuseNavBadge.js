@@ -1,34 +1,31 @@
 import React from 'react';
-import {makeStyles} from '@mui/styles';
 import Icon from '@icatalyst/components/Icon';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
-  root: ({badge})=>{
-    return {
-      padding        : `0 ${theme.spacingNum(1)}`,
-      fontSize       : theme.typography.caption.fontSize,
-      fontWeight     : theme.typography.button.fontWeight,
-      height         : theme.spacingNum(2.5),
-      minWidth       : theme.spacingNum(2.5),
-      borderRadius   : theme.spacingNum(2.5),
-      display        : 'flex',
-      alignItems     : 'center',
-      backgroundColor: badge.background || theme.palette.secondary.main,
-      color          : badge.color || theme.palette.secondary.contrastText
-    };
+const useStyles = createMuiStyles((theme, { badge }) => ({
+  root: {
+    padding        : `0 ${theme.spacingNum(1)}`,
+    fontSize       : theme.typography.caption.fontSize,
+    fontWeight     : theme.typography.button.fontWeight,
+    height         : theme.spacingNum(2.5),
+    minWidth       : theme.spacingNum(2.5),
+    borderRadius   : theme.spacingNum(2.5),
+    display        : 'flex',
+    alignItems     : 'center',
+    backgroundColor: badge.background || theme.palette.secondary.main,
+    color          : badge.color || theme.palette.secondary.contrastText
   }
 }));
 
 function FuseNavBadge(props)
 {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {className, badge} = props;
 
   return (
     <div
-      className={clsx(classes.root, className, 'item-badge')}
+      className={cxMui(classes.root, className, 'item-badge')}
     >
       {
         badge.icon &&

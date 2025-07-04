@@ -1,12 +1,11 @@
 import React, {useContext} from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
 import { AppContext } from '../../../contexts';
 import {Typography} from '@mui/material';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -52,13 +51,13 @@ const useStyles = makeStyles((theme)=>{
 
 function FuseSplashScreen(props)
 {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {message, messageColor} = props;
 
   const {applicationConfig} = useContext(AppContext);
 
   return (
-    <div role="main" id='splash-screen' className={clsx(classes.root)}>
+    <div role="main" id='splash-screen' className={cxMui(classes.root)}>
 
       <div className="logo">
         <img width="128" src={applicationConfig.logo} alt="logo"/>
@@ -73,8 +72,8 @@ function FuseSplashScreen(props)
         <div className="loader__ball"></div>
       </div>
 
-      <div className={clsx(classes.message)}>
-        <Typography component="h1" className={clsx(classes[messageColor || 'primary'])} variant="h6">{message}</Typography>
+      <div className={cxMui(classes.message)}>
+        <Typography component="h1" className={cxMui(classes[messageColor || 'primary'])} variant="h6">{message}</Typography>
       </div>
     </div>
   );

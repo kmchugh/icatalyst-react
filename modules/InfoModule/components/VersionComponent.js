@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import {Typography, Card, CardContent,
   CardHeader, ListItem, ListItemText
 } from '@mui/material';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       overflow: 'visible',
@@ -34,7 +33,7 @@ const VersionComponent = ({
   const isLoading = !hasErrors && !hasVersions;
 
   return (
-    <Card className={clsx(classes.root)}>
+    <Card className={cxMui(classes.root)}>
       <CardHeader
         title={<Typography variant="h5">{title}</Typography>}
         avatar={logo}
@@ -46,7 +45,7 @@ const VersionComponent = ({
               versions.map((v)=>{
                 const version = v.value.split(', ');
                 return (
-                  <ListItem key={v.value} className={clsx(classes.listItem)}>
+                  <ListItem key={v.value} className={cxMui(classes.listItem)}>
                     <ListItemText primary={version[0]} secondary={version[1]} />
                   </ListItem>
                 );

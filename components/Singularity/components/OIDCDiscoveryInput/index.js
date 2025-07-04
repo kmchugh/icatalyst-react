@@ -1,14 +1,13 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 import {isURL} from '../../../../utilities/validations';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {
       display: 'flex',
@@ -77,7 +76,7 @@ const OIDCDiscoveryInput = (props)=>{
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       onClick={(e)=>{
         e.stopPropagation();
@@ -85,7 +84,7 @@ const OIDCDiscoveryInput = (props)=>{
       }}
     >
       <TextField
-        className={clsx(props.className)}
+        className={cxMui(props.className)}
         id={id}
         name={id}
         error={hasErrors}
@@ -114,7 +113,7 @@ const OIDCDiscoveryInput = (props)=>{
       }
       {
         !isRetrieving && <IconButton
-          className={clsx(styles.syncButton)}
+          className={cxMui(styles.syncButton)}
           color="primary"
           title={t('Extract URLs from provider')}
           icon="sync"

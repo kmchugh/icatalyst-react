@@ -4,17 +4,16 @@ import Icon from '../Icon';
 import ClearableInput from '../ClearableInput';
 import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import {SearchFilterContext} from '../Tables';
 import {useSelector} from 'react-redux';
 // import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import {useMediaQuery, useTheme} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     paddingTop: theme.spacingNum(3),
     paddingBottom: theme.spacingNum(3),
@@ -106,14 +105,14 @@ const Header = ({
 
   return (
     <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-      <div className={clsx(classes.root)}>
+      <div className={cxMui(classes.root)}>
 
         {
           // If the toolbar is not displayed then we need
           // to allow access to the navigation
           !toolbar.display && isLgDown && (
             <>
-              <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+              <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
               <div className={classes.separator}/>
             </>
           )
@@ -133,8 +132,8 @@ const Header = ({
           </Typography>
         }
 
-        <div className={clsx(classes.titleWrapper)}>
-          <Icon className={clsx(classes.icon, 'text-32')}>{icon}</Icon>
+        <div className={cxMui(classes.titleWrapper)}>
+          <Icon className={cxMui(classes.icon, 'text-32')}>{icon}</Icon>
           <div className="hidden overflow-hidden sm:flex mx-0 sm:mr-16 md:mx-16 flex flex-row sm:flex-col">
             <Typography noWrap={true} variant="h5">
               {title}
@@ -145,7 +144,7 @@ const Header = ({
           </div>
         </div>
 
-        <div className={clsx(classes.searchWrapper)}>
+        <div className={cxMui(classes.searchWrapper)}>
           <ClearableInput
             label="search"
             icon="search"
@@ -154,7 +153,7 @@ const Header = ({
           />
         </div>
 
-        <div className={clsx(classes.componentWrapper)}>
+        <div className={cxMui(classes.componentWrapper)}>
           {
             actionComponent && actionComponent
           }

@@ -1,8 +1,7 @@
 import React from 'react';
 import {TextField as NativeTextField} from '@mui/material';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-
+import { cxMui } from '../../../utilities';
 
 const TextField = (props) => {
 
@@ -26,7 +25,7 @@ const TextField = (props) => {
   const hasErrors = errors && errors.length > 0;
 
   return (<NativeTextField
-    className={clsx('mt-8 mb-16', props.className)}
+    className={cxMui('mt-8 mb-16', props.className)}
     id={id}
     name={id}
     label={label}

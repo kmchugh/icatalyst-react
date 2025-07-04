@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Typography from '@mui/material/Typography';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MActions from '../../../../store/actions/message.actions';
 import {useDispatch} from 'react-redux';
 import IconButton from '../../../../components/IconButton';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -59,7 +58,7 @@ const TokenDetailsContent = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Typography
@@ -80,7 +79,7 @@ const TokenDetailsContent = ({
       >
         These details are not recoverable, please copy them before closing the dialog
       </Typography>
-      <div className={clsx(styles.codeWrapper)}>
+      <div className={cxMui(styles.codeWrapper)}>
         <CopyToClipboard
           key="authHeader"
           onCopy={(text, result)=>{
@@ -115,7 +114,7 @@ const TokenDetailsContent = ({
           </div>
         </CopyToClipboard>
 
-        <div className={clsx(styles.authHeader)}>
+        <div className={cxMui(styles.authHeader)}>
           Basic {token.token}
         </div>
 
@@ -153,7 +152,7 @@ const TokenDetailsContent = ({
           </div>
         </CopyToClipboard>
 
-        <div className={clsx(styles.bodyHeader)}>
+        <div className={cxMui(styles.bodyHeader)}>
           <pre>
             {JSON.stringify(tokenRequest, null, 2)}
           </pre>

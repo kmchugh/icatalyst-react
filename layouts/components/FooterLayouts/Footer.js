@@ -1,10 +1,9 @@
 import React from 'react';
 import {AppBar, Toolbar,Typography} from '@mui/material';
 import config from 'app/settings/config';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       // TODO: Find out why safari needs this to show the footer
@@ -29,7 +28,7 @@ function Footer()
       role="contentinfo"
       component="div"
       id="app-footer"
-      className={clsx(classes.root)} color="default">
+      className={cxMui(classes.root)} color="default">
       <Toolbar className="px-16 py-8 md:py-0 flex items-center min-h-32 text-10 md:text-12">
         <Typography variant="caption">
           {footer}

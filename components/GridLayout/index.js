@@ -1,16 +1,15 @@
 import React, {useEffect, useRef, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {getFromLocalStore, saveToLocalStore} from '@icatalyst/utilities/localstorage';
 import _ from '@icatalyst/@lodash';
 
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import GridItem from './GridItem';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       height: '100%',
@@ -140,7 +139,7 @@ const GridLayout = React.forwardRef(({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <ResponsiveGridLayout
@@ -150,7 +149,7 @@ const GridLayout = React.forwardRef(({
         }}
         margin={margin}
         containerPadding={containerPadding}
-        className={clsx(styles.gridRoot, gridClassName)}
+        className={cxMui(styles.gridRoot, gridClassName)}
         draggableHandle={`.${dragHandleClass}`}
         isDroppable={isDroppable}
         onDrop={onDrop}

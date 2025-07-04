@@ -3,10 +3,7 @@ import {ModelPropTypes} from '../../utilities/createModel';
 import EntityView from '../EntityView';
 import PropTypes from 'prop-types';
 import { Button, StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
-import { ThemeProvider } from '@mui/styles';
 import Icon from '../Icon';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
 import {useForm} from '../../hooks/fuse';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -20,9 +17,10 @@ import {SingularityContext} from '../Singularity';
 import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
 import {isSafari} from 'react-device-detect';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       // Safari doesn't like the height set on this component
@@ -121,7 +119,7 @@ const DetailContent = ({
   const [updating, setUpdating] = useState(false);
   const [responseErrors, setResponseErrors] = useState(null);
   const { form, handleChange, resetForm, setForm } = useForm(null);
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const transitionLength = theme.transitions.duration.shortest;
   const {/*isInRole,*/ accessToken} = singularityContext;
 
@@ -206,39 +204,37 @@ const DetailContent = ({
   }, [tabs]);
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={themes.toolbarTheme}>
-          <MUIThemeProvider theme={themes.toolbarTheme}>
-            <DetailContentTabs
-              config={config}
-              tabs={tabs}
-              backUrl={backUrl}
-              selectedTab={selectedTab}
-              onTabChanged={(index)=>{
-                setSelectedTab((selected)=>{
-                  return {
-                    prev : selected.current,
-                    current : index
-                  };
-                });
-                const path = tabs[index].path;
-                if (!path) {
-                  history.push(match.url);
-                } else {
-                  history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
-                }
-              }}
-            />
-          </MUIThemeProvider>
-        </ThemeProvider>
+        <MUIThemeProvider theme={themes.toolbarTheme}>
+          <DetailContentTabs
+            config={config}
+            tabs={tabs}
+            backUrl={backUrl}
+            selectedTab={selectedTab}
+            onTabChanged={(index)=>{
+              setSelectedTab((selected)=>{
+                return {
+                  prev : selected.current,
+                  current : index
+                };
+              });
+              const path = tabs[index].path;
+              if (!path) {
+                history.push(match.url);
+              } else {
+                history.push(!match.url.endsWith('/') ? `${match.url}/${path}` : `${match.url}${path}`);
+              }
+            }}
+          />
+        </MUIThemeProvider>
       </StyledEngineProvider>
-      <div className={clsx(classes.errorWrapper)}>
+      <div className={cxMui(classes.errorWrapper)}>
         {
-          responseErrors && <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={responseErrors}/>
+          responseErrors && <ErrorWrapper className={cxMui(classes.errorWrapperComponent)} errors={responseErrors}/>
         }
       </div>
-      <div className={clsx(classes.contentWrapper)}>
+      <div className={cxMui(classes.contentWrapper)}>
         {definition && tabs && (
           <Switch key={location.pathname} location={location}>
             {tabs.filter(t=>t.visible && t.path).map((t)=>{
@@ -285,7 +281,7 @@ const DetailContent = ({
             })}
             <Route render={()=>{
               return (
-                <div className={clsx(classes.entityWrapper)}>
+                <div className={cxMui(classes.entityWrapper)}>
                   <FuseAnimateGroup
                     className="w-full h-full flex flex-col"
                     runOnMount={true}
@@ -304,7 +300,7 @@ const DetailContent = ({
                   >
                     {updating && <FuseLoading title="Updating..."/>}
                     {(!updating && form) && <EntityView
-                      className={clsx(classes.entityView)}
+                      className={cxMui(classes.entityView)}
                       definition={definition}
                       model={form || entity}
                       readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}
@@ -318,9 +314,9 @@ const DetailContent = ({
                     }
                     <div className="flex flex-1"/>
                     { (!readonly && (auth && (auth.update || ((auth.create) /* && !isNew */)))) &&
-                      <div className={clsx(classes.actionWrapper)}>
+                      <div className={cxMui(classes.actionWrapper)}>
                         <Button
-                          className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                          className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           variant="contained"
                           color="primary"
                           disabled={updating || !canBeSubmitted || readonly}
@@ -371,18 +367,18 @@ const DetailContent = ({
                             }
                           }}
                         >
-                          <Icon className={clsx(classes.actionButtonIcon)}>save</Icon>
+                          <Icon className={cxMui(classes.actionButtonIcon)}>save</Icon>
                           Save
                         </Button>
 
                         <Button
-                          className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                          className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           variant="contained"
                           color="secondary"
                           disabled={updating || !modified || readonly}
                           onClick={reset}
                         >
-                          <Icon className={clsx(classes.actionButtonIcon)}>cancel</Icon>
+                          <Icon className={cxMui(classes.actionButtonIcon)}>cancel</Icon>
                         Cancel
                         </Button>
                       </div>

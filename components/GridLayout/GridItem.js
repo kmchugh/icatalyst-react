@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
-import clsx from 'clsx';
 
 import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Paper from '@mui/material/Paper';
 import Icon from '../Icon';
 import DropdownMenu from '../Menus/DropdownMenu';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       overflow : 'hidden',
@@ -69,20 +68,20 @@ const GridItem = React.forwardRef(({
   ...rest
 }, ref)=>{
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   const isCompact = variant === 'compact';
 
   return (
     <Paper
       ref={ref}
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       {...rest}
     >
       {showChrome && (
-        <div className={clsx(styles.contentHeader)}>
-          <span className={clsx(styles.dragHandle, 'dragHandle')}>
+        <div className={cxMui(styles.contentHeader)}>
+          <span className={cxMui(styles.dragHandle, 'dragHandle')}>
             <Icon
               size={isCompact ? 'small' : 'medium'}
               title="drag"
@@ -98,7 +97,7 @@ const GridItem = React.forwardRef(({
             </Icon>
             tttt
           </span>
-          <div className={clsx(styles.titleWrapper)}>
+          <div className={cxMui(styles.titleWrapper)}>
             {
               React.isValidElement(title) ?
                 title :
@@ -110,7 +109,7 @@ const GridItem = React.forwardRef(({
                     } : {
                       fontSize : theme.spacingNum(2),
                     }}
-                    className={clsx(styles.title)}
+                    className={cxMui(styles.title)}
                     noWrap
                     component="h2"
                   >
@@ -135,7 +134,7 @@ const GridItem = React.forwardRef(({
           )}
         </div>
       )}
-      <div className={clsx(styles.content)}>
+      <div className={cxMui(styles.content)}>
         {children}
       </div>
     </Paper>

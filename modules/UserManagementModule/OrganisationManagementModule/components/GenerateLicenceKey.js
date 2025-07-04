@@ -1,7 +1,5 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Icon from '../../../../components/Icon';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
@@ -14,8 +12,9 @@ import {DialogContent, DialogContentEntityView} from '../../../../components/Dia
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MessageActions from '../../../../store/actions/message.actions';
 import Typography from '@mui/material/Typography';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     icon : {
@@ -48,14 +47,14 @@ const GenerateLicenceKey = ({
       showTitle : false,
       children : (
         <DialogContent closeText={t('Close')}>
-          <div className={clsx(styles.dialogContent)}>
+          <div className={cxMui(styles.dialogContent)}>
             <Typography
               variant="h4"
               component="h1"
             >
               {licence.name}
             </Typography>
-            <div className={clsx(styles.licenceWrapper)}>
+            <div className={cxMui(styles.licenceWrapper)}>
               <Typography variant="body1">
                 {data.guid}
               </Typography>
@@ -140,7 +139,7 @@ const GenerateLicenceKey = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Button
@@ -152,7 +151,7 @@ const GenerateLicenceKey = ({
           handleCreateLicence();
         }}
       >
-        <Icon className={clsx(styles.icon)}>{
+        <Icon className={cxMui(styles.icon)}>{
           updating ? 'fa spinner' : 'key'
         }</Icon>
         {t(updating ? 'Creating Key' : 'Create Key')}

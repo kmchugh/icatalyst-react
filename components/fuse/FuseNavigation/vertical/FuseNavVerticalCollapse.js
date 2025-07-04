@@ -1,8 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {Collapse, IconButton, ListItem, ListItemText} from '@mui/material';
-import {makeStyles} from '@mui/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import FuseNavVerticalGroup from './FuseNavVerticalGroup';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
@@ -11,23 +9,22 @@ import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Icon from '@icatalyst/components/Icon';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles((theme, { nestedLevel }) => ({
   root: {
     padding : 0,
     '&.open': {
       backgroundColor: 'rgba(0,0,0,.08)'
     }
   },
-  itemFn: ({nestedLevel})=>{
-    return {
-      height      : theme.spacingNum(5),
-      width       : `calc(100% - ${theme.spacingNum(2)})`,
-      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
-      paddingRight: theme.spacingNum(2.5),
-      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
-      color       : theme.palette.text.primary,
-    };
+  itemFn: {
+    height      : theme.spacingNum(5),
+    width       : `calc(100% - ${theme.spacingNum(2)})`,
+    borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+    paddingRight: theme.spacingNum(2.5),
+    paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+    color       : theme.palette.text.primary,
   },
   item: {
     '&.square'  : {
@@ -78,7 +75,7 @@ function FuseNavVerticalCollapse(props)
   const {t} = useContext(LocalizationContext);
   const {item, nestedLevel, active} = props;
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const [open, setOpen] = useState(() => needsToBeOpened(props.location, props.item));
 
@@ -130,10 +127,10 @@ function FuseNavVerticalCollapse(props)
       }
     </React.Fragment>
   ) : (
-    <ul className={clsx(classes.root, open && 'open')}>
+    <ul className={cxMui(classes.root, open && 'open')}>
 
       <ListItem
-        className={clsx(classes.item, classes.itemFn, active)}
+        className={cxMui(classes.item, classes.itemFn, active)}
         onClick={handleClick}
       >
         {item.icon && (

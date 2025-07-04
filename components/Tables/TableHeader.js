@@ -3,13 +3,12 @@ import {TableHead, TableCell, TableRow,
   TableSortLabel, Tooltip
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const SELECTION_COLUMN_ID = 'selection';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       background: theme.palette.action.selected,
@@ -56,7 +55,7 @@ const TableHeader = ({className, headerGroups, style={}})=>{
     ) : header;
   };
   return (
-    <TableHead className={clsx(classes.root, className)} style={style}>
+    <TableHead className={cxMui(classes.root, className)} style={style}>
       {
         headerGroups.map((headerGroup)=>{
           const {key, ...headerProps} = headerGroup.getHeaderGroupProps();

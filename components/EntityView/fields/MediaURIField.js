@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import TextField from '@mui/material/TextField';
 import Media from '../../Media';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginTop : theme.spacingNum(1),
@@ -59,11 +58,11 @@ const MediaURIField = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
     >
       <TextField
-        className={clsx(styles.textField)}
+        className={cxMui(styles.textField)}
         id={id}
         name={id}
         label={label}
@@ -90,7 +89,7 @@ const MediaURIField = ({
         value={image}
       />
       <Media
-        className={clsx(styles.media)}
+        className={cxMui(styles.media)}
         src={image}
         onLoad={(e, source)=>{
           const updatedImage = source;

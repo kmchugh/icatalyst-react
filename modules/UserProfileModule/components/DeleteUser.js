@@ -1,15 +1,14 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Button from '@mui/material/Button';
 import * as DialogActions from '../../../store/actions/dialog.actions';
 import { useDispatch } from 'react-redux';
 import DialogContentEntityView from '../../../components/Dialogs/Content/DialogContentEntityView';
 import Typography from '@mui/material/Typography';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -69,7 +68,7 @@ const DeleteUser = ({
                 <Typography
                   key="title"
                   variant="h3"
-                  className={clsx(styles.deleteTitle)}
+                  className={cxMui(styles.deleteTitle)}
                 >
                   This action is not recoverable
                 </Typography>
@@ -77,7 +76,7 @@ const DeleteUser = ({
               ()=>(
                 <Typography
                   key="text1"
-                  className={clsx(styles.text)}
+                  className={cxMui(styles.text)}
                   variant="body1"
                 >
                   Once you delete your user you will no longer have access
@@ -87,7 +86,7 @@ const DeleteUser = ({
               ()=>(
                 <Typography
                   key="text2"
-                  className={clsx(styles.text)}
+                  className={cxMui(styles.text)}
                   variant="body1"
                 >
                 Please enter the phrase &apos;{phraseText}&apos; below to confirm that you have already exported any data that
@@ -107,7 +106,7 @@ const DeleteUser = ({
             disabled : ({isValid, isModified})=>{
               return !isValid || !isModified;
             },
-            className : clsx(styles.button)
+            className : cxMui(styles.button)
           }]}
         />
       )
@@ -115,9 +114,9 @@ const DeleteUser = ({
   };
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       <Button
-        className={clsx(styles.button)}
+        className={cxMui(styles.button)}
         variant="contained"
         onClick={onDeleteClicked}>
         Delete User

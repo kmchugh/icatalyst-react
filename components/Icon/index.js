@@ -9,10 +9,9 @@ import {Icon as MUIIcon} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     'font-small' : {
@@ -56,7 +55,7 @@ const Icon = ({
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
-      className={clsx(classes[`font-${definedSize}`])}
+      className={cxMui(classes[`font-${definedSize}`])}
       style={((color && color !== 'inherit') && [
         'action',
         'primary',

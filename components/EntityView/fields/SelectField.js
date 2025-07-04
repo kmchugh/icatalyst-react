@@ -7,12 +7,11 @@ import MenuItem from '@mui/material/MenuItem';
 import { TextField,InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import _ from '../../../@lodash';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
@@ -59,18 +58,18 @@ const SelectField = (props) => {
 
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
       error={hasErrors}
       required={required}
     >
-      <InputLabel id={`${id}-label`} className={clsx(classes.inputLabel)}>
+      <InputLabel id={`${id}-label`} className={cxMui(classes.inputLabel)}>
         {label}
       </InputLabel>
 
       <NativeSelectField
-        className={clsx(classes.select)}
+        className={cxMui(classes.select)}
         MenuProps={{ autoFocus: false }}
         labelId={`${id}-label`}
         id={id}

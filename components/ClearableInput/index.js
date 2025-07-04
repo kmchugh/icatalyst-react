@@ -3,11 +3,10 @@ import Icon from '@icatalyst/components/Icon';
 import {Paper, Input, InputAdornment} from '@mui/material';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     paddingLeft: theme.spacingNum(1),
     paddingRight: theme.spacingNum(1),
@@ -30,7 +29,7 @@ const ClearableInput = ({
   const classes = useStyles();
 
   return (
-    <Paper className={clsx(classes.root, className)} elevation={1}>
+    <Paper className={cxMui(classes.root, className)} elevation={1}>
       {
         <Input
           placeholder={label}

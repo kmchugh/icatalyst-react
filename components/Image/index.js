@@ -2,12 +2,21 @@ import React, {useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Icon from '../Icon';
-import clsx from 'clsx';
 import useHookWithRefCallback from '../../hooks/useHookWithRefCallback';
+import { createMuiStyles, cxMui } from '../../utilities';
+import { keyframes } from '@emotion/css';
 
-const useStyles = makeStyles((theme) => ({
+const rotating = keyframes({
+  from: {
+    transform: 'rotate(0deg)'
+  },
+  to: {
+    transform: 'rotate(360deg)'
+  }
+});
+
+const useStyles = createMuiStyles((theme) => ({
   loadingWrapper  : {
     position : 'relative',
   },
@@ -17,16 +26,16 @@ const useStyles = makeStyles((theme) => ({
     height : theme.spacingNum(2),
     top : `calc(50% - ${theme.spacingNum(1)})`,
     left : `calc(50% - ${theme.spacingNum(1)})`,
-    animation: '$rotating 2s linear infinite'
+    animation: `${rotating} 2s linear infinite`
   },
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
+  // '@keyframes rotating': {
+  //   from: {
+  //     transform: 'rotate(0deg)'
+  //   },
+  //   to: {
+  //     transform: 'rotate(360deg)'
+  //   }
+  // },
 }));
 
 function Image(props) {
@@ -105,13 +114,13 @@ function Image(props) {
   }, [props, source, bgColor]);
 
   return !loaded ? (
-    <div className={clsx(classes.loadingWrapper)}
+    <div className={cxMui(classes.loadingWrapper)}
       style={{
         color : spinnerColor
       }}
     >
       {image}
-      <Icon className={clsx(classes.spinner)}>fa spinner</Icon>
+      <Icon className={cxMui(classes.spinner)}>fa spinner</Icon>
     </div>
   ) : image;
 }

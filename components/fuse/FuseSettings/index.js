@@ -7,10 +7,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import Select from '@mui/material/Select';
-import makeStyles from '@mui/styles/makeStyles';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings }
 // from 'app/auth/store/userSlice';
@@ -18,8 +16,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import layoutDefaults from '@icatalyst/layouts/layoutDefaults';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root: {},
   formControl: {
     margin: '6px 0',
@@ -57,7 +56,7 @@ function FuseSettings(props) {
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   function handleChange(event) {
     const newSettings = _.set(
@@ -296,7 +295,7 @@ function FuseSettings(props) {
         </Typography>
       </div>
 
-      <div className={clsx(classes.formGroup, 'pb-16')}>
+      <div className={cxMui(classes.formGroup, 'pb-16')}>
         <Typography className={classes.formGroupTitle} color="textSecondary">
           Theme
         </Typography>

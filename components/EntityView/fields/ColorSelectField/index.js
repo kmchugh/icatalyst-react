@@ -1,26 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import ColorPicker from '../../../ColorPicker';
 import FormControl  from '@mui/material/FormControl';
 import FormControlLabel  from '@mui/material/FormControlLabel';
 import FormHelperText  from '@mui/material/FormHelperText';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme, { value })=>{
   return {
     root : {},
-    disabledSwatchColor : ({value})=>{
-      return {
-        background: `none ${value || theme.palette.background.default}`
-      };
+    disabledSwatchColor : {
+      background: `none ${value || theme.palette.background.default}`
     },
     disabledSwatch : {
       width: theme.spacingNum(3),
       height: theme.spacingNum(3),
       minWidth: theme.spacingNum(3),
       border: `0px solid ${theme.palette.divider}`,
-      content: ' ',
+      content: '" "',
       padding: 0,
       borderRadius: theme.spacingNum(0.5),
       backgroundSize : `${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
@@ -57,7 +54,7 @@ const ColorSelectField = ({
 
   return (
     <FormControl
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       fullWidth
       variant="outlined"
@@ -70,7 +67,7 @@ const ColorSelectField = ({
         disabled={readonly}
         control={
           readonly ? (
-            <div className={clsx(styles.disabledSwatch, styles.disabledSwatchColor)}>
+            <div className={cxMui(styles.disabledSwatch, styles.disabledSwatchColor)}>
             </div>
           ) : (
             <ColorPicker

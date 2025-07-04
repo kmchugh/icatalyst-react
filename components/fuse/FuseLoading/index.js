@@ -2,11 +2,10 @@ import React, {useState} from 'react';
 import {Typography, LinearProgress} from '@mui/material';
 import useTimeout from '@icatalyst/hooks/fuse/useTimeout';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       alignSelf: 'center',
@@ -33,7 +32,7 @@ function FuseLoading({
 })
 {
   const classes = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   color = color || mostReadable(
     tinycolor(theme.palette.background.paper),
@@ -56,7 +55,7 @@ function FuseLoading({
 
   return (
     <div
-      className={clsx(classes.root, className)}
+      className={cxMui(classes.root, className)}
       style={{...style}}
     >
       {title && <Typography className="text-20 mb-16" color={textColor}>{title}</Typography>}

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import Typography from '@mui/material/Typography';
 // import Hidden from '@mui/material/Hidden';
 import {useMediaQuery, useTheme} from '@mui/material';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import IconButton from '../IconButton';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginBottom : theme.spacingNum(3),
@@ -78,10 +77,10 @@ const PageHeader = ({
   const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       {showMenuNav && isLgDown && (
         <>
-          <NavbarMobileToggleButton className={clsx(styles.mobileNavButton)}/>
+          <NavbarMobileToggleButton className={cxMui(styles.mobileNavButton)}/>
           <div className={styles.separator}/>
         </>
       )}
@@ -109,8 +108,8 @@ const PageHeader = ({
                   disabled = false
                 } = action;
                 return (<IconButton
-                  className={clsx(className)}
-                  title={clsx(title)}
+                  className={cxMui(className)}
+                  title={cxMui(title)}
                   key={action.title}
                   onClick={onClick}
                   icon={icon}

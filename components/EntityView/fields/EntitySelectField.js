@@ -15,14 +15,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Icon from '../../Icon';
 
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
@@ -63,7 +62,7 @@ const DefaultListItem = ({
   return (
     <ListItem className={className} component="div">
       { !hideFeatureImage && (
-        <Avatar className={clsx(styles.avatar)}>
+        <Avatar className={cxMui(styles.avatar)}>
           <Image
             src={getFeatureImage(item)}
           />
@@ -199,20 +198,20 @@ const EntitySelectField = (props) => {
   // Dont render if we haven't loaded any items and if hideIfEmpty is true;
   return (hideIfEmpty && (!options || options.length === 1)) ? null : (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
       error={hasErrors}
       required={required}
     >
       {
-        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
+        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={cxMui(classes.inputLabel)}>
           {label}
         </InputLabel>
       }
 
       <ListComponent
-        className={clsx(classes.select)}
+        className={cxMui(classes.select)}
         MenuProps={{ autoFocus: autoFocus }}
         labelId={`${name}-label`}
         id={id}
@@ -257,7 +256,7 @@ const EntitySelectField = (props) => {
             return (
               <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
                 <ListItemComponent
-                  className={clsx(classes.listItem)}
+                  className={cxMui(classes.listItem)}
                   dense
                   disableGutters
                   key={item[identityFieldName]}

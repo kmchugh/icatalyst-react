@@ -6,18 +6,27 @@ import Icon from '@mui/material/Icon';
 import IconButton from '@mui/material/IconButton';
 import Slide from '@mui/material/Slide';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
 import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { createMuiStyles, cxMui } from '../../../utilities';
+import { keyframes } from '@emotion/css';
+
+const rotating = keyframes({
+  from: {
+    transform: 'rotate(0deg)'
+  },
+  to: {
+    transform: 'rotate(360deg)'
+  }
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   const theme = useTheme();
   return <Slide direction={theme.direction === 'ltr' ? 'left' : 'right'} ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   buttonWrapper: {
     position: 'absolute',
     right: 0,
@@ -49,18 +58,18 @@ const useStyles = makeStyles(theme => ({
   },
   settingsButton: {
     '& $buttonIcon': {
-      animation: '$rotating 3s linear infinite'
+      animation: `${rotating} 3s linear infinite`
     }
   },
   schemesButton: {},
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
+  // '@keyframes rotating': {
+  //   from: {
+  //     transform: 'rotate(0deg)'
+  //   },
+  //   to: {
+  //     transform: 'rotate(360deg)'
+  //   }
+  // },
   buttonIcon: {
     fontSize: 20
   },
@@ -109,7 +118,7 @@ function SettingsPanel() {
     <>
       <div className={classes.buttonWrapper} id="fuse-settings-schemes">
         <Button
-          className={clsx(classes.button, classes.settingsButton)}
+          className={cxMui(classes.button, classes.settingsButton)}
           onClick={() => handleOpen('settings')}
           variant="text"
           color="inherit"
@@ -118,7 +127,7 @@ function SettingsPanel() {
         </Button>
 
         <Button
-          className={clsx(classes.button, classes.schemesButton)}
+          className={cxMui(classes.button, classes.schemesButton)}
           onClick={() => handleOpen('schemes')}
           variant="text"
           color="inherit"
@@ -135,7 +144,7 @@ function SettingsPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...settingsHandlers}
       >
@@ -163,7 +172,7 @@ function SettingsPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...shemesHandlers}
       >

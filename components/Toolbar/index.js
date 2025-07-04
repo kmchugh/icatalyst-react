@@ -1,10 +1,9 @@
 import React from 'react';
 import {Toolbar as NativeToolbar } from '@mui/material';
-import clsx from 'clsx';
-import makeStyles from '@mui/styles/makeStyles';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     flexDirection: 'column',
     [theme.breakpoints.up('sm')]: {
@@ -21,16 +20,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Toolbar = (props)=>{
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const {primaryTools, secondaryTools} = props;
 
   return (
-    <NativeToolbar className={clsx(classes.root, props.className)}>
+    <NativeToolbar className={cxMui(classes.root, props.className)}>
       {
         primaryTools && primaryTools
       }
-      <div className={clsx(classes.grow)}/>
+      <div className={cxMui(classes.grow)}/>
       {
         secondaryTools && secondaryTools
       }

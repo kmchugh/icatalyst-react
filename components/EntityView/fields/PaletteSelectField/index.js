@@ -1,14 +1,13 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@mui/styles';
-import clsx from 'clsx';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
 import colorbrewer from './colorBrewer';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginTop : theme.spacingNum(1),
@@ -48,7 +47,7 @@ const PaletteSelectField = ({
   field
 })=>{
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   const {
     id,
@@ -114,7 +113,7 @@ const PaletteSelectField = ({
 
   return (
     <FormControl
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
       variant="outlined"
       fullWidth
@@ -129,7 +128,7 @@ const PaletteSelectField = ({
         autoHighlight={true}
         autoSelect={true}
         freeSolo={false}
-        className={clsx(styles.select)}
+        className={cxMui(styles.select)}
         fullWidth={true}
         options={colors}
         groupBy={(option)=>option.paletteName}
@@ -143,14 +142,14 @@ const PaletteSelectField = ({
         renderOption={(props, option) => {
           return (
             <li {...props}>
-              <div className={clsx(styles.menuItem)}>
+              <div className={cxMui(styles.menuItem)}>
                 <Typography>{option.label}</Typography>
-                <div className={clsx(styles.colorSwatches)}>
+                <div className={cxMui(styles.colorSwatches)}>
                   {
                     option.value.map((color)=>{
                       return (
                         <div
-                          className={clsx(styles.colorSwatch)}
+                          className={cxMui(styles.colorSwatch)}
                           key={`${option.id}_${color}`}
                           style={{
                             backgroundColor : color

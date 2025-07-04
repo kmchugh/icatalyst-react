@@ -8,11 +8,10 @@ import {
   List,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import makeStyles from '@mui/styles/makeStyles';
 import IconButton from '../../../IconButton';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   list: {
     paddingBlock: 0,
   },
@@ -61,7 +60,7 @@ const MenuItem = ({
   onChildClickItem,
   ...props
 }) => {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -70,8 +69,8 @@ const MenuItem = ({
 
   return (
     <>
-      <ListItem className={clsx (classes.listItem,className)}>
-        <ListItemText className={clsx (classes.listItemText)} primary={title} onClick={onClickItem}/>
+      <ListItem className={cxMui(classes.listItem,className)}>
+        <ListItemText className={cxMui(classes.listItemText)} primary={title} onClick={onClickItem}/>
         {isCreate && !fullData.isEditable && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'

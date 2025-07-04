@@ -1,7 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import IconButton from '../../../components/IconButton';
 import Typography from '@mui/material/Typography';
@@ -10,8 +8,9 @@ import FuseLoading from '@icatalyst/components/fuse/FuseLoading';
 import TextField from '@mui/material/TextField';
 import {isName} from '@icatalyst/components/EntityView/validations/isName';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       width: '100%',
@@ -101,18 +100,18 @@ const ProfileDisplayName = ({
   };
 
   return updating ? (<FuseLoading title="Updating..."/>) : (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       <Typography
-        className={clsx(styles.title)}
+        className={cxMui(styles.title)}
         variant="h5"
         component="h2"
       >
         Display Name
       </Typography>
-      <div className={clsx(styles.inputField)}>
-        <div className={clsx(styles.textWrapper)}>
+      <div className={cxMui(styles.inputField)}>
+        <div className={cxMui(styles.textWrapper)}>
           <TextField
-            className={clsx(styles.textField)}
+            className={cxMui(styles.textField)}
             fullWidth
             key="Name"
             placeholder="Display Name"
@@ -130,7 +129,7 @@ const ProfileDisplayName = ({
           />
         </div>
         <IconButton
-          className={clsx(styles.iconButton)}
+          className={cxMui(styles.iconButton)}
           title="Update"
           icon="save"
           disabled={isDisabled}

@@ -4,11 +4,10 @@ import FormControlLabel  from '@mui/material/FormControlLabel';
 import FormHelperText  from '@mui/material/FormHelperText';
 import Checkbox  from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@mui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       marginTop: theme.spacingNum(1),
@@ -51,7 +50,7 @@ const BooleanField = (props) => {
 
   return (
     <FormControl
-      className={clsx(clsx(styles.root), props.className)}
+      className={cxMui(cxMui(styles.root), props.className)}
       fullWidth
       variant="outlined"
       error={hasErrors}
@@ -62,7 +61,7 @@ const BooleanField = (props) => {
         disabled={readonly}
         control={
           <Checkbox
-            className={clsx(styles.checkbox)}
+            className={cxMui(styles.checkbox)}
             required={required}
             name={id}
             id={id}

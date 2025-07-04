@@ -1,7 +1,5 @@
 import React, {useState, useContext, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import IconButton from '../../IconButton';
 import _ from '../../../@lodash';
 import { SingularityContext } from '../../Singularity';
@@ -21,8 +19,9 @@ import { useHistory } from 'react-router-dom';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {},
     page1 : {
@@ -120,7 +119,7 @@ const ResourceSharingButton = ({
   const resourceType = definition.resourceName ? definition.resourceName : definition.name;
 
   return resourceOwner ? (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       <Wizard
         ref={wizardRef}
         finishButtonIcon="email"
@@ -135,7 +134,7 @@ const ResourceSharingButton = ({
           edgeTypes : null
         }}
         definition={resourceInviteDefinition}
-        className={clsx(styles.wizard)}
+        className={cxMui(styles.wizard)}
         open={showWizard}
         title={iconProps.title}
         onClosed={()=>{
@@ -197,18 +196,18 @@ const ResourceSharingButton = ({
           minHeight : 350,
           layout : [()=>{
             return (
-              <div key="intro" className={clsx(styles.page1)}>
+              <div key="intro" className={cxMui(styles.page1)}>
 
                 {featureImage && (
                   <CardMedia
-                    className={clsx(styles.cardMedia)}
+                    className={cxMui(styles.cardMedia)}
                     image={featureImage}
                     title={primaryText}
                   />
                 )}
 
                 <CardContent
-                  className={clsx(styles.cardContent)}
+                  className={cxMui(styles.cardContent)}
                 >
                   <Typography
                     variant="h6"
@@ -366,7 +365,7 @@ const ResourceSharingButton = ({
       }
       { variant === 'listitem' &&
         <ListItem
-          className={clsx(styles.listItem)}
+          className={cxMui(styles.listItem)}
           aria-label={iconProps.title}
           disabled={disabled}
           onClick={handleClick}

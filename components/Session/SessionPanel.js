@@ -4,19 +4,18 @@ import {Dialog, Slide, Typography, AppBar, Toolbar} from '@mui/material';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
 import { useTheme } from '@mui/material/styles';
-import makeStyles from '@mui/styles/makeStyles';
-import clsx from 'clsx';
 import { useSwipeable } from 'react-swipeable';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeUserSettings} from '../../store/actions/settings.actions';
 import {SettingsView} from '../Settings';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   const theme = useTheme();
   return <Slide direction={theme.direction === 'ltr' ? 'left' : 'right'} ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   button: {
     minWidth: 40,
     width: 40,
@@ -87,22 +86,22 @@ function SessionPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...settingsHandlers}
       >
         <FuseScrollbars>
-          <AppBar position="relative" className={clsx(classes.titleBar)}>
-            <Toolbar className={clsx(classes.toolBar)}>
+          <AppBar position="relative" className={cxMui(classes.titleBar)}>
+            <Toolbar className={cxMui(classes.toolBar)}>
               <Icon>settings</Icon>
-              <Typography className={clsx(classes.toolBarTitle)} variant="h6">
+              <Typography className={cxMui(classes.toolBarTitle)} variant="h6">
                 Settings
               </Typography>
               <IconButton title="close" icon="close" onClick={handleClose} size="large" />
             </Toolbar>
           </AppBar>
 
-          <div className={clsx(classes.content)}>
+          <div className={cxMui(classes.content)}>
             <SettingsView/>
           </div>
         </FuseScrollbars>

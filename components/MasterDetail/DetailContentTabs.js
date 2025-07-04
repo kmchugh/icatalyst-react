@@ -2,14 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Tabs, Tab, Tooltip} from '@mui/material';
 import Icon from '../Icon';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
 import IconButton from '../IconButton';
 import PageBase from '../../pages/PageBase';
 import { useHistory } from 'react-router-dom';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       height: theme.spacingNum(9),
@@ -53,16 +52,16 @@ const DetailContentTabs = ({
   backUrl,
 })=>{
   const classes = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const history = useHistory();
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       {
         // If the mode is chromeless then we need a way to get back
         config.mode === 'chromeless' && (
           <IconButton
-            className={clsx(classes.backButton)}
+            className={cxMui(classes.backButton)}
             onClick={()=>{
               history.push(backUrl);
             }}
@@ -85,7 +84,7 @@ const DetailContentTabs = ({
             textColor="primary"
             variant="scrollable"
             scrollButtons="auto"
-            className={clsx(classes.tabBar)}
+            className={cxMui(classes.tabBar)}
           >
             {
               tabs.filter(t=>t.visible===true).map(({icon, label, path, description})=>{
@@ -96,7 +95,7 @@ const DetailContentTabs = ({
                   >
                     <Tab
                       key={path || ''}
-                      className={clsx(classes.tab)}
+                      className={cxMui(classes.tab)}
                       icon={<Icon fontSize="small">{icon}</Icon>}
                       label={label}
                     />

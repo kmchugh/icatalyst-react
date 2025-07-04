@@ -2,12 +2,11 @@ import React from 'react';
 import {ModelPropTypes} from '../../utilities/createModel';
 import {getComponent} from './fields';
 import {useDispatch} from 'react-redux';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@mui/styles';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root : {
     ['& .MuiFormLabel-root.Mui-focused:not([class*="Mui-error"])'] : {
       color: mostReadable(tinycolor(theme.palette.background.default), [
@@ -74,7 +73,7 @@ const EntityView = ({
 }) => {
   const dispatch = useDispatch;
   const classes = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   if (!model) {
     console.error('A model has not been passed to the entity view, this is most likely an error');
@@ -86,7 +85,7 @@ const EntityView = ({
     if (Array.isArray(field)) {
       key = !key ? `${orientation}_${index}` : `${key}|${orientation}_${index}`;
       const wrapper = (
-        <div key={key} className={clsx(classes[orientation], orientation)}>
+        <div key={key} className={cxMui(classes[orientation], orientation)}>
           {field.map((field, i)=>{
             return renderField(field, i, layout, orientation === 'row' ? 'col' : 'row', key);
           })}
@@ -120,7 +119,7 @@ const EntityView = ({
               } : onChange
             }
             errors={errors && errors[field]}
-            className={clsx(classes.entityField)}
+            className={cxMui(classes.entityField)}
             style={{
               paddingLeft : theme.spacingNum(fieldDef.indent || 0)
             }}
@@ -133,7 +132,7 @@ const EntityView = ({
   const entityKey = `${definition.name}_entityView`;
   const layout = (typeof definition.layout) === 'function' ? definition.layout(definition, model) : definition.layout;
   return (
-    <div key={entityKey} className={clsx(classes.root, classes.col, 'col', className)}>
+    <div key={entityKey} className={cxMui(classes.root, classes.col, 'col', className)}>
       {
         (layout || []).map((field, index, layout)=>{
           return renderField(field, index, layout, 'row', entityKey);

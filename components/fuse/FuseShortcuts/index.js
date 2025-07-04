@@ -9,10 +9,8 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import makeStyles from '@mui/styles/makeStyles';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 // import { updateUserShortcuts } from 'app/auth/store/userSlice';
 // import { selectNavigation } from 'app/store/fuse/navigationSlice';
@@ -20,8 +18,9 @@ import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
 import { amber } from '@mui/material/colors';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles({
+const useStyles = createMuiStyles({
   root: {
     '&.horizontal': {},
     '&.vertical': {
@@ -44,7 +43,7 @@ function FuseShortcuts(props) {
 
   const navigationData = []; // useSelector(selectNavigation);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const searchInputRef = useRef(null);
   const [addMenu, setAddMenu] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -127,7 +126,7 @@ function FuseShortcuts(props) {
 
   return (
     <div
-      className={clsx(
+      className={cxMui(
         classes.root,
         props.variant,
         'flex flex-1',
@@ -139,7 +138,7 @@ function FuseShortcuts(props) {
         enter={{
           animation: 'transition.expandIn'
         }}
-        className={clsx('flex flex-1', props.variant === 'vertical' && 'flex-col')}
+        className={cxMui('flex flex-1', props.variant === 'vertical' && 'flex-col')}
       >
         <>
           {shortcutItems.map(

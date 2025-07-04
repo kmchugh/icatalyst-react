@@ -1,15 +1,14 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@mui/styles';
-import clsx from 'clsx';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FuseLoading from '../../../components/fuse/FuseLoading';
 import ErrorWrapper from '../../../components/Errors/ErrorWrapper';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -46,12 +45,12 @@ const ChangePassword = ({
   const [processing, setProcessing] = useState(false);
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       {
         processing && (<FuseLoading/>)
       }
       { !processing && (
-        <div className={clsx(styles.buttonWrapper)}>
+        <div className={cxMui(styles.buttonWrapper)}>
           <Button
             disabled={Boolean(error || message)}
             variant="contained"
@@ -76,7 +75,7 @@ const ChangePassword = ({
 
       {error && (<ErrorWrapper errors={[error]}/>)}
       {message && (
-        <Typography className={clsx(styles.successMessage)} variant="body1">
+        <Typography className={cxMui(styles.successMessage)} variant="body1">
           {message}
         </Typography>
       )}
