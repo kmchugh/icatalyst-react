@@ -61,7 +61,7 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
-  const [isCaptureCall,setIsCaptureCall] = useState(false);
+  const [isChildRetrieved, setIsChildRetrieved] = useState(false);
   const {
     title,
     operations,
@@ -147,7 +147,7 @@ const MasterDetailPage = ({
   }, [definition]);
 
   const loadEntities = ()=>{
-    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES'] && !isCaptureCall) {
+    if (reducer && definition && operations && operations['RETRIEVE_ENTITIES']) {
       if (!auth.retrieveAll) {
         setErrors([t('You do not have access to this operation')]);
         return;
@@ -159,8 +159,8 @@ const MasterDetailPage = ({
           setErrors(err.errors || err);
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
-          setIsCaptureCall(()=>true);
           if (parentMasterDetailContext) {
+            setIsChildRetrieved(()=>true);
             setData(res
               .filter(definition.filterPayload || (()=>true))
               .map(definition.transformPayload || ((i)=>i))
@@ -202,7 +202,7 @@ const MasterDetailPage = ({
     } else {
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
-      if (parentMasterDetailContext) {
+      if (parentMasterDetailContext && !isChildRetrieved) {
 
         loadEntities();
         // return loadEntities();
@@ -283,6 +283,7 @@ const MasterDetailPage = ({
                       (err, res)=>{
                         if (!err) {
                           definition.onAdded && definition.onAdded(res, dispatch, getState);
+                          setIsChildRetrieved(false);
                         }
                         callback(err, res);
                       }, {
