@@ -5,6 +5,7 @@ const definition = createModel({
   name: 'user',
   icon: 'fa users-cog',
   primaryTextField : 'displayname',
+  canAdd : false,
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
