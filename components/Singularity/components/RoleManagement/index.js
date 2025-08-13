@@ -8,14 +8,14 @@ import {isSafari} from 'react-device-detect';
 import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
 import DetailContentTabs from '../../../MasterDetail/DetailContentTabs';
 import PageBase from '../../../../pages/PageBase';
-import RoleComponent from '../OrganisationUserManagement/RoleComponent';
-import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
-import FuseLoading from '../../../fuse/FuseLoading';
+// import RoleComponent from '../OrganisationUserManagement/RoleComponent';
+// import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
+// import FuseLoading from '../../../fuse/FuseLoading';
 import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import EntityView from '../../../EntityView';
 import {useForm} from '../../../../hooks/fuse';
 import { withRouter } from 'react-router-dom';
-import * as DialogActions from '../../../../store/actions/dialog.actions';
+// import * as DialogActions from '../../../../store/actions/dialog.actions';
 import { createMuiStyles, cxMui } from '../../../../utilities';
 
 
@@ -77,9 +77,9 @@ const RoleManagement = ({
   // TODO: Setup user path when user exploration is ready
   const userPath = undefined;
 
-  const handleError = (err)=>{
-    setResponseErrors(err);
-  };
+  // const handleError = (err)=>{
+  //   setResponseErrors(err);
+  // };
 
   const {
     entityDefinition : definition,
@@ -92,11 +92,12 @@ const RoleManagement = ({
 
   const [errors, setErrors] = useState({});
   const [responseErrors, setResponseErrors] = useState(null);
-  const [role, setRole] = useState(null);
-  const [roleMembers, setRoleMembers] = useState(null);
-  const [roleAccess, setRoleAccess] = useState(null);
+  // removing role, roleMembers, roleAccess for commenting the relationship ui.
+  const [, setRole] = useState(null);
+  const [, setRoleMembers] = useState(null);
+  const [, setRoleAccess] = useState(null);
   const [modified, setModified] = useState(false);
-  const [expanded, setExpanded] = useState(null);
+  // const [expanded, setExpanded] = useState(null);
   const { form, handleChange, resetForm, setForm } = useForm(null);
 
   const reset = ()=>{
@@ -221,106 +222,106 @@ const RoleManagement = ({
 
   useEffect(()=>{
     refreshRoleData();
-  }, [definition, entity]);
+  }, [roleID]);
 
-  const handleAddResourceClick = ({
-    roleID
-  })=>{
-    // TODO: Expand to Roles/Groups
-    dispatch(DialogActions.openDialog({
-      title : 'User Details',
-      children : (
-        <UserEmailInputDialogContent
-          onSaved={(value, callback)=>{
+  // const handleAddResourceClick = ({
+  //   roleID
+  // })=>{
+  //   // TODO: Expand to Roles/Groups
+  //   dispatch(DialogActions.openDialog({
+  //     title : 'User Details',
+  //     children : (
+  //       <UserEmailInputDialogContent
+  //         onSaved={(value, callback)=>{
 
-            // Success useCallback
-            // Prompt user for email address
-            const {email} = value;
-            dispatch(operations.addResourceToRole({
-              roleID,
-              email
-            }, (err)=>{
-              if (err) {
-                callback(err);
-                handleError(err);
-              } else {
-                callback();
-                refreshMembershipData(role);
-              }
-            }, {
-              accessToken,
-            }));
-          }}
-        />
-      )
-    }));
-  };
+  //           // Success useCallback
+  //           // Prompt user for email address
+  //           const {email} = value;
+  //           dispatch(operations.addResourceToRole({
+  //             roleID,
+  //             email
+  //           }, (err)=>{
+  //             if (err) {
+  //               callback(err);
+  //               handleError(err);
+  //             } else {
+  //               callback();
+  //               refreshMembershipData(role);
+  //             }
+  //           }, {
+  //             accessToken,
+  //           }));
+  //         }}
+  //       />
+  //     )
+  //   }));
+  // };
 
-  function handleAddResourceToRole({
-    roleID
-  }){
-    setResponseErrors(null);
-    handleAddResourceClick({
-      roleID
-    });
-  }
+  // function handleAddResourceToRole({
+  //   roleID
+  // }){
+  //   setResponseErrors(null);
+  //   handleAddResourceClick({
+  //     roleID
+  //   });
+  // }
 
-  function handlePromoteRoleResource({
-    roleID,
-    resourceID,
-  }){
-    setResponseErrors(null);
-    dispatch(operations.promoteRoleResource({
-      roleID,
-      resourceID,
-    }, (err)=>{
-      if (err) {
-        handleError(err);
-      } else {
-        refreshMembershipData(role);
-      }
-    }, {
-      accessToken
-    }));
-  }
+  // function handlePromoteRoleResource({
+  //   roleID,
+  //   resourceID,
+  // }){
+  //   setResponseErrors(null);
+  //   dispatch(operations.promoteRoleResource({
+  //     roleID,
+  //     resourceID,
+  //   }, (err)=>{
+  //     if (err) {
+  //       handleError(err);
+  //     } else {
+  //       refreshMembershipData(role);
+  //     }
+  //   }, {
+  //     accessToken
+  //   }));
+  // }
 
-  function handleDemoteRoleResource({
-    roleID,
-    resourceID,
-  }){
-    setResponseErrors(null);
-    dispatch(operations.demoteRoleResource({
-      roleID,
-      resourceID,
-    }, (err)=>{
-      if (err) {
-        handleError(err);
-      } else {
-        refreshMembershipData(role);
-      }
-    }, {
-      accessToken
-    }));
-  }
+  // function handleDemoteRoleResource({
+  //   roleID,
+  //   resourceID,
+  // }){
+  //   setResponseErrors(null);
+  //   dispatch(operations.demoteRoleResource({
+  //     roleID,
+  //     resourceID,
+  //   }, (err)=>{
+  //     if (err) {
+  //       handleError(err);
+  //     } else {
+  //       refreshMembershipData(role);
+  //     }
+  //   }, {
+  //     accessToken
+  //   }));
+  // }
 
-  function handleRemoveResourceFromRole({
-    roleID,
-    resourceID
-  }) {
-    setResponseErrors(null);
-    dispatch(operations.removeResourceFromRole({
-      roleID,
-      resourceID,
-    }, (err)=>{
-      if (err) {
-        handleError(err);
-      } else {
-        refreshMembershipData(role);
-      }
-    }, {
-      accessToken
-    }));
-  }
+  // function handleRemoveResourceFromRole({
+  //   roleID,
+  //   resourceID
+  // }) {
+  //   setResponseErrors(null);
+  //   dispatch(operations.removeResourceFromRole({
+  //     roleID,
+  //     resourceID,
+  //   }, (err)=>{
+  //     if (err) {
+  //       handleError(err);
+  //     } else {
+  //       refreshMembershipData(role);
+  //     }
+  //   }, {
+  //     accessToken
+  //   }));
+  // }
 
   return (
     <div
@@ -368,7 +369,7 @@ const RoleManagement = ({
           />}
 
         </div>
-
+        {/* 
         {
           (role && roleMembers) && <RoleComponent
             expanded={expanded === 'members'}
@@ -401,7 +402,7 @@ const RoleManagement = ({
 
         { (!roleMembers || !role || !roleAccess) && (
           <FuseLoading/>
-        )}
+        )} */}
       </div>
     </div>
   );
