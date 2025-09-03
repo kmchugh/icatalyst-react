@@ -3,7 +3,7 @@ import * as Actions from '../actions/roleMembers.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import moment from '../../../../@moment';
 
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 
 const getLinkage = ({hops})=>{
   return hops > 0 ? 'Indirect' : 'Direct';

@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import getMimeType from '../../utilities/getMimeType';
 import Image from '../Image';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       overflow: 'hidden',
@@ -72,12 +71,12 @@ const Media = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
     >
       {(source && mediaType && mediaType === 'audio') && (
         <audio
-          className={clsx(styles.audio)}
+          className={cxMui(styles.audio)}
           controls
           onCanPlay={(e)=>{
             if (source !== defaultSource) {
@@ -101,7 +100,7 @@ const Media = ({
 
       {(source && mediaType && mediaType === 'video') && (
         <video
-          className={clsx(styles.video)}
+          className={cxMui(styles.video)}
           controls
           onCanPlay={(e)=>{
             if (source !== defaultSource) {
@@ -125,7 +124,7 @@ const Media = ({
       )}
 
       {(!source || !mediaType || validMimeTypes.indexOf(mediaType) < 0) && (
-        <Image className={clsx(styles.image)}/>
+        <Image className={cxMui(styles.image)}/>
       )}
 
     </div>
@@ -149,6 +148,6 @@ Media.propTypes={
 export default Media;
 
 
-// <video className={clsx(classes.accordionVideo)} controls>
+// <video className={cxMui(classes.accordionVideo)} controls>
 //   <source src={element.mediaurl} type='video/mp4' />
 // </video>

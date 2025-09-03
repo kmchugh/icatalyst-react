@@ -1,27 +1,26 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import FuseAnimateGroup from '../FuseAnimateGroup';
 import FuseUtils from '../FuseUtils';
-import Divider from '@material-ui/core/Divider';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Input from '@material-ui/core/Input';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
+import Divider from '@mui/material/Divider';
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
+import Input from '@mui/material/Input';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 // import { updateUserShortcuts } from 'app/auth/store/userSlice';
 // import { selectNavigation } from 'app/store/fuse/navigationSlice';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 
-import { amber } from '@material-ui/core/colors';
+import { amber } from '@mui/material/colors';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles({
+const useStyles = createMuiStyles({
   root: {
     '&.horizontal': {},
     '&.vertical': {
@@ -44,7 +43,7 @@ function FuseShortcuts(props) {
 
   const navigationData = []; // useSelector(selectNavigation);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const searchInputRef = useRef(null);
   const [addMenu, setAddMenu] = useState(null);
   const [searchText, setSearchText] = useState('');
@@ -108,7 +107,7 @@ function FuseShortcuts(props) {
               ev.stopPropagation();
               onToggle(item.id);
             }}
-          >
+            size="large">
             <Icon color="action">{shortcuts.includes(item.id) ? 'star' : 'star_border'}</Icon>
           </IconButton>
         </MenuItem>
@@ -127,7 +126,7 @@ function FuseShortcuts(props) {
 
   return (
     <div
-      className={clsx(
+      className={cxMui(
         classes.root,
         props.variant,
         'flex flex-1',
@@ -139,7 +138,7 @@ function FuseShortcuts(props) {
         enter={{
           animation: 'transition.expandIn'
         }}
-        className={clsx('flex flex-1', props.variant === 'vertical' && 'flex-col')}
+        className={cxMui('flex flex-1', props.variant === 'vertical' && 'flex-col')}
       >
         <>
           {shortcutItems.map(
@@ -150,7 +149,7 @@ function FuseShortcuts(props) {
                     title={item.title}
                     placement={props.variant === 'horizontal' ? 'bottom' : 'left'}
                   >
-                    <IconButton className="w-40 h-40 p-0">
+                    <IconButton className="w-40 h-40 p-0" size="large">
                       {item.icon ? (
                         <Icon>{item.icon}</Icon>
                       ) : (
@@ -171,13 +170,12 @@ function FuseShortcuts(props) {
               aria-owns={addMenu ? 'add-menu' : null}
               aria-haspopup="true"
               onClick={addMenuClick}
-            >
+              size="large">
               <Icon className={classes.addIcon}>star</Icon>
             </IconButton>
           </Tooltip>
         </>
       </FuseAnimateGroup>
-
       <Menu
         id="add-menu"
         anchorEl={addMenu}
@@ -186,13 +184,15 @@ function FuseShortcuts(props) {
         classes={{
           paper: 'mt-48'
         }}
-        onEntered={() => {
-          searchInputRef.current.focus();
-        }}
-        onExited={() => {
-          setSearchText('');
-        }}
-      >
+        TransitionProps={{
+          onEntered: () => {
+            searchInputRef.current.focus();
+          },
+
+          onExited: () => {
+            setSearchText('');
+          }
+        }}>
         <div className="p-16 pt-8">
           <Input
             inputRef={searchInputRef}

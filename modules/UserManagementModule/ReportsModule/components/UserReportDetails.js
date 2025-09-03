@@ -1,32 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import moment from '../../../../@moment';
 import _ from '../../../../@lodash';
 import pluralize from 'pluralize';
-import ListItemText from '@material-ui/core/ListItemText';
+import ListItemText from '@mui/material/ListItemText';
 import {DialogContent} from '../../../../components/Dialogs';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
     resourceContent : {
-      marginTop : theme.spacing(1),
+      marginTop : theme.spacingNum(1),
       overflow : 'auto'
     },
     resourceSection : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(1),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(1),
     },
     resourceWrapper : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       display : 'grid',
       gridTemplateColumns: 'auto auto',
-      columnGap : theme.spacing(2),
-      rowGap : theme.spacing(1),
+      columnGap : theme.spacingNum(2),
+      rowGap : theme.spacingNum(1),
     },
     ownerSection : {
     },
@@ -40,7 +39,7 @@ const useStyles = makeStyles((theme)=>{
       borderBottomColor : theme.palette.divider,
     },
     sectionTitle : {
-      marginTop : theme.spacing(2),
+      marginTop : theme.spacingNum(2),
       background : theme.palette.divider,
       width: '100%',
       borderBottomWidth : 'thin',
@@ -63,32 +62,32 @@ const UserResourceSection = ({
 
   return (
     <div
-      className={clsx(styles.resourceSection, className)}
+      className={cxMui(styles.resourceSection, className)}
       style={{...style}}
     >
 
       <Typography
         variant="h5"
         color="primary"
-        className={clsx(styles.sectionTitle)}
+        className={cxMui(styles.sectionTitle)}
       >
         {_.startCase(pluralize(title))} ({data.length})
       </Typography>
 
-      <div className={clsx(styles.resourceWrapper)}>
+      <div className={cxMui(styles.resourceWrapper)}>
 
-        <div className={clsx(styles.ownerSection)}>
+        <div className={cxMui(styles.ownerSection)}>
           <Typography
             variant="h6"
           >
             Owns ({ownerData.length})
           </Typography>
 
-          <div className={clsx(styles.resourceList)}>
+          <div className={cxMui(styles.resourceList)}>
             {
               ownerData.length > 0 ? ownerData.map((item)=>(
                 <ListItemText
-                  className={clsx(styles.listItem)}
+                  className={cxMui(styles.listItem)}
                   key={item.resourceID}
                   primary={item.name}
                   secondary={item.resourceID}
@@ -98,18 +97,18 @@ const UserResourceSection = ({
           </div>
         </div>
 
-        <div className={clsx(styles.memberSection)}>
+        <div className={cxMui(styles.memberSection)}>
           <Typography
             variant="h6"
             color="primary"
           >
             Member Of ({memberData.length})
           </Typography>
-          <div className={clsx(styles.resourceList, className)}>
+          <div className={cxMui(styles.resourceList, className)}>
             {
               memberData.map((item)=>(
                 <ListItemText
-                  className={clsx(styles.listItem)}
+                  className={cxMui(styles.listItem)}
                   key={item.resourceID}
                   primary={item.name}
                   secondary={item.resourceID}
@@ -150,7 +149,7 @@ const UserReportDetails = ({
 
   return (
     <DialogContent
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Typography
@@ -172,7 +171,7 @@ const UserReportDetails = ({
         User Since: {moment(user.created).format('LL')}
       </Typography>
 
-      <div className={clsx(styles.resourceContent)}>
+      <div className={cxMui(styles.resourceContent)}>
         {
           sectionKeys.map((key)=>{
             if (!user[key]) {

@@ -1,14 +1,14 @@
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import React, {useContext} from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 // import { updateUserSettings } from 'app/auth/store/userSlice';
 // import { setDefaultSettings } from 'app/store/fuse/settingsSlice';
 import PropTypes from 'prop-types';
 import {SingularityContext} from '@icatalyst/components/Singularity';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles(() => ({
+const useStyles = createMuiStyles(() => ({
   root: {}
 }));
 
@@ -24,9 +24,9 @@ function SchemePreview({ theme, className, id, onSelect }) {
   const paperColorContrast = _theme.palette.getContrastText(theme.palette.background.paper);
 
   return (
-    <div className={clsx(className, 'mb-8')}>
+    <div className={cxMui(className, 'mb-8')}>
       <button
-        className={clsx(
+        className={cxMui(
           'w-full text-left rounded-6 relative font-500 shadow hover:shadow-md transition-shadow cursor-pointer overflow-hidden'
         )}
         style={{
@@ -92,7 +92,7 @@ function FuseThemeSchemes(props) {
   const themes = useSelector(({ app }) => app.settings.themes);
   const settings = useSelector(({ app }) => app.settings.current);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   function handleSchemeSelect(themeId) {
     const newSettings = {

@@ -1,11 +1,9 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import Icon from '../../../../components/Icon';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
-import Button from '@material-ui/core/Button';
+import Button from '@mui/material/Button';
 import {definition as licenceKeysDefinition} from '../../../../components/Singularity/store/reducers/licenceKeys.reducer';
 import { useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../../components/Singularity';
@@ -13,20 +11,21 @@ import * as DialogActions from '../../../../store/actions/dialog.actions';
 import {DialogContent, DialogContentEntityView} from '../../../../components/Dialogs';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MessageActions from '../../../../store/actions/message.actions';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     icon : {
-      marginRight : theme.spacing(1),
+      marginRight : theme.spacingNum(1),
     },
     dialogContent : {
     },
     licenceWrapper : {
       display: 'flex',
       alignItems: 'center',
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacingNum(2)
     }
   };
 });
@@ -48,14 +47,14 @@ const GenerateLicenceKey = ({
       showTitle : false,
       children : (
         <DialogContent closeText={t('Close')}>
-          <div className={clsx(styles.dialogContent)}>
+          <div className={cxMui(styles.dialogContent)}>
             <Typography
               variant="h4"
               component="h1"
             >
               {licence.name}
             </Typography>
-            <div className={clsx(styles.licenceWrapper)}>
+            <div className={cxMui(styles.licenceWrapper)}>
               <Typography variant="body1">
                 {data.guid}
               </Typography>
@@ -78,7 +77,7 @@ const GenerateLicenceKey = ({
                   color="primary"
                   title={t('Copy to clipboard')}
                   icon="fa clipboard"
-                />
+                  size="large" />
               </CopyToClipboard>
             </div>
           </div>
@@ -140,7 +139,7 @@ const GenerateLicenceKey = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Button
@@ -152,7 +151,7 @@ const GenerateLicenceKey = ({
           handleCreateLicence();
         }}
       >
-        <Icon className={clsx(styles.icon)}>{
+        <Icon className={cxMui(styles.icon)}>{
           updating ? 'fa spinner' : 'key'
         }</Icon>
         {t(updating ? 'Creating Key' : 'Create Key')}

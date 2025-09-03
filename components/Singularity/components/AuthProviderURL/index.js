@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import * as MessageActions from '../../../../store/actions/message.actions';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
-
 import { useDispatch } from 'react-redux';
-const useStyles = makeStyles((/*theme*/)=>{
+import { createMuiStyles, cxMui } from '../../../../utilities';
+
+
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {
       display: 'flex',
@@ -30,7 +30,7 @@ const AuthProviderURL = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       onClick={(e)=>{
         e.stopPropagation();
@@ -61,7 +61,7 @@ const AuthProviderURL = ({
           color="primary"
           title={t('Copy to clipboard')}
           icon="fa clipboard"
-        />
+          size="large" />
       </CopyToClipboard>
     </div>
   );

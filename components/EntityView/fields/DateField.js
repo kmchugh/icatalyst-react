@@ -1,34 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@material-ui/core';
-import {DatePicker, MuiPickersContext} from '@material-ui/pickers';
-import {makeStyles} from '@material-ui/styles';
-import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
-import moment from '@icatalyst/@moment';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-    },
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-  };
-});
+import {FormControl} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
+import { cxMui } from '../../../utilities';
 
 const NEVER = 9223372036854776000;
 
 const DateField = (props) => {
-
-  const utils = useContext(MuiPickersContext);
-  // Monkey patching until the date-picker v5 comes out, expected in ~Nov-Dec 2021
-  patchPicker(utils, moment);
-
-  const classes = useStyles();
-
 
   const {readonly = false,
     onChange,
@@ -47,11 +26,10 @@ const DateField = (props) => {
     description
   } = field;
 
-  const hasErrors = errors && errors.length > 0;
-
+  const hasErrors = errors && errors.length > 0;  
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       id={id}
       name={id}
       label={label}
@@ -60,19 +38,15 @@ const DateField = (props) => {
       error={hasErrors}
       required={required}
     >
-      {
-        showLabel && <InputLabel shrink={!!value} id={`${id}-label`} className={clsx(classes.inputLabel)}>
-          {label}
-        </InputLabel>
-      }
-
       <DatePicker
+        label={showLabel ? label : ''}
         disabled={readonly}
         autoOk={true}
-        value={value >= NEVER ? null : value}
+        value={(value >= NEVER || !value) ? null : dayjs(value)}
         variant="inline"
         readOnly={readonly}
         inputVariant="outlined"
+        format="ddd MMM DD YYYY HH:mm:ss [GMT]Z"
         autoFocus={autoFocus}
         onChange={(date)=>{
           onChange && onChange(null, {
@@ -82,11 +56,18 @@ const DateField = (props) => {
         labelFunc={(date, invalid = '') => {
           return date ? date.toString() : invalid;
         }}
+        sx={{
+          '.MuiInputAdornment-root': {
+            display: readonly && 'none',
+          }
+        }}
+        slotProps={{
+          textField: {
+            helperText: hasErrors ? errors[0] : description,
+            error: hasErrors,
+          },
+        }}
       />
-
-      <FormHelperText error={hasErrors}>
-        {hasErrors ? errors[0] : description}
-      </FormHelperText>
     </FormControl>
   );
 };

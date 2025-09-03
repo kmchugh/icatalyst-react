@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       wordBreak: 'break-word'
@@ -18,7 +17,7 @@ const CustomCell = ({column, row, value, className})=>{
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {render(column, field, original, value)}
     </div>
   );

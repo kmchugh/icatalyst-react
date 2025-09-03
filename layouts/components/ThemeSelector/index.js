@@ -1,13 +1,12 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import {useSelector} from 'react-redux';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import _ from '../../../@lodash';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {
       paddingTop: 0,
@@ -43,7 +42,7 @@ const ThemeSelector = ({
 
   return (
     <Select
-      className={clsx(styles.root, className)}
+      className={cxMui(className, styles.root)}
       labelId={`${id}-label`}
       id={id}
       name={id}

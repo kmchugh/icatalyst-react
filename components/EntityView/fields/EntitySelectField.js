@@ -1,28 +1,27 @@
 import React, {useState, useEffect, useContext, useMemo} from 'react';
 
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelectField from '@material-ui/core/Select';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import ListItem from '@material-ui/core/ListItem';
-import Avatar from '@material-ui/core/Avatar';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import NativeSelectField from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import CircularProgress from '@mui/material/CircularProgress';
+import ListItem from '@mui/material/ListItem';
+import Avatar from '@mui/material/Avatar';
 import Image from '../../Image';
-import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 import Icon from '../../Icon';
 
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
 import { useSelector, useDispatch } from 'react-redux';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
@@ -33,10 +32,10 @@ const useStyles = makeStyles((theme) => {
       textAlign : 'left'
     },
     avatar : {
-      marginRight : theme.spacing(1),
+      marginRight : theme.spacingNum(1),
     },
     searchInput: {
-      padding: theme.spacing(1),
+      padding: theme.spacingNum(1),
     },
     listItem : {
       overflow : 'hidden',
@@ -63,7 +62,7 @@ const DefaultListItem = ({
   return (
     <ListItem className={className} component="div">
       { !hideFeatureImage && (
-        <Avatar className={clsx(styles.avatar)}>
+        <Avatar className={cxMui(styles.avatar)}>
           <Image
             src={getFeatureImage(item)}
           />
@@ -199,20 +198,20 @@ const EntitySelectField = (props) => {
   // Dont render if we haven't loaded any items and if hideIfEmpty is true;
   return (hideIfEmpty && (!options || options.length === 1)) ? null : (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
       error={hasErrors}
       required={required}
     >
       {
-        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={clsx(classes.inputLabel)}>
+        showLabel && <InputLabel shrink={!!value} id={`${name}-label`} className={cxMui(classes.inputLabel)}>
           {label}
         </InputLabel>
       }
 
       <ListComponent
-        className={clsx(classes.select)}
+        className={cxMui(classes.select)}
         MenuProps={{ autoFocus: autoFocus }}
         labelId={`${name}-label`}
         id={id}
@@ -257,7 +256,7 @@ const EntitySelectField = (props) => {
             return (
               <MenuItem key={item[identityFieldName]} value={item[identityFieldName]}>
                 <ListItemComponent
-                  className={clsx(classes.listItem)}
+                  className={cxMui(classes.listItem)}
                   dense
                   disableGutters
                   key={item[identityFieldName]}

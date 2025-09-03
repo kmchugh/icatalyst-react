@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react';
 import {Dialog as NativeDialog,
   AppBar, Typography, Slide
-} from '@material-ui/core';
+} from '@mui/material';
 import IconButton from '../IconButton';
 
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const TransitionFull = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
@@ -17,7 +16,7 @@ const TransitionDialog = React.forwardRef(function Transition(props, ref) {
 });
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
     },
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => {
       flex: '0 0 auto'
     },
     dialogAppBar: {
-      paddingLeft: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
     },
     contentWrapper : {
       overflow : 'hidden',
@@ -82,7 +81,7 @@ const Dialog = (props)=>{
 
   return (
     <NativeDialog
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       open={Boolean(open)}
       fullWidth={fullWidth}
       fullScreen={fullScreen}
@@ -91,23 +90,25 @@ const Dialog = (props)=>{
       }}
       aria-labelledby={title && 'alert-dialog-title'}
       aria-describedby={description && 'alert-dialog-description'}
-      TransitionComponent={TransitionComponent || (fullScreen ? TransitionFull : TransitionDialog)}
-      TransitionProps={{ role: 'presentation' }}
       keepMounted
       classes={classes}
-      PaperProps={{
-        style : style
-      }}
       onClick={(e)=>{e.stopPropagation();}}
+      slotProps={{
+        paper: { style },
+        transition: { role: 'presentation' }
+      }}
+      slots={{
+        transition: TransitionComponent || (fullScreen ? TransitionFull : TransitionDialog),
+      }}
     >
       {showTitle && (
         <AppBar
           position="static"
-          className={clsx(styles.dialogAppBar)}
+          className={cxMui(styles.dialogAppBar)}
           color={appBarColor}
           elevation={elevation}
         >
-          <div className={clsx('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
+          <div className={cxMui('flex flex-1 p-8 sm:p-12 relative max-w-full')}>
             <div className="flex flex-1 flex-col items-start justify-center mr-16">
               <Typography
                 id="alert-dialog-title"
@@ -148,7 +149,7 @@ const Dialog = (props)=>{
       )}
 
       <div
-        className={clsx(styles.contentWrapper)}
+        className={cxMui(styles.contentWrapper)}
       >
         {children}
       </div>

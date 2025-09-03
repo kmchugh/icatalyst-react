@@ -1,31 +1,28 @@
 import React, {useContext} from 'react';
-import {ListSubheader} from '@material-ui/core';
+import {ListSubheader} from '@mui/material';
 import Icon from '../../../Icon';
-import { makeStyles } from '@material-ui/core/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import FuseNavVerticalCollapse from './FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './FuseNavVerticalItem';
 import FuseNavVerticalLink from './FuseNavVerticalLink';
 import {SingularityContext} from '../../../Singularity';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme, { nestedLevel })=>{
   return {
-    itemFn: ({nestedLevel})=>{
-      return {
-        height      : theme.spacing(5),
-        width       : `calc(100% - ${theme.spacing(2)}px)`,
-        borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
-        paddingRight: theme.spacing(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
-      };
+    itemFn: {
+      height      : theme.spacingNum(5),
+      width       : `calc(100% - ${theme.spacingNum(2)})`,
+      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+      paddingRight: theme.spacingNum(2.5),
+      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
     },
     item: {
     },
     icon : {
-      maxWidth: theme.spacing(2),
+      maxWidth: theme.spacingNum(2),
       width: '0!important',
       transition   : theme.transitions.create(['width'], {
         easing  : theme.transitions.easing.sharp,
@@ -41,7 +38,7 @@ function FuseNavVerticalGroup(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const {item, nestedLevel, active} = props;
 
@@ -81,9 +78,9 @@ function FuseNavVerticalGroup(props)
   ) : (
     <React.Fragment>
 
-      <ListSubheader disableSticky={true} className={clsx(classes.item, classes.itemFn, 'list-subheader flex items-center', item.icon ? 'icon' : 'iconless')}>
+      <ListSubheader disableSticky={true} className={cxMui(classes.item, classes.itemFn, 'list-subheader flex items-center', item.icon ? 'icon' : 'iconless')}>
         {item.icon && (
-          <Icon color="action" className={clsx(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
+          <Icon color="action" className={cxMui(classes.icon, 'text-16 flex-shrink-0 list-subheader-icon')}>{item.icon}</Icon>
         )}
         <span className="list-subheader-text uppercase text-12">
           {t(item.title)}

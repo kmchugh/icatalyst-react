@@ -1,7 +1,6 @@
 import React, {useMemo} from 'react';
-import {Divider, List} from '@material-ui/core';
+import {Divider, List} from '@mui/material';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import FuseNavVerticalGroup from './vertical/FuseNavVerticalGroup';
 import FuseNavVerticalCollapse from './vertical/FuseNavVerticalCollapse';
 import FuseNavVerticalItem from './vertical/FuseNavVerticalItem';
@@ -11,6 +10,7 @@ import FuseNavHorizontalCollapse from './horizontal/FuseNavHorizontalCollapse';
 import FuseNavHorizontalItem from './horizontal/FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './horizontal/FuseNavHorizontalLink';
 import {useSelector} from 'react-redux';
+import { cxMui } from '../../../utilities';
 
 const layoutComponentMap = {
   'vertical' : {
@@ -72,7 +72,7 @@ function FuseNavigation(props)
     'navigation whitespace-no-wrap flex p-0';
 
   return (
-    <List className={clsx(listClass, className)}>
+    <List className={cxMui(listClass, className)}>
       {
         navigationItems.map((item) => renderNavComponent(item))
       }

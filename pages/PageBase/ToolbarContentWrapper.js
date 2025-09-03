@@ -1,33 +1,32 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import PageToolbar from './PageToolbar';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     '&.mode-simple' : {
       '& $wrapper' : {
-        paddingLeft : theme.spacing(2),
-        paddingRight : theme.spacing(2),
+        paddingLeft : theme.spacingNum(2),
+        paddingRight : theme.spacingNum(2),
       },
       '& $toolbar' : {
-        paddingLeft : theme.spacing(2),
-        paddingRight : theme.spacing(2),
+        paddingLeft : theme.spacingNum(2),
+        paddingRight : theme.spacingNum(2),
       }
     },
     '&.mode-carded' : {
       '& $toolbar' : {
         boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1), 0 2px 2px 0 rgba(0, 0, 0, 0.06)',
-        borderRadius: `${theme.spacing(1)}px ${theme.spacing(1)}px 0 0`,
+        borderRadius: `${theme.spacingNum(1)} ${theme.spacingNum(1)} 0 0`,
         '&.reverse' : {
-          borderRadius: `0 0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+          borderRadius: `0 0 ${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
         }
       },
     },
     '&.mode-carded.reverse' : {
       '& $toolbar' : {
-        borderRadius: `0 0 ${theme.spacing(1)}px ${theme.spacing(1)}px`,
+        borderRadius: `0 0 ${theme.spacingNum(1)} ${theme.spacingNum(1)}`,
       },
     },
   },
@@ -47,7 +46,7 @@ function ToolbarContentWrapper({
   const classes = useStyles();
 
   return (contentConfig.position === position || toolbarConfig.position === position) ? (
-    <div className={clsx(classes.root, `position-${position}`, `mode-${mode}`, reverse && 'reverse', className)}>
+    <div className={cxMui(classes.root, `position-${position}`, `mode-${mode}`, reverse && 'reverse', className)}>
       {
         (!reverse && children && contentConfig.display && contentConfig.position === position) && (
           <div className={classes.wrapper}>
@@ -58,7 +57,7 @@ function ToolbarContentWrapper({
 
       {
         (toolbar && toolbarConfig.display && toolbarConfig.position === position) && (
-          <PageToolbar className={clsx(classes.toolbar)}>
+          <PageToolbar className={cxMui(classes.toolbar)}>
             {toolbar}
           </PageToolbar>
         )

@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Actions from '../actions/authProviders.actions';
 import { createModel, generateReducer } from '../../../../utilities';
-import Typography from '@material-ui/core/Typography';
+import Typography from '@mui/material/Typography';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import AuthProviderURL from '../../components/AuthProviderURL';
 import OIDCDiscoveryInput from '../../components/OIDCDiscoveryInput';

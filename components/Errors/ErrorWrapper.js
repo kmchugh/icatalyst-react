@@ -1,14 +1,13 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import Error from './Error';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   const background = mostReadable(tinycolor(theme.palette.background.default), [
     theme.palette.error.dark,
     theme.palette.error.main,
@@ -30,7 +29,7 @@ const useStyles = makeStyles((theme) => {
     root: {
       display: 'flex',
       flexDirection: 'column',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       borderRadius: theme.shape.borderRadius,
       border: `thin solid ${border}`,
       backgroundColor: background,
@@ -40,10 +39,10 @@ const useStyles = makeStyles((theme) => {
       minHeight: '100%'
     },
     errorList: {
-      margin: theme.spacing(2),
+      margin: theme.spacingNum(2),
     },
     errorIcon: {
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacingNum(2),
       color: text
     },
     errorTitle: {
@@ -52,11 +51,11 @@ const useStyles = makeStyles((theme) => {
     },
     error: {
       listStyle: 'circle',
-      marginLeft: theme.spacing(3)
+      marginLeft: theme.spacingNum(3)
     },
     errorActionWrapper: {
       textAlign: 'center',
-      margin: theme.spacing(2)
+      margin: theme.spacingNum(2)
     }
   };
 });
@@ -73,11 +72,11 @@ const ErrorComponent = ({errors,
   }
   const classes = useStyles();
   return (
-    <div role={role} aria-atomic={true} className={clsx(classes.root, className)}>
+    <div role={role} aria-atomic={true} className={cxMui(classes.root, className)}>
       {title &&
         (
-          <div className={clsx(classes.errorTitle)}>
-            <Icon className={clsx(classes.errorIcon)}>error</Icon>
+          <div className={cxMui(classes.errorTitle)}>
+            <Icon className={cxMui(classes.errorIcon)}>error</Icon>
             <Typography className="flex-shrink" variant="h5" component="h1">
               {title}
             </Typography>
@@ -85,14 +84,14 @@ const ErrorComponent = ({errors,
         )
       }
       {
-        process.env.NODE_ENV !== 'production' && <ul className={clsx(classes.errorList)}>
+        process.env.NODE_ENV !== 'production' && <ul className={cxMui(classes.errorList)}>
           {
             errors.filter((e, index, self)=>{
               return self.findIndex((error)=>error.message === e.message) === index;
             }).map(e=>{
               const message = e.message || e.toString();
               return (
-                <li className={clsx(classes.error)} key={message}>
+                <li className={cxMui(classes.error)} key={message}>
                   <Error>{message || 'Unknown Error'}</Error>
                 </li>
               );
@@ -101,7 +100,7 @@ const ErrorComponent = ({errors,
         </ul>
       }
       {
-        actionComponent && <div className={clsx(classes.errorActionWrapper)}>
+        actionComponent && <div className={cxMui(classes.errorActionWrapper)}>
           {actionComponent}
         </div>
       }

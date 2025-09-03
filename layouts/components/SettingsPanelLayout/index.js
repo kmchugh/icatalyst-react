@@ -1,22 +1,32 @@
 import { FuseScrollbars, FuseSettings, FuseThemeSchemes } from '@icatalyst/components/fuse';
-import Button from '@material-ui/core/Button';
-import { red } from '@material-ui/core/colors';
-import Dialog from '@material-ui/core/Dialog';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
+import Button from '@mui/material/Button';
+import { red } from '@mui/material/colors';
+import Dialog from '@mui/material/Dialog';
+import Icon from '@mui/material/Icon';
+import IconButton from '@mui/material/IconButton';
+import Slide from '@mui/material/Slide';
+import { useTheme } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
+import { createMuiStyles, cxMui } from '../../../utilities';
+import { keyframes } from '@emotion/css';
+
+const rotating = keyframes({
+  from: {
+    transform: 'rotate(0deg)'
+  },
+  to: {
+    transform: 'rotate(360deg)'
+  }
+});
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   const theme = useTheme();
   return <Slide direction={theme.direction === 'ltr' ? 'left' : 'right'} ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   buttonWrapper: {
     position: 'absolute',
     right: 0,
@@ -48,18 +58,18 @@ const useStyles = makeStyles(theme => ({
   },
   settingsButton: {
     '& $buttonIcon': {
-      animation: '$rotating 3s linear infinite'
+      animation: `${rotating} 3s linear infinite`
     }
   },
   schemesButton: {},
-  '@keyframes rotating': {
-    from: {
-      transform: 'rotate(0deg)'
-    },
-    to: {
-      transform: 'rotate(360deg)'
-    }
-  },
+  // '@keyframes rotating': {
+  //   from: {
+  //     transform: 'rotate(0deg)'
+  //   },
+  //   to: {
+  //     transform: 'rotate(360deg)'
+  //   }
+  // },
   buttonIcon: {
     fontSize: 20
   },
@@ -108,7 +118,7 @@ function SettingsPanel() {
     <>
       <div className={classes.buttonWrapper} id="fuse-settings-schemes">
         <Button
-          className={clsx(classes.button, classes.settingsButton)}
+          className={cxMui(classes.button, classes.settingsButton)}
           onClick={() => handleOpen('settings')}
           variant="text"
           color="inherit"
@@ -117,7 +127,7 @@ function SettingsPanel() {
         </Button>
 
         <Button
-          className={clsx(classes.button, classes.schemesButton)}
+          className={cxMui(classes.button, classes.schemesButton)}
           onClick={() => handleOpen('schemes')}
           variant="text"
           color="inherit"
@@ -125,7 +135,6 @@ function SettingsPanel() {
           <Icon className={classes.buttonIcon}>palette</Icon>
         </Button>
       </div>
-
       <Dialog
         TransitionComponent={Transition}
         aria-labelledby="settings-panel"
@@ -135,12 +144,15 @@ function SettingsPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...settingsHandlers}
       >
         <FuseScrollbars className="p-16 sm:p-32">
-          <IconButton className="fixed top-0 ltr:right-0 rtl:left-0 z-10" onClick={handleClose}>
+          <IconButton
+            className="fixed top-0 ltr:right-0 rtl:left-0 z-10"
+            onClick={handleClose}
+            size="large">
             <Icon>close</Icon>
           </IconButton>
 
@@ -151,7 +163,6 @@ function SettingsPanel() {
           <FuseSettings />
         </FuseScrollbars>
       </Dialog>
-
       <Dialog
         TransitionComponent={Transition}
         aria-labelledby="schemes-panel"
@@ -161,12 +172,15 @@ function SettingsPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...shemesHandlers}
       >
         <FuseScrollbars className="p-16 sm:p-32">
-          <IconButton className="fixed top-0 ltr:right-0 rtl:left-0 z-10" onClick={handleClose}>
+          <IconButton
+            className="fixed top-0 ltr:right-0 rtl:left-0 z-10"
+            onClick={handleClose}
+            size="large">
             <Icon>close</Icon>
           </IconButton>
 

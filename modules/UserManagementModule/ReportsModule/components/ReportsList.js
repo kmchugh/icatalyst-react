@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import ReportItem from './ReportItem';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display : 'grid',
-      columnGap : theme.spacing(1),
-      rowGap : theme.spacing(1),
+      columnGap : theme.spacingNum(1),
+      rowGap : theme.spacingNum(1),
       gridTemplateColumns: 'auto auto auto auto',
 
-      padding : theme.spacing(2),
+      padding : theme.spacingNum(2),
     }
   };
 });
@@ -33,7 +32,7 @@ const ReportsList = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       {

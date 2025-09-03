@@ -1,7 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import {definition as reportDefinition} from '../../../../components/Singularity/store/reducers/userReports.reducer';
 import FuseLoading from '../../../../components/fuse/FuseLoading';
@@ -11,8 +9,9 @@ import {DataTable} from '@icatalyst/components';
 import SearchFilterProvider from '../../../../components/Tables/SearchFilterProvider';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
 import UserReportDetails from './UserReportDetails';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {}
   };
@@ -56,7 +55,7 @@ const UserReport = ({
   return (
     <SearchFilterProvider>
       <div
-        className={clsx(styles.root, className)}
+        className={cxMui(styles.root, className)}
         style={{...style}}
       >
         {(loading && !data) && (
@@ -79,7 +78,7 @@ const UserReport = ({
           />
         )}
         {errors && (
-          <ErrorWrapper className={clsx(styles.errorWrapper)} errors={errors}/>
+          <ErrorWrapper className={cxMui(styles.errorWrapper)} errors={errors}/>
         )}
       </div>
     </SearchFilterProvider>

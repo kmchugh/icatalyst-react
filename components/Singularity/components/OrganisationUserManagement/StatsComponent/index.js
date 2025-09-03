@@ -1,29 +1,28 @@
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import moment from '../../../../../@moment';
 import {LocalizationContext} from '../../../../../localization/LocalizationProvider';
+import { createMuiStyles, cxMui } from '../../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
       flexDirection: 'row',
-      minHeight: theme.spacing(12),
+      minHeight: theme.spacingNum(12),
       width: '100%',
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
     },
     panel: {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacingNum(1),
       flexShrink: 0,
       flexGrow: 0,
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
 
       '&:first-child': {
-        marginLeft: theme.spacing(0),
+        marginLeft: theme.spacingNum(0),
       }
     },
     statPanel: {
@@ -36,15 +35,15 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1,
     },
     statLabel: {
-      margin: theme.spacing(2),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      margin: theme.spacingNum(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
     },
     stat: {
       height: '100%',
-      padding:  theme.spacing(2),
-      paddingLeft:  theme.spacing(4),
-      paddingRight:  theme.spacing(4),
+      padding:  theme.spacingNum(2),
+      paddingLeft:  theme.spacingNum(4),
+      paddingRight:  theme.spacingNum(4),
       background: theme.palette.divider,
       display: 'flex',
       flexDirection: 'row',
@@ -72,12 +71,12 @@ const StatsComponent = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       <Paper
         className={
-          clsx(
+          cxMui(
             styles.panel,
             styles.licencePanel
           )
@@ -116,7 +115,7 @@ const StatsComponent = ({
             <Paper
               key={name}
               className={
-                clsx(
+                cxMui(
                   styles.panel,
                   styles.statPanel
                 )
@@ -127,7 +126,7 @@ const StatsComponent = ({
                 variant="h6"
                 component="h4"
                 className={
-                  clsx(
+                  cxMui(
                     styles.statLabel
                   )
                 }
@@ -135,7 +134,7 @@ const StatsComponent = ({
                 {t(name)}
               </Typography>
               <div className={
-                clsx(styles.stat,
+                cxMui(styles.stat,
                   (stat === undefined || stat === null) && styles.stat_string,
                   (stat !== undefined && stat !== null) && styles.stat_number,
                 )

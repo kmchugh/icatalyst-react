@@ -1,21 +1,20 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
     flex: '1 1 auto',
-    '-webkit-overflow-scrolling': 'touch',
+    WebkitOverflowScrolling: 'touch',
 
     '&.mode-simple' : {
-      paddingLeft : theme.spacing(2),
-      paddingRight : theme.spacing(2),
+      paddingLeft : theme.spacingNum(2),
+      paddingRight : theme.spacingNum(2),
     },
     '&.mode-carded' : {
-      marginLeft : theme.spacing(2),
-      marginRight : theme.spacing(2),
+      marginLeft : theme.spacingNum(2),
+      marginRight : theme.spacingNum(2),
     },
   }
 }));
@@ -33,7 +32,7 @@ function ContentWrapper({
 
   return (
     <ScrollWrapper
-      className={clsx(classes.root, `mode-${mode}`, className)}
+      className={cxMui(classes.root, `mode-${mode}`, className)}
       scrollType="content"
       config={config}>
       {children}

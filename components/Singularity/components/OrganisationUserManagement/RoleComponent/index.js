@@ -1,7 +1,5 @@
 import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import Icon from '../../../../Icon';
 import Avatar from '../../../../Avatar';
 import IconButton from '../../../../IconButton';
@@ -18,21 +16,22 @@ import {
   ListItemIcon,
   ListItemText,
   Button,
-} from '@material-ui/core';
+} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginBottom: theme.spacing(0),
-      marginTop: theme.spacing(0),
+      marginBottom: theme.spacingNum(0),
+      marginTop: theme.spacingNum(0),
       transition   : theme.transitions.create(['margin-bottom', 'margin-top'], {
         easing  : theme.transitions.easing.sharp,
         duration: theme.transitions.duration.shorter
       }),
     },
     root_expanded : {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1)
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(1)
     },
     autoLeft: {
       marginLeft: 'auto'
@@ -53,14 +52,14 @@ const useStyles = makeStyles((theme)=>{
       width: '100%'
     },
     avatar: {
-      height: theme.spacing(6),
-      width: theme.spacing(6)
+      height: theme.spacingNum(6),
+      width: theme.spacingNum(6)
     },
     resourceList: {
       backgroundColor: theme.palette.background.default,
       borderTop: `thin solid ${theme.palette.divider}`,
-      marginTop: theme.spacing(3),
-      maxHeight: theme.spacing(45),
+      marginTop: theme.spacingNum(3),
+      maxHeight: theme.spacingNum(45),
       width: '100%',
       overflow: 'auto'
     },
@@ -79,12 +78,15 @@ const useStyles = makeStyles((theme)=>{
     },
     resourceIcon: {
       background: theme.palette.divider,
-      width: theme.spacing(6),
-      height: theme.spacing(6),
-      padding: theme.spacing(.75),
+      width: theme.spacingNum(6),
+      height: theme.spacingNum(6),
+      padding: theme.spacingNum(.75),
       borderRadius: '50%',
     },
     accordionHeading: {
+    },
+    accordionDetails:{
+      display:'flex'
     }
   };
 });
@@ -136,7 +138,7 @@ const RoleComponent = ({
 
   return (
     <div
-      className={clsx(
+      className={cxMui(
         styles.root,
         expanded && styles.root_expanded,
         className
@@ -145,7 +147,7 @@ const RoleComponent = ({
     >
       <Accordion
         expanded={expanded}
-        className={clsx(
+        className={cxMui(
           styles.accordion,
           expanded && styles.accordion_expanded,
         )}
@@ -154,7 +156,7 @@ const RoleComponent = ({
         }}
       >
         <AccordionSummary
-          className={clsx(styles.accordionHeading)}
+          className={cxMui(styles.accordionHeading)}
           expandIcon={(
             <Icon
               color="action"
@@ -167,7 +169,7 @@ const RoleComponent = ({
           id={`${role.guid}_header`}
         >
           <div
-            className={clsx(styles.accordionSummary)}
+            className={cxMui(styles.accordionSummary)}
           >
             {!isAdmin && (
               <Typography
@@ -199,7 +201,7 @@ const RoleComponent = ({
         </AccordionSummary>
 
         <AccordionDetails>
-          <div className={clsx(styles.accordionContent)}>
+          <div className={cxMui(styles.accordionContent)}>
             {!isAdmin && (
               <Typography
                 color="textSecondary"
@@ -226,7 +228,7 @@ const RoleComponent = ({
             )}
 
             <List
-              className={clsx(styles.resourceList)}
+              className={cxMui(styles.resourceList)}
             >
               {resources.map(resource=>{
                 const {edges} = resource;
@@ -244,12 +246,12 @@ const RoleComponent = ({
 
                 return (
                   <ListItem
-                    className={clsx(styles.resourceListItem)}
+                    className={cxMui(styles.resourceListItem)}
                     key={resource.guid}
                   >
                     <ListItemIcon>
                       {!icon && <Avatar
-                        className={clsx(styles.avatar)}
+                        className={cxMui(styles.avatar)}
                         border={false}
                         alt={(resource.displayName) || t('resource profile image')}
                         src={resource.profileImageUri}
@@ -257,14 +259,14 @@ const RoleComponent = ({
                       {icon && (
                         <Icon
                           size="large"
-                          className={clsx(styles.resourceIcon)}
+                          className={cxMui(styles.resourceIcon)}
                         >
                           {icon}
                         </Icon>
                       )}
                     </ListItemIcon>
                     <ListItemText
-                      className={clsx(
+                      className={cxMui(
                         styles.listItemresourceName,
                         isOwner && styles.listItemresourceName_owner,
                       )}
@@ -284,6 +286,7 @@ const RoleComponent = ({
                       <ListItemIcon>
                         <Button
                           variant="outlined"
+                          color="inherit"
                           disabled={(isOwner && !demoteRoleResource) || (!isOwner && !promoteRoleResource)}
                           onClick={(e)=>{
                             e.stopPropagation();
@@ -330,10 +333,10 @@ const RoleComponent = ({
             </List>
           </div>
         </AccordionDetails>
-        <AccordionDetails>
+        <AccordionDetails className={cxMui(styles.accordionDetails)}>
           { allowUserManagement && (
             <Button
-              className={clsx(styles.autoLeft)}
+              className={cxMui(styles.autoLeft)}
               variant="outlined"
               color="primary"
               disabled={!addResourceToRole}

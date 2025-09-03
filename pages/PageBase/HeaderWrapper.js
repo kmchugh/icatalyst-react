@@ -1,11 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
-import {IconButton, Hidden} from '@material-ui/core';
+import {Box, IconButton} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles(() => ({
+const useStyles = createMuiStyles(() => ({
   root: {
     display : 'flex',
     flexDirection: 'column',
@@ -36,31 +35,37 @@ function HeaderWrapper({
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       { (hasLeftSidePanel || hasRightSidePanel ) && (
-        <Hidden lgUp>
-          <div className={clsx(classes.navWrapper)}>
-
-            { (hasLeftSidePanel ) ?
-              <IconButton className={clsx(classes.iconButton)} onClick={()=>{
+        <Box className={cxMui(classes.navWrapper)} sx={{ display: { lg: 'none', xs: 'block' } }}>
+          { (hasLeftSidePanel ) ?
+            <IconButton
+              className={cxMui(classes.iconButton)}
+              onClick={()=>{
                 openLeftSidePanel && openLeftSidePanel();
-              }} color="inherit" disableRipple>
-                <Icon className={clsx(classes.icon)}>menu</Icon>
-              </IconButton> : <div></div>
-            }
+              }}
+              color="inherit"
+              disableRipple
+              size="large">
+              <Icon className={cxMui(classes.icon)}>menu</Icon>
+            </IconButton> : <div></div>
+          }
 
-            { (hasRightSidePanel) ?
-              <IconButton className={clsx(classes.iconButton)} onClick={()=>{
+          { (hasRightSidePanel) ?
+            <IconButton
+              className={cxMui(classes.iconButton)}
+              onClick={()=>{
                 openRightSidePanel && openRightSidePanel();
-              }} color="inherit" disableRipple>
-                <Icon className={clsx(classes.icon)}>menu</Icon>
-              </IconButton> : <div></div>
-            }
+              }}
+              color="inherit"
+              disableRipple
+              size="large">
+              <Icon className={cxMui(classes.icon)}>menu</Icon>
+            </IconButton> : <div></div>
+          }
 
-          </div>
-        </Hidden>
+        </Box>
       )}
-
       {children}
     </div>
   );

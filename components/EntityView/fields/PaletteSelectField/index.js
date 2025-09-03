@@ -1,18 +1,17 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/styles';
-import clsx from 'clsx';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Typography from '@material-ui/core/Typography';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import Typography from '@mui/material/Typography';
 import colorbrewer from './colorBrewer';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2)
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2)
     },
     select : {
     },
@@ -22,8 +21,8 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1
     },
     colorSwatch : {
-      height: theme.spacing(1),
-      width: theme.spacing(1),
+      height: theme.spacingNum(1),
+      width: theme.spacingNum(1),
       borderWidth: 'thin',
       borderColor: theme.palette.divider,
       borderRadius: theme.shape.borderRadius,
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection: 'column',
       width: '100%',
-      paddingBottom: theme.spacing(1)
+      paddingBottom: theme.spacingNum(1)
     },
   };
 });
@@ -48,7 +47,7 @@ const PaletteSelectField = ({
   field
 })=>{
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   const {
     id,
@@ -114,7 +113,7 @@ const PaletteSelectField = ({
 
   return (
     <FormControl
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
       variant="outlined"
       fullWidth
@@ -129,7 +128,7 @@ const PaletteSelectField = ({
         autoHighlight={true}
         autoSelect={true}
         freeSolo={false}
-        className={clsx(styles.select)}
+        className={cxMui(styles.select)}
         fullWidth={true}
         options={colors}
         groupBy={(option)=>option.paletteName}
@@ -140,26 +139,28 @@ const PaletteSelectField = ({
           setSelected(item);
           onChange && onChange(null, {[field.id] : item.id});
         }}
-        renderOption={(option) => {
+        renderOption={(props, option) => {
           return (
-            <div className={clsx(styles.menuItem)}>
-              <Typography>{option.label}</Typography>
-              <div className={clsx(styles.colorSwatches)}>
-                {
-                  option.value.map((color)=>{
-                    return (
-                      <div
-                        className={clsx(styles.colorSwatch)}
-                        key={`${option.id}_${color}`}
-                        style={{
-                          backgroundColor : color
-                        }}
-                      />
-                    );
-                  })
-                }
+            <li {...props}>
+              <div className={cxMui(styles.menuItem)}>
+                <Typography>{option.label}</Typography>
+                <div className={cxMui(styles.colorSwatches)}>
+                  {
+                    option.value.map((color)=>{
+                      return (
+                        <div
+                          className={cxMui(styles.colorSwatch)}
+                          key={`${option.id}_${color}`}
+                          style={{
+                            backgroundColor : color
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </div>
               </div>
-            </div>
+            </li>
           );
         }}
         renderInput={(params)=>{

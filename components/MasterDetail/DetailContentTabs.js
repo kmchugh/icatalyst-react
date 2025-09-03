@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Tabs, Tab, Tooltip} from '@material-ui/core';
+import {Tabs, Tab, Tooltip} from '@mui/material';
 import Icon from '../Icon';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
 import IconButton from '../IconButton';
 import PageBase from '../../pages/PageBase';
 import { useHistory } from 'react-router-dom';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       flexShrink: 0,
       display: 'flex',
       alignItems: 'center',
@@ -21,11 +20,11 @@ const useStyles = makeStyles((theme) => {
       borderBottom : `thin solid ${theme.palette.divider}`
     },
     backButton: {
-      marginLeft : theme.spacing(1),
-      marginRight : theme.spacing(1),
+      marginLeft : theme.spacingNum(1),
+      marginRight : theme.spacingNum(1),
     },
     tabBar : {
-      height: theme.spacing(9),
+      height: theme.spacingNum(9),
       width: '100%',
       ['& .Mui-selected'] : {
         color: mostReadable(
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme) => {
       }
     },
     tab : {
-      height : theme.spacing(9),
+      height : theme.spacingNum(9),
       textTransform : 'none',
     },
   };
@@ -53,21 +52,22 @@ const DetailContentTabs = ({
   backUrl,
 })=>{
   const classes = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
   const history = useHistory();
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       {
         // If the mode is chromeless then we need a way to get back
         config.mode === 'chromeless' && (
-          <IconButton className={clsx(classes.backButton)}
+          <IconButton
+            className={cxMui(classes.backButton)}
             onClick={()=>{
               history.push(backUrl);
             }}
             icon={theme.direction === 'ltr' ? 'arrow_back' : 'arrow_forward'}
             title="back"
-          />
+            size="large" />
         )
       }
       {
@@ -84,7 +84,7 @@ const DetailContentTabs = ({
             textColor="primary"
             variant="scrollable"
             scrollButtons="auto"
-            className={clsx(classes.tabBar)}
+            className={cxMui(classes.tabBar)}
           >
             {
               tabs.filter(t=>t.visible===true).map(({icon, label, path, description})=>{
@@ -95,7 +95,7 @@ const DetailContentTabs = ({
                   >
                     <Tab
                       key={path || ''}
-                      className={clsx(classes.tab)}
+                      className={cxMui(classes.tab)}
                       icon={<Icon fontSize="small">{icon}</Icon>}
                       label={label}
                     />

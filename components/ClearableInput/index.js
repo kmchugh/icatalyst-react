@@ -1,18 +1,17 @@
 import React from 'react';
 import Icon from '@icatalyst/components/Icon';
-import {Paper, Input, InputAdornment} from '@material-ui/core';
+import {Paper, Input, InputAdornment} from '@mui/material';
 import PropTypes from 'prop-types';
 import IconButton from '../IconButton';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(.5),
-    paddingBottom: theme.spacing(.5),
+    paddingLeft: theme.spacingNum(1),
+    paddingRight: theme.spacingNum(1),
+    paddingTop: theme.spacingNum(.5),
+    paddingBottom: theme.spacingNum(.5),
     display: 'flex',
     flexGrow: 1,
     flexShrink: 1,
@@ -30,7 +29,7 @@ const ClearableInput = ({
   const classes = useStyles();
 
   return (
-    <Paper className={clsx(classes.root, className)} elevation={1}>
+    <Paper className={cxMui(classes.root, className)} elevation={1}>
       {
         <Input
           placeholder={label}

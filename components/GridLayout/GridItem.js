@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/styles';
-import clsx from 'clsx';
 
-import Typography from '@material-ui/core/Typography';
-import Tooltip from '@material-ui/core/Tooltip';
-import Paper from '@material-ui/core/Paper';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import Paper from '@mui/material/Paper';
 import Icon from '../Icon';
 import DropdownMenu from '../Menus/DropdownMenu';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       overflow : 'hidden',
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme)=>{
       display: 'flex',
       flexDirection : 'row',
       alignItems : 'center',
-      minHeight : theme.spacing(3)
+      minHeight : theme.spacingNum(3)
     },
     content : {
       overflow : 'hidden',
@@ -32,9 +31,9 @@ const useStyles = makeStyles((theme)=>{
       overflow : 'hidden',
       cursor : 'pointer',
       color : 'transparent',
-      marginLeft : theme.spacing(.5),
-      marginRight : theme.spacing(1),
-      marginTop : theme.spacing(-0.5),
+      marginLeft : theme.spacingNum(.5),
+      marginRight : theme.spacingNum(1),
+      marginTop : theme.spacingNum(-0.5),
       flexShrink: 0
     },
     titleWrapper : {
@@ -44,13 +43,13 @@ const useStyles = makeStyles((theme)=>{
       flexShrink : 1,
       alignItems : 'center',
       overflow: 'hidden',
-      minHeight: theme.spacing(4)
+      minHeight: theme.spacingNum(4)
     },
     title : {
       fontWeight: 'bold',
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
-      paddingTop : theme.spacing(.5)
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1),
+      paddingTop : theme.spacingNum(.5)
     },
   };
 });
@@ -69,20 +68,20 @@ const GridItem = React.forwardRef(({
   ...rest
 }, ref)=>{
   const styles = useStyles();
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   const isCompact = variant === 'compact';
 
   return (
     <Paper
       ref={ref}
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
       {...rest}
     >
       {showChrome && (
-        <div className={clsx(styles.contentHeader)}>
-          <span className={clsx(styles.dragHandle, 'dragHandle')}>
+        <div className={cxMui(styles.contentHeader)}>
+          <span className={cxMui(styles.dragHandle, 'dragHandle')}>
             <Icon
               size={isCompact ? 'small' : 'medium'}
               title="drag"
@@ -98,7 +97,7 @@ const GridItem = React.forwardRef(({
             </Icon>
             tttt
           </span>
-          <div className={clsx(styles.titleWrapper)}>
+          <div className={cxMui(styles.titleWrapper)}>
             {
               React.isValidElement(title) ?
                 title :
@@ -106,11 +105,11 @@ const GridItem = React.forwardRef(({
                   <Typography
                     variant="subtitle1"
                     style={isCompact ? {
-                      fontSize : theme.spacing(1.5)
+                      fontSize : theme.spacingNum(1.5)
                     } : {
-                      fontSize : theme.spacing(2),
+                      fontSize : theme.spacingNum(2),
                     }}
-                    className={clsx(styles.title)}
+                    className={cxMui(styles.title)}
                     noWrap
                     component="h2"
                   >
@@ -135,7 +134,7 @@ const GridItem = React.forwardRef(({
           )}
         </div>
       )}
-      <div className={clsx(styles.content)}>
+      <div className={cxMui(styles.content)}>
         {children}
       </div>
     </Paper>

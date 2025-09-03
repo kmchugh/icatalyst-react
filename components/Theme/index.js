@@ -1,19 +1,19 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {ThemeProvider} from '@material-ui/styles';
+import { StyledEngineProvider, ThemeProvider as MUIThemeProvider } from '@mui/material';
 
 import {PropTypes} from 'prop-types';
-import ReloadModal from './ReloadModal';
+import { useSelector } from 'react-redux';
 
 function Theme(props) {
-
+  
   const theme = useSelector(({icatalyst}) => icatalyst.settings.current.themes.mainTheme );
-
+  
   return (
-    <ThemeProvider theme={theme}>
-      <ReloadModal />
-      {props.children}
-    </ThemeProvider>
+    <StyledEngineProvider injectFirst>
+      <MUIThemeProvider theme={theme}>
+        {props.children}
+      </MUIThemeProvider>
+    </StyledEngineProvider>
   );
 }
 

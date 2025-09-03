@@ -16,7 +16,6 @@ export {default as Singularity} from './Singularity';
 export { SingularityContext } from './Singularity';
 export {default as SplitButton} from './SplitButton';
 export * from './Tables';
-export {default as Theme} from './Theme';
 export {default as Toolbar} from './Toolbar';
 export {default as UserMenu} from './UserMenu';
 export {default as UserRoles} from './UserRoles';

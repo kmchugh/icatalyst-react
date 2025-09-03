@@ -1,15 +1,17 @@
 import React, {useEffect, useRef, useImperativeHandle, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build';
 import _ from '@icatalyst/@lodash';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 // Uncomment this to quickly see a list of plugins
 // console.log(Editor.builtinPlugins.map( plugin => plugin.pluginName ));
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme, {
+  rows,
+  multiline
+})=>{
   return {
     root : {
       ['& .ck'] : {
@@ -33,22 +35,14 @@ const useStyles = makeStyles((theme)=>{
         boxShadow: 'none!important'
       }
     },
-    rows : ({
-      rows
-    })=>{
-      return {
-        minHeight: theme.spacing(rows*2.1)
-      };
+    rows : {
+      minHeight: theme.spacingNum(rows*2.1)
     },
-    multiline : ({
-      multiline
-    })=>{
-      return !multiline ? {
-        ['& .ck.ck-editor__editable_inline'] : {
-          overflow: 'hidden'
-        }
-      } : {};
-    }
+    multiline : !multiline ? {
+      ['& .ck.ck-editor__editable_inline'] : {
+        overflow: 'hidden'
+      }
+    } : {}
   };
 });
 
@@ -152,7 +146,7 @@ const RichTextEditor = (
   };
 
   return (
-    <div className={clsx(
+    <div className={cxMui(
       styles.root,
       styles.rows,
       styles.multiline,

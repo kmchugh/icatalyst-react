@@ -43,7 +43,7 @@ class SingularityService {
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
-    personalAccessToken : 'api/personalToken',
+    personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
     profileUpdate : 'api/me',
     notification : 'v2/api/notification',

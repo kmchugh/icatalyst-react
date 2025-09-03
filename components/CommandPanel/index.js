@@ -1,31 +1,29 @@
 import React, {useRef, useLayoutEffect, useState, useMemo, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+import Paper from '@mui/material/Paper';
+import Divider from '@mui/material/Divider';
 import IconButton from '../IconButton';
 import DropdownMenu from '../Menus/DropdownMenu';
-import {generateHash} from '../../utilities';
+import {createMuiStyles, cxMui, generateHash} from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      minWidth: theme.spacing(10)
+      minWidth: theme.spacingNum(10)
     },
     content : {
       overflow : 'hidden',
       display : 'flex',
       flexDirection : 'row',
       alignItems : 'center',
-      padding : theme.spacing(.5),
+      padding : theme.spacingNum(.5),
     },
     spacer : {
       flex: 1
     },
     iconButton : {
-      width : theme.spacing(4),
-      height : theme.spacing(4),
+      width : theme.spacingNum(4),
+      height : theme.spacingNum(4),
     },
     menuWrapper : {
       display: 'flex',
@@ -33,18 +31,18 @@ const useStyles = makeStyles((theme)=>{
       borderLeftStyle : 'solid',
       borderLeftColor : theme.palette.divider,
       borderLeftWidth : 'thin',
-      marginLeft : theme.spacing(.5),
-      paddingLeft : theme.spacing(.5),
+      marginLeft : theme.spacingNum(.5),
+      paddingLeft : theme.spacingNum(.5),
       alignItems : 'center'
     },
     collapsedMenuWrapper : {
       borderLeftStyle : 'solid',
       borderLeftColor : theme.palette.divider,
       borderLeftWidth : 'thin',
-      marginLeft : theme.spacing(.5),
+      marginLeft : theme.spacingNum(.5),
     },
     collapsedMenuIconStyle : {
-      marginLeft : theme.spacing(0),
+      marginLeft : theme.spacingNum(0),
     },
     componentWrapper : {
       display: 'flex',
@@ -158,7 +156,7 @@ const CommandPanel = ({
       if (Array.isArray(item)) {
         return (<div
           key={i}
-          className={clsx(styles.menuWrapper)}
+          className={cxMui(styles.menuWrapper)}
           id={i}
         >
           {renderMenu(item)}
@@ -166,7 +164,7 @@ const CommandPanel = ({
       } else {
         return item.component ? item.component : (
           <IconButton
-            className={clsx(styles.iconButton)}
+            className={cxMui(styles.iconButton)}
             key={item.key || item.title}
             disabled={item.disabled}
             color={item.color}
@@ -184,20 +182,20 @@ const CommandPanel = ({
     <Paper
       style={style}
       elevation={elevation}
-      className={clsx(
+      className={cxMui(
         styles.root,
         className
       )}>
-      <div ref={contentRef} className={clsx(styles.content)}>
+      <div ref={contentRef} className={cxMui(styles.content)}>
         {hasPrimary && (renderMenu(primary))}
-        <div className={clsx(styles.spacer)}/>
+        <div className={cxMui(styles.spacer)}/>
         { (secondaryMenus && secondaryMenus.length > 0) && (
         // Filter to the number of items with combined width less than overflow
-          secondaryItems.visible.map((m)=>{
+          (secondaryItems.visible.map((m)=>{
             return (
               <div
                 key={m.id}
-                className={clsx(styles.menuWrapper)}
+                className={cxMui(styles.menuWrapper)}
                 id={m.id}
               >
                 {
@@ -205,7 +203,7 @@ const CommandPanel = ({
                     return i.component ? i.component : (
                       <IconButton
                         id={i.id}
-                        className={clsx(styles.iconButton)}
+                        className={cxMui(styles.iconButton)}
                         disabled={i.disabled}
                         key={i.title}
                         color={i.color}
@@ -219,12 +217,12 @@ const CommandPanel = ({
                 }
               </div>
             );
-          })
+          }))
         )}
         {
           overflow > 0 && (
             <div
-              className={clsx(styles.collapsedMenuWrapper)}
+              className={cxMui(styles.collapsedMenuWrapper)}
             >
               <DropdownMenu
                 menu={secondaryItems.collapsed.flatMap((m, i, s)=>{
@@ -233,7 +231,7 @@ const CommandPanel = ({
                       return i.component ? (
                         <div
                           key={`collapsed_${i.component.key}`}
-                          className={clsx(styles.componentWrapper)}
+                          className={cxMui(styles.componentWrapper)}
                           onClick={(e)=>{
                             e.stopPropagation();
                           }}
@@ -255,7 +253,7 @@ const CommandPanel = ({
                   ];
                 })}
                 classes={{
-                  menuIcon : clsx(styles.collapsedMenuIconStyle)
+                  menuIcon : cxMui(styles.collapsedMenuIconStyle)
                 }}
               />
             </div>

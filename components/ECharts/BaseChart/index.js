@@ -1,12 +1,11 @@
 import React, {forwardRef, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import ReactEchartsCore from 'echarts-for-react/lib/core';
 import { useResizeDetector } from 'react-resize-detector';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
+import { createMuiStyles, cxMui } from '../../../utilities/makeStyle';
 
-const useStyles = makeStyles((/*theme*/)=>{
+const useStyles = createMuiStyles((/*theme*/)=>{
   return {
     root : {
       height: '100%',
@@ -46,12 +45,12 @@ const BaseChart = forwardRef(({
 
   return (
     <div
-      className={clsx(styles.root)}
+      className={cxMui(styles.root)}
       ref={containerRef}
     >
       {(renderChart && dimensions) && <ReactEchartsCore
         {...rest}
-        className={clsx(styles.root, className)}
+        className={cxMui(styles.root, className)}
         style={{
           height: `${dimensions.height}px`,
           width: `${dimensions.width}px`,

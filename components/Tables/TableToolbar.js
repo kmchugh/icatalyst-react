@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 import IconButton from '../IconButton';
 import Icon from '../Icon';
 import {FuseAnimate} from '../fuse';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       background: theme.palette.background.default,
       color: `${mostReadable(
         tinycolor(theme.palette.background.default),
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => {
     },
     title : {
       textTransform : 'capitalize',
-      marginLeft : theme.spacing(2),
+      marginLeft : theme.spacingNum(2),
     },
     inputWrapper : {
       flexGrow: 1,
@@ -55,8 +54,8 @@ const useStyles = makeStyles((theme) => {
       },
     },
     actionWrapper : {
-      paddingRight : theme.spacing(1),
-      paddingLeft : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
+      paddingLeft : theme.spacingNum(1),
       display: 'flex',
     },
     switchWrapper : {
@@ -70,7 +69,7 @@ const useStyles = makeStyles((theme) => {
     switchButtonActive : {
     },
     actionButton : {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacingNum(1),
       background : theme.palette.primary.main,
       '&:hover' : {
         background : theme.palette.primary.light,
@@ -78,12 +77,12 @@ const useStyles = makeStyles((theme) => {
       color : theme.palette.primary.contrastText
     },
     toolbar : {
-      paddingLeft : theme.spacing(2),
-      paddingRight : theme.spacing(1),
+      paddingLeft : theme.spacingNum(2),
+      paddingRight : theme.spacingNum(1),
     },
     toolbarPrepend : {
       paddingLeft : 0,
-      paddingRight : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
     }
   };
 });
@@ -101,29 +100,29 @@ const TableToolbar = ({
   const classes = useStyles();
 
   return (
-    <AppBar color="secondary" position="relative" className={clsx(classes.root, className)}>
-      <Toolbar className={clsx(PrependHeaderComponent ? classes.toolbarPrepend : classes.toolbar)}>
+    <AppBar color="secondary" position="relative" className={cxMui(classes.root, className)}>
+      <Toolbar className={cxMui(PrependHeaderComponent ? classes.toolbarPrepend : classes.toolbar)}>
         {
           PrependHeaderComponent
         }
-        <div className={clsx(classes.titleWrapper)}>
+        <div className={cxMui(classes.titleWrapper)}>
           {
             icon &&
             <Icon fontSize="large">{icon}</Icon>
           }
           { title &&
-            <Typography variant="h5" color="inherit" className={clsx(classes.title)}>
+            <Typography variant="h5" color="inherit" className={cxMui(classes.title)}>
               {title}
             </Typography>
           }
         </div>
 
-        <div className={clsx(classes.inputWrapper)}>
+        <div className={cxMui(classes.inputWrapper)}>
           {inputComponent && inputComponent}
         </div>
 
-        <div className={clsx(classes.controlWrapper)}>
-          <div className={clsx(classes.actionWrapper)}>
+        <div className={cxMui(classes.controlWrapper)}>
+          <div className={cxMui(classes.actionWrapper)}>
             {
               actions && actions.map(({title, icon, onClick})=>(
                 <FuseAnimate
@@ -131,27 +130,27 @@ const TableToolbar = ({
                   animation="transition.expandIn">
                   <IconButton
                     key={title}
-                    className={clsx(classes.actionButton)}
+                    className={cxMui(classes.actionButton)}
                     title={title}
                     onClick={onClick}
                     icon={icon}
-                  />
+                    size="large" />
                 </FuseAnimate>
               ))
             }
           </div>
 
-          <div className={clsx(classes.switchWrapper)}>
+          <div className={cxMui(classes.switchWrapper)}>
             {switchComponent && switchComponent}
             {
               switches && switches.map(({title, icon, onClick, active})=>(
                 <IconButton
                   key={title}
-                  className={clsx(classes.switchButton, active && classes.switchButtonActive)}
+                  className={cxMui(classes.switchButton, active && classes.switchButtonActive)}
                   title={title}
                   onClick={onClick}
                   icon={icon}
-                />
+                  size="large" />
               ))
             }
           </div>

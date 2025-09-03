@@ -1,22 +1,21 @@
 import React, {useContext} from 'react';
 import Icon from '@icatalyst/components/Icon';
 import IconButton from '@icatalyst/components/IconButton';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
 
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       display: 'flex',
       flexDirection : 'column',
       background: theme.palette.background.default,
       height: '100%',
-      margin:theme.spacing(2)
+      margin:theme.spacingNum(2)
     },
     contentWrapper : {
       display: 'flex',
@@ -30,33 +29,33 @@ const useStyles = makeStyles((theme) => {
       flexDirection : 'row',
     },
     icon : {
-      width: theme.spacing(12),
-      height: theme.spacing(12),
-      fontSize: `${theme.spacing(12)}px!important`,
+      width: theme.spacingNum(12),
+      height: theme.spacingNum(12),
+      fontSize: `${theme.spacingNum(12)}!important`,
 
       [theme.breakpoints.up('md')]: {
-        width: theme.spacing(16),
-        height: theme.spacing(16),
-        fontSize: `${theme.spacing(16)}px!important`,
+        width: theme.spacingNum(16),
+        height: theme.spacingNum(16),
+        fontSize: `${theme.spacingNum(16)}!important`,
       },
       color: theme.palette.primary.main,
-      marginBottom: theme.spacing(4)
+      marginBottom: theme.spacingNum(4)
     },
     title : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       textAlign: 'center'
     },
     info : {
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       textAlign: 'center',
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2)
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2)
     },
     help : {
 
     },
     refreshButton : {
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacingNum(2)
     }
   };
 });
@@ -76,28 +75,28 @@ const EmptyTable = ({
 
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {NavigationComponent && (
-        <div className={clsx(classes.navigationWrapper)}>
+        <div className={cxMui(classes.navigationWrapper)}>
           {NavigationComponent}
         </div>
       )}
-      <div className={clsx(classes.contentWrapper)}>
-        {showIcon && <Icon className={clsx(classes.icon)}>{icon}</Icon>}
-        <Typography variant="h4" className={clsx(classes.title)}>{title}</Typography>
+      <div className={cxMui(classes.contentWrapper)}>
+        {showIcon && <Icon className={cxMui(classes.icon)}>{icon}</Icon>}
+        <Typography variant="h4" className={cxMui(classes.title)}>{title}</Typography>
         {
-          action && <Typography variant="subtitle1" className={clsx(classes.info)}>{action}</Typography>
+          action && <Typography variant="subtitle1" className={cxMui(classes.info)}>{action}</Typography>
         }
         {
-          help && <Typography variant="caption" className={clsx(classes.help)}>{help}</Typography>
+          help && <Typography variant="caption" className={cxMui(classes.help)}>{help}</Typography>
         }
         {
           onRefresh && <IconButton
-            className={clsx(classes.refreshButton)}
+            className={cxMui(classes.refreshButton)}
             title={t('refresh')}
             icon="refresh"
             onClick={onRefresh}
-          />
+            size="large" />
         }
       </div>
     </div>

@@ -1,11 +1,10 @@
 import React from 'react';
 import {FormControl,
-  InputLabel, FormHelperText} from '@material-ui/core';
+  InputLabel, FormHelperText} from '@mui/material';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
@@ -13,8 +12,8 @@ const useStyles = makeStyles((theme) => {
       paddingRight: '.5em'
     },
     customField : {
-      paddingTop : theme.spacing(1.5),
-      paddingBottom : theme.spacing(1),
+      paddingTop : theme.spacingNum(1.5),
+      paddingBottom : theme.spacingNum(1),
     }
   };
 });
@@ -40,7 +39,7 @@ const CustomField = (props) => {
 
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       variant="outlined"
       fullWidth
       error={hasErrors}
@@ -49,13 +48,13 @@ const CustomField = (props) => {
       <InputLabel
         shrink={true}
         id={`${id}-label`}
-        className={clsx(classes.inputLabel)}
+        className={cxMui(classes.inputLabel)}
       >
         {label}
       </InputLabel>
 
       <Component
-        className={clsx(classes.customField)}
+        className={cxMui(classes.customField)}
         labelId={`${id}-label`}
         field={field}
         value={value || ''}

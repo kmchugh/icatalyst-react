@@ -1,13 +1,12 @@
 import React from 'react';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import {FuseAnimate} from '@icatalyst/components/fuse';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       background: theme.palette.secondary.main,
@@ -16,10 +15,10 @@ const useStyles = makeStyles((theme)=>{
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      padding : theme.spacing(4)
+      padding : theme.spacingNum(4)
     },
     title : {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}`
     },
     subtitle : {
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
@@ -39,7 +38,7 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}`
     },
     link : {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacingNum(2),
       color: `${mostReadable(
         tinycolor(theme.palette.secondary.main),
         [
@@ -53,7 +52,7 @@ const useStyles = makeStyles((theme)=>{
 
 const ErrorPage = (props) => {
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   const { state = {
     title : 'An Error has Occurred',
@@ -63,23 +62,23 @@ const ErrorPage = (props) => {
   const { title, message, component } = state;
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
 
       <FuseAnimate animation="transition.expandIn" delay={100}>
-        <Typography variant="h1" color="primary" className={clsx(classes.title)}>
+        <Typography variant="h1" color="primary" className={cxMui(classes.title)}>
           {title}
         </Typography>
       </FuseAnimate>
 
       <FuseAnimate delay={500}>
-        <Typography variant="h6" component="h2" color="primary" className={clsx(classes.subtitle)}>
+        <Typography variant="h6" component="h2" color="primary" className={cxMui(classes.subtitle)}>
           {message}
         </Typography>
       </FuseAnimate>
 
       { component && component }
 
-      <Link className={clsx(classes.link)} to="/">Go back to home</Link>
+      <Link className={cxMui(classes.link)} to="/">Go back to home</Link>
     </div>
   );
 };

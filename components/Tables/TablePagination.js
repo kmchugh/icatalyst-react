@@ -1,17 +1,16 @@
 import React from 'react';
-import {TablePagination as NativeTablePagination} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import {TablePagination as NativeTablePagination} from '@mui/material';
 import PaginationActions from './PaginationActions';
 import PropTypes from 'prop-types';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       flexShrink: 0,
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       borderTop: `thin solid ${theme.palette.divider}`,
       background: theme.palette.background.default,
       color: `${mostReadable(
@@ -23,8 +22,8 @@ const useStyles = makeStyles((theme)=>{
       ).toHexString()}!important`,
     },
     paginationToolbar: {
-      [theme.breakpoints.down('sm')]: {
-        padding: theme.spacing(1),
+      [theme.breakpoints.down('md')]: {
+        padding: theme.spacingNum(1),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'stretch',
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme)=>{
         '& > p:first-of-type' : {
           display: 'none'
         },
-        '& .MuiTablePagination-input' : {
+        '& .MuiTablePagination-select' : {
           alignSelf: 'center'
         }
       }
@@ -44,11 +43,11 @@ const useStyles = makeStyles((theme)=>{
     paginationRoot: {
       // Fix for mui pagination root
       '&:last-child' : {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(2),
+        paddingLeft: theme.spacingNum(2),
+        paddingRight: theme.spacingNum(2),
       },
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         overflow: 'hidden',
         '&:last-child' : {
           padding: 0
@@ -77,7 +76,7 @@ const TablePagination = ({
 
   return (
     <NativeTablePagination
-      className={clsx(classes.root)}
+      className={cxMui(classes.root)}
       classes= {{
         root : classes.paginationRoot,
         toolbar : classes.paginationToolbar,

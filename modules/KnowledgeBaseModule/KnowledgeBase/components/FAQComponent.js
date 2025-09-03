@@ -1,19 +1,17 @@
 import React, { useEffect, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import clsx from 'clsx';
 import { useDispatch } from 'react-redux';
 import { SingularityContext } from '@icatalyst/components/Singularity';
 
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Grid from '@material-ui/core/Grid';
-import Chip from '@material-ui/core/Chip';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Grid from '@mui/material/Grid';
+import Chip from '@mui/material/Chip';
 
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearableInput from '@icatalyst/components/ClearableInput';
 import Icon from '@icatalyst/components/Icon';
 import Image from '@icatalyst/components/Image';
@@ -21,8 +19,9 @@ import Image from '@icatalyst/components/Image';
 import { definition as kbdefinition } from '@icatalyst/components/Singularity/store/reducers/knowledgeBase.reducer.js';
 import { FuseLoading } from '@icatalyst/components/fuse';
 import { getCleanText } from '@icatalyst/utilities/getCleanText';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       background: theme.palette.background.default,
@@ -30,28 +29,28 @@ const useStyles = makeStyles((theme) => {
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       // Fix for safari flexbox
       minHeight: '600px',
     },
     searchWrapper: {
-      margin: theme.spacing(2),
-      height: theme.spacing(8),
+      margin: theme.spacingNum(2),
+      height: theme.spacingNum(8),
       '& input': {
-        fontSize: theme.spacing(4),
-        [theme.breakpoints.down('sm')]: {
-          fontSize: theme.spacing(2),
+        fontSize: theme.spacingNum(4),
+        [theme.breakpoints.down('md')]: {
+          fontSize: theme.spacingNum(2),
         },
       },
       '& .MuiIcon-root': {
-        fontSize: theme.spacing(4),
-        [theme.breakpoints.down('sm')]: {
-          fontSize: theme.spacing(2),
+        fontSize: theme.spacingNum(4),
+        [theme.breakpoints.down('md')]: {
+          fontSize: theme.spacingNum(2),
         },
       },
     },
     accordion: {
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         width: '100%',
       },
       [theme.breakpoints.up('sm')]: {
@@ -64,7 +63,7 @@ const useStyles = makeStyles((theme) => {
     accordionSummary: {
       maxWidth: '100%',
       overflow: 'hidden',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         padding: 0,
         '& .MuiIconButton-edgeEnd': {
           marginRight: 0,
@@ -77,13 +76,12 @@ const useStyles = makeStyles((theme) => {
     title: {
       maxWidth: '100%',
       textTransform: 'capitalize',
-      padding: `${theme.spacing(0)}px ${theme.spacing(3)}px`,
-      fontSize: theme.spacing(2.5),
+      fontSize: theme.spacingNum(2.5),
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      [theme.breakpoints.down('xs')]: {
-        paddingLeft: theme.spacing(0.75),
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: theme.spacingNum(0.75),
       },
       '& :first-child': {
         whiteSpace: 'nowrap',
@@ -92,13 +90,13 @@ const useStyles = makeStyles((theme) => {
       },
     },
     excerpt: {
-      fontSize: theme.spacing(1.5),
+      fontSize: theme.spacingNum(1.5),
     },
     accordionContent: {
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
-      fontSize: theme.spacing(3.5),
+      fontSize: theme.spacingNum(3.5),
       textAlign: 'justify',
     },
     accordionChip: {
@@ -106,29 +104,31 @@ const useStyles = makeStyles((theme) => {
       alignItems: 'center',
     },
     chip: {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacingNum(1),
       background: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,
     },
     accordionVideo: {
       width: '50%',
       height: 200,
-      marginTop: theme.spacing(2),
-      marginRight: theme.spacing(1),
+      marginTop: theme.spacingNum(2),
+      marginRight: theme.spacingNum(1),
       background: 'black',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         width: '100%',
         height: '300px',
       },
     },
     iconButton: {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
+      fontSize: '3.6rem',
+      fontWeight: 'bold'
     },
     featureImg: {
       width: 80,
       height: 50,
       objectFit: 'cover',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         height: 40,
         width: 40,
       },
@@ -140,7 +140,7 @@ const useStyles = makeStyles((theme) => {
     },
     headerTitle: {
       width: 'calc(100% - 80px)',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         width: 'calc(100% - 40px)',
       },
     },
@@ -152,20 +152,20 @@ const useStyles = makeStyles((theme) => {
     titleContainer: {
       maxWidth: 'calc(100% - 30px)',
       alignItems: 'center',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         marginLeft: 15,
       },
     },
     contentDetail: {
-      marginLeft: theme.spacing(3),
-      marginTop: theme.spacing(1.5),
+      marginLeft: theme.spacingNum(3),
+      marginTop: theme.spacingNum(1.5),
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         marginLeft: 0,
       },
     },
     tagArea : {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacingNum(2),
       display: 'flex',
       flexDirection : 'column',
 
@@ -174,7 +174,7 @@ const useStyles = makeStyles((theme) => {
       },
     },
     category : {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
       display: 'flex',
       alignItems: 'center',
       flexGrow: 1,
@@ -240,14 +240,13 @@ const FAQComponent = ({
   return hasAccess ? (
     <FuseLoading title='Loading...' />
   ) : (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       <div
-        variant='h4'
-        className={clsx(classes.headTitle)}
+        className={cxMui(classes.headTitle)}
       >
         <Icon
           size='large'
-          className={clsx(classes.iconButton)}
+          className={cxMui(classes.iconButton)}
         >
           question_answer
         </Icon>
@@ -261,7 +260,7 @@ const FAQComponent = ({
 
         <Icon
           size='large'
-          className={clsx(classes.iconButton)}
+          className={cxMui(classes.iconButton)}
         >
           question_answer
         </Icon>
@@ -270,7 +269,7 @@ const FAQComponent = ({
         sx={{
           width: { xs: '100%', sm: '80%', md: '60%' },
         }}
-        className={clsx(classes.searchWrapper)}
+        className={cxMui(classes.searchWrapper)}
       >
         <ClearableInput
           label='Search with Keywords'
@@ -285,13 +284,13 @@ const FAQComponent = ({
           return (
             <Accordion
               key={element.guid}
-              className={clsx(classes.accordion)}
+              className={cxMui(classes.accordion)}
             >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls='panel1a-content'
                 id='panel1a-header'
-                className={clsx(classes.accordionSummary)}
+                className={cxMui(classes.accordionSummary)}
               >
                 <Grid container className={classes.titleContainer}>
                   <Image
@@ -301,13 +300,14 @@ const FAQComponent = ({
                   />
                   <Grid className={classes.headerTitle}>
                     <Typography
-                      className={clsx(classes.title)}
-                      dangerouslySetInnerHTML={{
+                      className={cxMui(classes.title)}
+                      sx={{ px: 3, py: 0 }}                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.title),
                       }}
                     />
                     <Typography
-                      className={clsx(classes.title, classes.excerpt)}
+                      className={cxMui(classes.title, classes.excerpt)}
+                      sx={{ px: 3, py: 0 }} 
                       dangerouslySetInnerHTML={{
                         __html: getCleanText(element.excerpt),
                       }}
@@ -316,10 +316,10 @@ const FAQComponent = ({
                 </Grid>
               </AccordionSummary>
               <AccordionDetails>
-                <div className={clsx(classes.accordionContent)}>
+                <div className={cxMui(classes.accordionContent)}>
                   <Grid container>
                     {element.mediaurl && (
-                      <video className={clsx(classes.accordionVideo)} controls>
+                      <video className={cxMui(classes.accordionVideo)} controls>
                         <source src={element.mediaurl} type='video/mp4' />
                       </video>
                     )}
@@ -327,7 +327,7 @@ const FAQComponent = ({
                       <Grid
                         sm={12}
                         md={element.mediaurl ? 5 : 10}
-                        className={clsx(classes.contentDetail)}
+                        className={cxMui(classes.contentDetail)}
                       >
                         <Typography
                           dangerouslySetInnerHTML={{
@@ -338,15 +338,15 @@ const FAQComponent = ({
                     )}
                   </Grid>
 
-                  <div className={clsx(classes.tagArea)}>
+                  <div className={cxMui(classes.tagArea)}>
                     {element.tags && (
-                      <div className={clsx(classes.accordionChip)}>
+                      <div className={cxMui(classes.accordionChip)}>
                         <Typography variant='subtitle2'>Tags :</Typography>
                         {element.tags.split(';').map((item) => (
                           <Chip
                             key={item}
                             label={item}
-                            className={clsx(classes.chip)}
+                            className={cxMui(classes.chip)}
                             onClick={() => setSearchData(item)}
                           />
                         ))}
@@ -354,11 +354,11 @@ const FAQComponent = ({
                     )}
 
                     {element.category && (
-                      <div className={clsx(classes.category)}>
+                      <div className={cxMui(classes.category)}>
                         <Typography variant='subtitle2'>Category :</Typography>
                         <Chip
                           label={element.category}
-                          className={clsx(classes.chip)}
+                          className={cxMui(classes.chip)}
                           onClick={() => setSearchData(element.category)}
                         />
                       </div>

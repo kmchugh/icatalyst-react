@@ -1,9 +1,8 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root: {
       display: 'flex',
@@ -20,7 +19,7 @@ const PageToolbar = ({className, children})=>{
   const classes = useStyles();
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {children}
     </div>
   );

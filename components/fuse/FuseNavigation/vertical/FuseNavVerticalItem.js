@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
-import {ListItem, ListItemText} from '@material-ui/core';
+import {ListItem, ListItemText} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
-import {makeStyles} from '@material-ui/styles';
 import NavLinkAdapter from '../NavLinkAdapter';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
@@ -12,8 +10,9 @@ import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {mostReadable} from '@ctrl/tinycolor';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme, { nestedLevel }) => {
 
   const activeBackground = theme.palette.navigation_active_background ?
     theme.palette.navigation_active_background.main :
@@ -32,18 +31,16 @@ const useStyles = makeStyles((theme) => {
     ]);
 
   return {
-    itemFn: ({nestedLevel})=>{
-      return {
-        height      : theme.spacing(5),
-        width       : `calc(100% - ${theme.spacing(2)}px)`,
-        borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
-        paddingRight: theme.spacing(2.5),
-        paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
-        color       : theme.palette.text.primary,
-        cursor                     : 'pointer',
-        textDecoration             : 'none!important',
-        textTransform              : 'capitalize'
-      };
+    itemFn: {
+      height      : theme.spacingNum(5),
+      width       : `calc(100% - ${theme.spacingNum(2)})`,
+      borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+      paddingRight: theme.spacingNum(2.5),
+      paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+      color       : theme.palette.text.primary,
+      cursor                     : 'pointer',
+      textDecoration             : 'none!important',
+      textTransform              : 'capitalize'
     },
     item: {
       '&.active'                 : {
@@ -57,7 +54,7 @@ const useStyles = makeStyles((theme) => {
         '& .list-item-icon'        : {
           color: 'inherit!important',
         },
-        borderLeftWidth : theme.spacing(.5),
+        borderLeftWidth : theme.spacingNum(.5),
         borderColor : theme.palette.primary.main,
         borderStyle : 'solid'
       },
@@ -66,7 +63,7 @@ const useStyles = makeStyles((theme) => {
         borderRadius: '0'
       },
       '& .list-item-icon'        : {
-        maxWidth: theme.spacing(2)
+        maxWidth: theme.spacingNum(2)
       },
       '& .list-item-text'        : {}
     }
@@ -80,7 +77,7 @@ function FuseNavVerticalItem(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {item, active} = props;
 
   if ( !isInRole(item.auth) )
@@ -93,11 +90,11 @@ function FuseNavVerticalItem(props)
 
   return visible && (
     <ListItem
-      button
+      // button
       component={NavLinkAdapter}
       to={item.url}
       activeClassName="active"
-      className={clsx(classes.item, classes.itemFn, active)}
+      className={cxMui(classes.item, classes.itemFn, active)}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
       exact={item.exact}
     >

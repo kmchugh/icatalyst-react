@@ -2,22 +2,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppContextComponent from '../contexts/App';
-import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
 import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
-import {CssBaseline} from '@material-ui/core';
+import {CssBaseline} from '@mui/material';
 import { Layout } from '../layouts';
 import history from '../@history';
 import reportWebVitals from './reportWebVitals';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 import LocalizationProvider from '../localization/LocalizationProvider';
-
-import { create } from 'jss';
+import { LocalizationProvider as MuiLocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 reportWebVitals(({name, delta, value, id})=>{
   if (typeof gtag !== 'undefined') {
@@ -30,13 +27,6 @@ reportWebVitals(({name, delta, value, id})=>{
       transport: 'beacon'
     });
   }
-});
-
-const generateClassName = createGenerateClassName();
-const jss = create({
-  ...jssPreset(),
-  plugins: [...jssPreset().plugins],
-  insertionPoint: 'custom-insertion-point',
 });
 
 export default function createApp({
@@ -70,43 +60,41 @@ export default function createApp({
 
   const App = ()=>{
     return (
-      <MuiPickersUtilsProvider utils={MomentUtils}>
+      <MuiLocalizationProvider dateAdapter={AdapterDayjs}>
         <AppContextComponent
           routes={routes}
           applicationConfig={contextConfig}
           layouts={layouts}
           themes={themes}
         >
-          <StylesProvider jss={jss} generateClassName={generateClassName}>
-            <Provider store={store}>
-              <LocalizationProvider
-                debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
-                loadLanguages={loadLanguages}
-              >
-                <SettingsProvider getReducerRoot={({icatalyst})=>{
-                  return icatalyst.settings;
-                }}>
-                  <Theme>
-                    <ErrorBoundary>
-                      <Router history={history}>
-                        <Singularity config={{
-                          ...singularityConfig,
-                          mapRoles : mapAuthRoles,
-                          // Allows customisation of the roles that are displayed to the user
-                          filterDisplayRoles : filterDisplayRoles,
-                        }}>
-                          <CssBaseline/>
-                          <Layout/>
-                        </Singularity>
-                      </Router>
-                    </ErrorBoundary>
-                  </Theme>
-                </SettingsProvider>
-              </LocalizationProvider>
-            </Provider>
-          </StylesProvider>
+          <Provider store={store}>
+            <LocalizationProvider
+              debug={showLocalizationLog && process.env.NODE_ENV !== 'production'}
+              loadLanguages={loadLanguages}
+            >
+              <SettingsProvider getReducerRoot={({icatalyst})=>{
+                return icatalyst.settings;
+              }}>
+                <Theme>
+                  <ErrorBoundary>
+                    <Router history={history}>
+                      <Singularity config={{
+                        ...singularityConfig,
+                        mapRoles : mapAuthRoles,
+                        // Allows customisation of the roles that are displayed to the user
+                        filterDisplayRoles : filterDisplayRoles,
+                      }}>
+                        <CssBaseline/>
+                        <Layout/>
+                      </Singularity>
+                    </Router>
+                  </ErrorBoundary>
+                </Theme>
+              </SettingsProvider>
+            </LocalizationProvider>
+          </Provider>
         </AppContextComponent>
-      </MuiPickersUtilsProvider>
+      </MuiLocalizationProvider>
     );
   };
   return App;

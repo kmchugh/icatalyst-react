@@ -3,16 +3,15 @@ import {
   ButtonGroup, Button, Popper, Grow, Paper,
   ClickAwayListener, MenuList, MenuItem,
   Typography
-} from '@material-ui/core';
+} from '@mui/material';
 
 import Icon from '../Icon';
 import IconButton from '../IconButton';
 
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
@@ -23,9 +22,9 @@ const useStyles = makeStyles((theme)=>{
 
     },
     switchButton : {
-      paddingLeft: theme.spacing(.5),
-      paddingRight: theme.spacing(.5),
-      minWidth: theme.spacing(4)
+      paddingLeft: theme.spacingNum(.5),
+      paddingRight: theme.spacingNum(.5),
+      minWidth: theme.spacingNum(4)
     },
     menuWrapper : {
 
@@ -83,9 +82,9 @@ const SplitButton = ({
 
   const renderOption = (option)=>{
     return (
-      <div className={clsx(classes.optionWrapper)}>
+      <div className={cxMui(classes.optionWrapper)}>
         <IconButton
-          className={clsx(classes.itemIconButton, option.className)}
+          className={cxMui(classes.itemIconButton, option.className)}
           size={size}
           title={option.title}
           icon={option.icon}
@@ -102,7 +101,7 @@ const SplitButton = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       <ButtonGroup
         variant={variant}
         size={size}
@@ -110,7 +109,7 @@ const SplitButton = ({
         aria-label={title}
       >
         <Button
-          className={clsx(classes.selectedButton)}
+          className={cxMui(classes.selectedButton)}
           size={size}
           component="div"
           onClick={(e)=>handleOptionClick(e, value)}
@@ -123,7 +122,7 @@ const SplitButton = ({
         </Button>
 
         <Button
-          className={clsx(classes.switchButton)}
+          className={cxMui(classes.switchButton)}
           size={size}
           ref={anchorRef}
           component="div"
@@ -142,7 +141,7 @@ const SplitButton = ({
       </ButtonGroup>
       <Popper
         open={open}
-        className={clsx(classes.popper)}
+        className={cxMui(classes.popper)}
         anchorEl={anchorRef.current}
         role="menu"
         transition
@@ -156,9 +155,9 @@ const SplitButton = ({
               transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
             }}
           >
-            <Paper className={clsx(classes.menuWrapper)}>
+            <Paper className={cxMui(classes.menuWrapper)}>
               <ClickAwayListener onClickAway={closeMenu}>
-                <MenuList id="split-button-menu" className={clsx(itemDisplay === 'horizontal' && classes.menuList)}>
+                <MenuList id="split-button-menu" className={cxMui(itemDisplay === 'horizontal' && classes.menuList)}>
                   {
                     options.filter(o=>o.value!==storedValue).map((option)=>{
                       return (

@@ -2,23 +2,22 @@ import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {SettingsContext} from './SettingsProvider';
 import { Typography, Button,
-  Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
+  Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import {useForm} from '../../hooks/fuse';
 import Icon from '../Icon';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EnitityView from '../EntityView';
 import {useSettingsContext} from './SettingsProvider';
 import _ from 'lodash';
 import { SingularityContext } from '../Singularity';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
     section: {
-      marginBottom: theme.spacing(3)
+      marginBottom: theme.spacingNum(3)
     },
     sectionHeading : {
     },
@@ -33,13 +32,13 @@ const useStyles = makeStyles((theme)=>{
     accordionActions : {
       display : 'flex',
       justifyContent : 'flex-end',
-      marginTop: theme.spacing(1)
+      marginTop: theme.spacingNum(1)
     },
     actionButton : {
-      marginLeft : theme.spacing(2)
+      marginLeft : theme.spacingNum(2)
     },
     actionButtonIcon : {
-      marginRight : theme.spacing(1)
+      marginRight : theme.spacingNum(1)
     },
     componentWrapper : {
     }
@@ -121,11 +120,11 @@ function SettingsComponent({
       <div
         id={sectionName}
         key={label}
-        className={clsx(classes.root, className)}
+        className={cxMui(classes.root, className)}
       >
-        <div className={clsx(classes.section)}>
+        <div className={cxMui(classes.section)}>
           {displayHeaders && (
-            <Typography variant="h5" className={clsx(classes.sectionHeading)}>{label}</Typography>
+            <Typography variant="h5" className={cxMui(classes.sectionHeading)}>{label}</Typography>
           )}
           {
             settings.filter(setting=>setting.visible || setting.visible === undefined).map((setting)=>{
@@ -135,7 +134,7 @@ function SettingsComponent({
               const settingsContext = useSettingsContext(name);
               const Component = setting.component;
               return Component ? (
-                <div key={id} className={clsx(classes.componentWrapper)}>
+                <div key={id} className={cxMui(classes.componentWrapper)}>
                   <Component/>
                 </div>
               ) : (
@@ -150,11 +149,11 @@ function SettingsComponent({
                     aria-controls={id}
                     id={`${id}_header`}
                   >
-                    <Typography className={clsx(classes.accordionHeading)}>{definition.labelPlural}</Typography>
+                    <Typography className={cxMui(classes.accordionHeading)}>{definition.labelPlural}</Typography>
                   </AccordionSummary>
 
                   <AccordionDetails>
-                    <div className={clsx(classes.accordionContent)}>
+                    <div className={cxMui(classes.accordionContent)}>
                       {
                         expandedID === name && <EnitityView
                           definition={definition}
@@ -166,36 +165,36 @@ function SettingsComponent({
                           }}
                         />
                       }
-                      <div className={clsx(classes.accordionActions)}>
+                      <div className={cxMui(classes.accordionActions)}>
                         {showApplyButton && (
                           <Button
-                            className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                            className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}
                             color="primary"
                             disabled={!canBeSubmitted}
                             onClick={()=>{
                               saveSettings(settingsContext, form);
                             }}
                           >
-                            <Icon className={clsx(classes.actionButtonIcon)}>done</Icon>
+                            <Icon className={cxMui(classes.actionButtonIcon)}>done</Icon>
                             Apply
                           </Button>
                         )}
                         <Button
-                          className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                          className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           color="inherit"
                           disabled={!canBeSubmitted}
                           onClick={resetAll(settingsContext, name)}
                         >
-                          <Icon className={clsx(classes.actionButtonIcon)}>done_all</Icon>
+                          <Icon className={cxMui(classes.actionButtonIcon)}>done_all</Icon>
                           Apply All
                         </Button>
                         <Button
-                          className={clsx(classes.actionButton, 'whitespace-no-wrap normal-case')}
+                          className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}
                           color="inherit"
                           disabled={!canBeSubmitted}
                           onClick={reset(settingsContext, name)}
                         >
-                          <Icon className={clsx(classes.actionButtonIcon)}>cancel</Icon>
+                          <Icon className={cxMui(classes.actionButtonIcon)}>cancel</Icon>
                           Cancel
                         </Button>
                       </div>

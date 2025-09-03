@@ -1,14 +1,13 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '../../Singularity';
 import FuseLoading from '../../fuse/FuseLoading';
-import {ListItemText} from '@material-ui/core';
+import {ListItemText} from '@mui/material';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(()=>{
+const useStyles = createMuiStyles(()=>{
   return {
     root : {
       display: 'flex',
@@ -100,7 +99,7 @@ const EntityCell = ({
 
   const entity = data && data[value];
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
       {
         updating && <FuseLoading title={null}/>
       }

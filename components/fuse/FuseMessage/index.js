@@ -1,12 +1,11 @@
 import React from 'react';
-import {Snackbar, IconButton, Icon, SnackbarContent} from '@material-ui/core';
-import {green, amber, blue} from '@material-ui/core/colors';
+import {Snackbar, IconButton, Icon, SnackbarContent} from '@mui/material';
+import {green, amber, blue} from '@mui/material/colors';
 import {useDispatch, useSelector} from 'react-redux';
-import clsx from 'clsx';
 import * as Actions from 'app/store/actions';
-import {makeStyles} from '@material-ui/styles';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root   : {},
   success: {
     backgroundColor: green[600],
@@ -58,7 +57,7 @@ function FuseMessage()
       }}
     >
       <SnackbarContent
-        className={clsx(classes[options.variant])}
+        className={cxMui(classes[options.variant])}
         message={
           <div className="flex items-center">
             {variantIcon[options.variant] && (
@@ -73,7 +72,7 @@ function FuseMessage()
             aria-label="Close"
             color="inherit"
             onClick={() => dispatch(Actions.hideMessage())}
-          >
+            size="large">
             <Icon>close</Icon>
           </IconButton>
         ]}

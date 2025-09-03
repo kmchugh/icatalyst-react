@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { AppContext } from '../../contexts';
 import {FuseAnimateGroup} from '../fuse';
 import {ErrorWrapper} from '../Errors';
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDeepCompareEffect } from '../../hooks/fuse';
 import {SingularityContext} from '../Singularity';
@@ -38,6 +38,7 @@ const MasterDetailPage = ({
   const DETAIL_PATH = `${match.path}/:id`;
   const {routes} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
+  
   if (definition === null) {
     definition = matchRoutes(routes, match.path)[0].route.routeConfig;
   }
@@ -60,6 +61,7 @@ const MasterDetailPage = ({
   const {isInRole, accessToken} = singularityContext;
   const [auth, setAuth] = useState(null);
   const [data, setData] = useState(null);
+  const [isChildRetrieved, setIsChildRetrieved] = useState(false);
   const {
     title,
     operations,
@@ -72,6 +74,7 @@ const MasterDetailPage = ({
   const [isCancelled, setIsCancelled] = useState(false);
 
   const reducer = useSelector(getReducerRoot);
+
   const {pages} = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
   useEffect(()=>{
@@ -157,6 +160,7 @@ const MasterDetailPage = ({
         } else if (res) {
           // If there was a parent the responses were not added to the reducer as they are not global
           if (parentMasterDetailContext) {
+            setIsChildRetrieved(()=>true);
             setData(res
               .filter(definition.filterPayload || (()=>true))
               .map(definition.transformPayload || ((i)=>i))
@@ -168,7 +172,7 @@ const MasterDetailPage = ({
             setIsCancelled(true);
           }
         }
-        setUpdating(false);
+        setUpdating(()=>false);
       }, {
         accessToken : accessToken,
         params : {
@@ -180,7 +184,6 @@ const MasterDetailPage = ({
       }));
     }
   };
-
   useDeepCompareEffect(()=>{
     setErrors(null);
     if (!auth) {
@@ -199,7 +202,8 @@ const MasterDetailPage = ({
     } else {
       // TODO: Find a way to do this without reloading if the parent hasn't changed
       // This ensures that a MasterView shows the parent details rather than reducer details
-      if (parentMasterDetailContext) {
+      if (parentMasterDetailContext && !isChildRetrieved) {
+
         loadEntities();
         // return loadEntities();
       }
@@ -279,6 +283,7 @@ const MasterDetailPage = ({
                       (err, res)=>{
                         if (!err) {
                           definition.onAdded && definition.onAdded(res, dispatch, getState);
+                          setIsChildRetrieved(false);
                         }
                         callback(err, res);
                       }, {

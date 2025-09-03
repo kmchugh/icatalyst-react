@@ -1,12 +1,12 @@
 import React from 'react';
-import {AppBar, Hidden, Toolbar} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {AppBar, Box, Toolbar} from '@mui/material';
 import NavbarMobileToggleButton from '../NavbarLayouts/NavbarMobileToggleButton';
 import UserMenu from '@icatalyst/components/UserMenu';
 import FuseShortcuts from '@icatalyst/components/fuse/FuseShortcuts';
 import {useSelector} from 'react-redux';
+import { createMuiStyles, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   separator: {
     width          : 1,
     height         : 64,
@@ -19,23 +19,22 @@ function ToolbarComponent(props)
 
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
 
   return (
     <AppBar id="app-toolbar" className="flex relative z-10" color="default">
       <Toolbar className="p-0">
 
         {config.navbar.display && config.navbar.position === 'left' && (
-          <Hidden lgUp>
+          <Box sx={{ display: { lg: 'none', xs: 'block' } }}>
             <NavbarMobileToggleButton className="w-64 h-64 p-0"/>
             <div className={classes.separator}/>
-          </Hidden>
+          </Box>
         )}
 
         <div className="flex flex-1">
-          {config.shortcuts.display &&  (<Hidden mdDown>
-            <FuseShortcuts className="px-16"/>
-          </Hidden>
+          {config.shortcuts.display &&  (
+            <FuseShortcuts className="px-16" sx={{ display: { xs: 'none', lg: 'block' } }}/>
           )}
         </div>
 
@@ -44,9 +43,7 @@ function ToolbarComponent(props)
         </div>
 
         {config.navbar.display && config.navbar.position === 'right' && (
-          <Hidden lgUp>
-            <NavbarMobileToggleButton/>
-          </Hidden>
+          <NavbarMobileToggleButton sx={{ display: { lg: 'none', xs: 'block' } }}/>
         )}
       </Toolbar>
     </AppBar>

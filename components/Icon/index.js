@@ -5,23 +5,23 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 library.add(fas, far, fab);
 
 import React from 'react';
-import {Icon as MUIIcon} from '@material-ui/core';
+import {Icon as MUIIcon} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { useTheme } from '@mui/material/styles';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     'font-small' : {
-      fontSize: `${theme.spacing(2)}px!important`
+      fontSize: `${theme.spacingNum(2)}!important`
     },
     'font-default' : {
-      fontSize: `${theme.spacing(3)}px!important`
+      fontSize: `${theme.spacingNum(3)}!important`
     },
     'font-large' : {
-      fontSize: `${theme.spacing(4)}px!important`
+      fontSize: `${theme.spacingNum(4)}!important`
     },
     'font-inherit' : {
       fontSize: 'inherit!important'
@@ -55,7 +55,7 @@ const Icon = ({
     let icon = children.substr(3);
     icon = icon.includes(' ') ? icon.split(' ') : icon;
     return <FontAwesomeIcon
-      className={clsx(classes[`font-${definedSize}`])}
+      className={cxMui(classes[`font-${definedSize}`])}
       style={((color && color !== 'inherit') && [
         'action',
         'primary',

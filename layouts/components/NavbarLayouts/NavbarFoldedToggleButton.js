@@ -4,11 +4,9 @@ import _ from '../../../@lodash';
 import * as Actions from 'app/store/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import {useTheme} from '@material-ui/styles';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root: {
     },
@@ -26,13 +24,13 @@ function NavbarFoldedToggleButton({
   const layout = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {position} = layout.navbar;
 
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   const classes = useStyles();
 
   return (
     <IconButton
-      className={clsx(classes.root, className)}
+      className={cxMui(classes.root, className)}
       onClick={(e) => {
         onClick && onClick(e, !layout.navbar.folded);
         return dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', !layout.navbar.folded)));
@@ -42,7 +40,7 @@ function NavbarFoldedToggleButton({
       }}
       icon={layout.navbar.folded ? 'fa thumbtack' : (position === 'right' ? 'fa angle-double-right' : 'fa angle-double-left')}
       title={layout.navbar.folded ? 'Pin' : 'Collapse'}
-    />
+      size="large" />
   );
 }
 

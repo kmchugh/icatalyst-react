@@ -1,7 +1,5 @@
 import React, {useContext, useEffect, useState, useCallback} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import { MasterDetailContext} from '../../../MasterDetail';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,9 +16,10 @@ import * as MessageActions from 'app/store/actions/app';
 
 import {
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       backgroundColor: theme.palette.background.default,
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme)=>{
       flexDirection: 'column',
       flexGrow: 1,
       flexShrink: 0,
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       maxHeight: '100%',
       overflow: 'auto',
     },
@@ -226,19 +225,19 @@ const OrganisationUserManagement = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
-      <div className={clsx(styles.errorWrapper)}>
+      <div className={cxMui(styles.errorWrapper)}>
         {
-          (errors && errors.length > 0) && <ErrorWrapper className={clsx(styles.errorWrapperComponent)} errors={errors}/>
+          (errors && errors.length > 0) && <ErrorWrapper className={cxMui(styles.errorWrapperComponent)} errors={errors}/>
         }
       </div>
       <div
-        className={clsx(styles.licenceSection)}
+        className={cxMui(styles.licenceSection)}
       >
         <Typography
-          className={clsx(styles.accordionHeading)}
+          className={cxMui(styles.accordionHeading)}
           gutterBottom={true}
           component="h2"
           variant="h4"
@@ -261,10 +260,10 @@ const OrganisationUserManagement = ({
         )}
       </div>
       <div
-        className={clsx(styles.rolesSection)}
+        className={cxMui(styles.rolesSection)}
       >
         <Typography
-          className={clsx(styles.accordionHeading)}
+          className={cxMui(styles.accordionHeading)}
           gutterBottom={true}
           component="h2"
           variant="h4"

@@ -1,34 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {FormControl, InputLabel, FormHelperText} from '@material-ui/core';
-import {DateTimePicker, MuiPickersContext} from '@material-ui/pickers';
-import {makeStyles} from '@material-ui/styles';
-import patchPicker from '@icatalyst/utilities/monkeyPatch_MUIPICKERS';
-import moment from '@icatalyst/@moment';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root : {
-    },
-    inputLabel : {
-      backgroundColor : theme.palette.background.paper,
-      paddingLeft: '.5em',
-      paddingRight: '.5em'
-    },
-  };
-});
+import {FormControl} from '@mui/material';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import { cxMui } from '../../../utilities';
 
 const NEVER = 9223372036854776000;
 
 const DateTimeField = (props) => {
-
-  const utils = useContext(MuiPickersContext);
-  // Monkey patching until the date-picker v5 comes out, expected in ~Nov-Dec 2021
-  patchPicker(utils, moment);
-
-  const classes = useStyles();
-
 
   const {readonly = false,
     onChange,
@@ -51,7 +30,7 @@ const DateTimeField = (props) => {
 
   return (
     <FormControl
-      className={clsx('mt-8 mb-16', props.className)}
+      className={cxMui('mt-8 mb-16', props.className)}
       id={id}
       name={id}
       label={label}
@@ -60,14 +39,9 @@ const DateTimeField = (props) => {
       error={hasErrors}
       required={required}
     >
-      {
-        showLabel && <InputLabel shrink={!!value} id={`${id}-label`} className={clsx(classes.inputLabel)}>
-          {label}
-        </InputLabel>
-      }
-
       <DateTimePicker
-        value={value >= NEVER ? null : value}
+        label={showLabel ? label : ''}
+        value={(value >= NEVER || !value) ? null : dayjs(value)}
         variant="inline"
         readOnly={readonly}
         inputVariant="outlined"
@@ -80,11 +54,13 @@ const DateTimeField = (props) => {
         labelFunc={(date, invalid = '') =>
           date ? date.toString() : invalid
         }
+        slotProps={{
+          textField: {
+            helperText: hasErrors ? errors[0] : description,
+            error: hasErrors,
+          },
+        }}
       />
-
-      <FormHelperText error={hasErrors}>
-        {hasErrors ? errors[0] : description}
-      </FormHelperText>
     </FormControl>
   );
 };

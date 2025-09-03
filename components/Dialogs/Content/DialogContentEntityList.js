@@ -1,18 +1,17 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
 import DialogContent from './DialogContent';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Typography from '@material-ui/core/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Typography from '@mui/material/Typography';
 
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
       display: 'flex',
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => {
     },
     errorWrapper: {
       padding: 0,
-      marginBottom: theme.spacing(1),
+      marginBottom: theme.spacingNum(1),
       flexShrink: 1,
       flexGrow: 0,
     },
@@ -32,8 +31,8 @@ const useStyles = makeStyles((theme) => {
       flexShrink: 1,
       flex: 1,
       overflow: 'auto',
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(1),
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(1),
       borderWidth: 'thin',
       borderColor: theme.palette.divider,
       borderRadius: theme.shape.borderRadius,
@@ -95,10 +94,10 @@ const DialogContentEntityView = ({
     }]}
   >
     <>
-      <div className={clsx(classes.errorWrapper)}>
+      <div className={cxMui(classes.errorWrapper)}>
         {
           (dialogErrors && dialogErrors.length > 0) && (
-            <ErrorWrapper className={clsx(classes.errorWrapperComponent)} errors={dialogErrors}/>
+            <ErrorWrapper className={cxMui(classes.errorWrapperComponent)} errors={dialogErrors}/>
           )
         }
       </div>
@@ -111,7 +110,7 @@ const DialogContentEntityView = ({
             </Typography>
           }
 
-          <List className={clsx(classes.entityList, entityListClassName)}>
+          <List className={cxMui(classes.entityList, entityListClassName)}>
             {entities.map((item)=>{
               return (
                 <ListItem key={definition.getIdentity(item)}>

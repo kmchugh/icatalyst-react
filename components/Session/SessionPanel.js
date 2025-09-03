@@ -1,21 +1,21 @@
 import React from 'react';
 import { FuseScrollbars } from '../fuse';
-import {Dialog, Slide, Typography, AppBar, Toolbar} from '@material-ui/core';
+import {Dialog, Slide, Typography, AppBar, Toolbar} from '@mui/material';
 import Icon from '../Icon';
 import IconButton from '../IconButton';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { useTheme } from '@mui/material/styles';
 import { useSwipeable } from 'react-swipeable';
 import {useDispatch, useSelector} from 'react-redux';
 import {closeUserSettings} from '../../store/actions/settings.actions';
 import {SettingsView} from '../Settings';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   const theme = useTheme();
   return <Slide direction={theme.direction === 'ltr' ? 'left' : 'right'} ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   button: {
     minWidth: 40,
     width: 40,
@@ -43,13 +43,13 @@ const useStyles = makeStyles(theme => ({
   },
   toolBarTitle: {
     flexGrow: 1,
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacingNum(2)
   },
   content : {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingLeft: theme.spacingNum(2),
+    paddingRight: theme.spacingNum(2),
+    paddingTop: theme.spacingNum(2),
+    paddingBottom: theme.spacingNum(2)
   }
 }));
 
@@ -86,22 +86,22 @@ function SessionPanel() {
         onClose={handleClose}
         BackdropProps={{ invisible: true }}
         classes={{
-          paper: clsx(classes.dialogPaper, 'shadow-lg')
+          paper: cxMui(classes.dialogPaper, 'shadow-lg')
         }}
         {...settingsHandlers}
       >
         <FuseScrollbars>
-          <AppBar position="relative" className={clsx(classes.titleBar)}>
-            <Toolbar className={clsx(classes.toolBar)}>
+          <AppBar position="relative" className={cxMui(classes.titleBar)}>
+            <Toolbar className={cxMui(classes.toolBar)}>
               <Icon>settings</Icon>
-              <Typography className={clsx(classes.toolBarTitle)} variant="h6">
+              <Typography className={cxMui(classes.toolBarTitle)} variant="h6">
                 Settings
               </Typography>
-              <IconButton title="close" icon="close" onClick={handleClose}/>
+              <IconButton title="close" icon="close" onClick={handleClose} size="large" />
             </Toolbar>
           </AppBar>
 
-          <div className={clsx(classes.content)}>
+          <div className={cxMui(classes.content)}>
             <SettingsView/>
           </div>
         </FuseScrollbars>

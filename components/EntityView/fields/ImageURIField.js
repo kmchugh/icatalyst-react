@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import Image from '../../Image';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2),
       display: 'flex',
       flexDirection: 'row',
       alignItems : 'center'
@@ -17,12 +16,12 @@ const useStyles = makeStyles((theme)=>{
     textField : {
       flexBasis: '70%',
       flexGrow: 1,
-      marginRight: theme.spacing(2)
+      marginRight: theme.spacingNum(2)
     },
     imageWrapper : {
       flexBasis: '25%',
       flexGrow: 0,
-      height: theme.spacing(10),
+      height: theme.spacingNum(10),
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',
@@ -66,11 +65,11 @@ const ImageURIField = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
     >
       <TextField
-        className={clsx(styles.textField)}
+        className={cxMui(styles.textField)}
         id={id}
         name={id}
         label={label}
@@ -97,10 +96,10 @@ const ImageURIField = ({
         value={image}
       />
       <div
-        className={clsx(styles.imageWrapper)}
+        className={cxMui(styles.imageWrapper)}
       >
         <Image
-          className={clsx(styles.image)}
+          className={cxMui(styles.image)}
           style={{
             height: '100%'
           }}

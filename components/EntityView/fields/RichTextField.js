@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import RichTextEditor from '../../RichTextEditor';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2),
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2),
     },
     inputLabel : {
       backgroundColor : theme.palette.background.paper,
-      paddingLeft: theme.spacing(.5),
-      paddingRight: theme.spacing(.5)
+      paddingLeft: theme.spacingNum(.5),
+      paddingRight: theme.spacingNum(.5)
     },
     inputControl : {
       display: 'block',
@@ -51,7 +50,7 @@ const RichTextField = ({
 
   return (
     <TextField
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       id={id}
       name={id}
       label={label}

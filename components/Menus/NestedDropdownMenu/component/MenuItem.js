@@ -6,13 +6,12 @@ import {
   ListItem,
   Button,
   List,
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '../../../IconButton';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   list: {
     paddingBlock: 0,
   },
@@ -24,11 +23,11 @@ const useStyles = makeStyles((theme) => ({
       fontSize: 16,
       fontWeight: 500,
     },
-    marginTop : theme.spacing(1),
-    marginBottom : theme.spacing(1)
+    marginTop : theme.spacingNum(1),
+    marginBottom : theme.spacingNum(1)
   },
   collapse: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacingNum(2),
   },
   addMoreButton: {
     fontWeight: 400,
@@ -36,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text,
   },
   deleteIcon: {
-    marginRight : theme.spacing(1),
+    marginRight : theme.spacingNum(1),
   },
   iconDiv: {
     display : 'flex',
@@ -61,7 +60,7 @@ const MenuItem = ({
   onChildClickItem,
   ...props
 }) => {
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
@@ -70,8 +69,8 @@ const MenuItem = ({
 
   return (
     <>
-      <ListItem className={clsx (classes.listItem,className)}>
-        <ListItemText className={clsx (classes.listItemText)} primary={title} onClick={onClickItem}/>
+      <ListItem className={cxMui(classes.listItem,className)}>
+        <ListItemText className={cxMui(classes.listItemText)} primary={title} onClick={onClickItem}/>
         {isCreate && !fullData.isEditable && <div className={classes.iconDiv}> 
           <IconButton
             title='edit'

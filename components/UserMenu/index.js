@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {Button, ListItemIcon, ListItemText,
-  Popover, MenuItem, Typography} from '@material-ui/core';
+  Popover, MenuItem, Typography} from '@mui/material';
 import Avatar from '@icatalyst/components/Avatar';
 import Icon from '@icatalyst/components/Icon';
 import {Link} from 'react-router-dom';

@@ -1,27 +1,24 @@
 import React, {useContext} from 'react';
-import {ListItem, ListItemText} from '@material-ui/core';
+import {ListItem, ListItemText} from '@mui/material';
 import Icon from '@icatalyst/components/Icon';
-import {makeStyles} from '@material-ui/styles';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useDispatch} from 'react-redux';
 import * as Actions from 'app/store/actions';
 import FuseNavBadge from './../FuseNavBadge';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {LocalizationContext} from '@icatalyst/localization/LocalizationProvider';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
-  itemFn: ({nestedLevel})=>{
-    return {
-      height      : theme.spacing(5),
-      width       : `calc(100% - ${theme.spacing(2)}px)`,
-      borderRadius: `0 ${theme.spacing(2.5)}px ${theme.spacing(2.5)}px 0`,
-      paddingRight: theme.spacing(2.5),
-      paddingLeft : nestedLevel ? Math.min(theme.spacing(10), theme.spacing(5) + theme.spacing(2*nestedLevel)) : theme.spacing(3),
-      color                      : theme.palette.text.primary,
-      textDecoration             : 'none!important'
-    };
+const useStyles = createMuiStyles((theme, { nestedLevel }) => ({
+  itemFn: {
+    height      : theme.spacingNum(5),
+    width       : `calc(100% - ${theme.spacingNum(2)})`,
+    borderRadius: `0 ${theme.spacingNum(2.5)} ${theme.spacingNum(2.5)} 0`,
+    paddingRight: theme.spacingNum(2.5),
+    paddingLeft : nestedLevel ? Math.min(theme.spacingNum(10), theme.spacingNum(5) + theme.spacingNum(2*nestedLevel)) : theme.spacingNum(3),
+    color                      : theme.palette.text.primary,
+    textDecoration             : 'none!important'
   },
   item: {
     '&.active'                 : {
@@ -41,7 +38,7 @@ const useStyles = makeStyles(theme => ({
       borderRadius: '0'
     },
     '& .list-item-icon'        : {
-      maxWidth: theme.spacing(2)
+      maxWidth: theme.spacingNum(2)
     },
     '& .list-item-text'        : {},
 
@@ -55,7 +52,7 @@ function FuseNavVerticalLink(props)
   const {isInRole} = singularityContext;
   const {t} = useContext(LocalizationContext);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const {item, active} = props;
 
   if ( !isInRole(item.auth) )
@@ -69,7 +66,7 @@ function FuseNavVerticalLink(props)
       component="a"
       href={item.url}
       target={item.target ? item.target : '_blank'}
-      className={clsx(classes.item, classes.itemFn, 'list-item', active)}
+      className={cxMui(classes.item, classes.itemFn, 'list-item', active)}
       onClick={() => dispatch(Actions.navbarCloseMobile())}
     >
       {item.icon && (

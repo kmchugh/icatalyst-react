@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display : 'flex',
       flexDirection : 'row',
       alignItems: 'center',
       overflow: 'hidden',
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1)
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1)
     }
   };
 });
@@ -25,7 +25,7 @@ const CommandPanelItem = ({
 
   return (
     <div
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={{...style}}
     >
       {children}

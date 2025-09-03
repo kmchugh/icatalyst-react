@@ -1,13 +1,12 @@
 import React, {useContext} from 'react';
-import {AppBar, Typography} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
+import {AppBar, Typography} from '@mui/material';
 import UserRoles from '@icatalyst/components/UserRoles';
 import Avatar from '@icatalyst/components/Avatar';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root  : {
     '&.user': {
       '& .username, & .role': {
@@ -19,15 +18,15 @@ const useStyles = makeStyles(theme => ({
     }
   },
   username : {
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(2),
+    paddingLeft: theme.spacingNum(3),
+    paddingRight: theme.spacingNum(2),
     maxWidth : '100%'
   },
   avatar: {
-    width     : theme.spacing(10),
-    height    : theme.spacing(10),
+    width     : theme.spacingNum(10),
+    height    : theme.spacingNum(10),
     position  : 'absolute',
-    top       : theme.spacing(11.5),
+    top       : theme.spacingNum(11.5),
     left      : '50%',
     transform : 'translateX(-50%)',
     transition: theme.transitions.create('all', {
@@ -51,14 +50,14 @@ function UserNavbarHeader({className})
       elevation={0}
       component="div"
       classes={{root: classes.root}}
-      className={clsx('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
+      className={cxMui('user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0', className)}
     >
-      <Typography noWrap={true} className={clsx(classes.username, 'username text-16 whitespace-no-wrap')} color="inherit">{user && user.displayname}</Typography>
+      <Typography noWrap={true} className={cxMui(classes.username, 'username text-16 whitespace-no-wrap')} color="inherit">{user && user.displayname}</Typography>
       <UserRoles className="role text-center ml-16 mr-16 min-h-16 text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit"/>
 
       <Avatar
         reverse
-        className={clsx(classes.avatar, 'avatar')}
+        className={cxMui(classes.avatar, 'avatar')}
         alt={(user && user.displayname) || 'user profile image'}
         src={user && user.profileimageuri}
       />

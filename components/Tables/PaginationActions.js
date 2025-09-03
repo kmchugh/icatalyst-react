@@ -1,18 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { useTheme } from '@mui/material/styles';
 import IconButton from '../IconButton';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
       justifyContent: 'center'
     },
     paginationNav : {
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacingNum(1)
     }
   };
 });
@@ -43,9 +43,9 @@ const PaginationActions = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={cxMui(classes.root, className)}>
 
-      <div className={clsx(classes.paginationNav)}>
+      <div className={cxMui(classes.paginationNav)}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           size="small"

@@ -2,14 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {definition} from '../../../components/Singularity/store/reducers/version.reducer';
 import VersionComponent from './VersionComponent';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
 import Image from '../../../components/Image';
 import Logo from '../../../components/Logo';
 import ModelService from '../../../services/ModelService';
 import TitledPage from '../../../pages/TitledPage';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root      : {
     },
@@ -17,12 +16,12 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'row',
 
-      [theme.breakpoints.down('sm')] : {
+      [theme.breakpoints.down('md')] : {
         flexDirection : 'column'
       },
     },
     logo : {
-      width: theme.spacing(4),
+      width: theme.spacingNum(4),
       objectFit: 'cover',
     }
   };
@@ -60,8 +59,8 @@ const VersionScreen = ()=>{
   return (
     <TitledPage
       title="Versions"
-      className={clsx(classes.root)}>
-      <div className={clsx(classes.versionWrapper)}>
+      className={cxMui(classes.root)}>
+      <div className={cxMui(classes.versionWrapper)}>
         {
           (client && clientVersion) && (
             <VersionComponent
@@ -79,7 +78,7 @@ const VersionScreen = ()=>{
           title="Singularity"
           logo={
             <Image
-              className={clsx(classes.logo)}
+              className={cxMui(classes.logo)}
               src="https://app.singularity.icatalyst.com/assets/images/logos/logo.svg"
               alt="Singularity Logo"
             />

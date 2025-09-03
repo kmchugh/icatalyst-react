@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
-import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Grow, Paper, Icon, IconButton, ListItem, ListItemText} from '@mui/material';
 import FuseUtils from '@icatalyst/components/fuse/FuseUtils';
 import useDebounce from '@icatalyst/hooks/fuse/useDebounce';
 import {withRouter} from 'react-router-dom';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {Manager, Reference, Popper} from 'react-popper';
@@ -13,8 +11,9 @@ import FuseNavHorizontalGroup from './FuseNavHorizontalGroup';
 import FuseNavHorizontalItem from './FuseNavHorizontalItem';
 import FuseNavHorizontalLink from './FuseNavHorizontalLink';
 import FuseNavBadge from './../FuseNavBadge';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root       : {
     '& .list-item-text': {
       padding: '0 0 0 16px'
@@ -46,7 +45,7 @@ function FuseNavHorizontalCollapse(props)
 {
   const userRole = useSelector(({icatalyst}) => icatalyst.auth.user.role);
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [opened, setOpened] = useState(false);
   const {item, nestedLevel, dense} = props;
 
@@ -60,14 +59,14 @@ function FuseNavHorizontalCollapse(props)
   }
 
   return (
-    <ul className={clsx(classes.root, 'relative pl-0')}>
+    <ul className={cxMui(classes.root, 'relative pl-0')}>
       <Manager>
         <Reference>
           {({ref}) => (
             <div ref={ref}>
               <ListItem
                 button
-                className={clsx('list-item', classes.button, opened && 'open', dense && 'dense')}
+                className={cxMui('list-item', classes.button, opened && 'open', dense && 'dense')}
                 onMouseEnter={() => handleToggle(true)}
                 onMouseLeave={() => handleToggle(false)}
                 aria-owns={opened ? 'menu-list-grow' : null}
@@ -80,7 +79,7 @@ function FuseNavHorizontalCollapse(props)
                 {item.badge && (
                   <FuseNavBadge className="ml-8 mr-4" badge={item.badge}/>
                 )}
-                <IconButton disableRipple className="w-16 h-16 ml-4 p-0">
+                <IconButton disableRipple className="w-16 h-16 ml-4 p-0" size="large">
                   <Icon className="text-16 arrow-icon">keyboard_arrow_right</Icon>
                 </IconButton>
               </ListItem>
@@ -102,7 +101,7 @@ function FuseNavHorizontalCollapse(props)
                     zIndex: 999 + nestedLevel + 1
                   }}
                   data-placement={placement}
-                  className={clsx(classes.popper, {[classes.popperClose]: !opened})}
+                  className={cxMui(classes.popper, {[classes.popperClose]: !opened})}
                 >
                   <Grow in={opened} id="menu-list-grow" style={{transformOrigin: '0 0 0'}}>
                     <Paper
@@ -110,7 +109,7 @@ function FuseNavHorizontalCollapse(props)
                       onMouseLeave={() => handleToggle(false)}
                     >
                       {item.children && (
-                        <ul className={clsx(classes.children, 'pl-0')}>
+                        <ul className={cxMui(classes.children, 'pl-0')}>
                           {
                             item.children.map((item) => (
 

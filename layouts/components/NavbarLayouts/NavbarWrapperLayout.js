@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
-import {Drawer, Hidden} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
+import {Drawer} from '@mui/material';
+import {useMediaQuery, useTheme} from '@mui/material';
 import * as Actions from 'app/store/actions';
 import NavbarLayout from './NavbarLayout';
 import {useDispatch, useSelector} from 'react-redux';
 import {useSettingsContext} from '../../../components/Settings/SettingsProvider';
 import {registerSettings} from '../../../components/Settings/SettingsProvider';
 import _ from '../../../@lodash';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
 const NAVBAR_SETTINGS_ID = 'icat_navbar';
 
@@ -33,44 +33,38 @@ registerSettings({
   }]
 });
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme, {navbarWidth, navbarFoldedWidth}) => {
   return {
-    wrapper({navbarWidth}){
-      return {
-        display                     : 'flex',
-        flexDirection               : 'column',
-        zIndex                      : 4,
-        [theme.breakpoints.up('lg')]: {
-          width   : navbarWidth,
-          minWidth: navbarWidth
-        }
-      };
+    wrapper: {
+      display                     : 'flex',
+      flexDirection               : 'column',
+      zIndex                      : 4,
+      [theme.breakpoints.up('lg')]: {
+        width   : navbarWidth,
+        minWidth: navbarWidth
+      }
     },
-    wrapperFolded({navbarFoldedWidth}) {
-      return {
-        [theme.breakpoints.up('lg')]: {
-          width   : `${navbarFoldedWidth}px !important`,
-          minWidth: `${navbarFoldedWidth}px !important`,
-        }
-      };
+    wrapperFolded: {
+      [theme.breakpoints.up('lg')]: {
+        width   : `${navbarFoldedWidth}px !important`,
+        minWidth: `${navbarFoldedWidth}px !important`,
+      }
     },
-    navbar({navbarWidth}){
-      return {
-        display      : 'flex',
-        overflow     : 'hidden',
-        flexDirection: 'column',
-        flex         : '1 1 auto',
-        width        : navbarWidth,
-        minWidth     : navbarWidth,
-        height       : '100%',
-        zIndex       : 4,
-        transition   : theme.transitions.create(['width', 'min-width'], {
-          easing  : theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.shorter
-        }),
-        boxShadow    : theme.shadows[3],
-        backgroundColor: theme.palette.background.default
-      };
+    navbar: {
+      display      : 'flex',
+      overflow     : 'hidden',
+      flexDirection: 'column',
+      flex         : '1 1 auto',
+      width        : navbarWidth,
+      minWidth     : navbarWidth,
+      height       : '100%',
+      zIndex       : 4,
+      transition   : theme.transitions.create(['width', 'min-width'], {
+        easing  : theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.shorter
+      }),
+      boxShadow    : theme.shadows[3],
+      backgroundColor: theme.palette.background.default
     },
     left           : {
       left: 0
@@ -78,32 +72,28 @@ const useStyles = makeStyles((theme) => {
     right          : {
       right: 0
     },
-    folded({navbarFoldedWidth}) {
-      return {
-        position: 'absolute',
-        width   : navbarFoldedWidth,
-        minWidth: navbarFoldedWidth,
-        top     : 0,
-        bottom  : 0
-      };
+    folded: {
+      position: 'absolute',
+      width   : navbarFoldedWidth,
+      minWidth: navbarFoldedWidth,
+      top     : 0,
+      bottom  : 0
     },
-    foldedAndOpened({navbarWidth}){
-      return {
-        width   : navbarWidth,
-        minWidth: navbarWidth
-      };
+    foldedAndOpened: {
+      width   : navbarWidth,
+      minWidth: navbarWidth
     },
     navbarContent  : {
       flex: '1 1 auto',
     },
     foldedAndClosed: {
-      '& $navbarContent': {
+      '&#custom-navbar': {
         '& .nav-footer-link' : {
 
           textAlign: 'center',
 
           '& .nav-footer-icon' : {
-            padding: theme.spacing(.5),
+            padding: theme.spacingNum(.5),
           },
           '& .nav-footer-text' : {
             width: 0,
@@ -112,10 +102,10 @@ const useStyles = makeStyles((theme) => {
         },
 
         '& .nav-header' : {
-          paddingLeft: theme.spacing(1.5),
+          paddingLeft: theme.spacingNum(1.5),
           '& .logo-icon'                                   : {
-            width : theme.spacing(5),
-            height: theme.spacing(5),
+            width : theme.spacingNum(5),
+            height: theme.spacingNum(5),
           },
         },
         '& .logo-text'                                   : {
@@ -131,14 +121,14 @@ const useStyles = makeStyles((theme) => {
           opacity: 0
         },
         '& .list-subheader .list-subheader-icon' : {
-          width: `${theme.spacing(2)}px!important`,
+          width: `${theme.spacingNum(2)}!important`,
           color: `${theme.palette.action.disabled}!important`
         },
         '& .list-subheader.iconless:before'                : {
-          content  : '""',
+          content  : '" "',
           display  : 'block',
           position : 'absolute',
-          minWidth : theme.spacing(2),
+          minWidth : theme.spacingNum(2),
           borderTop: '2px solid',
           opacity  : .2
         },
@@ -153,31 +143,31 @@ const useStyles = makeStyles((theme) => {
             opacity: 0
           },
           '& .role': {
-            lineHeight: `${theme.spacing(1)}px`
+            lineHeight: theme.spacing(1)
           },
           '& .avatar'            : {
-            width  : theme.spacing(6),
-            height : theme.spacing(6),
-            top    : theme.spacing(5),
+            width  : theme.spacingNum(6),
+            height : theme.spacingNum(6),
+            top    : theme.spacingNum(5),
             padding: 0
           }
         },
         '& ul.navigation' : {
-          marginTop : theme.spacing(2),
+          marginTop : theme.spacingNum(2),
           transition   : theme.transitions.create(['margin-top'], {
             easing  : theme.transitions.easing.sharp,
             duration: theme.transitions.duration.shorter
           }),
         },
         '& .list-item.active'                            : {
-          marginLeft  : theme.spacing(1.5),
-          width       : theme.spacing(5),
-          padding     : theme.spacing(1.5),
-          borderRadius: theme.spacing(2.5),
+          marginLeft  : theme.spacingNum(1.5),
+          width       : theme.spacingNum(5),
+          padding     : theme.spacingNum(1.5),
+          borderRadius: theme.spacingNum(2.5),
           '&.square'  : {
             borderRadius: 0,
             marginLeft  : 0,
-            paddingLeft : theme.spacing(3),
+            paddingLeft : theme.spacingNum(3),
             width       : '100%'
           }
         },
@@ -188,7 +178,7 @@ const useStyles = makeStyles((theme) => {
           }),
           borderRadius: 0,
           marginLeft  : 0,
-          paddingLeft : theme.spacing(3),
+          paddingLeft : theme.spacingNum(3),
           width       : '100%',
           borderLeftWidth : 0
         }
@@ -223,6 +213,9 @@ function NavbarWrapper()
     navbarFoldedWidth
   });
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   useEffect(()=>{
     return async () => {
       dispatch(Actions.setDefaultSettings(_.set({}, 'layout.navbar.folded', folded)));
@@ -241,15 +234,16 @@ function NavbarWrapper()
   return (
     <div id="app-navbar" role="navigation"
       className={
-        clsx(
+        cxMui(
           classes.wrapper,
           folded && classes.wrapperFolded
         )}
     >
-      <Hidden mdDown>
+      {!isLgDown && (<>
         <div
+          id='custom-navbar'
           className={
-            clsx(
+            cxMui(
               classes.navbar,
               classes[config.navbar.position],
               folded && classes.folded,
@@ -265,9 +259,8 @@ function NavbarWrapper()
             className={classes.navbarContent}
           />
         </div>
-      </Hidden>
-
-      <Hidden lgUp>
+      </>)}
+      {isLgDown && (
         <Drawer
           anchor={config.navbar.position}
           variant="temporary"
@@ -282,7 +275,7 @@ function NavbarWrapper()
         >
           <NavbarLayout className={classes.navbarContent}/>
         </Drawer>
-      </Hidden>
+      )}
     </div>
   );
 }

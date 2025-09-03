@@ -2,24 +2,24 @@ import React, {useContext} from 'react';
 import {FuseAnimate} from '../fuse';
 import Icon from '../Icon';
 import ClearableInput from '../ClearableInput';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import PropTypes from 'prop-types';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import {SearchFilterContext} from '../Tables';
 import {useSelector} from 'react-redux';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@mui/material/Hidden';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
+import {useMediaQuery, useTheme} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../utilities';
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacingNum(3),
+    paddingBottom: theme.spacingNum(3),
 
     [theme.breakpoints.up('lg')]: {
-      paddingTop: theme.spacing(2),
+      paddingTop: theme.spacingNum(2),
       paddingBottom: 0,
     },
     display : 'flex',
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       flex: '1 0 33%',
     },
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('md')] : {
       display: 'flex',
     }
   },
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('lg')]: {
       flex: '1 0 33%',
     },
-    [theme.breakpoints.down('sm')] : {
+    [theme.breakpoints.down('md')] : {
       display: 'initial'
     }
   },
@@ -57,26 +57,26 @@ const useStyles = makeStyles((theme) => ({
 
   },
   icon : {
-    width: `${theme.spacing(4)}px!important`,
-    height: `${theme.spacing(4)}px!important`,
-    marginRight: theme.spacing(2),
-    fontSize: `${theme.spacing(4)}px!important`,
+    width: `${theme.spacingNum(4)}!important`,
+    height: `${theme.spacingNum(4)}!important`,
+    marginRight: theme.spacingNum(2),
+    fontSize: `${theme.spacingNum(4)}!important`,
 
     [theme.breakpoints.up('lg')]: {
-      margin: theme.spacing(2),
-      marginRight: theme.spacing(1),
+      margin: theme.spacingNum(2),
+      marginRight: theme.spacingNum(1),
     }
   },
   separator: {
     width          : 1,
-    height: theme.spacing(6),
+    height: theme.spacingNum(6),
     backgroundColor: theme.palette.divider,
-    marginLeft : theme.spacing(1),
-    marginRight : theme.spacing(2),
+    marginLeft : theme.spacingNum(1),
+    marginRight : theme.spacingNum(2),
   },
   mobileNavButton : {
-    width: theme.spacing(6),
-    height: theme.spacing(6)
+    width: theme.spacingNum(6),
+    height: theme.spacingNum(6)
   }
 }));
 
@@ -93,6 +93,8 @@ const Header = ({
   const theme = useTheme();
   const searchContext = useContext(SearchFilterContext);
 
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const {toolbar} = config;
 
@@ -103,16 +105,16 @@ const Header = ({
 
   return (
     <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-      <div className={clsx(classes.root)}>
+      <div className={cxMui(classes.root)}>
 
         {
           // If the toolbar is not displayed then we need
           // to allow access to the navigation
-          !toolbar.display && (
-            <Hidden lgUp>
-              <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+          !toolbar.display && isLgDown && (
+            <>
+              <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
               <div className={classes.separator}/>
-            </Hidden>
+            </>
           )
         }
 
@@ -130,8 +132,8 @@ const Header = ({
           </Typography>
         }
 
-        <div className={clsx(classes.titleWrapper)}>
-          <Icon className={clsx(classes.icon, 'text-32')}>{icon}</Icon>
+        <div className={cxMui(classes.titleWrapper)}>
+          <Icon className={cxMui(classes.icon, 'text-32')}>{icon}</Icon>
           <div className="hidden overflow-hidden sm:flex mx-0 sm:mr-16 md:mx-16 flex flex-row sm:flex-col">
             <Typography noWrap={true} variant="h5">
               {title}
@@ -142,7 +144,7 @@ const Header = ({
           </div>
         </div>
 
-        <div className={clsx(classes.searchWrapper)}>
+        <div className={cxMui(classes.searchWrapper)}>
           <ClearableInput
             label="search"
             icon="search"
@@ -151,7 +153,7 @@ const Header = ({
           />
         </div>
 
-        <div className={clsx(classes.componentWrapper)}>
+        <div className={cxMui(classes.componentWrapper)}>
           {
             actionComponent && actionComponent
           }

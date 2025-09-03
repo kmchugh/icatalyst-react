@@ -1,16 +1,15 @@
 import React, {useState, useImperativeHandle, useRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import {Dialog, DialogContent} from '../Dialogs';
 import EntityView    from '../EntityView';
 import {useForm} from '../../hooks/fuse';
-import {Typography} from '@material-ui/core';
+import {Typography} from '@mui/material';
 import Icon from '../Icon';
 import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {},
     contentRoot : {
@@ -20,8 +19,8 @@ const useStyles = makeStyles((theme)=>{
       display : 'flex',
       flexDirection : 'row',
       justifyContent : 'space-between',
-      '-webkit-justify-content': 'space-between',
-      marginBottom : theme.spacing(2)
+      WebkitJustifyContent: 'space-between',
+      marginBottom : theme.spacingNum(2)
     },
     stepWrapper : {
       display: 'flex',
@@ -32,10 +31,10 @@ const useStyles = makeStyles((theme)=>{
       borderRadius : theme.shape.borderRadius,
       borderWidth : 'thin',
       borderColor : theme.palette.action.disabled,
-      paddingLeft : theme.spacing(1),
-      paddingRight : theme.spacing(1),
-      paddingTop : theme.spacing(.5),
-      paddingBottom : theme.spacing(.5),
+      paddingLeft : theme.spacingNum(1),
+      paddingRight : theme.spacingNum(1),
+      paddingTop : theme.spacingNum(.5),
+      paddingBottom : theme.spacingNum(.5),
     },
     wrapperCompleted : {
     },
@@ -49,13 +48,13 @@ const useStyles = makeStyles((theme)=>{
     wrapperFuture : {
     },
     stepLabel : {
-      width: theme.spacing(3),
-      minWidth: theme.spacing(3),
-      height: theme.spacing(3),
+      width: theme.spacingNum(3),
+      minWidth: theme.spacingNum(3),
+      height: theme.spacingNum(3),
       borderRadius: '50%',
       textAlign : 'center',
-      lineHeight: `${theme.spacing(3)}px`,
-      marginRight: theme.spacing(1),
+      lineHeight: theme.spacing(3),
+      marginRight: theme.spacingNum(1),
     },
     stepDescription : {
       textAlign: 'center',
@@ -78,7 +77,7 @@ const useStyles = makeStyles((theme)=>{
       flexGrow: 1,
       background : theme.palette.action.disabled,
       height : '1px',
-      minWidth : theme.spacing(2),
+      minWidth : theme.spacingNum(2),
       alignSelf : 'center',
       marginRight: 0,
       marginLeft: 0
@@ -260,7 +259,7 @@ const Wizard = React.forwardRef(({
 
   return open && (
     <Dialog
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       open={wizardOpen}
       title={pageTitle || title}
       showTitle={showPageTitle}
@@ -277,7 +276,7 @@ const Wizard = React.forwardRef(({
         ref={contentRef}
         actions={actions}
         hideCloseButton={hideCloseButton}
-        className={clsx(styles.contentRoot)}
+        className={cxMui(styles.contentRoot)}
         style={{
           minHeight : minHeight
         }}
@@ -291,7 +290,7 @@ const Wizard = React.forwardRef(({
         {updating && <FuseLoading title={updatingTitle}/>}
         {!updating && showProgress && (
           <div
-            className={clsx(styles.stepsWrapper)}
+            className={cxMui(styles.stepsWrapper)}
           >
             {
               progressSteps.flatMap((page, i)=>{
@@ -308,7 +307,7 @@ const Wizard = React.forwardRef(({
 
                   <div
                     key={i}
-                    className={clsx(
+                    className={cxMui(
                       styles.stepWrapper,
                       position === -1 ? styles.wrapperCompleted : null,
                       position === 0 ? styles.wrapperCurrent : null,
@@ -319,7 +318,7 @@ const Wizard = React.forwardRef(({
                     }}
                   >
                     <div
-                      className={clsx(
+                      className={cxMui(
                         styles.stepLabel,
                         position === -1 ? styles.stepCompleted : null,
                         position === 0 ? styles.stepCurrent : null,
@@ -337,7 +336,7 @@ const Wizard = React.forwardRef(({
                     {subtitle && (
                       <Typography
                         variant="caption"
-                        className={clsx(
+                        className={cxMui(
                           styles.stepDescription,
                           position === 0 ?
                             styles.textBold :
@@ -350,7 +349,7 @@ const Wizard = React.forwardRef(({
                     )}
                   </div>,
 
-                  <div key={`${i}_divider`} className={clsx(styles.stepDivider)}/>
+                  <div key={`${i}_divider`} className={cxMui(styles.stepDivider)}/>
                 ];
               }).filter((c, i, s)=>i!==s.length-1)
             }
@@ -360,7 +359,7 @@ const Wizard = React.forwardRef(({
         <div className="mb-8">
           {
             (dialogErrors && dialogErrors.length > 0) && (
-              <ErrorWrapper className={clsx(styles.errorWrapper)} errors={dialogErrors}/>
+              <ErrorWrapper className={cxMui(styles.errorWrapper)} errors={dialogErrors}/>
             )
           }
         </div>
@@ -374,7 +373,7 @@ const Wizard = React.forwardRef(({
         }
         { !updating && (
           <EntityView
-            className={clsx(styles.entityView, entityViewClassName)}
+            className={cxMui(styles.entityView, entityViewClassName)}
             definition={{
               ...definition,
               layout : layout

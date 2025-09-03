@@ -13,6 +13,7 @@ export * from './generateThemeVariants';
 export * from './generateUUID';
 export * from './setAuthRoles';
 export * from './getCleanText';
+export * from './makeStyle';
 
 // The following are not included to prevent circular dependencies
 // export * from './createStore';

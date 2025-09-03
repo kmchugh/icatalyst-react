@@ -5,23 +5,23 @@ import PropTypes from 'prop-types';
 import {ModelPropTypes} from '../../utilities/createModel';
 import PageBase from '../../pages/PageBase';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
-import Hidden from '@material-ui/core/Hidden';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+// import Hidden from '@mui/material/Hidden';
+import {useMediaQuery, useTheme} from '@mui/material';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   root: {
   },
   separator: {
     width          : 1,
-    height: theme.spacing(6),
+    height: theme.spacingNum(6),
     backgroundColor: theme.palette.divider,
-    marginLeft : theme.spacing(1),
-    marginRight : theme.spacing(2),
+    marginLeft : theme.spacingNum(1),
+    marginRight : theme.spacingNum(2),
   },
   mobileNavButton : {
-    width: theme.spacing(6),
-    height: theme.spacing(6)
+    width: theme.spacingNum(6),
+    height: theme.spacingNum(6)
   }
 }));
 
@@ -41,7 +41,9 @@ const MasterContent = (props)=>{
   } = props;
 
   const classes = useStyles();
-
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+  
   return (
     <DataTable
       className={className}
@@ -50,11 +52,11 @@ const MasterContent = (props)=>{
       onRefresh={onRefresh}
       updating={updating}
       PrependHeaderComponent={
-        config.mode === 'chromeless' ? (
-          <Hidden lgUp>
-            <NavbarMobileToggleButton className={clsx(classes.mobileNavButton)}/>
+        config.mode === 'chromeless' && isLgDown ? (
+          <>
+            <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
             <div className={classes.separator}/>
-          </Hidden>
+          </>
         ) : null
       }
       canAdd={onAdd && auth.create}

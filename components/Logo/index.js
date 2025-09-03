@@ -1,11 +1,10 @@
 import React from 'react';
-import {Typography} from '@material-ui/core';
-import clsx from 'clsx';
-import {makeStyles, useTheme} from '@material-ui/styles';
+import {Typography} from '@mui/material';
 import Image from '@icatalyst/components/Image';
 import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
 
 const styles = (theme) => {
   return {
@@ -15,10 +14,10 @@ const styles = (theme) => {
     },
     logoWrapper : {
       background: theme.palette.primary.contrastText,
-      width     : theme.spacing(4),
-      height    : theme.spacing(4),
+      width     : theme.spacingNum(4),
+      height    : theme.spacingNum(4),
       borderRadius : '50%',
-      padding : theme.spacing(.75),
+      padding : theme.spacingNum(.75),
       display : 'flex',
       alignItems : 'center',
       transition: theme.transitions.create(['width', 'height'], {
@@ -37,7 +36,7 @@ const styles = (theme) => {
 };
 
 
-const useStyles = makeStyles(styles);
+const useStyles = createMuiStyles(styles);
 
 function Logo({
   showTitle = true,
@@ -46,12 +45,12 @@ function Logo({
 {
   const classes = useStyles();
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
-  const theme = useTheme();
+  const theme = useMuiTheme();
 
   return (
-    <div className={clsx(classes.root, className)}>
-      <div className={clsx(classes.logoWrapper, 'logo-icon')}>
-        <Image className={clsx(classes.logoIcon)}
+    <div className={cxMui(classes.root, className)}>
+      <div className={cxMui(classes.logoWrapper, 'logo-icon')}>
+        <Image className={cxMui(classes.logoIcon)}
           src={config.clientLogo}
           defaultSrc={
             mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
@@ -60,7 +59,7 @@ function Logo({
           }
           alt={`logo for ${config.clientName}`}/>
       </div>
-      {showTitle && <Typography variant="h1" className={clsx(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
+      {showTitle && <Typography variant="h1" className={cxMui(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
     </div>
   );
 }

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import {
   SettingsView
 } from '../../../../components/Settings';
 
 import TitledPage from '../../../../pages/TitledPage';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
     },
@@ -35,13 +34,13 @@ const SettingsComponent = ({
   return (
     <TitledPage
       title="Settings"
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
     >
       <div
-        className={clsx(styles.settingsWrapper)}
+        className={cxMui(styles.settingsWrapper)}
       >
         <SettingsView
-          className={clsx(styles.settings)}
+          className={cxMui(styles.settings)}
           settingsBlacklist={['User']}
           displayHeaders={false}
           showApplyButton={false}

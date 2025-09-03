@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
-import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
+import Typography from '@mui/material/Typography';
+// import Hidden from '@mui/material/Hidden';
+import {useMediaQuery, useTheme} from '@mui/material';
 import NavbarMobileToggleButton from '../../layouts/components/NavbarLayouts/NavbarMobileToggleButton';
 import IconButton from '../IconButton';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginBottom : theme.spacing(3),
+      marginBottom : theme.spacingNum(3),
       display : 'flex',
       flexDirection : 'row',
       alignItems : 'center'
@@ -18,25 +18,25 @@ const useStyles = makeStyles((theme)=>{
     title : {
       fontWeight: 'bold',
 
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         fontSize: theme.typography.h5.fontSize
       }
 
     },
     separator: {
       width          : 1,
-      height: theme.spacing(6),
+      height: theme.spacingNum(6),
       backgroundColor: theme.palette.divider,
-      marginLeft : theme.spacing(1),
-      marginRight : theme.spacing(2),
+      marginLeft : theme.spacingNum(1),
+      marginRight : theme.spacingNum(2),
     },
     mobileNavButton : {
-      width: theme.spacing(6),
-      height: theme.spacing(6)
+      width: theme.spacingNum(6),
+      height: theme.spacingNum(6)
     },
     spacer : {
       flexGrow: 1,
-      minWidth: theme.spacing(1),
+      minWidth: theme.spacingNum(1),
       height: '100%'
     },
     actions : {
@@ -73,13 +73,16 @@ const PageHeader = ({
 
   const variant = variants[size.toLowerCase()];
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   return (
-    <div className={clsx(styles.root, className)}>
-      {showMenuNav && (
-        <Hidden lgUp>
-          <NavbarMobileToggleButton className={clsx(styles.mobileNavButton)}/>
+    <div className={cxMui(styles.root, className)}>
+      {showMenuNav && isLgDown && (
+        <>
+          <NavbarMobileToggleButton className={cxMui(styles.mobileNavButton)}/>
           <div className={styles.separator}/>
-        </Hidden>
+        </>
       )}
       <Typography
         className={styles.title}
@@ -105,8 +108,8 @@ const PageHeader = ({
                   disabled = false
                 } = action;
                 return (<IconButton
-                  className={clsx(className)}
-                  title={clsx(title)}
+                  className={cxMui(className)}
+                  title={cxMui(title)}
                   key={action.title}
                   onClick={onClick}
                   icon={icon}

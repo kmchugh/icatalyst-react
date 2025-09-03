@@ -1,24 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
 
-import clsx from 'clsx';
-
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Chip from '@material-ui/core/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import Chip from '@mui/material/Chip';
 import { useSelector } from 'react-redux';
 import { useDeepCompareEffect } from '../../../hooks/fuse';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-// import Typography from '@material-ui/core/Typography';
+// import Typography from '@mui/material/Typography';
 
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginTop : theme.spacing(1),
-      marginBottom : theme.spacing(2)
+      marginTop : theme.spacingNum(1),
+      marginBottom : theme.spacingNum(2)
     }
   };
 });
@@ -93,7 +91,7 @@ const TagField = ({
 
   return (
     <FormControl
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
       style={style}
       variant="outlined"
       fullWidth
@@ -109,7 +107,7 @@ const TagField = ({
         autoSelect={false}
         multiple={multiple}
         freeSolo={freeSolo}
-        className={clsx(styles.select)}
+        className={cxMui(styles.select)}
         fullWidth={true}
         options={options || []}
         renderTags={(value, getTagProps)=>{

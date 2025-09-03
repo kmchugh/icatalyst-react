@@ -1,18 +1,17 @@
 import React from 'react';
-import FormControl  from '@material-ui/core/FormControl';
-import FormControlLabel  from '@material-ui/core/FormControlLabel';
-import FormHelperText  from '@material-ui/core/FormHelperText';
-import Checkbox  from '@material-ui/core/Checkbox';
+import FormControl  from '@mui/material/FormControl';
+import FormControlLabel  from '@mui/material/FormControlLabel';
+import FormHelperText  from '@mui/material/FormHelperText';
+import Checkbox  from '@mui/material/Checkbox';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
-      marginTop: theme.spacing(1),
-      marginBottom: theme.spacing(2),
+      marginTop: theme.spacingNum(1),
+      marginBottom: theme.spacingNum(2),
     },
     checkbox : {
       ['&.MuiCheckbox-colorPrimary.Mui-checked'] : {
@@ -51,7 +50,7 @@ const BooleanField = (props) => {
 
   return (
     <FormControl
-      className={clsx(clsx(styles.root), props.className)}
+      className={cxMui(cxMui(styles.root), props.className)}
       fullWidth
       variant="outlined"
       error={hasErrors}
@@ -62,7 +61,7 @@ const BooleanField = (props) => {
         disabled={readonly}
         control={
           <Checkbox
-            className={clsx(styles.checkbox)}
+            className={cxMui(styles.checkbox)}
             required={required}
             name={id}
             id={id}

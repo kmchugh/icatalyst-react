@@ -1,11 +1,9 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, useHistory } from 'react-router-dom';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import EntityView from '../../../../components/EntityView';
 import IconButton from '../../../../components/IconButton';
 import Icon from '../../../../components/Icon';
@@ -13,14 +11,15 @@ import {FuseLoading} from '../../../../components/fuse';
 import {SingularityContext} from '../../../../components/Singularity';
 import {useForm} from '@icatalyst/hooks/fuse';
 import {useDispatch} from 'react-redux';
-import { Alert } from '@material-ui/lab';
+import { Alert } from '@mui/material';
 import {useSelector} from 'react-redux';
 import moment from '../../../../@moment';
 import {definition as inviteDefinition} from '../../../../components/Singularity/store/reducers/invites.reducer';
 import {definition as edgeTypeDefinition} from '../../../../components/Singularity/store/reducers/edgeType.reducer';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@mui/material/styles';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   const fadedBackground = alpha(theme.palette.error.light, .45);
   return {
     root : {
@@ -29,7 +28,7 @@ const useStyles = makeStyles((theme) => {
       height: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      padding: theme.spacing(2),
+      padding: theme.spacingNum(2),
       // Fix for safari flexbox
       minHeight: '600px'
     },
@@ -64,18 +63,18 @@ const useStyles = makeStyles((theme) => {
       width: '100%',
       flex: '1 1 0%',
       overflow: 'auto',
-      minHeight: theme.spacing(8)
+      minHeight: theme.spacingNum(8)
     },
     inviteWrapper : {
       display: 'flex',
       alignItems : 'center',
       justifyContent : 'space-between',
-      paddingTop: theme.spacing(1),
-      paddingLeft: theme.spacing(1),
-      paddingRight: theme.spacing(1),
+      paddingTop: theme.spacingNum(1),
+      paddingLeft: theme.spacingNum(1),
+      paddingRight: theme.spacingNum(1),
 
       '& .title' : {
-        paddingBottom: theme.spacing(1),
+        paddingBottom: theme.spacingNum(1),
       },
 
       '& .booleanField' : {
@@ -87,7 +86,7 @@ const useStyles = makeStyles((theme) => {
       },
 
       '& > *' : {
-        marginRight : theme.spacing(2),
+        marginRight : theme.spacingNum(2),
       },
 
       '& > *:last-child' : {
@@ -102,13 +101,13 @@ const useStyles = makeStyles((theme) => {
     actionWrapper : {
       display : 'flex',
       width: '100%',
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
+      paddingTop: theme.spacingNum(2),
+      paddingBottom: theme.spacingNum(2),
       justifyContent : 'flex-end'
 
     },
     actionButton : {
-      marginRight: theme.spacing(1),
+      marginRight: theme.spacingNum(1),
       '&:last-child' : {
         marginRight: 0,
       }
@@ -249,35 +248,30 @@ const CreateInvitation = ()=>{
   }
 
   return (
-    <div className={clsx(classes.root)}>
+    <div className={cxMui(classes.root)}>
       {!entity && (
-        <div className={clsx(classes.errorView)}>
+        <div className={cxMui(classes.errorView)}>
           <Typography variant='h2'>Could not create invite</Typography>
         </div>
       )}
-
       {
         !updating && (dialogErrors && dialogErrors.length > 0) &&
           (
-            <div className={clsx(classes.error_wrapper)}>
-              <div className={clsx(classes.error_list)}>
+            <div className={cxMui(classes.error_wrapper)}>
+              <div className={cxMui(classes.error_list)}>
                 {dialogErrors.map((error, i)=>{
                   return (<Alert severity="error" key={error + '_' + i}>{error.message || error}</Alert>);
                 })}
               </div>
               <div>
-                <IconButton
-                  title="clear"
-                  icon="close"
-                  onClick={clearErrors}/>
+                <IconButton title="clear" icon="close" onClick={clearErrors} size="large" />
               </div>
             </div>
           )
       }
-
       {entity && (
         <EntityView
-          className={clsx(classes.entityView)}
+          className={cxMui(classes.entityView)}
           definition={definition}
           hideReadOnly={true}
           model={form}
@@ -285,19 +279,17 @@ const CreateInvitation = ()=>{
           onChange={handleChange}
         />
       )}
-
-
-      <div className={clsx(classes.formWrapper)}>
+      <div className={cxMui(classes.formWrapper)}>
         {(form && (!form.emails || form.emails.length === 0)) && (
           <Typography color="error">Please enter email addresses</Typography>
         )}
 
         {(form && form.emails && form.emails.length > 0) && (
-          <div className={clsx(classes.invites)}>
+          <div className={cxMui(classes.invites)}>
             {
               form.emails.map((email, i)=>{
                 return (
-                  <div className={clsx(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
+                  <div className={cxMui(classes.inviteWrapper, i%2===0 ? 'even' : 'odd')} key={email}>
                     <Typography className="title">
                       {email}
                     </Typography>
@@ -308,7 +300,7 @@ const CreateInvitation = ()=>{
                       onClick={()=>{
                         handleChange(null, {emails : emails.filter((e)=>e!==email)});
                       }}
-                    />
+                      size="large" />
                   </div>
                 );
               })
@@ -316,11 +308,10 @@ const CreateInvitation = ()=>{
           </div>
         )}
       </div>
-
       {entity && (
-        <div className={clsx(classes.actionWrapper)}>
+        <div className={cxMui(classes.actionWrapper)}>
           <Button
-            className={clsx(classes.actionButton)}
+            className={cxMui(classes.actionButton)}
             color={'primary'}
             startIcon={
               <Icon>email</Icon>
@@ -375,7 +366,7 @@ const CreateInvitation = ()=>{
             Send
           </Button>
           <Button
-            className={clsx(classes.actionButton)}
+            className={cxMui(classes.actionButton)}
             color="secondary"
             startIcon={
               <Icon>close</Icon>

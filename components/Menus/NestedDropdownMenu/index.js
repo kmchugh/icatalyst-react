@@ -1,6 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import clsx from 'clsx';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
 
 import {
   ListSubheader,
@@ -10,14 +8,15 @@ import {
   Button,
   Icon,
   Popper,
-} from '@material-ui/core';
+} from '@mui/material';
 import IconButton from '../../IconButton';
 import MenuItem from './component/MenuItem';
-import { makeStyles } from '@material-ui/core/styles';
+import { alpha } from '@mui/material/styles';
 // import { generateUUID } from '../../../utilities/generateUUID';
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui, useMergedMuiStyles } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = createMuiStyles((theme) => ({
   paper: {
     width: 360, 
     maxHeight: '50vh',
@@ -26,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
   list: {
     width: '100%',
     maxWidth: 360,
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacingNum(1)
   },
   subHeader : {
     background: theme.palette.background.paper,
   },
   addMoreButton: {
-    paddingLeft: theme.spacing(2),
+    paddingLeft: theme.spacingNum(2),
     fontWeight: 400,
     fontSize: 12,
     color: theme.palette.text
@@ -52,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     ['&:hover'] : {
       background : alpha(theme.palette.secondary.main, .25),
     }
+  },
+  iconButton:{
+    height:'100%'
   }
 }));
 
@@ -75,7 +77,7 @@ const NestedDropdownMenu = ({
   ...props
 })=>{
 
-  const classes = useStyles(props);
+  const classes = useMergedMuiStyles(useStyles, props);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setIsOpen] = useState(isOpen || false);
   const [menuItems, setMenuItems] = useState([]);
@@ -103,7 +105,7 @@ const NestedDropdownMenu = ({
   };
 
   return (
-    <div className={clsx(classes.root, className)} style={styles.root}>
+    <div className={cxMui(classes.root, className)} style={styles.root}>
       <IconButton
         title={iconTitle}
         icon={icon}
@@ -111,7 +113,7 @@ const NestedDropdownMenu = ({
           setIsOpen(true);
           setAnchorEl(e.currentTarget);
         }}
-      />
+        size="large" className={cxMui(classes.iconButton)} />
       <Popper placement={placement} open={open} anchorEl={anchorEl}  modifiers={{
         // offset: {
         //   enabled: true,
@@ -124,14 +126,14 @@ const NestedDropdownMenu = ({
           setIsOpen(false);
           setAnchorEl(null);
         }}>
-          <Paper className={clsx(classes.paper)} style={styles.paper}>
+          <Paper className={cxMui(classes.paper)} style={styles.paper}>
             <List
-              className={clsx(classes.list)}
+              className={cxMui(classes.list)}
               style={styles.list}
               component="nav"
               aria-labelledby="nested-list-subheader"
               subheader={
-                <ListSubheader className={clsx(classes.subHeader)} style={styles.subHeader}>
+                <ListSubheader className={cxMui(classes.subHeader)} style={styles.subHeader}>
                   {subHeader}
                 </ListSubheader>
               }
@@ -153,14 +155,14 @@ const NestedDropdownMenu = ({
                   onDeleteItem={() => onDeleteClick(item)}
                   deleteChildFun={onDeleteClick}
                   onClickItem={()=>onClickItem(item)}
-                  className={clsx(classes.listItem, item.isDelete && classes.listItemText,value === item.name && classes.listItemSelected)}
+                  className={cxMui(classes.listItem, item.isDelete && classes.listItemText,value === item.name && classes.listItemSelected)}
                   style={styles.listItemText}
                   onChildClickItem={onClickItem}
                 />
               ))}
               {isCreate && (
                 <Button 
-                  className={clsx(classes.addMoreButton)} 
+                  className={cxMui(classes.addMoreButton)} 
                   variant="text" 
                   startIcon={<Icon>add</Icon> }
                   onClick={addNewItem}
@@ -173,7 +175,6 @@ const NestedDropdownMenu = ({
         </ClickAwayListener>
       </Popper>
     </div>
-    
   );
 };
 

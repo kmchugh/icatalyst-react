@@ -1,21 +1,21 @@
 import React, {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+
 import DialogContent from './DialogContent';
 import EntityView from '../../EntityView';
 import {useForm} from '../../../hooks/fuse';
 import _ from '../../../@lodash';
 import ErrorWrapper from '../../Errors/ErrorWrapper';
 import FuseLoading from '../../fuse/FuseLoading';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     root : {
 
     },
     entityView: {
-      marginBottom : theme.spacing(2),
+      marginBottom : theme.spacingNum(2),
     },
     errorWrapper: {
       padding: 0,
@@ -131,14 +131,14 @@ const DialogContentEntityView = ({
       <div className="mb-8">
         {
           (dialogErrors && dialogErrors.length > 0) && (
-            <ErrorWrapper className={clsx(classes.errorWrapper)} errors={dialogErrors}/>
+            <ErrorWrapper className={cxMui(classes.errorWrapper)} errors={dialogErrors}/>
           )
         }
       </div>
       {updating && <FuseLoading title={updatingTitle}/>}
       {!updating &&
         <EntityView
-          className={clsx(classes.entityView, entityViewClassName, 'min-w-sm md:min-width-md')}
+          className={cxMui(classes.entityView, entityViewClassName, 'min-w-sm md:min-width-md')}
           definition={definition}
           hideReadOnly={true}
           model={form}

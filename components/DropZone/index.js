@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
-import {Icon} from '@material-ui/core';
+import {Icon} from '@mui/material';
 import _ from '@icatalyst/@lodash';
 import PropTypes from 'prop-types';
-import {alpha} from '@material-ui/core/styles/colorManipulator';
+import { alpha } from '@mui/material/styles';
 import * as Actions from '../../store/actions/message.actions';
 import { useDispatch } from 'react-redux';
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = createMuiStyles(theme => ({
   root : {
     position : 'relative'
   },
@@ -146,7 +145,7 @@ function Dropzone(props){
     <div
       onMouseOver={showDropZone}
       {...getRootProps()}
-      className={clsx(styles.root, className)}
+      className={cxMui(styles.root, className)}
     >
       <input {...getInputProps()} />
       {
@@ -160,7 +159,7 @@ function Dropzone(props){
             <div
               style={props.hoverStyle}
               onMouseOut={hideDropZone}
-              className={clsx(styles.dropzone)}
+              className={cxMui(styles.dropzone)}
             >
               <Icon fontSize="large">cloud_upload</Icon>
             </div>

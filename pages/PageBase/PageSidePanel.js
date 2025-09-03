@@ -1,16 +1,16 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import * as PropTypes from 'prop-types';
 import ScrollWrapper from './ScrollWrapper';
-import Hidden from '@material-ui/core/Hidden';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+// import Hidden from '@mui/material/Hidden';
+import {useMediaQuery, useTheme} from '@mui/material';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import { createMuiStyles, cxMui } from '../../utilities';
 
-const useStyles = makeStyles((theme) => {
+const useStyles = createMuiStyles((theme) => {
   return {
     widthFn: ({width})=>{
       return {
-        width: theme.spacing(35),
+        width: theme.spacingNum(35),
         [theme.breakpoints.up('lg')]: {
           width: width,
         }
@@ -58,12 +58,16 @@ export const PageSidePanelHeader = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden mdDown>
-      <div className={clsx(classes.headerRoot, className)}>
+
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
+  return variant === 'permanent' && !isLgDown && (
+    <>
+      <div className={cxMui(classes.headerRoot, className)}>
         {children}
       </div>
-    </Hidden>
+    </>
   );
 };
 PageSidePanelHeader.propTypes={
@@ -79,12 +83,16 @@ export const PageSidePanelFooter = ({
   className, children, variant
 })=>{
   const classes = useStyles();
-  return variant === 'permanent' && (
-    <Hidden mdDown>
-      <div className={clsx(classes.footerRoot, className)}>
+
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+  
+  return variant === 'permanent' && !isLgDown && (
+    <>
+      <div className={cxMui(classes.footerRoot, className)}>
         {children}
       </div>
-    </Hidden>
+    </>
   );
 };
 PageSidePanelFooter.propTypes={
@@ -112,9 +120,12 @@ export const PageSidePanel = ({
   const panelConfig = position === 'left' ? config.leftSidePanel : config.rightSidePanel;
   const classes = useStyles(panelConfig);
 
+  const theme = useTheme();
+  const isLgDown = useMediaQuery(theme.breakpoints.down('lg'));
+
   return (
     <>
-      <Hidden lgUp={variant === 'permanent'}>
+      { isLgDown && variant === 'permanent' && (
         <SwipeableDrawer
           variant="temporary"
           disableSwipeToOpen
@@ -151,8 +162,8 @@ export const PageSidePanel = ({
             },
           }}
           classes={{
-            root: clsx(classes.root, variant, !open ? classes.hidden : null),
-            paper: clsx(
+            root: cxMui(classes.root, variant, !open ? classes.hidden : null),
+            paper: cxMui(
               classes.contentWrapper,
               classes.widthFn,
               variant,
@@ -171,18 +182,18 @@ export const PageSidePanel = ({
           container={rootRef.current}
         >
           {header && header}
-          <ScrollWrapper scrollType="content" config={config} className={clsx('flex-shrink')}>
+          <ScrollWrapper scrollType="content" config={config} className={cxMui('flex-shrink')}>
             {children}
           </ScrollWrapper>
           {footer && footer}
         </SwipeableDrawer>
-      </Hidden>
-      {variant === 'permanent' && (
-        <Hidden mdDown>
-          <ScrollWrapper scrollType="content" config={config} className={clsx(classes.root, className)}>
+      )}
+      {variant === 'permanent' && !isLgDown && (
+        <>
+          <ScrollWrapper scrollType="content" config={config} className={cxMui(classes.root, className)}>
             {children}
           </ScrollWrapper>
-        </Hidden>
+        </>
       )}
     </>
   );

@@ -1,18 +1,17 @@
 import React, {useState} from 'react';
-import clsx from 'clsx';
-import {makeStyles} from '@material-ui/styles';
 
 import IconButton from '../../IconButton';
 import Icon from '../../Icon';
 
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Fade from '@material-ui/core/Fade';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Fade from '@mui/material/Fade';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 
 import PropTypes from 'prop-types';
+import { createMuiStyles, cxMui } from '../../../utilities';
 
 const styles = (theme) => {
   return {
@@ -25,11 +24,11 @@ const styles = (theme) => {
       alignItems : 'center',
     },
     menuIcon : {
-      marginLeft : theme.spacing(1),
+      marginLeft : theme.spacingNum(1),
     },
     listItem : {
       padding: 0,
-      paddingRight: theme.spacing(2)
+      paddingRight: theme.spacingNum(2)
     },
     customItemWrapper : {
       overflow : 'inherit'
@@ -43,7 +42,7 @@ const styles = (theme) => {
   };
 };
 
-const useStyles = makeStyles(styles);
+const useStyles = createMuiStyles(styles);
 
 function DropdownMenu({
   size = 'small',
@@ -83,8 +82,8 @@ function DropdownMenu({
   };
 
   return (
-    <div className={clsx(styles.root, className, classes.root)}>
-      <div className={clsx(styles.primaryItem)}>
+    <div className={cxMui(styles.root, className, classes.root)}>
+      <div className={cxMui(styles.primaryItem)}>
         { label && (
           <ListItemText
             primary={label}
@@ -95,7 +94,7 @@ function DropdownMenu({
         <IconButton
           title={title}
           color={color}
-          className={clsx(styles.menuIcon, classes.menuIcon)}
+          className={cxMui(styles.menuIcon, classes.menuIcon)}
           component="div"
           size={size}
           icon={icon}
@@ -112,7 +111,7 @@ function DropdownMenu({
         keepMounted
         open={!!anchorEl}
         onClose={closeMenu}
-        className={clsx(styles.menu, classes.menu)}
+        className={cxMui(styles.menu, classes.menu)}
         TransitionComponent={Fade}
       >
         {
@@ -130,7 +129,7 @@ function DropdownMenu({
 
             return (
               <MenuItem
-                className={clsx(isElement ? styles.customItemWrapper : '')}
+                className={cxMui(isElement ? styles.customItemWrapper : '')}
                 key={menuitem.key || menuitem.id || menuitem.title}
                 disabled={menuitem.disabled}
                 selected={menuitem.selected}
@@ -144,7 +143,7 @@ function DropdownMenu({
                 {
                   menu && (
                     <ListItem
-                      className={clsx(
+                      className={cxMui(
                         styles.listItem,
                         classes.listItem,
                         styles.sublistItem,
@@ -162,7 +161,7 @@ function DropdownMenu({
                       <ListItemText
                         primary={title}
                         secondary={subtitle}
-                        className={clsx(
+                        className={cxMui(
                           styles.sublistItemText,
                           classes.sublistItemText
                         )}
@@ -187,7 +186,7 @@ function DropdownMenu({
                   (!menu) && (
                     isElement ? menuitem : (
                       <ListItem
-                        className={clsx(styles.listItem, classes.listItem)}
+                        className={cxMui(styles.listItem, classes.listItem)}
                         aria-label={title}
                         component="div"
                       >

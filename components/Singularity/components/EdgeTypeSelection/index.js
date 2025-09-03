@@ -1,16 +1,15 @@
 import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
-import {makeStyles} from '@material-ui/styles';
-import clsx from 'clsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as edgeDefinition} from '../../store/reducers/edgeType.reducer';
 import FuseLoading from '../../../fuse/FuseLoading';
-import {ButtonBase, Tooltip} from '@material-ui/core';
+import {ButtonBase, Tooltip} from '@mui/material';
 import Icon from '../../../Icon';
 import _ from '../../../../@lodash';
+import { createMuiStyles, cxMui } from '../../../../utilities';
 
-const useStyles = makeStyles((theme)=>{
+const useStyles = createMuiStyles((theme)=>{
   return {
     root : {
       display: 'flex',
@@ -20,18 +19,18 @@ const useStyles = makeStyles((theme)=>{
         flexDirection : 'row',
 
         ['& > *'] : {
-          width : theme.spacing(24),
-          height : theme.spacing(24)
+          width : theme.spacingNum(24),
+          height : theme.spacingNum(24)
         }
       }
     },
     itemRoot : {
       width: '100%',
       height: '100%',
-      paddingRight : theme.spacing(1),
+      paddingRight : theme.spacingNum(1),
       ['&:last-child']:{
         paddingRight : 0,
-        paddingLeft : theme.spacing(1),
+        paddingLeft : theme.spacingNum(1),
       }
     },
     buttonBase  : {
@@ -39,10 +38,10 @@ const useStyles = makeStyles((theme)=>{
       borderColor : theme.palette.primary.main,
       borderStyle : 'solid',
       borderRadius : theme.shape.borderRadius,
-      paddingTop : theme.spacing(1),
-      paddingBottom : theme.spacing(1),
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+      paddingTop : theme.spacingNum(1),
+      paddingBottom : theme.spacingNum(1),
+      paddingLeft: theme.spacingNum(2),
+      paddingRight: theme.spacingNum(2),
       backgroundColor: theme.palette.secondary.contrastText,
       color: theme.palette.secondary.main,
       display: 'flex',
@@ -61,8 +60,8 @@ const useStyles = makeStyles((theme)=>{
       color: theme.palette.action.disabled
     },
     icon : {
-      marginBottom : theme.spacing(2),
-      fontSize : `${theme.spacing(4)}px!important`
+      marginBottom : theme.spacingNum(2),
+      fontSize : `${theme.spacingNum(4)}!important`
     }
   };
 });
@@ -146,14 +145,14 @@ const EdgeTypeSelection = ({
   }, [reducer]);
 
   return (
-    <div className={clsx(styles.root, className)}>
+    <div className={cxMui(styles.root, className)}>
       {updating && <FuseLoading/>}
       {(!updating && data) ? data.map((edgeType)=>{
         const isSelected = _.isEqual(value, edgeType.value);
         const isDisabled = readonly;
         return (
           <Tooltip key={edgeType.guid} title={isDisabled ? '' : edgeType.title}>
-            <div className={clsx(styles.itemRoot)}>
+            <div className={cxMui(styles.itemRoot)}>
               <ButtonBase
                 disabled={isDisabled}
                 value={edgeType.value}
@@ -169,13 +168,13 @@ const EdgeTypeSelection = ({
                   });
                 }}
                 variant="outlined"
-                className={clsx(styles.buttonBase,
+                className={cxMui(styles.buttonBase,
                   (isDisabled && !isSelected) ? styles.disabled : null,
                   isSelected ? styles.selected : null,
                   className)
                 }
               >
-                <Icon fontSize="large" className={clsx(styles.icon)}>{edgeType.icon}</Icon>
+                <Icon fontSize="large" className={cxMui(styles.icon)}>{edgeType.icon}</Icon>
                 {edgeType.description}
               </ButtonBase>
             </div>
