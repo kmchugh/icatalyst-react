@@ -110,9 +110,7 @@ const definition = createModel({
     return icatalyst.singularity.groups;
   },
   getRetrieveAllParams : ()=>{
-    return {
-      admin: true
-    };
+    return {};
   },
   getAddParams : (getState)=>{
     const client = getState().icatalyst.singularity.client.client;
