@@ -161,9 +161,6 @@ const OpenAccessComponent = ({
           }
           setGettingAuthProvider(false);
         },
-        {
-          clientToken : singularityContext.clientToken
-        },
       ));
     }
   }, [hasProvider, inAuthFlow]);
