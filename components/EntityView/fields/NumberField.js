@@ -35,6 +35,10 @@ const NumberField = (props) => {
 
   const hasErrors = errors && errors.length > 0;
 
+  const handleChange = (e)=>{
+    onChange && onChange(null, {[field.id] : Number(e.target.value)});
+  };
+
   return (<NativeTextField
     className={cxMui('mt-8 mb-16', styles.root, className)}
     style={{...style}}
@@ -53,7 +57,7 @@ const NumberField = (props) => {
     autoComplete="off"
     fullWidth
     variant="outlined"
-    onChange={onChange}
+    onChange={handleChange}
     inputProps={{
       step: step,
       min: minValue,
