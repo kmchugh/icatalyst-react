@@ -52,7 +52,7 @@ const definition = createModel({
       required: true,
       minValue : 1,
       maxValue : 3650,
-      default : 356,
+      default : 365,
     },
     {
       id: 'active',
