@@ -24,8 +24,14 @@ class SingularityService {
   #server = {
     root : 'https://api.singularity.icatalyst.com'
   };
+  #gateway_server = {
+    root : 'https://api-gateway-staging.sensemaker-suite.com'
+  };
   #client_urls = {
     logout : 'logoutTransition'
+  };
+  #gateway_urls = {
+    fileUpload : 'v2/singularity/files',
   };
   #urls = {
     authorize : 'authorize',
@@ -76,21 +82,32 @@ class SingularityService {
     urls = {},
     client_urls = {},
     server = {},
-    settings = {}
+    settings = {},
+    gateway_server = {},
+    gateway_urls = {},
   }){
     this.#client = _.merge(this.#client, client);
     this.#urls = _.merge(this.#urls, urls);
     this.#client_urls = _.merge(this.#client_urls, client_urls);
     this.#server = _.merge(this.#server, server);
+    this.#gateway_server = _.merge(this.#gateway_server, gateway_server);
+    this.#gateway_urls = _.merge(this.#gateway_urls, gateway_urls);
+
 
     this.#settings = _.merge(this.#settings, settings);
-    this.uris=Object.keys(this.#urls).reduce((acc, key)=>{
-      const uri = `${this.#server.root}/${this.#urls[key]}`;
+
+    const buildUris = (server, urls) => Object.keys(urls).reduce((acc, key) => {
+      const uri = `${server.root}/${urls[key]}`;
       acc[key] = uri;
       URIService.registerURI('singularity', key, uri);
       return acc;
     }, {});
 
+    this.uris={
+      ...buildUris(this.#server, this.#urls),
+      ...buildUris(this.#gateway_server, this.#gateway_urls),
+    };
+    
     this.client_uris=Object.keys(this.#client_urls).reduce((acc, key)=>{
       acc[key] = `${this.#client.root}/${this.#client_urls[key]}`;
       return acc;
