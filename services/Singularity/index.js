@@ -95,20 +95,19 @@ class SingularityService {
 
 
     this.#settings = _.merge(this.#settings, settings);
+
+    const buildUris = (server, urls) => Object.keys(urls).reduce((acc, key) => {
+      const uri = `${server.root}/${urls[key]}`;
+      acc[key] = uri;
+      URIService.registerURI('singularity', key, uri);
+      return acc;
+    }, {});
+
     this.uris={
-      ...Object.keys(this.#urls).reduce((acc, key)=>{
-        const uri = `${this.#server.root}/${this.#urls[key]}`;
-        acc[key] = uri;
-        URIService.registerURI('singularity', key, uri);
-        return acc;
-      }, {}),
-      ...Object.keys(this.#gateway_urls).reduce((acc, key)=>{
-        const uri = `${this.#gateway_server.root}/${this.#gateway_urls[key]}`;
-        acc[key] = uri;
-        URIService.registerURI('singularity', key, uri);
-        return acc;
-      }, {}),
+      ...buildUris(this.#server, this.#urls),
+      ...buildUris(this.#gateway_server, this.#gateway_urls),
     };
+    
     this.client_uris=Object.keys(this.#client_urls).reduce((acc, key)=>{
       acc[key] = `${this.#client.root}/${this.#client_urls[key]}`;
       return acc;
