@@ -20,6 +20,7 @@ import organisationRoles from './organisationRoles.reducer';
 import organisationStats from './organisationStats.reducer';
 import organisationUsers from './organisationUsers.reducer';
 import licences from './licences.reducer';
+import partnerLicenses from './partnerLicences.reducer';
 import licenceKeys from './licenceKeys.reducer';
 import authProviders from './authProviders.reducer';
 
@@ -36,6 +37,7 @@ const reducers = combineReducers({
   groups,
   edgetypes,
   licences,
+  partnerLicenses,
   licenceKeys,
   organisations,
   organisationRoles,
