@@ -4,7 +4,7 @@ import Icon from '../../../../components/Icon';
 import IconButton from '../../../../components/IconButton';
 import {LocalizationContext} from '../../../../localization/LocalizationProvider';
 import Button from '@mui/material/Button';
-import {definition as licenceKeysDefinition} from '../../../../components/Singularity/store/reducers/licenceKeys.reducer';
+import {definition as defaultLicenceKeysDefinition} from '../../../../components/Singularity/store/reducers/licenceKeys.reducer';
 import { useDispatch } from 'react-redux';
 import {SingularityContext} from '../../../../components/Singularity';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
@@ -33,7 +33,8 @@ const useStyles = createMuiStyles((theme)=>{
 const GenerateLicenceKey = ({
   className,
   style = {},
-  licence
+  licence,
+  licenceKeysDefinition = defaultLicenceKeysDefinition
 })=>{
   const styles = useStyles();
   const dispatch = useDispatch();
@@ -172,7 +173,8 @@ GenerateLicenceKey.propTypes={
     active : PropTypes.bool.isRequired,
     guid : PropTypes.string.isRequired,
     duration : PropTypes.number.isRequired
-  }).isRequired
+  }).isRequired,
+  licenceKeysDefinition : PropTypes.object,
 };
 
 export default GenerateLicenceKey;

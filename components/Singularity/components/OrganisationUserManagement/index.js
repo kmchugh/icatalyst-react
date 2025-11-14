@@ -63,7 +63,6 @@ const OrganisationUserManagement = ({
   const [errors, setErrors] = useState(null);
   const isOrganisationAdmin = parentEntity && parentEntity.isOwner;
   const isSSOManaged = parentEntity && parentEntity.isSSOManaged;
-  console.log({parentEntity, isSSOManaged});
 
   const {
     title,

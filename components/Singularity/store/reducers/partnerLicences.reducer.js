@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Actions from '../actions/partnerLicences.actions';
 import { createModel, generateReducer } from '../../../../utilities';
-import { definition as licenceKeysDefinition } from './licenceKeys.reducer';
+import { definition as partnerLicenceKeysDefinition } from './partnerLicenceKeys.reducer';
 import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
 import { isName } from '../../../EntityView/validations';
 import { isDescription } from '../../../EntityView/validations/isDescription';
@@ -75,12 +75,12 @@ const definition = createModel({
       id : 'generateKey',
       label : ' ',
       render(column, field, item){
-        return (<GenerateLicenceKey licence={item}/>);
+        return (<GenerateLicenceKey licence={item} licenceKeysDefinition={partnerLicenceKeysDefinition}/>);
       }
     },
   ],
   children : [{
-    ...licenceKeysDefinition,
+    ...partnerLicenceKeysDefinition,
     canAdd : false,
   }],
   layout: (definition, model)=>{
