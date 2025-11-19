@@ -34,6 +34,7 @@ class SingularityService {
     fileUpload : 'v2/singularity/files',
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
+    partnerOrganisations : 'v2/temp/organisations'
   };
   #urls = {
     authorize : 'authorize',

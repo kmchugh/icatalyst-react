@@ -293,7 +293,8 @@ const MasterDetailPage = ({
                             ...match.params,
                             [definition.identityFieldName] : match.params.id
                           }, parentMasterDetailContext) :
-                          parentMasterDetailContext
+                          parentMasterDetailContext,
+                        singularityContext: singularityContext
                       }
                     ));
                   }

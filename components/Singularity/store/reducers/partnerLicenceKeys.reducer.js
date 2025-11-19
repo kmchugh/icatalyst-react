@@ -8,12 +8,12 @@ const definition = createModel({
   secondaryTextField: 'description',
   onEntityClicked: ()=>{},
   auth: {
-    retrieveAll: 'admin',
-    create: 'admin',
-    retrieve: 'admin',
-    update: 'admin',
-    delete: 'admin',
-    route: 'admin',
+    retrieveAll: 'partnerLicense',
+    create: 'partnerLicense',
+    retrieve: 'partnerLicense',
+    update: 'partnerLicense',
+    delete: 'partnerLicense',
+    route: 'partnerLicense',
   },
   fields: [
     {
