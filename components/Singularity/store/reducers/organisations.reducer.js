@@ -130,44 +130,63 @@ const definition = createModel({
   children : [
     {
       ...usersDefinition,
-      auth: (client, parentContext)=>{
-        const {entity} = parentContext;
-        return  (entity || {}).isOwner ? {
-          retrieveAll: 'everyone',
-          create: 'everyone',
-          retrieve: 'everyone',
-          update: 'everyone',
-          delete: 'everyone',
-          route: 'everyone',
-        } : {
-          retrieveAll: 'admin',
-          create: 'admin',
-          retrieve: 'admin',
-          update: 'admin',
-          delete: 'admin',
-          route: 'admin',
+      auth: (client)=>{
+        return {
+          retrieveAll: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          create: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          retrieve: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          update: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          delete: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          route: client.isInRole('admin') || client.isInRole('partnerLicense'),
         };
+
+        // commenting out the following code because isOwner is not a property of entity
+
+        // const {entity} = parentContext;
+        // return  (entity || {}).isOwner ? {
+        //   retrieveAll: 'everyone',
+        //   create: 'everyone',
+        //   retrieve: 'everyone',
+        //   update: 'everyone',
+        //   delete: 'everyone',
+        //   route: 'everyone',
+        // } : {
+        //   retrieveAll: 'admin',
+        //   create: 'admin',
+        //   retrieve: 'admin',
+        //   update: 'admin',
+        //   delete: 'admin',
+        //   route: 'admin',
+        // };
       }
     },
     {
       ...authProviders,
-      auth: (client, parentContext)=>{
-        const {entity} = parentContext.parentContext || parentContext;
-        return  (entity || {}).isOwner ? {
-          retrieveAll: 'everyone',
-          create: 'everyone',
-          retrieve: 'everyone',
-          update: 'everyone',
-          delete: 'everyone',
-          route: 'everyone',
-        } : {
-          retrieveAll: 'admin',
-          create: 'admin',
-          retrieve: 'admin',
-          update: 'admin',
-          delete: 'admin',
-          route: 'admin',
+      auth: (client)=>{
+        return {
+          retrieveAll: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          create: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          retrieve: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          update: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          delete: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          route: client.isInRole('admin') || client.isInRole('partnerLicense'),
         };
+
+        // return  (entity || {}).isOwner ? {
+        //   retrieveAll: 'everyone',
+        //   create: 'everyone',
+        //   retrieve: 'everyone',
+        //   update: 'everyone',
+        //   delete: 'everyone',
+        //   route: 'everyone',
+        // } : {
+        //   retrieveAll: 'admin',
+        //   create: 'admin',
+        //   retrieve: 'admin',
+        //   update: 'admin',
+        //   delete: 'admin',
+        //   route: 'admin',
+        // };
       }
     },
   ],

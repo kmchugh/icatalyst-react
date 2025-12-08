@@ -1,0 +1,114 @@
+import React from 'react';
+import * as Actions from '../actions/partnerLicences.actions';
+import { createModel, generateReducer } from '../../../../utilities';
+import { definition as partnerLicenceKeysDefinition } from './partnerLicenceKeys.reducer';
+import GenerateLicenceKey from '../../../../modules/UserManagementModule/OrganisationManagementModule/components/GenerateLicenceKey';
+import { isName } from '../../../EntityView/validations';
+import { isDescription } from '../../../EntityView/validations/isDescription';
+import LicenceConstraints from '../../components/LicenceConstraints';
+
+const definition = createModel({
+  name: 'partnerLicense',
+  label: 'Partner Licence',
+  icon: 'fa file-contract',
+  identityFieldName: 'guid',
+  primaryTextField: 'name',
+  secondaryTextField: 'description',
+  canAdd : false,
+  canDelete : false,
+  auth: {
+    retrieveAll: 'admin',
+    // create: 'admin',
+    retrieve: 'admin',
+    update: 'admin',
+    delete: 'admin',
+    route: 'admin',
+  },
+  fields: [
+    {
+      id: 'guid',
+      readonly: true,
+    },{
+      id: 'name',
+      type: 'string',
+      required: true,
+      minLength: 4,
+      maxLength: 256,
+      validations : [
+        isName
+      ]
+    },{
+      id: 'description',
+      type: 'string',
+      required: false,
+      minLength: 1,
+      maxLength: 2048,
+      validations : [
+        (model)=>{
+          return isDescription(model);
+        }
+      ]
+    }, {
+      id : 'duration',
+      type: 'number',
+      description : 'Number of days a licence is valid when applied',
+      required: true,
+      minValue : 1,
+      maxValue : 3650,
+      default : 365,
+    },
+    {
+      id: 'active',
+      type: 'boolean',
+      description: 'When active, a licence key can be generated',
+    }, {
+      id: 'template',
+      required : true,
+      type: 'custom',
+      Component(props){
+        return (
+          <LicenceConstraints {...props}/>
+        );
+      }
+    },
+    {
+      id : 'generateKey',
+      label : ' ',
+      render(column, field, item){
+        return (<GenerateLicenceKey licence={item} licenceKeysDefinition={partnerLicenceKeysDefinition}/>);
+      }
+    },
+  ],
+  children : [{
+    ...partnerLicenceKeysDefinition,
+    canAdd : false,
+  }],
+  layout: (definition, model)=>{
+    if (model.guid) {
+      // If we are updating
+      return [
+        [['name','description']],
+        ['duration', 'active'],
+        'template'
+      ];
+    } else {
+      // If we are creating
+      return [[
+        ['name','duration'],'description'],'template'
+      ];
+    }
+  },
+  listLayout: ['name', 'description', 'duration', 'generateKey'],
+  getReducerRoot: ({ icatalyst }) => {
+    return icatalyst.singularity.partnerLicenses;
+  },
+  ...Actions,
+});
+
+const reducer = generateReducer(
+  definition,
+  Actions /*, initialState, customActions*/
+);
+
+export { definition };
+export default reducer;
