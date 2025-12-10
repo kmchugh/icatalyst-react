@@ -12,7 +12,7 @@ const definition = createModel({
     create: 'partnerLicense',
     retrieve: 'partnerLicense',
     update: 'partnerLicense',
-    delete: 'partnerLicense',
+    delete: false, // Deletion is handled via admin licence page
     route: 'partnerLicense',
   },
   fields: [
