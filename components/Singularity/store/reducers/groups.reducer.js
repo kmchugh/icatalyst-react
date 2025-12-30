@@ -118,12 +118,12 @@ const definition = createModel({
       clientid : client.id
     };
   },
-  filterPayload : (group)=>{
-    return group.code !== 'SINGULARITY_GRAPH_ADMIN_ROLE' &&
-      !group.accessrole &&
-      !group.featurerole &&
-      !group.displayable;
-  },
+  // filterPayload : (group)=>{
+  //   return group.code !== 'SINGULARITY_GRAPH_ADMIN_ROLE' &&
+  //     !group.accessrole &&
+  //     !group.featurerole &&
+  //     !group.displayable;
+  // },
   ...Actions
 });
 
