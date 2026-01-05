@@ -62,7 +62,7 @@ class SingularityService {
     role_ownership : 'api/role/:roleid/owners',
     roles : 'v2/api/roles',
     groups : 'v2/api/groups',
-    session : 'api/session',
+    session : 'v2/api/session',
     token : 'token',
     users : 'api/user',
     version : 'version',
