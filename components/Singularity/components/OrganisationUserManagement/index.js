@@ -51,8 +51,7 @@ const OrganisationUserManagement = ({
   const dispatch = useDispatch();
 
   const singularityContext = useContext(SingularityContext);
-  const {accessToken} = singularityContext;
-
+  const {accessToken, user} = singularityContext;
   const {t} = useContext(LocalizationContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
   definition = definition || parentMasterDetailContext.entityDefinition;
@@ -61,7 +60,7 @@ const OrganisationUserManagement = ({
   const organisationID = parentEntity.guid;
   const [stats, setStats] = useState(null);
   const [errors, setErrors] = useState(null);
-  const isOrganisationAdmin = parentEntity && parentEntity.isOwner;
+  const [isOrganisationAdmin, setIsOrganisationAdmin] = useState(false);
   const isSSOManaged = parentEntity && parentEntity.isSSOManaged;
 
   const {
@@ -110,6 +109,50 @@ const OrganisationUserManagement = ({
   useEffect(()=>{
     refreshUserData();
   }, []);
+
+  useEffect(()=>{
+    if (!user || !data || !Array.isArray(data.entities) || data.entities.length === 0) {
+      setIsOrganisationAdmin(false);
+      return;
+    }
+  
+    const isAdmin = data.entities.some((entity)=>{
+      const { role, users = [] } = entity;
+  
+      if (!role) {
+        return false;
+      }
+  
+      // Identify the "Administrative Role"
+      const roleName = (role.name || '').toLowerCase();
+      const roleDescription = (role.description || '').toLowerCase();
+      const isAdministrativeRole =
+        roleDescription === 'administrative role' ||
+        roleName.includes('administrators');
+  
+      if (!isAdministrativeRole) {
+        return false;
+      }
+  
+      // Does the logged-in user appear in this role’s users?
+      return users.some((u)=>{
+        const sameUser = u.guid === user.userID;
+  
+        if (!sameUser || !Array.isArray(u.edges)) {
+          return false;
+        }
+  
+        // Does this user have an OWNER edge to this role?
+        return u.edges.some((edge)=>{
+          const isOwnerEdge = edge.edgeType && edge.edgeType.code === 'SINGULARITY_OWNER_EDGE';
+          const edgeToThisRole = edge.destinationID === role.guid;
+          return isOwnerEdge && edgeToThisRole;
+        });
+      });
+    });
+    console.log('isAdmin', isAdmin);
+    setIsOrganisationAdmin(isAdmin);
+  }, [data, user]);
 
   const dispatchUpdateRole = (roleID, update)=>{
     // dispatch(rolesDefinition.operations['UPDATE_ENTITY']({
@@ -258,7 +301,7 @@ const OrganisationUserManagement = ({
           />
         )}
       </div>
-      <div
+      { isOrganisationAdmin && <div
         className={cxMui(styles.rolesSection)}
       >
         <Typography
@@ -371,7 +414,7 @@ const OrganisationUserManagement = ({
             );
           })
         }
-      </div>
+      </div>}
     </div>
   );
 };

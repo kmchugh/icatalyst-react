@@ -130,14 +130,14 @@ const definition = createModel({
   children : [
     {
       ...usersDefinition,
-      auth: (client)=>{
+      auth: ()=>{
         return {
-          retrieveAll: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          create: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          retrieve: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          update: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          delete: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          route: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          retrieveAll: true,
+          create: true,
+          retrieve: true,
+          update: true,
+          delete: true,
+          route: true,
         };
 
         // commenting out the following code because isOwner is not a property of entity
@@ -162,14 +162,14 @@ const definition = createModel({
     },
     {
       ...authProviders,
-      auth: (client)=>{
+      auth: ()=>{
         return {
-          retrieveAll: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          create: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          retrieve: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          update: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          delete: client.isInRole('admin') || client.isInRole('partnerLicense'),
-          route: client.isInRole('admin') || client.isInRole('partnerLicense'),
+          retrieveAll: true,
+          create: true,
+          retrieve: true,
+          update: true,
+          delete: true,
+          route: true,
         };
 
         // return  (entity || {}).isOwner ? {
