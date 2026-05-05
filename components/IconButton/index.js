@@ -37,6 +37,11 @@ const IconButton = (props)=>{
   return (
     <Tooltip
       title={title || ''}
+      slotProps={{
+        popper: {
+          disablePortal: true
+        }
+      }}
     >
       <span id={id} className={cxMui(classes.root)}>
         <NativeButton
