@@ -47,12 +47,14 @@ const SelectField = (props) => {
     required,
     label,
     options,
-    description
+    description,
+    hideMenuSearch,
   } = field;
   const [searchData, setSearchData] = useState('');
   const applyFilter = (label) =>{
     return label.toLowerCase().includes(searchData.trim().toLowerCase());
   };
+  const showMenuSearch = hideMenuSearch !== true;
 
   const hasErrors = errors && errors.length > 0;
 
@@ -84,29 +86,34 @@ const SelectField = (props) => {
         inputProps={{
           readOnly: readonly
         }}
-        onClose={() => setSearchData('')}
+        onClose={() => showMenuSearch && setSearchData('')}
         disabled={readonly}
       >
-        <TextField
-          autoFocus
-          className={classes.searchInput}
-          placeholder={`${t('Search')}...`}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-          onChange={(e) => setSearchData(e.target.value)}
-          fullWidth
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-        />
+        {showMenuSearch && (
+          <TextField
+            autoFocus
+            className={classes.searchInput}
+            placeholder={`${t('Search')}...`}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+            onChange={(e) => setSearchData(e.target.value)}
+            fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
+          />
+        )}
         {
-          options.filter((item) =>
-            applyFilter(item.label || item.id)
+          (showMenuSearch ?
+            options.filter((item) =>
+              applyFilter(item.label || item.id)
+            ) :
+            options
           ).map((item) => {
             const {id, value = id, label = _.startCase(id)} = item;
             return (
