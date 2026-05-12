@@ -12,13 +12,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as organisationDefinition} from '@icatalyst/components/Singularity/store/reducers/organisations.reducer';
 import {definition as OrgEntitySettingsDefinition} from '@icatalyst/components/Singularity/store/reducers/organisationEntitySettings.reducer';
+import {normalizeEntitySettingsRetrievePayload} from './normalizeEntitySettingsRetrieve';
 
 export const OrganisationContext = createContext(null);
 
 /**
  * Tracks the active platform organisation (defaults to the first in the API list),
  * loads organisation entity-settings into Redux, and keeps a copy of the last
- * entity-settings retrieval result in context (`entitySettings`, loading, error).
+ * entity-settings document in context (`entitySettings`, loading, error). The API may return
+ * a single object; it is normalised for Redux and stored here as that object (first list row).
  */
 export function OrganisationProvider({children}) {
   const {accessToken} = useContext(SingularityContext);
@@ -72,6 +74,7 @@ export function OrganisationProvider({children}) {
       return;
     }
     const gen = ++entitySettingsRequestGen.current;
+    setEntitySettings(null);
     setEntitySettingsLoading(true);
     setEntitySettingsError(null);
     dispatch(OrgEntitySettingsDefinition.operations['RETRIEVE_ENTITIES']((err, data)=>{
@@ -85,8 +88,8 @@ export function OrganisationProvider({children}) {
       } else {
         setEntitySettingsError(null);
         // generateOperations invokes callback(null, null) when the request is cancelled
-        if (data != null) {
-          setEntitySettings(data);
+        if (data != null && data.length > 0) {
+          setEntitySettings(data[0]);
         }
       }
     }, {
@@ -94,6 +97,7 @@ export function OrganisationProvider({children}) {
       params : {
         organisationID : selectedOrganisationId,
       },
+      transform : normalizeEntitySettingsRetrievePayload,
     }));
   }, [accessToken, selectedOrganisationId, dispatch]);
 
