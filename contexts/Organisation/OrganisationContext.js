@@ -4,19 +4,21 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as organisationDefinition} from '@icatalyst/components/Singularity/store/reducers/organisations.reducer';
-import {definition as organisationEntitySettingsDefinition} from '@icatalyst/components/Singularity/store/reducers/organisationEntitySettings.reducer';
+import {definition as OrgEntitySettingsDefinition} from '@icatalyst/components/Singularity/store/reducers/organisationEntitySettings.reducer';
 
 export const OrganisationContext = createContext(null);
 
 /**
- * Tracks the active platform organisation (defaults to the first in the API list)
- * and loads organisation entity-settings into Redux for that id.
+ * Tracks the active platform organisation (defaults to the first in the API list),
+ * loads organisation entity-settings into Redux, and keeps a copy of the last
+ * entity-settings retrieval result in context (`entitySettings`, loading, error).
  */
 export function OrganisationProvider({children}) {
   const {accessToken} = useContext(SingularityContext);
@@ -25,10 +27,17 @@ export function OrganisationProvider({children}) {
   const {getIdentity, operations} = organisationDefinition;
 
   const [selectedOrganisationId, setSelectedOrganisationId] = useState(null);
+  const [entitySettings, setEntitySettings] = useState(null);
+  const [entitySettingsLoading, setEntitySettingsLoading] = useState(false);
+  const [entitySettingsError, setEntitySettingsError] = useState(null);
+  const entitySettingsRequestGen = useRef(0);
 
   useEffect(()=>{
     if (!accessToken) {
       setSelectedOrganisationId(null);
+      setEntitySettings(null);
+      setEntitySettingsLoading(false);
+      setEntitySettingsError(null);
       return;
     }
     dispatch(operations['RETRIEVE_ENTITIES'](()=>{}, {
@@ -57,9 +66,30 @@ export function OrganisationProvider({children}) {
 
   useEffect(()=>{
     if (!accessToken || !selectedOrganisationId) {
+      setEntitySettings(null);
+      setEntitySettingsLoading(false);
+      setEntitySettingsError(null);
       return;
     }
-    dispatch(organisationEntitySettingsDefinition.operations['RETRIEVE_ENTITIES'](()=>{}, {
+    const gen = ++entitySettingsRequestGen.current;
+    setEntitySettingsLoading(true);
+    setEntitySettingsError(null);
+    dispatch(OrgEntitySettingsDefinition.operations['RETRIEVE_ENTITIES']((err, data)=>{
+      if (gen !== entitySettingsRequestGen.current) {
+        return;
+      }
+      setEntitySettingsLoading(false);
+      if (err) {
+        setEntitySettingsError(err);
+        setEntitySettings(null);
+      } else {
+        setEntitySettingsError(null);
+        // generateOperations invokes callback(null, null) when the request is cancelled
+        if (data != null) {
+          setEntitySettings(data);
+        }
+      }
+    }, {
       accessToken,
       params : {
         organisationID : selectedOrganisationId,
@@ -77,12 +107,18 @@ export function OrganisationProvider({children}) {
     organisationsLoaded : orgState.loaded,
     organisations : orgState.entities || [],
     getIdentity,
+    entitySettings,
+    entitySettingsLoading,
+    entitySettingsError,
   }), [
     selectedOrganisationId,
     setSelectedOrganisationIdStable,
     orgState.loaded,
     orgState.entities,
     getIdentity,
+    entitySettings,
+    entitySettingsLoading,
+    entitySettingsError,
   ]);
 
   return (
