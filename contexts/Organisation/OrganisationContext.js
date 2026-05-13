@@ -73,7 +73,6 @@ export function OrganisationProvider({children}) {
       return;
     }
     const gen = ++entitySettingsRequestGen.current;
-    setEntitySettings(null);
     setEntitySettingsLoading(true);
     setEntitySettingsError(null);
     dispatch(OrgEntitySettingsDefinition.operations['RETRIEVE_ENTITIES']((err, data)=>{
@@ -87,9 +86,7 @@ export function OrganisationProvider({children}) {
       } else {
         setEntitySettingsError(null);
         // generateOperations invokes callback(null, null) when the request is cancelled
-        if (data != null && data.length > 0) {
-          setEntitySettings(data[0]);
-        }
+        setEntitySettings(data != null && data.length > 0 ? data[0] : null);
       }
     }, {
       accessToken,
