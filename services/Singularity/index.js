@@ -19,16 +19,13 @@ const SECONDS_MS_THRESHOLD = 9999999999;
  */
 class SingularityService {
   #client = {
-    // root : 'https://app.singularity.icatalyst.com',
-    root : 'http://0.0.0.0:4200'
+    root : 'https://app.singularity.icatalyst.com',
   };
   #server = {
-    // root : 'https://api.singularity.icatalyst.com',
-    root : 'http://0.0.0.0:9002'
+    root : 'https://api.singularity.icatalyst.com',
   };
   #gateway_server = {
-    // root : 'https://api-gateway-staging.sensemaker-suite.com'
-    root : 'http://localhost:3002'
+    root : 'https://api-gateway-staging.sensemaker-suite.com'
   };
   #client_urls = {
     logout : 'logoutTransition'
