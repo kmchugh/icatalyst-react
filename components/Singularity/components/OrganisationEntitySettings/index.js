@@ -4,6 +4,7 @@ import {Button} from '@mui/material';
 import {useDispatch} from 'react-redux';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {SingularityContext} from '../..';
+import {useOrganisation} from '../../../../contexts/Organisation/OrganisationContext';
 import EntityView from '../../../EntityView';
 import Icon from '../../../Icon';
 import {FuseLoading} from '../../../fuse';
@@ -60,6 +61,7 @@ const OrganisationEntitySettings = ({
   const masterDetailContext = useContext(MasterDetailContext);
   const singularityContext = useContext(SingularityContext);
   const {accessToken} = singularityContext;
+  const {selectedOrganisationId, updateEntitySettings} = useOrganisation();
 
   definition = definition || entitySettingsDefinition;
   const {operations} = definition;
@@ -147,8 +149,14 @@ const OrganisationEntitySettings = ({
           if (isAdding) {
             const transform = definition.transformPayload;
             setLoadedEntity(res && transform ? transform(res) : res);
+            if (parentOrgId === selectedOrganisationId) {
+              updateEntitySettings(res);
+            }
             definition.onAdded && definition.onAdded(res, dispatch, getState);
           } else {
+            if (parentOrgId === selectedOrganisationId) {
+              updateEntitySettings(res);
+            }
             definition.onUpdated && definition.onUpdated(res, dispatch, getState);
           }
         }

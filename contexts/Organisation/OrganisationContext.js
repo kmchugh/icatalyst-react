@@ -103,6 +103,10 @@ export function OrganisationProvider({children}) {
     setSelectedOrganisationId(id);
   }, []);
 
+  const updateEntitySettings = useCallback((rawDoc) => {
+    setEntitySettings(rawDoc);
+  }, []);
+
   const value = useMemo(()=>({
     selectedOrganisationId,
     setSelectedOrganisationId : setSelectedOrganisationIdStable,
@@ -112,6 +116,7 @@ export function OrganisationProvider({children}) {
     entitySettings,
     entitySettingsLoading,
     entitySettingsError,
+    updateEntitySettings,
   }), [
     selectedOrganisationId,
     setSelectedOrganisationIdStable,
@@ -121,6 +126,7 @@ export function OrganisationProvider({children}) {
     entitySettings,
     entitySettingsLoading,
     entitySettingsError,
+    updateEntitySettings,
   ]);
 
   return (
