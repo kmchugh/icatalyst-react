@@ -12,7 +12,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as organisationDefinition} from '@icatalyst/components/Singularity/store/reducers/organisations.reducer';
 import {definition as OrgEntitySettingsDefinition} from '@icatalyst/components/Singularity/store/reducers/organisationEntitySettings.reducer';
-import {normalizeEntitySettingsRetrievePayload} from './normalizeEntitySettingsRetrieve';
 
 export const OrganisationContext = createContext(null);
 
@@ -97,7 +96,6 @@ export function OrganisationProvider({children}) {
       params : {
         organisationID : selectedOrganisationId,
       },
-      transform : normalizeEntitySettingsRetrievePayload,
     }));
   }, [accessToken, selectedOrganisationId, dispatch]);
 

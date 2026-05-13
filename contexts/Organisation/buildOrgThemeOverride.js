@@ -34,7 +34,7 @@ export function mapOrgApiPaletteToMui(palette) {
  * @returns {import('@mui/material/styles').Theme|null}
  */
 export function buildOrgThemeOverride(baseTheme, orgDoc) {
-  if (!orgDoc?.themes || typeof orgDoc.themes !== 'object') {
+  if (!baseTheme || !orgDoc?.themes || typeof orgDoc.themes !== 'object') {
     return null;
   }
   const mode = baseTheme.palette.mode;

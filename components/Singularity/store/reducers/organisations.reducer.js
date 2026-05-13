@@ -3,6 +3,8 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { definition as authProviders } from './authProviders.reducer';
 import { definition as usersDefinition } from './organisationUsers.reducer';
+import { definition as entitySettingsDef } from './organisationEntitySettings.reducer';
+import OrganisationEntitySettings from '../../components/OrganisationEntitySettings';
 
 const definition = createModel({
   name: 'organisation',
@@ -128,6 +130,18 @@ const definition = createModel({
     return icatalyst.singularity.organisations;
   },
   children : [
+    {
+      ...entitySettingsDef,
+      component: OrganisationEntitySettings,
+      auth: ()=>({
+        retrieveAll : true,
+        create      : true,
+        retrieve    : true,
+        update      : true,
+        delete      : false,
+        route       : true,
+      }),
+    },
     {
       ...usersDefinition,
       auth: ()=>{
