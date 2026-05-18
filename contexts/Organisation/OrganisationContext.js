@@ -12,8 +12,34 @@ import {useDispatch, useSelector} from 'react-redux';
 import {SingularityContext} from '@icatalyst/components/Singularity';
 import {definition as organisationDefinition} from '@icatalyst/components/Singularity/store/reducers/organisations.reducer';
 import {definition as OrgEntitySettingsDefinition} from '@icatalyst/components/Singularity/store/reducers/organisationEntitySettings.reducer';
+import {saveToLocalStore} from '@icatalyst/utilities/localstorage';
 
 export const OrganisationContext = createContext(null);
+
+const ORG_ENTITY_SETTINGS_LS_KEY = 'sensemaker.organisationEntitySettings';
+const SELECTED_ORG_ID_LS_KEY = 'sensemaker.selectedOrganisationId';
+
+function saveOrgEntitySettings(orgId, doc) {
+  if (!orgId || !doc) {
+    return;
+  }
+  saveToLocalStore(`${ORG_ENTITY_SETTINGS_LS_KEY}.${orgId}`, doc);
+}
+
+function readParsedLs(key) {
+  try {
+    if (global.localStorage) {
+      const raw = global.localStorage.getItem(key);
+      if (raw == null || raw === '') {
+        return null;
+      }
+      return JSON.parse(raw);
+    }
+  } catch (e) {
+    /* ignore */
+  }
+  return null;
+}
 
 /**
  * Tracks the active platform organisation (defaults to the first in the API list),
@@ -41,6 +67,20 @@ export function OrganisationProvider({children}) {
       setEntitySettingsError(null);
       return;
     }
+    // Prime from cache so theme/selection match last session until API returns.
+    const storedOrgIdRaw = readParsedLs(SELECTED_ORG_ID_LS_KEY);
+    const idFromLs = typeof storedOrgIdRaw === 'string' ? storedOrgIdRaw : null;
+    if (idFromLs) {
+      setSelectedOrganisationId((prev)=>(prev == null ? idFromLs : prev));
+      const cachedDoc = readParsedLs(`${ORG_ENTITY_SETTINGS_LS_KEY}.${idFromLs}`);
+      if (
+        cachedDoc != null &&
+        typeof cachedDoc === 'object' &&
+        !Array.isArray(cachedDoc)
+      ) {
+        setEntitySettings((prev)=>(prev == null ? cachedDoc : prev));
+      }
+    }
     dispatch(operations['RETRIEVE_ENTITIES'](()=>{}, {
       accessToken,
       params : {},
@@ -66,12 +106,26 @@ export function OrganisationProvider({children}) {
   }, [orgState.loaded, orgState.entities, selectedOrganisationId, getIdentity]);
 
   useEffect(()=>{
+    if (selectedOrganisationId) {
+      saveToLocalStore(SELECTED_ORG_ID_LS_KEY, selectedOrganisationId);
+    }
+  }, [selectedOrganisationId]);
+
+  useEffect(()=>{
     if (!accessToken || !selectedOrganisationId) {
       setEntitySettings(null);
       setEntitySettingsLoading(false);
       setEntitySettingsError(null);
       return;
     }
+    const primedDoc = readParsedLs(
+      `${ORG_ENTITY_SETTINGS_LS_KEY}.${selectedOrganisationId}`
+    );
+    const usePrimed =
+      primedDoc != null &&
+      typeof primedDoc === 'object' &&
+      !Array.isArray(primedDoc);
+    setEntitySettings(usePrimed ? primedDoc : null);
     const gen = ++entitySettingsRequestGen.current;
     setEntitySettingsLoading(true);
     setEntitySettingsError(null);
@@ -86,7 +140,11 @@ export function OrganisationProvider({children}) {
       } else {
         setEntitySettingsError(null);
         // generateOperations invokes callback(null, null) when the request is cancelled
-        setEntitySettings(data != null && data.length > 0 ? data[0] : null);
+        const doc = data != null && data.length > 0 ? data[0] : null;
+        setEntitySettings(doc);
+        if (doc) {
+          saveOrgEntitySettings(selectedOrganisationId, doc);
+        }
       }
     }, {
       accessToken,
@@ -102,7 +160,10 @@ export function OrganisationProvider({children}) {
 
   const updateEntitySettings = useCallback((rawDoc) => {
     setEntitySettings(rawDoc);
-  }, []);
+    if (rawDoc && selectedOrganisationId) {
+      saveOrgEntitySettings(selectedOrganisationId, rawDoc);
+    }
+  }, [selectedOrganisationId]);
 
   const value = useMemo(()=>({
     selectedOrganisationId,
