@@ -108,21 +108,21 @@ const definition = createModel({
     },
 
     // ── Light theme palette ───────────────────────────────────────────────────
-    {id: 'lightPrimary',   type: 'colorselect', label: 'Light: Primary'},
+    {id: 'lightPrimary',   type: 'colorselect', label: 'Light: Primary', indent: 1},
     {id: 'lightSecondary', type: 'colorselect', label: 'Light: Secondary'},
     {id: 'lightError',     type: 'colorselect', label: 'Light: Error'},
     {id: 'lightWarning',   type: 'colorselect', label: 'Light: Warning'},
-    {id: 'lightInfo',      type: 'colorselect', label: 'Light: Info'},
+    {id: 'lightInfo',      type: 'colorselect', label: 'Light: Info', indent: 1},
     {id: 'lightSuccess',   type: 'colorselect', label: 'Light: Success'},
     {id: 'lightBgPaper',   type: 'colorselect', label: 'Light: Surface'},
     {id: 'lightBgDefault', type: 'colorselect', label: 'Light: Background'},
 
     // ── Dark theme palette ────────────────────────────────────────────────────
-    {id: 'darkPrimary',    type: 'colorselect', label: 'Dark: Primary'},
+    {id: 'darkPrimary',    type: 'colorselect', label: 'Dark: Primary',  indent: 1},
     {id: 'darkSecondary',  type: 'colorselect', label: 'Dark: Secondary'},
     {id: 'darkError',      type: 'colorselect', label: 'Dark: Error'},
     {id: 'darkWarning',    type: 'colorselect', label: 'Dark: Warning'},
-    {id: 'darkInfo',       type: 'colorselect', label: 'Dark: Info'},
+    {id: 'darkInfo',       type: 'colorselect', label: 'Dark: Info', indent: 1},
     {id: 'darkSuccess',    type: 'colorselect', label: 'Dark: Success'},
     {id: 'darkBgPaper',    type: 'colorselect', label: 'Dark: Surface'},
     {id: 'darkBgDefault',  type: 'colorselect', label: 'Dark: Background'},

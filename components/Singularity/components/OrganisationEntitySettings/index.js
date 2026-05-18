@@ -33,8 +33,13 @@ const useStyles = createMuiStyles((theme) => ({
     padding: 0,
   },
   entityView: {
-    overflow: 'auto',
     marginBottom: theme.spacingNum(1),
+    minWidth: 0,
+    // EntityView rows use literal "row" / "col" class names — scope layout fixes here only.
+    '& .row > .col': {
+      minWidth: 0,
+      overflow: 'visible',
+    },
   },
   actionWrapper: {
     display: 'flex',
