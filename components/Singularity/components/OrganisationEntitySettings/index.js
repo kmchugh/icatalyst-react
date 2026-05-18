@@ -11,6 +11,7 @@ import {FuseLoading} from '../../../fuse';
 import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import {definition as entitySettingsDefinition} from '../../store/reducers/organisationEntitySettings.reducer';
 import {useForm} from '../../../../hooks/fuse';
+import _ from '@icatalyst/@lodash';
 import {createMuiStyles, cxMui} from '../../../../utilities';
 
 const useStyles = createMuiStyles((theme) => ({
@@ -54,6 +55,31 @@ const useStyles = createMuiStyles((theme) => ({
   },
 }));
 
+/** Flat comparable map of EntityView fields (avoids nested API keys / `_orgId`). */
+function formSnapshot(def, data) {
+  if (!data) {
+    return null;
+  }
+  return Object.values(def.fields).reduce((acc, field) => {
+    const {id, type} = field;
+    let v = data[id];
+    if (type === 'colorselect') {
+      acc[id] = v == null || v === '' ? '' : String(v).toLowerCase();
+    } else {
+      acc[id] = v ?? '';
+    }
+    return acc;
+  }, {});
+}
+
+function flattenApiRow(raw, def) {
+  if (!raw) {
+    return null;
+  }
+  const t = def.transformPayload;
+  return t ? t(raw) : raw;
+}
+
 const OrganisationEntitySettings = ({
   className,
   style = {},
@@ -74,15 +100,15 @@ const OrganisationEntitySettings = ({
   const parentContext = masterDetailContext?.parentContext;
   const parentOrgId = parentContext?.entity?.guid;
 
-  // undefined = not yet fetched, null = fetched but absent, object = loaded
+  // undefined = not yet fetched, null = fetched but absent, object = loaded (flat UI model)
   const [loadedEntity, setLoadedEntity] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [responseErrors, setResponseErrors] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
-  const [modified, setModified] = useState(false);
+  const [baseline, setBaseline] = useState(null);
 
-  const {form, handleChange, resetForm, setForm} = useForm(null);
+  const {form, handleChange, setForm} = useForm(null);
 
   const loadEntity = useCallback(() => {
     if (!operations['RETRIEVE_ENTITIES'] || !parentOrgId) {
@@ -99,32 +125,80 @@ const OrganisationEntitySettings = ({
       setLoading(false);
       if (!err && res) {
         const raw = res[0] || null;
-        const transform = definition.transformPayload;
-        setLoadedEntity(raw && transform ? transform(raw) : raw);
+        setLoadedEntity(flattenApiRow(raw, definition));
       } else {
         setLoadedEntity(null);
       }
     }, {accessToken, params}));
-  }, [parentOrgId, accessToken]);
+    // Intentionally omit parentContext / definition identity: avoids refetch loops when parent rerenders.
+  }, [accessToken, dispatch, parentOrgId, operations]);
 
   useEffect(() => {
     loadEntity();
   }, [loadEntity]);
 
   useEffect(() => {
-    if (loadedEntity !== undefined) {
-      setForm(loadedEntity || definition.generateModel());
+    if (loadedEntity === undefined) {
+      return;
     }
-  }, [loadedEntity]);
+    const nextForm = loadedEntity ?
+      {...loadedEntity} :
+      {...definition.generateModel()};
+    setBaseline(formSnapshot(definition, nextForm));
+    setForm(nextForm);
+  }, [loadedEntity, definition, setForm]);
 
   useEffect(() => {
     if (form) {
       setFieldErrors(definition.validate(form));
     }
-  }, [form]);
+  }, [form, definition]);
 
   const hasFieldErrors = Object.keys(fieldErrors).flatMap(k => fieldErrors[k]).length > 0;
-  const canBeSubmitted = modified && !hasFieldErrors;
+  const isModified = Boolean(
+    baseline &&
+    form &&
+    !_.isEqual(baseline, formSnapshot(definition, form))
+  );
+  const canBeSubmitted = isModified && !hasFieldErrors;
+
+  /**
+   * Colour pickers may call onChange(null) during prop sync (ColorPicker useEffect).
+   * Ignore null clears for colorselect when we already have a hex — only this screen.
+   */
+  const handleEntityChange = useCallback((e, valueMap) => {
+    if (e) {
+      handleChange(e, valueMap);
+      return;
+    }
+    if (!valueMap || !Object.keys(valueMap).length) {
+      return;
+    }
+    setForm((prev) => {
+      if (!prev) {
+        return prev;
+      }
+      let next = {...prev};
+      let didApply = false;
+      for (const key of Object.keys(valueMap)) {
+        let val = valueMap[key];
+        const field = definition.fields[key];
+        if (
+          field?.type === 'colorselect' &&
+          (val === null || val === undefined)
+        ) {
+          const cur = prev[key];
+          if (typeof cur === 'string' && cur.length > 0) {
+            continue;
+          }
+          val = '';
+        }
+        next = _.setIn(next, key, val);
+        didApply = true;
+      }
+      return didApply ? next : prev;
+    });
+  }, [definition.fields, handleChange, setForm]);
 
   const handleSave = () => {
     const isAdding = !loadedEntity;
@@ -149,19 +223,18 @@ const OrganisationEntitySettings = ({
         if (err) {
           setResponseErrors(err);
         } else {
-          setModified(false);
           setResponseErrors(null);
+          const flatSaved = flattenApiRow(res, definition) || {...form};
+          setBaseline(formSnapshot(definition, flatSaved));
+          setForm({...flatSaved});
+          setLoadedEntity(flatSaved);
+
+          if (parentOrgId === selectedOrganisationId) {
+            updateEntitySettings(res);
+          }
           if (isAdding) {
-            const transform = definition.transformPayload;
-            setLoadedEntity(res && transform ? transform(res) : res);
-            if (parentOrgId === selectedOrganisationId) {
-              updateEntitySettings(res);
-            }
             definition.onAdded && definition.onAdded(res, dispatch, getState);
           } else {
-            if (parentOrgId === selectedOrganisationId) {
-              updateEntitySettings(res);
-            }
             definition.onUpdated && definition.onUpdated(res, dispatch, getState);
           }
         }
@@ -170,8 +243,13 @@ const OrganisationEntitySettings = ({
   };
 
   const handleReset = () => {
-    setModified(false);
-    resetForm();
+    if (loadedEntity === undefined) {
+      return;
+    }
+    const nextForm = loadedEntity ?
+      {...loadedEntity} :
+      {...definition.generateModel()};
+    setForm(nextForm);
   };
 
   if (loading || loadedEntity === undefined) {
@@ -200,10 +278,7 @@ const OrganisationEntitySettings = ({
           model={form}
           readonly={false}
           errors={fieldErrors}
-          onChange={(e, valueMap) => {
-            handleChange(e, valueMap);
-            setModified(true);
-          }}
+          onChange={handleEntityChange}
         />
       )}
 
@@ -223,7 +298,7 @@ const OrganisationEntitySettings = ({
           className={cxMui(styles.actionButton, 'whitespace-no-wrap normal-case')}
           variant="contained"
           color="secondary"
-          disabled={updating || !modified}
+          disabled={updating || !isModified}
           onClick={handleReset}
         >
           <Icon className={cxMui(styles.actionButtonIcon)}>cancel</Icon>
