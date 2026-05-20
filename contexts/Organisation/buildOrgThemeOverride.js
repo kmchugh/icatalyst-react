@@ -20,7 +20,17 @@ export function mapOrgApiPaletteToMui(palette) {
     }
   });
   if (palette.background && typeof palette.background === 'object') {
-    out.background = { ...palette.background };
+    const background = {};
+    const { paper, default: bgDefault } = palette.background;
+    if (typeof paper === 'string' && paper) {
+      background.paper = paper;
+    }
+    if (typeof bgDefault === 'string' && bgDefault) {
+      background.default = bgDefault;
+    }
+    if (Object.keys(background).length > 0) {
+      out.background = background;
+    }
   }
   return out;
 }
