@@ -26,16 +26,16 @@ const useStyles = createMuiStyles((theme) => {
     tabBar : {
       height: theme.spacingNum(9),
       width: '100%',
-      ['& .Mui-selected'] : {
-        color: mostReadable(
-          tinycolor(theme.palette.background.paper),
-          [
-            theme.palette.primary.light,
-            theme.palette.primary.dark,
-            theme.palette.primary.main,
-          ]
-        ).toHex8String()
-      }
+      // ['& .Mui-selected'] : {
+      //   color: mostReadable(
+      //     tinycolor(theme.palette.background.paper),
+      //     [
+      //       theme.palette.primary.light,
+      //       theme.palette.primary.dark,
+      //       theme.palette.primary.main,
+      //     ]
+      //   ).toHex8String()
+      // }
     },
     tab : {
       height : theme.spacingNum(9),
