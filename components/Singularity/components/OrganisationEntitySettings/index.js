@@ -11,6 +11,7 @@ import {FuseLoading} from '../../../fuse';
 import ErrorWrapper from '../../../Errors/ErrorWrapper';
 import {definition as entitySettingsDefinition} from '../../store/reducers/organisationEntitySettings.reducer';
 import {useForm} from '../../../../hooks/fuse';
+import useIsOrganisationAdmin from '../../hooks/useIsOrganisationAdmin';
 import _ from '@icatalyst/@lodash';
 import {createMuiStyles, cxMui} from '../../../../utilities';
 
@@ -99,6 +100,10 @@ const OrganisationEntitySettings = ({
 
   const parentContext = masterDetailContext?.parentContext;
   const parentOrgId = parentContext?.entity?.guid;
+  const isOrganisationAdmin = useIsOrganisationAdmin(
+    parentContext?.entityDefinition,
+    parentContext?.entity,
+  );
 
   // undefined = not yet fetched, null = fetched but absent, object = loaded (flat UI model)
   const [loadedEntity, setLoadedEntity] = useState(undefined);
@@ -201,6 +206,9 @@ const OrganisationEntitySettings = ({
   }, [definition.fields, handleChange, setForm]);
 
   const handleSave = () => {
+    if (!isOrganisationAdmin) {
+      return;
+    }
     const isAdding = !loadedEntity;
     const operation = isAdding ? operations['ADD_ENTITY'] : operations['UPDATE_ENTITY'];
     if (!operation) {
@@ -276,35 +284,37 @@ const OrganisationEntitySettings = ({
           className={cxMui(styles.entityView)}
           definition={definition}
           model={form}
-          readonly={false}
+          readonly={!isOrganisationAdmin}
           errors={fieldErrors}
           onChange={handleEntityChange}
         />
       )}
 
       <div className="flex flex-1"/>
-      <div className={cxMui(styles.actionWrapper)}>
-        <Button
-          className={cxMui(styles.actionButton, 'whitespace-no-wrap normal-case')}
-          variant="contained"
-          color="primary"
-          disabled={updating || !canBeSubmitted}
-          onClick={handleSave}
-        >
-          <Icon className={cxMui(styles.actionButtonIcon)}>save</Icon>
-          Save
-        </Button>
-        <Button
-          className={cxMui(styles.actionButton, 'whitespace-no-wrap normal-case')}
-          variant="contained"
-          color="secondary"
-          disabled={updating || !isModified}
-          onClick={handleReset}
-        >
-          <Icon className={cxMui(styles.actionButtonIcon)}>cancel</Icon>
-          Cancel
-        </Button>
-      </div>
+      {isOrganisationAdmin && (
+        <div className={cxMui(styles.actionWrapper)}>
+          <Button
+            className={cxMui(styles.actionButton, 'whitespace-no-wrap normal-case')}
+            variant="contained"
+            color="primary"
+            disabled={updating || !canBeSubmitted}
+            onClick={handleSave}
+          >
+            <Icon className={cxMui(styles.actionButtonIcon)}>save</Icon>
+            Save
+          </Button>
+          <Button
+            className={cxMui(styles.actionButton, 'whitespace-no-wrap normal-case')}
+            variant="contained"
+            color="secondary"
+            disabled={updating || !isModified}
+            onClick={handleReset}
+          >
+            <Icon className={cxMui(styles.actionButtonIcon)}>cancel</Icon>
+            Cancel
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
