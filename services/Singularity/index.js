@@ -33,7 +33,8 @@ class SingularityService {
   #gateway_urls = {
     fileUpload : 'v2/singularity/files',
     partnerLicenses : 'v2/temp/licenses',
-    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys'
+    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
+    session : 'v2/singularity/session',
   };
   #urls = {
     authorize : 'authorize',
@@ -61,7 +62,6 @@ class SingularityService {
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
-    session : 'api/session',
     token : 'token',
     users : 'api/user',
     version : 'version',
