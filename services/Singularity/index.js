@@ -44,7 +44,7 @@ class SingularityService {
     edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
-    knowledgeBase : 'api/knowledgeBase',
+    knowledgeBase : 'v2/api/api/knowledgebaseitems',
     licences : 'v2/api/licences',
     licenceKeys : 'v2/api/licences/:licenceID/keys',
     organisations : 'v2/api/organisations',

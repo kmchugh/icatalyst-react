@@ -3,6 +3,23 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { createDateRangeConstraint } from '../../../EntityView/validations/createDateRangeConstraint';
 
+const tagFieldDelimiter = ';';
+
+const tagListFromFieldValue = (value) => {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return value.split(tagFieldDelimiter).map((t) => t.trim()).filter(Boolean);
+};
+
+const tagFieldDisplayValue = (value) => {
+  const tags = tagListFromFieldValue(value);
+  return tags.length > 0 ? tags.join(tagFieldDelimiter) : null;
+};
+
 const definition = createModel({
   name: 'knowledgeBaseItem',
   icon: 'fa book-reader',
@@ -21,7 +38,7 @@ const definition = createModel({
       readonly: true,
     },
     {
-      id: 'clientid',
+      id: 'clientID',
       readonly: true,
       display: false,
       excludeFromModel : true,
@@ -70,17 +87,19 @@ const definition = createModel({
       id: 'tags',
       type: 'tags',
       required: false,
-      minLength: 1,
-      maxLength: 2048,
-      delimiter : ';',
+      delimiter : tagFieldDelimiter,
+      getValue: (entity) => tagFieldDisplayValue(entity.tags),
+      setValue: (entity, valueMap) => ({
+        tags: tagListFromFieldValue(valueMap?.tags),
+      }),
       getOptions : ()=>{
         return {
           definition,
           extractOptions : (entities)=>{
             return entities
               .map(e=>e.tags)
-              .filter(i=>i)
-              .flatMap(i=>i.split(';'))
+              .filter(i=>i && i.length > 0)
+              .flatMap(i=>i)
               .filter((v, i, a)=>a.indexOf(v) === i);
           }
         };
@@ -122,7 +141,7 @@ const definition = createModel({
       maxLength: 65535,
     },
     {
-      id: 'featureimageurl',
+      id: 'featureImageUrl',
       label : 'Feature Image URL',
       description: 'Link to an image representing this feature',
       type: 'imageuri',
@@ -136,7 +155,7 @@ const definition = createModel({
       ],
     },
     {
-      id: 'mediaurl',
+      id: 'mediaUrl',
       type: 'mediauri',
       label : 'Media URL',
       description: 'Link to a demonstration of this feature',
@@ -150,66 +169,66 @@ const definition = createModel({
       ],
     },
     {
-      id: 'includeintips',
+      id: 'includeInTips',
       label: 'Include in Tips',
       description: 'Show this feature in popup tips',
       type: 'boolean',
       default: false,
     },
     {
-      id: 'includeinkb',
+      id: 'includeInKB',
       label: 'Make searchable',
       description: 'Show this feature in the search results',
       type: 'boolean',
       default: true,
     },
     {
-      id: 'includeintour',
+      id: 'includeInTour',
       label: 'Include in Tour',
       description : 'Include this feature in onboarding tours',
       type: 'boolean',
       default: false,
       validations : [(model, field, value)=>{
-        // This is only required if include in tour is set
-        if (model.tourcontrolid && !value) {
+        if (model.tourControlID && !value) {
           return 'required when tour control is set';
-        } else if (!model.tourcontrolid && value) {
+        } else if (!model.tourControlID && value) {
           return 'not allowed if tour control is not set';
         }
       }]
     },
     {
-      id: 'tourcontrolid',
+      id: 'tourControlID',
       label: 'Tour Control ID',
       description: 'The programmatic identifier of an element to link this feature to',
       minLength: 1,
       maxLength: 256,
       validations : [(model, field, value)=>{
-        // This is only required if include in tour is set
-        if (model.includeintour && !value) {
+        if (model.includeInTour && !value) {
           return 'required when included in tour';
-        } else if (!model.includeintour && value) {
+        } else if (!model.includeInTour && value) {
           return 'not allowed if not including in tour';
         }
       }]
     },
     {
-      id: 'authroles',
+      id: 'authRoles',
       label: 'Authorisation Roles',
       type: 'tags',
       description: 'The roles that can see this feature, leave empty for everyone to see',
       required: false,
-      minLength: 1,
-      maxLength: 1024,
-      delimiter : ';',
+      delimiter : tagFieldDelimiter,
+      getValue: (entity) => tagFieldDisplayValue(entity.authRoles),
+      setValue: (entity, valueMap) => ({
+        authRoles: tagListFromFieldValue(valueMap?.authRoles),
+      }),
       getOptions : ()=>{
         return {
           definition,
           extractOptions : (entities)=>{
             return entities
-              .map(e=>e.authroles)
-              .filter(i=>i)
-              .flatMap(i=>i.split(';'))
+              .map(e=>e.authRoles)
+              .filter(i=>i && i.length > 0)
+              .flatMap(i=>i)
               .filter((v, i, a)=>a.indexOf(v) === i);
           }
         };
@@ -222,7 +241,7 @@ const definition = createModel({
       excludeFromModel : true,
     },
     {
-      id: 'additionaldata',
+      id: 'additionalData',
       label: 'Additional Data',
       display: false,
       required: false,
@@ -234,14 +253,14 @@ const definition = createModel({
     'title',
     ['excerpt', ['tags', 'category']],
     'content',
-    ['featureimageurl', 'mediaurl'],
+    ['featureImageUrl', 'mediaUrl'],
     ['start', 'expiry'],
     [
-      ['enabled', 'includeintips'],
-      ['includeinkb'],
-      ['includeintour', 'tourcontrolid']
+      ['enabled', 'includeInTips'],
+      ['includeInKB'],
+      ['includeInTour', 'tourControlID']
     ],
-    'authroles',
+    'authRoles',
   ],
   listLayout: ['title'],
   getReducerRoot: ({ icatalyst }) => {
