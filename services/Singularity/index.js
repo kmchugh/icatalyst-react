@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    reports_users : 'v2/singularity/reports/users',
   };
   #urls = {
     authorize : 'authorize',
@@ -66,7 +67,6 @@ class SingularityService {
     users : 'api/user',
     version : 'version',
 
-    reports_users : 'v2/api/reports/users',
 
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
