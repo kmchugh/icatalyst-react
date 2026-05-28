@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    profileUpdate : 'v2/singularity/profile',
   };
   #urls = {
     authorize : 'authorize',
@@ -54,7 +55,6 @@ class SingularityService {
     organisationUsers : 'v2/api/organisations/:organisationID/users',
     personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
-    profileUpdate : 'api/me',
     notification : 'v2/api/notification',
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
