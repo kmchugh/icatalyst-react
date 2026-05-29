@@ -17,7 +17,7 @@ import {createMuiStyles, cxMui} from '../../../../utilities';
 
 const useStyles = createMuiStyles((theme) => ({
   root: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
