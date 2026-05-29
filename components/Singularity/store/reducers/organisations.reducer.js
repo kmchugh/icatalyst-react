@@ -3,7 +3,10 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { definition as authProviders } from './authProviders.reducer';
 import { definition as usersDefinition } from './organisationUsers.reducer';
-import { definition as entitySettingsDef } from './organisationEntitySettings.reducer';
+import {
+  definition as entitySettingsDef,
+  entitySettingsAuth,
+} from './organisationEntitySettings.reducer';
 import OrganisationEntitySettings from '../../components/OrganisationEntitySettings';
 
 const definition = createModel({
@@ -133,14 +136,7 @@ const definition = createModel({
     {
       ...entitySettingsDef,
       component: OrganisationEntitySettings,
-      auth: ()=>({
-        retrieveAll : true,
-        create      : true,
-        retrieve    : true,
-        update      : true,
-        delete      : false,
-        route       : true,
-      }),
+      auth: () => entitySettingsAuth,
     },
     {
       ...usersDefinition,

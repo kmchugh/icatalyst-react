@@ -46,17 +46,21 @@ function flattenEntitySettings(entity) {
 
 const urlRule = createURLConstraint({requireHTTPS: true});
 
+/** Tab and CRUD: partner-license managers or platform developers. */
+export const entitySettingsAuth = {
+  retrieveAll: ['partnerLicense', 'developers'],
+  retrieve: ['partnerLicense', 'developers'],
+  create: ['partnerLicense', 'developers'],
+  update: ['partnerLicense', 'developers'],
+  delete: false,
+  route: ['partnerLicense', 'developers'],
+};
+
 const definition = createModel({
   name: 'organisationEntitySetting',
   icon: 'tune',
   primaryTextField: 'authorName',
-  auth: {
-    retrieveAll : true,
-    retrieve    : true,
-    create      : true,
-    update      : true,
-    route       : true,
-  },
+  auth: entitySettingsAuth,
   transformPayload: flattenEntitySettings,
   fields: [
     {id: 'guid', readonly: true},
