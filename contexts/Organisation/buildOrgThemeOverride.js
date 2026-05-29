@@ -1,9 +1,18 @@
 import { createTheme } from '@mui/material/styles';
+import { createColor } from '@icatalyst/utilities/createPalette';
 
 const PALETTE_COLOR_KEYS = ['primary', 'secondary', 'error', 'warning', 'info', 'success'];
 
+/** Org hex → MUI shades; keeps base `contrastText` so nav active labels still use org `main`. */
+function mapOrgSemanticColor(hex) {
+  const { main, dark, light } = createColor(hex);
+  return { main, dark, light };
+}
+
 /**
  * Maps organisation entity-settings palette (hex strings) into MUI palette partials.
+ * Each semantic colour updates main, dark, and light; contrastText stays from the
+ * base app theme so components like nav active labels keep prior readability behaviour.
  *
  * @param {object} palette API `themes.*.palette`
  * @returns {object} MUI palette fragment suitable for createTheme(base, fragment)
@@ -16,7 +25,7 @@ export function mapOrgApiPaletteToMui(palette) {
   PALETTE_COLOR_KEYS.forEach((key)=>{
     const v = palette[key];
     if (typeof v === 'string' && v) {
-      out[key] = { main: v };
+      out[key] = mapOrgSemanticColor(v);
     }
   });
   if (palette.background && typeof palette.background === 'object') {
