@@ -19,10 +19,10 @@ const SECONDS_MS_THRESHOLD = 9999999999;
  */
 class SingularityService {
   #client = {
-    root : 'https://app.singularity.icatalyst.com'
+    root : 'https://app.singularity.icatalyst.com',
   };
   #server = {
-    root : 'https://api.singularity.icatalyst.com'
+    root : 'https://api.singularity.icatalyst.com',
   };
   #gateway_server = {
     root : 'https://api-gateway-staging.sensemaker-suite.com'
@@ -52,6 +52,7 @@ class SingularityService {
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
+    organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
     personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
     profileUpdate : 'api/me',

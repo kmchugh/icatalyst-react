@@ -18,7 +18,7 @@ import ErrorWrapper from '../Errors/ErrorWrapper';
 import FuseLoading from '../fuse/FuseLoading';
 import {isSafari} from 'react-device-detect';
 import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
-
+import { useOrgPaletteMergedTheme } from '../../contexts/Organisation/useOrgPaletteMergedTheme';
 
 const useStyles = createMuiStyles((theme) => {
   return {
@@ -124,6 +124,7 @@ const DetailContent = ({
   const {/*isInRole,*/ accessToken} = singularityContext;
 
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
+  const toolbarTheme = useOrgPaletteMergedTheme(themes.toolbarTheme);
 
   const reset = ()=>{
     setModified(false);
@@ -206,7 +207,7 @@ const DetailContent = ({
   return (
     <div className={cxMui(classes.root)}>
       <StyledEngineProvider injectFirst>
-        <MUIThemeProvider theme={themes.toolbarTheme}>
+        <MUIThemeProvider theme={toolbarTheme}>
           <DetailContentTabs
             config={config}
             tabs={tabs}
