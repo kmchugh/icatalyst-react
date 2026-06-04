@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    edge_type : 'v2/singularity/edge-types',
   };
   #urls = {
     authorize : 'authorize',
@@ -42,7 +43,6 @@ class SingularityService {
     changePassword : 'changePassword',
     client : 'v2/api/clients',
     client_data : 'v2/api/clientdata',
-    edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
     knowledgeBase : 'api/knowledgeBase',
