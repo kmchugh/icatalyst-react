@@ -17,7 +17,7 @@ import {useForm} from '../../../../hooks/fuse';
 import { withRouter } from 'react-router-dom';
 // import * as DialogActions from '../../../../store/actions/dialog.actions';
 import { createMuiStyles, cxMui } from '../../../../utilities';
-
+import { useOrgPaletteMergedTheme } from '../../../../contexts/Organisation/useOrgPaletteMergedTheme';
 
 const useStyles = createMuiStyles((theme)=>{
   return {
@@ -70,6 +70,7 @@ const RoleManagement = ({
   const masterDetailContext = useContext(MasterDetailContext);
   const {accessToken} = useContext(SingularityContext);
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
+  const toolbarTheme = useOrgPaletteMergedTheme(themes.toolbarTheme);
   const {entityID : roleID} = masterDetailContext;
 
   // Set up the paths for redirecting to roles or Users
@@ -329,7 +330,7 @@ const RoleManagement = ({
       style={{...style}}
     >
       <StyledEngineProvider injectFirst>
-        <MUIThemeProvider theme={themes.toolbarTheme}>
+        <MUIThemeProvider theme={toolbarTheme}>
           <div className={cxMui(styles.tabWrapper)}>
             <DetailContentTabs
               config={config}

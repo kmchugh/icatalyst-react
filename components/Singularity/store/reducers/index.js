@@ -19,6 +19,7 @@ import organisations from './organisations.reducer';
 import organisationRoles from './organisationRoles.reducer';
 import organisationStats from './organisationStats.reducer';
 import organisationUsers from './organisationUsers.reducer';
+import organisationEntitySettings from './organisationEntitySettings.reducer';
 import licences from './licences.reducer';
 import licenceKeys from './licenceKeys.reducer';
 import partnerLicenses from './partnerLicences.reducer';
@@ -46,6 +47,7 @@ const reducers = combineReducers({
   organisationRoles,
   organisationStats,
   organisationUsers,
+  organisationEntitySettings,
   personalAccessToken,
   resourceAccess,
   resourceInvite,

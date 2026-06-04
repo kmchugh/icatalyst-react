@@ -19,10 +19,10 @@ const SECONDS_MS_THRESHOLD = 9999999999;
  */
 class SingularityService {
   #client = {
-    root : 'https://app.singularity.icatalyst.com'
+    root : 'https://app.singularity.icatalyst.com',
   };
   #server = {
-    root : 'https://api.singularity.icatalyst.com'
+    root : 'https://api.singularity.icatalyst.com',
   };
   #gateway_server = {
     root : 'https://api-gateway-staging.sensemaker-suite.com'
@@ -33,7 +33,8 @@ class SingularityService {
   #gateway_urls = {
     fileUpload : 'v2/singularity/files',
     partnerLicenses : 'v2/temp/licenses',
-    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys'
+    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
+    session : 'v2/singularity/session',
   };
   #urls = {
     authorize : 'authorize',
@@ -51,6 +52,7 @@ class SingularityService {
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
+    organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
     personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
     profileUpdate : 'api/me',
@@ -61,7 +63,6 @@ class SingularityService {
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
-    session : 'api/session',
     token : 'token',
     users : 'api/user',
     version : 'version',
