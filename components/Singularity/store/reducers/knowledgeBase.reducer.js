@@ -24,6 +24,7 @@ const definition = createModel({
   name: 'knowledgeBaseItem',
   icon: 'fa book-reader',
   primaryTextField: 'title',
+  updateMethod: 'patch',
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
