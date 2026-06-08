@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
   #urls = {
@@ -64,7 +65,6 @@ class SingularityService {
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
     token : 'token',
-    users : 'api/user',
     version : 'version',
 
     reports_users : 'v2/api/reports/users',
