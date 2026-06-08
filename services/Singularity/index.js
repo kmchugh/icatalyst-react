@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    edge_type : 'v2/singularity/edge-types',
     organisations : 'v2/singularity/organisations',
     licenceKeys : 'v2/singularity/licenses/:licenceID/keys',
     licences : 'v2/singularity/licenses',
@@ -49,7 +50,6 @@ class SingularityService {
     changePassword : 'changePassword',
     client : 'v2/api/clients',
     client_data : 'v2/api/clientdata',
-    edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
@@ -67,8 +67,6 @@ class SingularityService {
     roles : 'api/group',
     token : 'token',
     version : 'version',
-
-
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
