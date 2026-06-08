@@ -35,6 +35,8 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    licenceKeys : 'v2/singularity/licenses/:licenceID/keys',
+
     licences : 'v2/singularity/licenses',
     profileUpdate : 'v2/singularity/profile',
     reports_users : 'v2/singularity/reports/users',
@@ -50,7 +52,6 @@ class SingularityService {
     edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
-    licenceKeys : 'v2/api/licences/:licenceID/keys',
     organisations : 'v2/api/organisations',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
