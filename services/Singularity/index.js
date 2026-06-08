@@ -37,6 +37,7 @@ class SingularityService {
     session : 'v2/singularity/session',
     licenceKeys : 'v2/singularity/licenses/:licenceID/keys',
 
+    knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
   #urls = {
     authorize : 'authorize',
@@ -47,7 +48,6 @@ class SingularityService {
     edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
-    knowledgeBase : 'api/knowledgeBase',
     licences : 'v2/api/licences',
     organisations : 'v2/api/organisations',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
