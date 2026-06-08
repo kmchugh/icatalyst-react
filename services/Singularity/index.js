@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    licences : 'v2/singularity/licenses',
     profileUpdate : 'v2/singularity/profile',
     reports_users : 'v2/singularity/reports/users',
     users : 'v2/singularity/users',
