@@ -48,6 +48,10 @@ const RichTextField = ({
     rteConfig.multiline :
     maxLength>256;
 
+  const hasContent = Boolean(
+    value && String(value).replace(/<[^>]+>/g, '').trim()
+  );
+
   return (
     <TextField
       className={cxMui(styles.root, className)}
@@ -58,6 +62,11 @@ const RichTextField = ({
       helperText={hasErrors ? errors[0] : description}
       required={required}
       autoFocus={autoFocus}
+      InputLabelProps={{
+        className: styles.inputLabel,
+        // Custom inputComponent (CKEditor) does not update MUI filled state
+        shrink: hasContent ? true : undefined,
+      }}
       InputProps={{
         readOnly: readonly,
         inputComponent : RichTextEditor,

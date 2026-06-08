@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import PropTypes from 'prop-types';
 import { createMuiStyles, cxMui, useMuiTheme } from '../../utilities';
+import { useOrganisation } from '../../contexts/Organisation/OrganisationContext';
 
 const styles = (theme) => {
   return {
@@ -46,20 +47,24 @@ function Logo({
   const classes = useStyles();
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
   const theme = useMuiTheme();
+  const { entitySettings } = useOrganisation();
+
+  const logoSrc = entitySettings?.logoURI || config.clientLogo;
+  const displayName = entitySettings?.authorName || config.clientName;
 
   return (
     <div className={cxMui(classes.root, className)}>
       <div className={cxMui(classes.logoWrapper, 'logo-icon')}>
         <Image className={cxMui(classes.logoIcon)}
-          src={config.clientLogo}
+          src={logoSrc}
           defaultSrc={
             mostReadable(tinycolor(theme.palette.secondary.contrastText), ['#fff', '#000'], {}).toHexString() === '#000000' ?
               'assets/images/placeholders/image_dark.svg' :
               'assets/images/placeholders/image_light.svg'
           }
-          alt={`logo for ${config.clientName}`}/>
+          alt={`logo for ${displayName}`}/>
       </div>
-      {showTitle && <Typography variant="h1" className={cxMui(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{config.clientName}</Typography>}
+      {showTitle && <Typography variant="h1" className={cxMui(classes.logoText, 'text-16 ml-12 font-light logo-text')}>{displayName}</Typography>}
     </div>
   );
 }
