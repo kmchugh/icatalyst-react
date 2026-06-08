@@ -16,6 +16,7 @@ const definition = createModel({
   primaryTextField: 'name',
   secondaryTextField: 'tagline',
   featureImageField: 'featureImageURI',
+  updateMethod: 'patch',
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
