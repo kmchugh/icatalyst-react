@@ -3,6 +3,7 @@ import {AppBar, Toolbar, Typography, Link} from '@mui/material';
 import Image from '../../../components/Image';
 import {useSelector} from 'react-redux';
 import { createMuiStyles, cxMui } from '../../../utilities';
+import { useOrganisation } from '../../../contexts/Organisation/OrganisationContext';
 
 
 const useStyles = createMuiStyles((theme) => ({
@@ -42,18 +43,26 @@ function Footer()
   const classes = useStyles();
 
   const config = useSelector(({icatalyst}) => icatalyst.settings.current.layout);
+  const { entitySettings } = useOrganisation();
+
+  const footerTitle = entitySettings?.authorName || config.companyName;
+  const footerLogo = entitySettings?.authorLogo || config.companyLogo;
+  const footerHref =
+    entitySettings?.authorURL ||
+    entitySettings?.websiteURI ||
+    config.companyUrl;
 
   return (
     <AppBar component="div" id="nav-footer" className={cxMui(classes.root, 'relative',  'z-10')} color="default">
       <Toolbar className="px-16 py-0 flex items-center min-h-32">
-        <Link className={cxMui(classes.link, 'nav-footer-link')} href={config.companyUrl} target="_blank">
+        <Link className={cxMui(classes.link, 'nav-footer-link')} href={footerHref} target="_blank">
           <Image
             className={cxMui(classes.logo, 'nav-footer-icon')}
             defaultSrc="static/backgrounds/150.png"
-            alt={`${config.companyName} Logo`}
-            src={config.companyLogo}/>
+            alt={`${footerTitle} Logo`}
+            src={footerLogo}/>
           <Typography color="textPrimary" variant="caption" className={cxMui(classes.text, 'nav-footer-text')}>
-            {config.companyName}
+            {footerTitle}
           </Typography>
         </Link>
       </Toolbar>
