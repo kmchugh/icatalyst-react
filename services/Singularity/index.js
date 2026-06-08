@@ -35,7 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
-    licences : 'v2/singularity/licenses'
+    licences : 'v2/singularity/licenses',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
   #urls = {
