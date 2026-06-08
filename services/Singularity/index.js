@@ -36,6 +36,8 @@ class SingularityService {
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
     profileUpdate : 'v2/singularity/profile',
+    reports_users : 'v2/singularity/reports/users',
+    users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
   #urls = {
@@ -64,10 +66,8 @@ class SingularityService {
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
     token : 'token',
-    users : 'api/user',
     version : 'version',
 
-    reports_users : 'v2/api/reports/users',
 
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
