@@ -35,6 +35,7 @@ class SingularityService {
     partnerLicenses : 'v2/temp/licenses',
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
+    reports_users : 'v2/singularity/reports/users',
     users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
@@ -67,7 +68,6 @@ class SingularityService {
     token : 'token',
     version : 'version',
 
-    reports_users : 'v2/api/reports/users',
 
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
