@@ -36,6 +36,12 @@ class SingularityService {
     partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
     session : 'v2/singularity/session',
     edge_type : 'v2/singularity/edge-types',
+    organisations : 'v2/singularity/organisations',
+    licenceKeys : 'v2/singularity/licenses/:licenceID/keys',
+    licences : 'v2/singularity/licenses',
+    profileUpdate : 'v2/singularity/profile',
+    reports_users : 'v2/singularity/reports/users',
+    users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
   };
   #urls = {
@@ -46,16 +52,12 @@ class SingularityService {
     client_data : 'v2/api/clientdata',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
-    licences : 'v2/api/licences',
-    licenceKeys : 'v2/api/licences/:licenceID/keys',
-    organisations : 'v2/api/organisations',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
     organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
     personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
-    profileUpdate : 'api/me',
     notification : 'v2/api/notification',
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
@@ -64,11 +66,7 @@ class SingularityService {
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
     token : 'token',
-    users : 'api/user',
     version : 'version',
-
-    reports_users : 'v2/api/reports/users',
-
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
