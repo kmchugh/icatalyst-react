@@ -24,6 +24,7 @@ import { withRouter } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import {tinycolor, mostReadable} from '@ctrl/tinycolor';
 import { createMuiStyles, cxMui } from '../../utilities';
+import { useOrgPaletteMergedTheme } from '../../contexts/Organisation/useOrgPaletteMergedTheme';
 
 const TABLE_SETTINGS_ID = 'icat_table';
 
@@ -203,6 +204,8 @@ const Table = ({
   const updateData = ()=>{};
 
   const themes = useSelector(({icatalyst}) => icatalyst.settings.current.themes);
+  const toolbarTheme = useOrgPaletteMergedTheme(themes.toolbarTheme);
+  const footerTheme = useOrgPaletteMergedTheme(themes.footerTheme);
 
   const tableSettings = useSettingsContext(TABLE_SETTINGS_ID, {location, match});
   const {
@@ -401,7 +404,7 @@ const Table = ({
       {!updating && data && data.length > 0 && (
         <TableContainer className={cxMui(classes.tableWrapper)}>
           <StyledEngineProvider injectFirst>
-            <MUIThemeProvider theme={themes.toolbarTheme}>
+            <MUIThemeProvider theme={toolbarTheme}>
               <TableToolbar
                 className={cxMui(classes.tableToolbar)}
                 title={title}
@@ -492,7 +495,7 @@ const Table = ({
           </div>
 
           <StyledEngineProvider injectFirst>
-            <MUIThemeProvider theme={themes.footerTheme}>
+            <MUIThemeProvider theme={footerTheme}>
               <TablePagination
                 count={data.length}
                 rowsPerPage={pageSize}

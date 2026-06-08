@@ -6,6 +6,8 @@ import { Provider } from 'react-redux';
 import {SettingsProvider} from '../components/Settings';
 import  Theme from '../components/Theme';
 import  Singularity from '../components/Singularity';
+import OrganisationProvider from '../contexts/Organisation/OrganisationContext';
+import OrganisationMuiTheme from '../contexts/Organisation/OrganisationMuiTheme';
 import  ErrorBoundary from '../components/Errors/ErrorBoundary';
 import { Router } from 'react-router-dom';
 import {CssBaseline} from '@mui/material';
@@ -84,8 +86,12 @@ export default function createApp({
                         // Allows customisation of the roles that are displayed to the user
                         filterDisplayRoles : filterDisplayRoles,
                       }}>
-                        <CssBaseline/>
-                        <Layout/>
+                        <OrganisationProvider>
+                          <OrganisationMuiTheme>
+                            <CssBaseline/>
+                            <Layout/>
+                          </OrganisationMuiTheme>
+                        </OrganisationProvider>
                       </Singularity>
                     </Router>
                   </ErrorBoundary>
