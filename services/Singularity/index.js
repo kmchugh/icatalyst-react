@@ -43,12 +43,12 @@ class SingularityService {
     reports_users : 'v2/singularity/reports/users',
     users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
+    client : 'v2/singularity/clients',
   };
   #urls = {
     authorize : 'authorize',
     authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
-    client : 'v2/api/clients',
     client_data : 'v2/api/clientdata',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
