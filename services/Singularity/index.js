@@ -43,6 +43,7 @@ class SingularityService {
     reports_users : 'v2/singularity/reports/users',
     users : 'v2/singularity/users',
     knowledgeBase : 'v2/singularity/knowledge-base-items',
+    personalAccessToken : 'v2/singularity/personal-access-tokens',
     client_data : 'v2/singularity/client-data',
     client : 'v2/singularity/clients',
   };
@@ -56,7 +57,6 @@ class SingularityService {
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
     organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
-    personalAccessToken : 'v2/api/personalaccesstokens',
     profile : 'api/profile',
     notification : 'v2/api/notification',
     roleMembers: 'v2/api/roles/:roleID/relationships',
