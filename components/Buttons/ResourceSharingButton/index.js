@@ -141,33 +141,88 @@ const ResourceSharingButton = ({
           setShowWizard(false);
           onClosed && onClosed();
         }}
-        onSave={(data, callback)=>{
-          const payload = {
-            emails : data.emails,
-            resources : [
-              {
-                resourceType : data.resourceType,
-                resourceDescription : data.resourceDescription,
-                resourceID : data.resourceID,
-                start : data.start,
-                expiry : data.expiry,
-                edgeTypes : data.edgeTypes
-              },
-              ...additionalResources.map((r)=>{
-                return {
-                  start : data.start,
-                  expiry : data.expiry,
-                  ...r,
-                };
-              })
-            ]
+        onSave={(data, callback) => {
+          const buildRelationships = (edgeTypes, start, expiry) => {
+            const types = Array.isArray(edgeTypes) ? edgeTypes : [edgeTypes].filter(Boolean);
+            return types.map((relationshipTypeID) => {
+              const rel = { relationshipTypeID };
+              if (start != null) rel.starts = start;
+              if (expiry != null) rel.expires = expiry;
+              return rel;
+            });
           };
-          dispatch(inviteDefinition.operations['ADD_ENTITY'](payload, (err, res)=>{
-            callback && callback(err, res);
-            !err && onSaved && onSaved(res);
-          }, {
-            accessToken : accessToken
-          }));
+        
+          const RESERVED_RESOURCE_TYPES = {
+            role: 'roles',
+            group: 'groups',
+          };
+        
+          const resourceMapKey = (resourceType) => {
+            const overrides = {
+              framework: 'framework',
+              dashboard: 'dashboard',
+            };
+            return overrides[resourceType] || `${resourceType}s`;
+          };
+        
+          const addEntitlement = (entitlements, resource) => {
+            const { resourceType, resourceDescription, resourceID, start, expiry, edgeTypes } = resource;
+            const relationships = buildRelationships(edgeTypes, start, expiry);
+            const isReservedResourceType = RESERVED_RESOURCE_TYPES[resourceType];
+        
+            if (isReservedResourceType) {
+              entitlements[isReservedResourceType] = entitlements[isReservedResourceType] || [];
+              entitlements[isReservedResourceType].push({ id: resourceID, relationships });
+            } else {
+              const mapKey = resourceMapKey(resourceType);
+              entitlements.resourceMap = entitlements.resourceMap || {};
+              entitlements.resourceMap[mapKey] = entitlements.resourceMap[mapKey] || [];
+              entitlements.resourceMap[mapKey].push({
+                resourceID,
+                ...(resourceDescription ? { resourceDescription } : {}),
+                relationships,
+              });
+            }
+          };
+        
+          const entitlements = {};
+        
+          addEntitlement(entitlements, {
+            resourceType: data.resourceType,
+            resourceDescription: data.resourceDescription,
+            resourceID: data.resourceID,
+            start: data.start,
+            expiry: data.expiry,
+            edgeTypes: data.edgeTypes,
+          });
+        
+          additionalResources.forEach((r) => {
+            addEntitlement(entitlements, {
+              start: data.start,
+              expiry: data.expiry,
+              ...r,
+            });
+          });
+        
+          const emails = Array.isArray(data.emails) ? data.emails : [data.emails];
+        
+          emails.forEach((email) => {
+            const payload = {
+              email,
+              name: data.name,
+              description: data.description,
+              message: data.message,
+              requiresAcknowledgement: true,
+              entitlements,
+            };
+        
+            dispatch(inviteDefinition.operations['ADD_ENTITY'](payload, (err, res) => {
+              callback && callback(err, res);
+              !err && onSaved && onSaved(res);
+            }, {
+              accessToken : accessToken
+            }));
+          });
         }}
         pageLayouts={[{
           // showTitle : false,

@@ -11,6 +11,7 @@ const definition = createModel({
   name: 'invite',
   icon: 'contact_mail',
   canAdd : false,
+  updateMethod: 'patch',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
