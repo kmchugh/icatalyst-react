@@ -206,23 +206,21 @@ const ResourceSharingButton = ({
         
           const emails = Array.isArray(data.emails) ? data.emails : [data.emails];
         
-          emails.forEach((email) => {
-            const payload = {
-              email,
-              name: data.name,
-              description: data.description,
-              message: data.message,
-              requiresAcknowledgement: true,
-              entitlements,
-            };
-        
-            dispatch(inviteDefinition.operations['ADD_ENTITY'](payload, (err, res) => {
-              callback && callback(err, res);
-              !err && onSaved && onSaved(res);
-            }, {
-              accessToken : accessToken
-            }));
-          });
+          const payload = {
+            emails,
+            name: data.name,
+            description: data.description,
+            message: data.message,
+            requiresAcknowledgement: true,
+            entitlements,
+          };
+      
+          dispatch(inviteDefinition.operations['BULK_ADD_ENTITIES'](payload, (err, res) => {
+            callback && callback(err, res);
+            !err && onSaved && onSaved(res);
+          }, {
+            accessToken : accessToken
+          }));          
         }}
         pageLayouts={[{
           // showTitle : false,
