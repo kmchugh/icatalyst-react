@@ -142,6 +142,15 @@ const ResourceSharingButton = ({
           onClosed && onClosed();
         }}
         onSave={(data, callback) => {
+          const RESERVED_RESOURCE_TYPES = {
+            role: 'roles',
+            group: 'groups',
+          };
+
+          const RESOURCE_MAP_OVERRIDES = {
+            framework: 'framework',
+            dashboard: 'dashboard',
+          };
           const buildRelationships = (edgeTypes, start, expiry) => {
             const types = Array.isArray(edgeTypes) ? edgeTypes : [edgeTypes].filter(Boolean);
             return types.map((relationshipTypeID) => {
@@ -152,17 +161,8 @@ const ResourceSharingButton = ({
             });
           };
         
-          const RESERVED_RESOURCE_TYPES = {
-            role: 'roles',
-            group: 'groups',
-          };
-        
           const resourceMapKey = (resourceType) => {
-            const overrides = {
-              framework: 'framework',
-              dashboard: 'dashboard',
-            };
-            return overrides[resourceType] || `${resourceType}s`;
+            return RESOURCE_MAP_OVERRIDES[resourceType] || `${resourceType}s`;
           };
         
           const addEntitlement = (entitlements, resource) => {
@@ -208,11 +208,11 @@ const ResourceSharingButton = ({
         
           const payload = {
             emails,
-            name: data.name,
-            description: data.description,
-            message: data.message,
-            requiresAcknowledgement: true,
+            requiresAcknowledgement: data.requiresAcknowledgement ?? true,
             entitlements,
+            ...(data.name && { name: data.name }),
+            ...(data.description && { description: data.description }),
+            ...(data.message && { message: data.message }),
           };
       
           dispatch(inviteDefinition.operations['BULK_ADD_ENTITIES'](payload, (err, res) => {
