@@ -47,6 +47,7 @@ class SingularityService {
     client_data : 'v2/singularity/client-data',
     client : 'v2/singularity/clients',
     invites : 'v2/singularity/invites',
+    notification : 'v2/singularity/notifications',
   };
   #urls = {
     authorize : 'authorize',
@@ -58,7 +59,6 @@ class SingularityService {
     organisationUsers : 'v2/api/organisations/:organisationID/users',
     organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
     profile : 'api/profile',
-    notification : 'v2/api/notification',
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
     roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
