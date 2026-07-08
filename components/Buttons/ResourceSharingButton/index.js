@@ -166,7 +166,7 @@ const ResourceSharingButton = ({
           };
         
           const addEntitlement = (entitlements, resource) => {
-            const { resourceType, resourceDescription, resourceID, start, expiry, edgeTypes } = resource;
+            const { resourceType, resourceID, start, expiry, edgeTypes } = resource;
             const relationships = buildRelationships(edgeTypes, start, expiry);
             const isReservedResourceType = RESERVED_RESOURCE_TYPES[resourceType];
         
@@ -179,7 +179,6 @@ const ResourceSharingButton = ({
               entitlements.resourceMap[mapKey] = entitlements.resourceMap[mapKey] || [];
               entitlements.resourceMap[mapKey].push({
                 resourceID,
-                ...(resourceDescription ? { resourceDescription } : {}),
                 relationships,
               });
             }
@@ -189,7 +188,6 @@ const ResourceSharingButton = ({
         
           addEntitlement(entitlements, {
             resourceType: data.resourceType,
-            resourceDescription: data.resourceDescription,
             resourceID: data.resourceID,
             start: data.start,
             expiry: data.expiry,
@@ -205,13 +203,16 @@ const ResourceSharingButton = ({
           });
         
           const emails = Array.isArray(data.emails) ? data.emails : [data.emails];
+          const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+          const inviteExpiry = Date.now() + SEVEN_DAYS_MS;          
         
           const payload = {
             emails,
+            expires: inviteExpiry,
             requiresAcknowledgement: data.requiresAcknowledgement ?? true,
             entitlements,
-            ...(data.name && { name: data.name }),
-            ...(data.description && { description: data.description }),
+            name: data.name || primaryText,
+            ...(data.resourceDescription && { description: data.resourceDescription }),
             ...(data.message && { message: data.message }),
           };
       
