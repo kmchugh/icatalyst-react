@@ -30,8 +30,8 @@ ops['BULK_ADD_ENTITIES'] = (data, callback, requestConfig = {})=>{
     data,
     transform : requestConfig.transform,
   },
-  'ENTITY_ADDED',
-  'ENTITY_ADDED_ERROR',
+  actions['ENTITY_ADDED'],
+  actions['ENTITY_ADDED_ERROR'],
   callback
   );
 };
