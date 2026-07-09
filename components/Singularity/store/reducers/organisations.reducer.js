@@ -3,6 +3,11 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { createURLConstraint } from '../../../EntityView/validations/createURLConstraint';
 import { definition as authProviders } from './authProviders.reducer';
 import { definition as usersDefinition } from './organisationUsers.reducer';
+import {
+  definition as entitySettingsDef,
+  entitySettingsAuth,
+} from './organisationEntitySettings.reducer';
+import OrganisationEntitySettings from '../../components/OrganisationEntitySettings';
 
 const definition = createModel({
   name: 'organisation',
@@ -11,6 +16,7 @@ const definition = createModel({
   primaryTextField: 'name',
   secondaryTextField: 'tagline',
   featureImageField: 'featureImageURI',
+  updateMethod: 'patch',
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
@@ -128,6 +134,11 @@ const definition = createModel({
     return icatalyst.singularity.organisations;
   },
   children : [
+    {
+      ...entitySettingsDef,
+      component: OrganisationEntitySettings,
+      auth: () => entitySettingsAuth,
+    },
     {
       ...usersDefinition,
       auth: ()=>{

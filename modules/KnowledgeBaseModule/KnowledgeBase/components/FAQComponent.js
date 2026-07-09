@@ -222,6 +222,9 @@ const FAQComponent = ({
       if (!item) {
         return acc;
       }
+      if (Array.isArray(item)) {
+        return `${acc} ${item.join(' ')}`;
+      }
       const htmlEscapedStr = item.replace(regex, '');
       return `${acc} ${htmlEscapedStr}`;
     }, '');
@@ -234,7 +237,7 @@ const FAQComponent = ({
     return false;
   };
   const faqData = data.filter((item) =>
-    item.includeinkb && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags, item?.category)
+    item.includeInKB && applyFilter(item?.title, item?.content, item?.excerpt, item?.tags, item?.category)
   );
 
   return hasAccess ? (
@@ -295,7 +298,7 @@ const FAQComponent = ({
                 <Grid container className={classes.titleContainer}>
                   <Image
                     className={classes.featureImg}
-                    src={element.featureimageurl}
+                    src={element.featureImageUrl}
                     defaultSrc={placeholderImage}
                   />
                   <Grid className={classes.headerTitle}>
@@ -318,15 +321,15 @@ const FAQComponent = ({
               <AccordionDetails>
                 <div className={cxMui(classes.accordionContent)}>
                   <Grid container>
-                    {element.mediaurl && (
+                    {element.mediaUrl && (
                       <video className={cxMui(classes.accordionVideo)} controls>
-                        <source src={element.mediaurl} type='video/mp4' />
+                        <source src={element.mediaUrl} type='video/mp4' />
                       </video>
                     )}
                     {element.content && (
                       <Grid
                         sm={12}
-                        md={element.mediaurl ? 5 : 10}
+                        md={element.mediaUrl ? 5 : 10}
                         className={cxMui(classes.contentDetail)}
                       >
                         <Typography
@@ -339,10 +342,10 @@ const FAQComponent = ({
                   </Grid>
 
                   <div className={cxMui(classes.tagArea)}>
-                    {element.tags && (
+                    {element.tags?.length > 0 && (
                       <div className={cxMui(classes.accordionChip)}>
                         <Typography variant='subtitle2'>Tags :</Typography>
-                        {element.tags.split(';').map((item) => (
+                        {element.tags.map((item) => (
                           <Chip
                             key={item}
                             label={item}

@@ -10,6 +10,7 @@ import RoleComponent from './RoleComponent';
 import StatsComponent from './StatsComponent';
 import {definition as organisationStatsDefinition} from '../../store/reducers/organisationStats.reducer';
 import {definition as organisationRolesDefinition} from '../../store/reducers/organisationRoles.reducer';
+import {isOrganisationAdmin as checkIsOrganisationAdmin} from '../../utilities/isOrganisationAdmin';
 import * as DialogActions from '../../../../store/actions/dialog.actions';
 import UserEmailInputDialogContent from '../UserEmailInputDialogContent';
 import * as MessageActions from 'app/store/actions/app';
@@ -110,48 +111,8 @@ const OrganisationUserManagement = ({
     refreshUserData();
   }, []);
 
-  useEffect(()=>{
-    if (!user || !data || !Array.isArray(data.entities) || data.entities.length === 0) {
-      setIsOrganisationAdmin(false);
-      return;
-    }
-  
-    const isAdmin = data.entities.some((entity)=>{
-      const { role, users = [] } = entity;
-  
-      if (!role) {
-        return false;
-      }
-  
-      // Identify the "Administrative Role"
-      const roleName = (role.name || '').toLowerCase();
-      const roleDescription = (role.description || '').toLowerCase();
-      const isAdministrativeRole =
-        roleDescription === 'administrative role' ||
-        roleName.includes('administrators');
-  
-      if (!isAdministrativeRole) {
-        return false;
-      }
-  
-      // Does the logged-in user appear in this role’s users?
-      return users.some((u)=>{
-        const sameUser = u.guid === user.userID;
-  
-        if (!sameUser || !Array.isArray(u.edges)) {
-          return false;
-        }
-  
-        // Does this user have an OWNER edge to this role?
-        return u.edges.some((edge)=>{
-          const isOwnerEdge = edge.edgeType && edge.edgeType.code === 'SINGULARITY_OWNER_EDGE';
-          const edgeToThisRole = edge.destinationID === role.guid;
-          return isOwnerEdge && edgeToThisRole;
-        });
-      });
-    });
-    console.log('isAdmin', isAdmin);
-    setIsOrganisationAdmin(isAdmin);
+  useEffect(() => {
+    setIsOrganisationAdmin(checkIsOrganisationAdmin(user, data?.entities));
   }, [data, user]);
 
   const dispatchUpdateRole = (roleID, update)=>{

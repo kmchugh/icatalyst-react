@@ -19,10 +19,10 @@ const SECONDS_MS_THRESHOLD = 9999999999;
  */
 class SingularityService {
   #client = {
-    root : 'https://app.singularity.icatalyst.com'
+    root : 'https://app.singularity.icatalyst.com',
   };
   #server = {
-    root : 'https://api.singularity.icatalyst.com'
+    root : 'https://api.singularity.icatalyst.com',
   };
   #gateway_server = {
     root : 'https://api-gateway-staging.sensemaker-suite.com'
@@ -33,41 +33,40 @@ class SingularityService {
   #gateway_urls = {
     fileUpload : 'v2/singularity/files',
     partnerLicenses : 'v2/temp/licenses',
-    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys'
+    partnerLicenceKeys : 'v2/temp/licenses/:licenceID/keys',
+    session : 'v2/singularity/session',
+    edge_type : 'v2/singularity/edge-types',
+    organisations : 'v2/singularity/organisations',
+    licenceKeys : 'v2/singularity/licenses/:licenceID/keys',
+    licences : 'v2/singularity/licenses',
+    profileUpdate : 'v2/singularity/profile',
+    reports_users : 'v2/singularity/reports/users',
+    users : 'v2/singularity/users',
+    knowledgeBase : 'v2/singularity/knowledge-base-items',
+    personalAccessToken : 'v2/singularity/personal-access-tokens',
+    client_data : 'v2/singularity/client-data',
+    client : 'v2/singularity/clients',
+    notification : 'v2/singularity/notifications',
   };
   #urls = {
     authorize : 'authorize',
     authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
-    client : 'v2/api/clients',
-    client_data : 'v2/api/clientdata',
-    edge_type : 'api/edgetype',
     fileUpload : 'api/fileUpload',
     invites : 'api/invite',
-    knowledgeBase : 'api/knowledgeBase',
-    licences : 'v2/api/licences',
-    licenceKeys : 'v2/api/licences/:licenceID/keys',
-    organisations : 'v2/api/organisations',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
-    personalAccessToken : 'v2/api/personalaccesstokens',
+    organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
     profile : 'api/profile',
-    profileUpdate : 'api/me',
-    notification : 'v2/api/notification',
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
     roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
     roles : 'api/group',
-    session : 'api/session',
     token : 'token',
-    users : 'api/user',
     version : 'version',
-
-    reports_users : 'v2/api/reports/users',
-
     // TODO: The following endpoints may change
     resource_permissions : 'api/resourcePermissions',
     role_permissions : 'api/rolePermissions',
