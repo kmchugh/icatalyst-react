@@ -46,6 +46,7 @@ class SingularityService {
     personalAccessToken : 'v2/singularity/personal-access-tokens',
     client_data : 'v2/singularity/client-data',
     client : 'v2/singularity/clients',
+    invites : 'v2/singularity/invites',
     notification : 'v2/singularity/notifications',
   };
   #urls = {
@@ -53,7 +54,6 @@ class SingularityService {
     authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
     fileUpload : 'api/fileUpload',
-    invites : 'api/invite',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
