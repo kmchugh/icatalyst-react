@@ -13,6 +13,7 @@ const definition = createModel({
   identityFieldName: 'guid',
   primaryTextField: 'name',
   secondaryTextField: 'description',
+  updateMethod: 'patch',
   auth: {
     retrieveAll: 'admin',
     create: 'admin',
