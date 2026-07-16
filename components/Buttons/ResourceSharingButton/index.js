@@ -211,6 +211,7 @@ const ResourceSharingButton = ({
             expires: inviteExpiry,
             requiresAcknowledgement: data.requiresAcknowledgement ?? true,
             entitlements,
+            message:`Invite for ${primaryText} `,
             name: data.name || primaryText,
             ...(data.resourceDescription && { description: data.resourceDescription }),
             ...(data.message && { message: data.message }),

@@ -201,6 +201,7 @@ const Table = ({
   actions = [],
   showDensityToggle = true,
   rightHeaderComponent,
+  getRowID
 })=>{
 
   const skipPageReset = true;
@@ -298,6 +299,8 @@ const Table = ({
   } = useTable({
     columns: columnDefinitions,
     data,
+    getRowId: getRowID ? (row) => getRowID(row) : undefined, 
+    autoResetSelectedRows: false, 
     defaultColumn : {
       Cell: DefaultCell
     },
@@ -306,7 +309,7 @@ const Table = ({
     initialState : {
       pageSize: reducerValues.rowsPerPage
     },
-    autoResetGlobalFilter: false
+    
   },
   useGlobalFilter,
   useSortBy,
@@ -399,31 +402,34 @@ const Table = ({
   }
 
   // Merge built-in actions with custom actions passed from outside
-  const toolbarActions = useMemo(() => {
-    return [
-      {
-        title: 'delete',
-        icon: 'delete',
-        onClick: () => onDeleteClicked && onDeleteClicked(
-          data.filter((d, i) => selectedRowIds[i] === true)
-        ),
-        show: canDelete && Object.keys(selectedRowIds).length > 0,
-      },
-      {
-        title: 'add',
-        icon: 'add',
-        onClick: () => onAddClicked && onAddClicked(),
-        show: canAdd && Object.keys(selectedRowIds).length === 0,
-      },
-      ...actions.map((item) => ({
-        ...item,
-        onClick: typeof item.onClick === 'function' ? () => item.onClick(data.filter((d, i) => selectedRowIds[i] === true)) : item.onClick,
-        show: typeof item.show === 'function'
-          ? item.show({ selectedRowIds, data })
-          : item.show,
-      })),
-    ];
-  }, [actions, selectedRowIds, data, canAdd, canDelete]);
+const toolbarActions = useMemo(() => {
+  const idOf = (row, i) => (getRowID ? getRowID(row) : i);
+  return [
+    {
+      title: 'delete',
+      icon: 'delete',
+      onClick: () => onDeleteClicked && onDeleteClicked(
+        data.filter((d, i) => selectedRowIds[idOf(d, i)] === true)
+      ),
+      show: canDelete && Object.keys(selectedRowIds).length > 0,
+    },
+    {
+      title: 'add',
+      icon: 'add',
+      onClick: () => onAddClicked && onAddClicked(),
+      show: canAdd && Object.keys(selectedRowIds).length === 0,
+    },
+    ...actions.map((item) => ({
+      ...item,
+      onClick: typeof item.onClick === 'function'
+        ? () => item.onClick(data.filter((d, i) => selectedRowIds[idOf(d, i)] === true))
+        : item.onClick,
+      show: typeof item.show === 'function'
+        ? item.show({ selectedRowIds, data })
+        : item.show,
+    })),
+  ];
+}, [actions, selectedRowIds, data, canAdd, canDelete, getRowID]);
 
   return (
     <div ref={_tableRef} className={cxMui(classes.root, className, `density-${mode}`)}>
