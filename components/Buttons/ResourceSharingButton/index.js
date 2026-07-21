@@ -178,7 +178,7 @@ const ResourceSharingButton = ({
               entitlements.resourceMap = entitlements.resourceMap || {};
               entitlements.resourceMap[mapKey] = entitlements.resourceMap[mapKey] || [];
               entitlements.resourceMap[mapKey].push({
-                resourceID,
+                id :resourceID,
                 relationships,
               });
             }
