@@ -19,7 +19,7 @@ const SECONDS_MS_THRESHOLD = 9999999999;
  */
 class SingularityService {
   #client = {
-    root : 'https://api-singularity-dev.sensemaker-suite.com',
+    root : 'https://app-singularity-dev.sensemaker-suite.com',
   };
   #server = {
     root : 'https://api-singularity-dev.sensemaker-suite.com',
