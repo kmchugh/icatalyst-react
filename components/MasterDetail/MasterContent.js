@@ -37,7 +37,10 @@ const MasterContent = (props)=>{
     auth,
     onAdd,
     onDelete,
-    config
+    config,
+    rightHeaderComponent,
+    actions = [],
+    showDensityToggle = true,
   } = props;
 
   const classes = useStyles();
@@ -57,8 +60,7 @@ const MasterContent = (props)=>{
             <NavbarMobileToggleButton className={cxMui(classes.mobileNavButton)}/>
             <div className={classes.separator}/>
           </>
-        ) : null
-      }
+        ) : null}
       canAdd={onAdd && auth.create}
       onAddClicked={onAdd ? onAdd : null}
       onDeleteClicked={onDelete}
@@ -70,6 +72,9 @@ const MasterContent = (props)=>{
         }
       }}
       canDelete={onDelete && auth.delete}
+      actions={actions}
+      showDensityToggle={showDensityToggle}
+      rightHeaderComponent={rightHeaderComponent}
     />
   );
 };
@@ -94,7 +99,15 @@ MasterContent.propTypes = {
     update : PropTypes.bool,
     delete : PropTypes.bool
   }),
-  config : PageBase.propTypes.config
+  config : PageBase.propTypes.config,
+  rightHeaderComponent: PropTypes.node,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    title:   PropTypes.string,
+    icon:    PropTypes.string,
+    onClick: PropTypes.func,
+    show:    PropTypes.bool,
+  })),
+  showDensityToggle: PropTypes.bool,
 };
 
 export default withRouter(MasterContent);

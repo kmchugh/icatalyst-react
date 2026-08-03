@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useLayoutEffect, useRef} from 'react';
+import React, {useState, useContext, useEffect, useLayoutEffect, useRef, useMemo} from 'react';
 import {Table as MuiTable, TableContainer, Checkbox } from '@mui/material';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 import {useGlobalFilter, usePagination,
@@ -197,7 +197,10 @@ const Table = ({
   icon,
   isSelectable = ()=>true,
   match,
-  PrependHeaderComponent
+  PrependHeaderComponent,
+  actions = [],
+  showDensityToggle = true,
+  rightHeaderComponent,
 })=>{
 
   const skipPageReset = true;
@@ -395,6 +398,33 @@ const Table = ({
     }, settingsInstanceID);
   }
 
+  // Merge built-in actions with custom actions passed from outside
+  const toolbarActions = useMemo(() => {
+    return [
+      {
+        title: 'delete',
+        icon: 'delete',
+        onClick: () => onDeleteClicked && onDeleteClicked(
+          data.filter((d, i) => selectedRowIds[i] === true)
+        ),
+        show: canDelete && Object.keys(selectedRowIds).length > 0,
+      },
+      {
+        title: 'add',
+        icon: 'add',
+        onClick: () => onAddClicked && onAddClicked(),
+        show: canAdd && Object.keys(selectedRowIds).length === 0,
+      },
+      ...actions.map((item) => ({
+        ...item,
+        onClick: typeof item.onClick === 'function' ? () => item.onClick(data.filter((d, i) => selectedRowIds[i] === true)) : item.onClick,
+        show: typeof item.show === 'function'
+          ? item.show({ selectedRowIds, data })
+          : item.show,
+      })),
+    ];
+  }, [actions, selectedRowIds, data, canAdd, canDelete]);
+
   return (
     <div ref={_tableRef} className={cxMui(classes.root, className, `density-${mode}`)}>
       {updating && <FuseLoading/>}
@@ -419,51 +449,49 @@ const Table = ({
                     onChange={setSearchFilter}
                   />
                 }
-                actions={[{
-                  title : 'delete',
-                  icon : 'delete',
-                  onClick : ()=>{
-                    onDeleteClicked && onDeleteClicked(data.filter((d, i)=>selectedRowIds[i] === true));
-                  },
-                  show : canDelete && Object.keys(selectedRowIds).length > 0,
-                },{
-                  title : 'add',
-                  icon : 'add',
-                  onClick : ()=>{
-                    onAddClicked && onAddClicked();
-                  },
-                  show : canAdd && Object.keys(selectedRowIds).length === 0
-                }].filter(i=>i.show)}
+                actions={toolbarActions.filter(i=>i.show)}
                 switchComponent={
-                  <ToggleButtonGroup
-                    value={mode}
-                    exclusive
-                    onChange={(e, mode)=>{
-                      updateSettings((values)=>{
-                        return {
-                          ...values,
-                          density : mode
-                        };
-                      }, settingsInstanceID);
-                    }}
-                    aria-label="table size"
-                  >
-                    <Tooltip title="condensed" value="condensed">
-                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="condensed">
-                        <Icon>format_align_justify</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                    <Tooltip title="regular" value="regular">
-                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="regular">
-                        <Icon>view_headline</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                    <Tooltip title="expanded" value="expanded">
-                      <ToggleButton className={cxMui(classes.toggleButton)} aria-label="expanded">
-                        <Icon>menu</Icon>
-                      </ToggleButton>
-                    </Tooltip>
-                  </ToggleButtonGroup>
+                  <>
+                    {rightHeaderComponent}
+                    {showDensityToggle ? (
+                      <ToggleButtonGroup
+                        value={mode}
+                        exclusive
+                        onChange={(e, mode) => {
+                          updateSettings(
+                            (values) => ({ ...values, density: mode }),
+                            settingsInstanceID,
+                          );
+                        }}
+                        aria-label="table size"
+                      >
+                        <Tooltip title="condensed" value="condensed">
+                          <ToggleButton
+                            className={cxMui(classes.toggleButton)}
+                            aria-label="condensed"
+                          >
+                            <Icon>format_align_justify</Icon>
+                          </ToggleButton>
+                        </Tooltip>
+                        <Tooltip title="regular" value="regular">
+                          <ToggleButton
+                            className={cxMui(classes.toggleButton)}
+                            aria-label="regular"
+                          >
+                            <Icon>view_headline</Icon>
+                          </ToggleButton>
+                        </Tooltip>
+                        <Tooltip title="expanded" value="expanded">
+                          <ToggleButton
+                            className={cxMui(classes.toggleButton)}
+                            aria-label="expanded"
+                          >
+                            <Icon>menu</Icon>
+                          </ToggleButton>
+                        </Tooltip>
+                      </ToggleButtonGroup>
+                    ) : null}
+                  </>
                 }
               />
             </MUIThemeProvider>
@@ -546,7 +574,15 @@ Table.propTypes = {
   onAddClicked : PropTypes.func,
   onDeleteClicked : PropTypes.func,
   isSelectable : PropTypes.func,
-  PrependHeaderComponent : PropTypes.node
+  PrependHeaderComponent : PropTypes.node,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    title:   PropTypes.string,
+    icon:    PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    show:    PropTypes.bool,
+  })),
+  showDensityToggle: PropTypes.bool,
+  rightHeaderComponent: PropTypes.node,
 };
 
 export default withRouter(Table);
