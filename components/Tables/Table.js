@@ -201,7 +201,8 @@ const Table = ({
   actions = [],
   showDensityToggle = true,
   rightHeaderComponent,
-  getRowID
+  getRowID,
+  initialSelectedRowIds,
 })=>{
 
   const skipPageReset = true;
@@ -299,15 +300,16 @@ const Table = ({
   } = useTable({
     columns: columnDefinitions,
     data,
-    getRowId: getRowID ? (row) => getRowID(row) : undefined, 
-    autoResetSelectedRows: false, 
+    getRowId: getRowID ? (row) => getRowID(row) : undefined,
+    autoResetGlobalFilter: false,
     defaultColumn : {
       Cell: DefaultCell
     },
     autoResetPage:  !skipPageReset,
     updateData,
     initialState : {
-      pageSize: reducerValues.rowsPerPage
+      pageSize: reducerValues.rowsPerPage,
+      selectedRowIds: initialSelectedRowIds || {},
     },
     
   },
@@ -589,6 +591,7 @@ Table.propTypes = {
   })),
   showDensityToggle: PropTypes.bool,
   rightHeaderComponent: PropTypes.node,
+  initialSelectedRowIds: PropTypes.object,
 };
 
 export default withRouter(Table);

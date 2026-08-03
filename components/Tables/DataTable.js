@@ -22,6 +22,7 @@ const DataTable = ({
   actions,
   showDensityToggle,
   rightHeaderComponent,
+  initialSelectedRowIds,
 })=>{
 
   const {t} = useContext(LocalizationContext);
@@ -91,6 +92,7 @@ const DataTable = ({
       actions={actions}
       showDensityToggle={showDensityToggle}
       rightHeaderComponent={rightHeaderComponent}
+      initialSelectedRowIds={initialSelectedRowIds}
     />
   );
 };
@@ -112,6 +114,7 @@ DataTable.propTypes = {
   ]),
   PrependHeaderComponent : PropTypes.node,
   rightHeaderComponent: PropTypes.node,
+  initialSelectedRowIds: PropTypes.object,
   actions: PropTypes.arrayOf(PropTypes.shape({
     title:   PropTypes.string,
     icon:    PropTypes.string,

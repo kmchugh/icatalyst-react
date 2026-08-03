@@ -41,6 +41,7 @@ const MasterContent = (props)=>{
     rightHeaderComponent,
     actions = [],
     showDensityToggle = true,
+    initialSelectedRowIds,
   } = props;
 
   const classes = useStyles();
@@ -74,6 +75,7 @@ const MasterContent = (props)=>{
       actions={actions}
       showDensityToggle={showDensityToggle}
       rightHeaderComponent={rightHeaderComponent}
+      initialSelectedRowIds={initialSelectedRowIds}
     />
   );
 };
@@ -107,6 +109,7 @@ MasterContent.propTypes = {
     show:    PropTypes.bool,
   })),
   showDensityToggle: PropTypes.bool,
+  initialSelectedRowIds: PropTypes.object,
 };
 
 export default withRouter(MasterContent);
