@@ -3,11 +3,10 @@ import {generateOperations} from '@icatalyst/utilities/generateOperations';
 
 import URIService from '@icatalyst/services/URIService';
 
-export const actions = generateActions('groups');
+export const actions = generateActions('groupsMembers');
 
 export const operations = generateOperations({
   uri : ()=>{
-    // Roles and groups are the same, just presented differently
-    return URIService.getURI('singularity', 'groups');
+    return URIService.getURI('singularity', 'group_membership');
   }
 }, actions);

@@ -1,8 +1,8 @@
 import React from 'react';
 import * as Actions from '../actions/groups.actions';
 import { createModel, generateReducer } from '../../../../utilities';
-import { definition as roleMembers } from './roleMembers.reducer';
-import { definition as roleOwners } from './roleOwners.reducer';
+import { definition as groupsMembers } from './groupsMembers.reducer';
+import { definition as groupsOwners } from './groupsOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
 import {isName} from '../../../EntityView/validations';
 
@@ -11,6 +11,7 @@ const definition = createModel({
   icon: 'group',
   resourceName : 'role',
   addInline : true,
+  updateMethod: 'patch',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
@@ -48,7 +49,7 @@ const definition = createModel({
   ],
   children : [
     {
-      ...roleOwners,
+      ...groupsOwners,
       auth: ()=>({
         retrieveAll : 'groupManager',
         create : 'groupManager',
@@ -58,7 +59,7 @@ const definition = createModel({
         delete : 'groupManager'
       })
     },{
-      ...roleMembers,
+      ...groupsMembers,
       auth: ()=>({
         retrieveAll : 'groupManager',
         create : 'groupManager',
@@ -118,12 +119,12 @@ const definition = createModel({
       clientid : client.id
     };
   },
-  filterPayload : (group)=>{
-    return group.code !== 'SINGULARITY_GRAPH_ADMIN_ROLE' &&
-      !group.accessrole &&
-      !group.featurerole &&
-      !group.displayable;
-  },
+  // filterPayload : (group)=>{
+  //   return group.code !== 'SINGULARITY_GRAPH_ADMIN_ROLE' &&
+  //     !group.accessrole &&
+  //     !group.featurerole &&
+  //     !group.displayable;
+  // },
   ...Actions
 });
 

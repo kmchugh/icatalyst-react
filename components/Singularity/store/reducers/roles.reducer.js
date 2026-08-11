@@ -10,6 +10,7 @@ const definition = createModel({
   name: 'role',
   icon: 'fa users',
   resourceName : 'role',
+  updateMethod:'patch',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
@@ -84,8 +85,7 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        // update : 'roleManager',
         delete : 'roleManager'
       })
     },{
@@ -94,13 +94,12 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        update : 'roleManager',
         delete : 'roleManager'
       })
     }
   ],
-  detailComponent : RoleManagement,
+  // detailComponent : RoleManagement,
   layout : [
     'name',
     'description',
@@ -145,12 +144,12 @@ const definition = createModel({
       }
     }
   ],
-  filterPayload : (group)=>{
-    return group.code === 'SINGULARITY_GRAPH_ADMIN_ROLE' ||
-      group.accessrole ||
-      group.featurerole ||
-      group.displayable;
-  },
+  // filterPayload : (group)=>{
+  //   return group.code === 'SINGULARITY_GRAPH_ADMIN_ROLE' ||
+  //     group.accessrole ||
+  //     group.featurerole ||
+  //     group.displayable;
+  // },
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.roles;
   },
