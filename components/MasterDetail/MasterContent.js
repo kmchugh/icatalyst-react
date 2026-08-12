@@ -42,6 +42,7 @@ const MasterContent = (props)=>{
     actions = [],
     showDensityToggle = true,
     initialSelectedRowIds,
+    autoResetSelectedRows,
   } = props;
 
   const classes = useStyles();
@@ -76,6 +77,7 @@ const MasterContent = (props)=>{
       showDensityToggle={showDensityToggle}
       rightHeaderComponent={rightHeaderComponent}
       initialSelectedRowIds={initialSelectedRowIds}
+      autoResetSelectedRows={autoResetSelectedRows}
     />
   );
 };
@@ -110,6 +112,7 @@ MasterContent.propTypes = {
   })),
   showDensityToggle: PropTypes.bool,
   initialSelectedRowIds: PropTypes.object,
+  autoResetSelectedRows: PropTypes.bool,
 };
 
 export default withRouter(MasterContent);

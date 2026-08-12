@@ -203,6 +203,7 @@ const Table = ({
   rightHeaderComponent,
   getRowID,
   initialSelectedRowIds,
+  autoResetSelectedRows,
 })=>{
 
   const skipPageReset = true;
@@ -306,6 +307,7 @@ const Table = ({
       Cell: DefaultCell
     },
     autoResetPage:  !skipPageReset,
+    autoResetSelectedRows,
     updateData,
     initialState : {
       pageSize: reducerValues.rowsPerPage,
@@ -592,6 +594,7 @@ Table.propTypes = {
   showDensityToggle: PropTypes.bool,
   rightHeaderComponent: PropTypes.node,
   initialSelectedRowIds: PropTypes.object,
+  autoResetSelectedRows: PropTypes.bool,
 };
 
 export default withRouter(Table);
