@@ -7,6 +7,6 @@ export const actions = generateActions('groupsMembers');
 
 export const operations = generateOperations({
   uri : ()=>{
-    return URIService.getURI('singularity', 'group_membership');
+    return URIService.getURI('singularity', 'group_users');
   }
 }, actions);

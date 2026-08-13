@@ -7,6 +7,6 @@ export const actions = generateActions('roleMembers');
 
 export const operations = generateOperations({
   uri : ()=>{
-    return URIService.getURI('singularity', 'role_membership');
+    return URIService.getURI('singularity', 'role_users');
   }
 }, actions);

@@ -54,11 +54,11 @@ const definition = createModel({
   isSelectable : (entity)=> entity.hops === 0,
   getReducerRoot: ({icatalyst})=> icatalyst.singularity.groupsmembers,
   getDeleteParams : (getState, parentMasterDetailContext)=>({
-    roleID : parentMasterDetailContext.parentContext.entityID,
+    groupID : parentMasterDetailContext.parentContext.entityID,
     type : 'members'
   }),
   getRetrieveAllParams : (parentDefinition, parent)=>({
-    roleID : parent.id || parentDefinition.getIdentity(parent),
+    groupID : parent.id || parentDefinition.getIdentity(parent),
     type : 'members'
   }),
   getAddParams : (getState, entity, parentDefinition, parent, parentMasterDetailContext)=>{
@@ -67,10 +67,10 @@ const definition = createModel({
     entity.type = 'members';
     delete entity.hops;
     delete entity.username;
-    return {roleID: parentEntity.guid};
+    return {groupID: parentEntity.guid};
   },
   getUpdateParams : (getState, parentMasterDetailContext)=>({
-    roleID : parentMasterDetailContext.parentContext.entityID,
+    groupID : parentMasterDetailContext.parentContext.entityID,
     type : 'members'
   }),
   ...Actions

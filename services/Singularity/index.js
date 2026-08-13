@@ -49,11 +49,9 @@ class SingularityService {
     invites : 'v2/singularity/invites',
     notification : 'v2/singularity/notifications',
     roles : 'v2/singularity/roles',
-    role_membership : 'v2/singularity/roles/:roleID/users',
-    role_ownership : 'v2/singularity/roles/:roleID/users',
+    role_users : 'v2/singularity/roles/:roleID/users',
     groups: 'v2/singularity/groups',
-    group_membership : 'v2/singularity/groups/:roleID/users',
-    group_ownership : 'v2/singularity/groups/:roleID/users',
+    group_users : 'v2/singularity/groups/:groupID/users',
   };
   #urls = {
     authorize : 'authorize',
