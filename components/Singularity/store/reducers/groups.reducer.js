@@ -5,6 +5,7 @@ import { definition as groupsMembers } from './groupsMembers.reducer';
 import { definition as groupsOwners } from './groupsOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
 import {isName} from '../../../EntityView/validations';
+import GroupManagement from '../../components/GroupManagement';
 
 const definition = createModel({
   name: 'group',
@@ -12,6 +13,7 @@ const definition = createModel({
   resourceName : 'role',
   addInline : true,
   updateMethod: 'patch',
+  detailComponent: GroupManagement,
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',

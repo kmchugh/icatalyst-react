@@ -15,7 +15,7 @@ const definition = createModel({
     retrieveAll : 'admin',
     // create : 'admin',
     retrieve : 'admin',
-    // update : 'admin',
+    update : 'admin',
     // delete : 'admin',
     route : 'admin'
   },
@@ -99,7 +99,7 @@ const definition = createModel({
       })
     }
   ],
-  // detailComponent : RoleManagement,
+  detailComponent : RoleManagement,
   layout : [
     'name',
     'description',
