@@ -36,7 +36,7 @@ const MasterDetailPage = ({
 })=>{
   const {t} = useContext(LocalizationContext);
   const DETAIL_PATH = `${match.path}/:id`;
-  const {routes} = useContext(AppContext);
+  const {routes, reverse} = useContext(AppContext);
   const parentMasterDetailContext = useContext(MasterDetailContext);
   
   if (definition === null) {
@@ -263,7 +263,17 @@ const MasterDetailPage = ({
       };
     }
 
-    return definition.onHandleAdd || ((definition, dispatch)=>{
+    if (definition.onHandleAdd) {
+      return () => definition.onHandleAdd(definition, dispatch, {
+        history,
+        location,
+        match,
+        parentMasterDetailContext,
+        reverse,
+      });
+    }
+
+    return ((definition, dispatch)=>{
       if (definition.addInline === true || definition.wizardComponent) {
         // Definition specifies to add inline so pop up a dialog
         dispatch(DialogActions.openDialog({
@@ -313,7 +323,7 @@ const MasterDetailPage = ({
         history.push(pathFn());
       }
     });
-  }, [definition]);
+  }, [definition, dispatch, history, location, match, parentMasterDetailContext, reverse]);
 
   const handleDelete = (entities)=>{
     dispatch(DialogActions.openDialog({

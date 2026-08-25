@@ -195,5 +195,29 @@ export const operations = generateOperations({
     actions['ENTITY_ADDED_ERROR'],
     callback
     );
+  },
+  DELETE_ENTITY : (entity, callback, requestConfig = {})=>{
+    const {params = {}} = requestConfig;
+    const invite = entity && entity.invite;
+    const inviteID = invite && (invite.guid || invite.id) ||
+      entity && (entity.inviteID || entity.inviteid || entity.guid || entity.id) || entity;
+
+    const url = createURI(
+      `${URIService.getURI('singularity', 'invites')}/${inviteID}/`,
+      {...params}
+    );
+
+    return makeReducerRequest({
+      method : 'delete',
+      url,
+      headers : {
+        Authorization : parseToken(requestConfig),
+        'Content-Type': 'application/json',
+      },
+    },
+    actions['ENTITY_DELETED'],
+    actions['ENTITY_DELETED_ERROR'],
+    callback
+    );
   }
 }, actions);
