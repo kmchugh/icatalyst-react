@@ -17,8 +17,8 @@ const definition = createModel({
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
-    retrieve : 'admin',
-    // update : 'admin',
+    // retrieve : 'admin',
+    update : 'admin',
     // delete : 'admin',
     route : 'admin'
   },

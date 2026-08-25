@@ -13,7 +13,6 @@ const definition = createModel({
   name: 'roleOwner',
   icon: 'fa users-cog',
   addInline : true,
-  updateMethod: 'patch',
   forceRefreshOnDelete : true,
   description: 'An owner is allowed to manage, modify, and delete the resource they own',
   auth: {
@@ -99,10 +98,6 @@ const definition = createModel({
       type: 'owners'
     };
   },
-  getUpdateParams : (getState, parentMasterDetailContext)=>({
-    roleID : parentMasterDetailContext.parentContext.entityID,
-    type : 'owners'
-  }),
   ...Actions
 });
 

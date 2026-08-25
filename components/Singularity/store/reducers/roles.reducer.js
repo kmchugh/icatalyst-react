@@ -93,7 +93,7 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        update : 'roleManager',
+        // update : 'roleManager',
         delete : 'roleManager'
       })
     }

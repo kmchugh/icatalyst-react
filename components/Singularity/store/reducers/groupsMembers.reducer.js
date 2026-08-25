@@ -16,14 +16,12 @@ const definition = createModel({
     return `${entity.username} - ${getLinkage(entity)}`;
   },
   addInline : true,
-  updateMethod: 'patch',
   description: 'A member has access to a group but cannot modify or manage it',
   forceRefreshOnDelete : true,
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
-    update : 'admin',
     delete : 'admin'
   },
   fields : [

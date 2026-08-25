@@ -13,7 +13,6 @@ const definition = createModel({
   name: 'groupsOwner',
   icon: 'fa users-cog',
   addInline : true,
-  updateMethod: 'patch',
   forceRefreshOnDelete : true,
   description: 'An owner can manage, modify, and delete the group',
   auth: {
