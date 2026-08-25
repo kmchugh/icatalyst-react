@@ -4,7 +4,6 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
-import RoleManagement from '../../components/RoleManagement';
 
 const definition = createModel({
   name: 'role',
@@ -99,7 +98,6 @@ const definition = createModel({
       })
     }
   ],
-  detailComponent : RoleManagement,
   layout : [
     'name',
     'description',
@@ -144,12 +142,6 @@ const definition = createModel({
       }
     }
   ],
-  // filterPayload : (group)=>{
-  //   return group.code === 'SINGULARITY_GRAPH_ADMIN_ROLE' ||
-  //     group.accessrole ||
-  //     group.featurerole ||
-  //     group.displayable;
-  // },
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.roles;
   },

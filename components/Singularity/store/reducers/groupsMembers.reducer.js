@@ -67,7 +67,7 @@ const definition = createModel({
     entity.type = 'members';
     delete entity.hops;
     delete entity.username;
-    return {groupID: parentEntity.guid};
+    return {groupID: parentEntity.guid, type: 'members'};
   },
   getUpdateParams : (getState, parentMasterDetailContext)=>({
     groupID : parentMasterDetailContext.parentContext.entityID,

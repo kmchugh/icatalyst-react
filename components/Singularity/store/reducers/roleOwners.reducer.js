@@ -20,7 +20,7 @@ const definition = createModel({
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
-    // update : 'admin',
+    update : 'admin',
     // An edge cannot be updated, just deleted and recreated
     delete : 'admin'
   },
