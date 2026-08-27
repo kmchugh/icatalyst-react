@@ -142,6 +142,37 @@ const definition = createModel({
       description : parent.name
     };
   },
+  onHandleAdd : (definition, dispatch, {
+    history,
+    location,
+    parentMasterDetailContext,
+    reverse,
+  })=>{
+    const resourceContext = parentMasterDetailContext && parentMasterDetailContext.parentContext;
+    const resourceDefinition = resourceContext && resourceContext.entityDefinition;
+    const resource = resourceContext && resourceContext.entity;
+
+    if (!history || !reverse || !resourceDefinition || !resource) {
+      return;
+    }
+
+    const resourceID = resourceDefinition.getIdentity(resource);
+    const resourceType = resourceDefinition.resourceName || resourceDefinition.name;
+    const params = new URLSearchParams({
+      resourceType,
+      resourceID,
+      requiresAcknowledgement: 'false',
+    });
+
+    if (location) {
+      params.set('returnTo', `${location.pathname}${location.search}`);
+    }
+
+    history.push({
+      pathname: reverse('resource-sharing'),
+      search: params.toString(),
+    });
+  },
   auth : (authContext, masterDetailContext)=>{
     // Only allowed to interact with access controls if you are a
     // OWN the resource
