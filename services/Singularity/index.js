@@ -64,9 +64,7 @@ class SingularityService {
     roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
     role_membership : 'api/role/:roleid/members',
     role_ownership : 'api/role/:roleid/owners',
-    roles : 'v2/api/roles',
-    groups : 'v2/api/groups',
-    session : 'v2/api/session',
+    roles : 'api/group',
     token : 'token',
     version : 'version',
     // TODO: The following endpoints may change
