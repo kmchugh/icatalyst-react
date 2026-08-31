@@ -8,6 +8,6 @@ export const actions = generateActions('groups');
 export const operations = generateOperations({
   uri : ()=>{
     // Roles and groups are the same, just presented differently
-    return URIService.getURI('singularity', 'groups');
+    return URIService.getURI('singularity', 'roles');
   }
 }, actions);
