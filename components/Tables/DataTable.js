@@ -18,7 +18,12 @@ const DataTable = ({
   className,
   onAddClicked,
   onDeleteClicked,
-  PrependHeaderComponent
+  PrependHeaderComponent,
+  actions,
+  showDensityToggle,
+  rightHeaderComponent,
+  initialSelectedRowIds,
+  autoResetSelectedRows,
 })=>{
 
   const {t} = useContext(LocalizationContext);
@@ -85,6 +90,11 @@ const DataTable = ({
           onRefresh={onRefresh}
         />
       }
+      actions={actions}
+      showDensityToggle={showDensityToggle}
+      rightHeaderComponent={rightHeaderComponent}
+      initialSelectedRowIds={initialSelectedRowIds}
+      autoResetSelectedRows={autoResetSelectedRows}
     />
   );
 };
@@ -104,7 +114,17 @@ DataTable.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string)
   ]),
-  PrependHeaderComponent : PropTypes.node
+  PrependHeaderComponent : PropTypes.node,
+  rightHeaderComponent: PropTypes.node,
+  initialSelectedRowIds: PropTypes.object,
+  autoResetSelectedRows: PropTypes.bool,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    title:   PropTypes.string,
+    icon:    PropTypes.string,
+    onClick: PropTypes.func,
+    show:    PropTypes.bool,
+  })),
+  showDensityToggle: PropTypes.bool,
 };
 
 export default React.memo(DataTable);
