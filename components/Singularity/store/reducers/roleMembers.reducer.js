@@ -18,14 +18,14 @@ const definition = createModel({
     return `${entity.username} - ${getLinkage(entity)}`;
   },
   addInline : true,
+  updateMethod: 'patch',
   description: 'A member has access to a resource but not the ability to modify or manage that resource',
   forceRefreshOnDelete : true,
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
-    // An edge cannot be updated, just deleted and recreated
-    // update : 'admin',
+    update : 'admin',
     delete : 'admin'
   },
   fields : [
@@ -82,23 +82,31 @@ const definition = createModel({
   },
   getDeleteParams : (getState, parentMasterDetailContext)=>{
     return {
-      roleid : parentMasterDetailContext.parentContext.entityID
+      roleID : parentMasterDetailContext.parentContext.entityID,
+      type : 'members'
     };
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {
-      roleid : parent.id || parentDefinition.getIdentity(parent),
+      roleID : parent.id || parentDefinition.getIdentity(parent),
+      type : 'members'
     };
   },
   getAddParams : (getState, entity, parentDefinition, parent, parentMasterDetailContext)=>{
     const {entity : parentEntity} = parentMasterDetailContext.parentContext;
     entity.email=entity.username;
+    entity.type='members';
     delete entity.hops;
     delete entity.username;
     return {
-      roleid: parentEntity.guid
+      roleID: parentEntity.guid,
+      type: 'members'
     };
   },
+  getUpdateParams : (getState, parentMasterDetailContext)=>({
+    roleID : parentMasterDetailContext.parentContext.entityID,
+    type : 'members'
+  }),
   ...Actions
 });
 

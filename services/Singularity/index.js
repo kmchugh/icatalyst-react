@@ -48,6 +48,10 @@ class SingularityService {
     client : 'v2/singularity/clients',
     invites : 'v2/singularity/invites',
     notification : 'v2/singularity/notifications',
+    roles : 'v2/singularity/roles',
+    role_users : 'v2/singularity/roles/:roleID/users',
+    groups: 'v2/singularity/groups',
+    group_users : 'v2/singularity/groups/:groupID/users',
   };
   #urls = {
     authorize : 'authorize',
@@ -62,9 +66,6 @@ class SingularityService {
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
     roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
-    role_membership : 'api/role/:roleid/members',
-    role_ownership : 'api/role/:roleid/owners',
-    roles : 'api/group',
     token : 'token',
     version : 'version',
     // TODO: The following endpoints may change
