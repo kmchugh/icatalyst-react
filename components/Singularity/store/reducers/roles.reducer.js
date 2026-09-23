@@ -4,17 +4,17 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
-import RoleManagement from '../../components/RoleManagement';
 
 const definition = createModel({
   name: 'role',
   icon: 'fa users',
   resourceName : 'role',
+  updateMethod:'patch',
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
     retrieve : 'admin',
-    // update : 'admin',
+    update : 'admin',
     // delete : 'admin',
     route : 'admin'
   },
@@ -84,8 +84,7 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        // update : 'roleManager',
         delete : 'roleManager'
       })
     },{
@@ -94,13 +93,11 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        // update : 'roleManager',
         delete : 'roleManager'
       })
     }
   ],
-  detailComponent : RoleManagement,
   layout : [
     'name',
     'description',
@@ -145,12 +142,6 @@ const definition = createModel({
       }
     }
   ],
-  filterPayload : (group)=>{
-    return group.code === 'SINGULARITY_GRAPH_ADMIN_ROLE' ||
-      group.accessrole ||
-      group.featurerole ||
-      group.displayable;
-  },
   getReducerRoot: ({icatalyst})=>{
     return icatalyst.singularity.roles;
   },

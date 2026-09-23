@@ -19,6 +19,7 @@ const definition = createModel({
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
+    update : 'admin',
     // An edge cannot be updated, just deleted and recreated
     delete : 'admin'
   },
@@ -76,21 +77,25 @@ const definition = createModel({
   },
   getDeleteParams : (getState, parentMasterDetailContext)=>{
     return {
-      roleid : parentMasterDetailContext.parentContext.entityID
+      roleID : parentMasterDetailContext.parentContext.entityID,
+      type : 'owners'
     };
   },
   getRetrieveAllParams : (parentDefinition, parent)=>{
     return {
-      roleid : parent.id || parentDefinition.getIdentity(parent),
+      roleID : parent.id || parentDefinition.getIdentity(parent),
+      type : 'owners'
     };
   },
   getAddParams : (getState, entity, parentDefinition, parent, parentMasterDetailContext)=>{
     const {entity : parentEntity} = parentMasterDetailContext.parentContext;
     entity.email=entity.username;
+    entity.type='owners';
     delete entity.hops;
     delete entity.username;
     return {
-      roleid: parentEntity.guid
+      roleID: parentEntity.guid,
+      type: 'owners'
     };
   },
   ...Actions

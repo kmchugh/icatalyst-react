@@ -304,7 +304,7 @@ const DetailContent = ({
                       className={cxMui(classes.entityView)}
                       definition={definition}
                       model={form || entity}
-                      readonly={readonly || !auth || !auth.update || ((!auth.create) /* && !isNew */)}
+                      readonly={readonly || !auth || (entity === null ? !auth.create : !auth.update)}
                       errors={errors}
                       onChange={(e, valueMap)=>{
                         handleChange(e, valueMap);
@@ -314,7 +314,7 @@ const DetailContent = ({
                     />
                     }
                     <div className="flex flex-1"/>
-                    { (!readonly && (auth && (auth.update || ((auth.create) /* && !isNew */)))) &&
+                    { (!readonly && auth && (entity === null ? auth.create : auth.update)) &&
                       <div className={cxMui(classes.actionWrapper)}>
                         <Button
                           className={cxMui(classes.actionButton, 'whitespace-no-wrap normal-case')}

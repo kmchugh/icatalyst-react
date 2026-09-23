@@ -5,6 +5,8 @@ import profiles from './profile.reducer';
 import roles from './roles.reducer';
 import rolemembers from './roleMembers.reducer';
 import roleowners from './roleOwners.reducer';
+import groupsmembers from './groupsMembers.reducer';
+import groupsowners from './groupsOwners.reducer';
 import version from './version.reducer';
 import users from './users.reducer';
 import groups from './groups.reducer';
@@ -35,6 +37,8 @@ const reducers = combineReducers({
   roles,
   rolemembers,
   roleowners,
+  groupsmembers,
+  groupsowners,
   version,
   users,
   groups,
