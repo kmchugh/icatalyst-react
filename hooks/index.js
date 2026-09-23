@@ -9,3 +9,4 @@ export { default as usePrevious } from './usePrevious';
 export { default as useKeyPress } from './useKeyPress';
 export { default as useLongPress } from './useLongPress';
 export { default as usePaste } from './usePaste';
+export { default as useDeviceType } from './useDeviceType';
