@@ -7,6 +7,31 @@ export const actions = generateActions('invitations');
 const ops = generateOperations({
   uri : ()=>{
     return URIService.getURI('singularity', 'invites');
+  },
+  RETRIEVE_ENTITIES : (callback, requestConfig = {params: {}})=>{
+    const params = requestConfig.params || {};
+    const url = createURI(
+      URIService.getURI('singularity', 'invites'),
+      {
+        ...params,
+        requiresAcknowledgement: true,
+      }
+    );
+
+    return makeReducerRequest({
+      method : 'get',
+      url,
+      headers : {
+        Authorization : parseToken(requestConfig),
+        'Content-Type': 'application/json',
+      },
+      data : {},
+      transform : requestConfig.transform,
+    },
+    actions['ENTITY_UPDATED_LIST'],
+    actions['ENTITY_UPDATED_LIST_ERROR'],
+    callback
+    );
   }
 }, actions);
 

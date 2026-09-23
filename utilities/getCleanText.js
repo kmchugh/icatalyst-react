@@ -181,8 +181,10 @@ export function getCleanText(text) {
       'wbr': ['id', 'name'],
     },
     textFilter: (text) => {
-      // Replace &nbsp; with a regular space
-      return text.replace(/&nbsp;/g, ' ');
+      // Replace encoded spaces and ampersands in text nodes with their literal characters.
+      return text
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&');
     },
   });
 }
