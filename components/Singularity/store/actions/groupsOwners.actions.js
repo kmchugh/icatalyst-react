@@ -5,8 +5,17 @@ import URIService from '@icatalyst/services/URIService';
 
 export const actions = generateActions('groupsOwners');
 
-export const operations = generateOperations({
+const generatedOperations = generateOperations({
   uri : ()=>{
     return URIService.getURI('singularity', 'group_users');
   }
 }, actions);
+
+export const operations = {
+  ...generatedOperations,
+  UPDATE_ENTITY: ({guid, id, start, expiry}, callback, requestConfig = {})=>
+    generatedOperations.UPDATE_ENTITY({guid, id, start, expiry}, callback, {
+      ...requestConfig,
+      method: 'patch',
+    }),
+};

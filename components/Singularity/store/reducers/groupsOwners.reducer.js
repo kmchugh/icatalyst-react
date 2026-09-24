@@ -2,6 +2,7 @@ import React from 'react';
 import * as Actions from '../actions/groupsOwners.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import moment from '../../../../@moment';
+import GroupManagement from '../../components/GroupManagement';
 
 import {Typography} from '@mui/material';
 
@@ -13,12 +14,15 @@ const definition = createModel({
   name: 'groupsOwner',
   icon: 'fa users-cog',
   addInline : true,
+  updateMethod: 'patch',
+  detailComponent: GroupManagement,
   forceRefreshOnDelete : true,
   description: 'An owner can manage, modify, and delete the group',
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
+    update : 'admin',
     delete : 'admin'
   },
   fields : [
@@ -64,8 +68,8 @@ const definition = createModel({
     delete entity.username;
     return {groupID: parentEntity.guid, type: 'owners'};
   },
-  getUpdateParams : (getState, parentMasterDetailContext)=>({
-    groupID : parentMasterDetailContext.parentContext.entityID,
+  getUpdateParams : (getState, masterDetailContext)=>({
+    groupID : masterDetailContext.parentContext.parentContext.entityID,
     type : 'owners'
   }),
   ...Actions

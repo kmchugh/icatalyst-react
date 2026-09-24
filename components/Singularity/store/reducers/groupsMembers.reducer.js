@@ -2,6 +2,7 @@ import React from 'react';
 import * as Actions from '../actions/groupsMembers.actions';
 import { createModel, generateReducer } from '../../../../utilities';
 import moment from '../../../../@moment';
+import GroupManagement from '../../components/GroupManagement';
 
 import {Typography} from '@mui/material';
 
@@ -16,12 +17,15 @@ const definition = createModel({
     return `${entity.username} - ${getLinkage(entity)}`;
   },
   addInline : true,
+  updateMethod: 'patch',
+  detailComponent: GroupManagement,
   description: 'A member has access to a group but cannot modify or manage it',
   forceRefreshOnDelete : true,
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
+    update : 'admin',
     delete : 'admin'
   },
   fields : [
@@ -67,8 +71,8 @@ const definition = createModel({
     delete entity.username;
     return {groupID: parentEntity.guid, type: 'members'};
   },
-  getUpdateParams : (getState, parentMasterDetailContext)=>({
-    groupID : parentMasterDetailContext.parentContext.entityID,
+  getUpdateParams : (getState, masterDetailContext)=>({
+    groupID : masterDetailContext.parentContext.parentContext.entityID,
     type : 'members'
   }),
   ...Actions

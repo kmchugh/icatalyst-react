@@ -56,8 +56,7 @@ const definition = createModel({
         retrieveAll : 'groupManager',
         create : 'groupManager',
         retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        update : 'groupManager',
         delete : 'groupManager'
       })
     },{
@@ -66,8 +65,7 @@ const definition = createModel({
         retrieveAll : 'groupManager',
         create : 'groupManager',
         retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        update : 'groupManager',
         delete : 'groupManager'
       })
     }
