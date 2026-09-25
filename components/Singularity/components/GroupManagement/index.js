@@ -1,11 +1,15 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 import DetailContent from '../../../MasterDetail/DetailContent';
 import {MasterDetailContext} from '../../../MasterDetail';
 import {SingularityContext} from '../../../Singularity';
 import {definition as groupsOwners} from '../../store/reducers/groupsOwners.reducer';
 
 const GRAPH_ADMIN_ROLE_CODE = 'SINGULARITY_GRAPH_ADMIN_ROLE';
+
+// Avoid re-probing the same group when DetailContent re-renders (e.g. tab change).
+const canManageByGroupID = {};
 
 const isUserListedAsOwner = (owners, user)=>{
   const userDisplayName = user && user.displayName;
@@ -20,37 +24,44 @@ const isUserListedAsOwner = (owners, user)=>{
 // Wraps group detail view: hides Owners/Members tabs unless the API allows
 // management, and locks down the built-in graph-admin group.
 const GroupManagement = ({readonly, ...props})=>{
+  const dispatch = useDispatch();
   const masterDetailContext = useContext(MasterDetailContext);
   const {accessToken, user} = useContext(SingularityContext);
   const {entity, entityDefinition} = masterDetailContext;
+  const groupID = entity && entityDefinition && entityDefinition.getIdentity(entity);
   const isGraphAdminGroup = entity?.code === GRAPH_ADMIN_ROLE_CODE;
   // null = still checking; true = owners list loaded; false = no access
   const [canManageGroup, setCanManageGroup] = useState(null);
 
   useEffect(()=>{
-    if (isGraphAdminGroup || !entity) {
+    if (isGraphAdminGroup || !groupID) {
       setCanManageGroup(false);
+      return;
+    }
+
+    if (canManageByGroupID[groupID] !== undefined) {
+      setCanManageGroup(canManageByGroupID[groupID]);
       return;
     }
 
     // Same request as the Owners tab: GET .../groups/:id/users?type=owners.
     // Show child tabs only if the current user appears in that owners list.
+    // Response is cached in groupsOwners.actions so the Owners tab does not refetch.
     const retrieveAll = groupsOwners.operations && groupsOwners.operations.RETRIEVE_ENTITIES;
     if (!retrieveAll) {
       setCanManageGroup(false);
       return;
     }
 
-    // RETRIEVE_ENTITIES returns a Redux thunk (dispatch) => void. We only need
-    // the HTTP result here, so invoke it with a no-op dispatch (no store update).
-    const thunk = retrieveAll((err, owners)=>{
-      setCanManageGroup(!err && isUserListedAsOwner(owners, user));
+    dispatch(retrieveAll((err, owners)=>{
+      const canManage = !err && isUserListedAsOwner(owners, user);
+      canManageByGroupID[groupID] = canManage;
+      setCanManageGroup(canManage);
     }, {
       accessToken,
       params : groupsOwners.getRetrieveAllParams(entityDefinition, entity)
-    });
-    thunk(()=>{});
-  }, [entity, entityDefinition, accessToken, isGraphAdminGroup, user]);
+    }));
+  }, [groupID, entityDefinition, accessToken, isGraphAdminGroup, user, dispatch, entity]);
 
   // DetailContent builds tabs from entityDefinition.children. Omit children to
   // show only "Group Details"; keep full definition when management is allowed.
