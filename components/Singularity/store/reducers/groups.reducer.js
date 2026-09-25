@@ -50,27 +50,8 @@ const definition = createModel({
     }
   ],
   children : [
-    {
-      ...groupsOwners,
-      auth: ()=>({
-        retrieveAll : 'groupManager',
-        create : 'groupManager',
-        retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
-        delete : 'groupManager'
-      })
-    },{
-      ...groupsMembers,
-      auth: ()=>({
-        retrieveAll : 'groupManager',
-        create : 'groupManager',
-        retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
-        delete : 'groupManager'
-      })
-    }
+    {...groupsOwners},
+    {...groupsMembers}
   ],
   layout : [
     'name',
