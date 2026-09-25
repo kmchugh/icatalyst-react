@@ -8,9 +8,6 @@ import {definition as groupsOwners} from '../../store/reducers/groupsOwners.redu
 
 const GRAPH_ADMIN_ROLE_CODE = 'SINGULARITY_GRAPH_ADMIN_ROLE';
 
-// Avoid re-probing the same group when DetailContent re-renders (e.g. tab change).
-const canManageByGroupID = {};
-
 const isUserListedAsOwner = (owners, user)=>{
   const userDisplayName = user && user.displayName;
   if (!userDisplayName || !Array.isArray(owners)) {
@@ -29,39 +26,49 @@ const GroupManagement = ({readonly, auth, ...props})=>{
   const {accessToken, user} = useContext(SingularityContext);
   const {entity, entityDefinition} = masterDetailContext;
   const groupID = entity && entityDefinition && entityDefinition.getIdentity(entity);
+  const userGuid = user && user.guid;
   const isGraphAdminGroup = entity?.code === GRAPH_ADMIN_ROLE_CODE;
   // null = still checking; true = owners list loaded; false = no access
   const [canManageGroup, setCanManageGroup] = useState(null);
 
   useEffect(()=>{
-    if (isGraphAdminGroup || !groupID) {
+    setCanManageGroup(null);
+  }, [groupID, userGuid]);
+
+  useEffect(()=>{
+    let isCurrent = true;
+
+    if (isGraphAdminGroup || !entity) {
       setCanManageGroup(false);
-      return;
+      return ()=>{
+        isCurrent = false;
+      };
     }
 
-    if (canManageByGroupID[groupID] !== undefined) {
-      setCanManageGroup(canManageByGroupID[groupID]);
-      return;
-    }
-
-    // Same request as the Owners tab: GET .../groups/:id/users?type=owners.
-    // Show child tabs only if the current user appears in that owners list.
-    // Response is cached in groupsOwners.actions so the Owners tab does not refetch.
+    // GET .../groups/:id/users?type=owners — show child tabs only if the
+    // current user appears in that owners list.
     const retrieveAll = groupsOwners.operations && groupsOwners.operations.RETRIEVE_ENTITIES;
     if (!retrieveAll) {
       setCanManageGroup(false);
-      return;
+      return ()=>{
+        isCurrent = false;
+      };
     }
 
     dispatch(retrieveAll((err, owners)=>{
-      const canManage = !err && isUserListedAsOwner(owners, user);
-      canManageByGroupID[groupID] = canManage;
-      setCanManageGroup(canManage);
+      if (!isCurrent) {
+        return;
+      }
+      setCanManageGroup(!err && isUserListedAsOwner(owners, user));
     }, {
       accessToken,
       params : groupsOwners.getRetrieveAllParams(entityDefinition, entity)
     }));
-  }, [groupID, entityDefinition, accessToken, isGraphAdminGroup, user, dispatch, entity]);
+
+    return ()=>{
+      isCurrent = false;
+    };
+  }, [entity, entityDefinition, accessToken, isGraphAdminGroup, user, userGuid, dispatch]);
 
   // DetailContent builds tabs from entityDefinition.children. Omit children to
   // show only "Group Details"; keep full definition when management is allowed.
