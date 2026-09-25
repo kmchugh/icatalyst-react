@@ -50,8 +50,25 @@ const definition = createModel({
     }
   ],
   children : [
-    {...groupsOwners},
-    {...groupsMembers}
+    {
+      ...groupsOwners,
+      auth: ()=>({
+        retrieveAll : 'groupManager',
+        create : 'groupManager',
+        retrieve : 'groupManager',
+        update : 'groupManager',
+        delete : 'groupManager'
+      })
+    },{
+      ...groupsMembers,
+      auth: ()=>({
+        retrieveAll : 'groupManager',
+        create : 'groupManager',
+        retrieve : 'groupManager',
+        update : 'groupManager',
+        delete : 'groupManager'
+      })
+    }
   ],
   layout : [
     'name',

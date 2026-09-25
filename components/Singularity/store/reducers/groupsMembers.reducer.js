@@ -16,12 +16,14 @@ const definition = createModel({
     return `${entity.username} - ${getLinkage(entity)}`;
   },
   addInline : true,
+  updateMethod: 'patch',
   description: 'A member has access to a group but cannot modify or manage it',
   forceRefreshOnDelete : true,
   auth: {
     retrieveAll : 'admin',
     create : 'admin',
     retrieve : 'admin',
+    update : 'admin',
     delete : 'admin'
   },
   fields : [
@@ -67,8 +69,9 @@ const definition = createModel({
     delete entity.username;
     return {groupID: parentEntity.guid, type: 'members'};
   },
-  getUpdateParams : (getState, parentMasterDetailContext)=>({
-    groupID : parentMasterDetailContext.parentContext.entityID,
+  getUpdateParams : (getState, masterDetailContext)=>({
+    // The immediate parent is the members list; its parent is the group.
+    groupID : masterDetailContext.parentContext.parentContext.entityID,
     type : 'members'
   }),
   ...Actions
