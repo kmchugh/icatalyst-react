@@ -18,7 +18,8 @@ const definition = createModel({
     retrieveAll : 'admin',
     // create : 'admin',
     // retrieve : 'admin',
-    update : 'admin',
+    // Edit is allowed per group in GroupManagement (group owner), not by app role.
+    update : false,
     // delete : 'admin',
     route : 'admin'
   },
@@ -56,8 +57,7 @@ const definition = createModel({
         retrieveAll : 'groupManager',
         create : 'groupManager',
         retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        update : 'groupManager',
         delete : 'groupManager'
       })
     },{
@@ -66,8 +66,7 @@ const definition = createModel({
         retrieveAll : 'groupManager',
         create : 'groupManager',
         retrieve : 'groupManager',
-        // An edge cannot be updated, just deleted and recreated
-        // update : 'admin',
+        update : 'groupManager',
         delete : 'groupManager'
       })
     }
