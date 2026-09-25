@@ -23,7 +23,7 @@ const isUserListedAsOwner = (owners, user)=>{
 
 // Wraps group detail view: hides Owners/Members tabs unless the API allows
 // management, and locks down the built-in graph-admin group.
-const GroupManagement = ({readonly, ...props})=>{
+const GroupManagement = ({readonly, auth, ...props})=>{
   const dispatch = useDispatch();
   const masterDetailContext = useContext(MasterDetailContext);
   const {accessToken, user} = useContext(SingularityContext);
@@ -75,6 +75,14 @@ const GroupManagement = ({readonly, ...props})=>{
     return entityDefinition;
   }, [entityDefinition, isGraphAdminGroup, canManageGroup]);
 
+  const isDetailReadonly = readonly ||
+    isGraphAdminGroup ||
+    canManageGroup !== true;
+  const detailAuth = auth && {
+    ...auth,
+    update: canManageGroup === true,
+  };
+
   return (
     <MasterDetailContext.Provider value={{
       ...masterDetailContext,
@@ -82,7 +90,8 @@ const GroupManagement = ({readonly, ...props})=>{
     }}>
       <DetailContent
         {...props}
-        readonly={readonly || isGraphAdminGroup}
+        auth={detailAuth}
+        readonly={isDetailReadonly}
       />
     </MasterDetailContext.Provider>
   );
@@ -90,6 +99,7 @@ const GroupManagement = ({readonly, ...props})=>{
 
 GroupManagement.propTypes = {
   readonly: PropTypes.bool,
+  auth: PropTypes.object,
 };
 
 export default GroupManagement;
