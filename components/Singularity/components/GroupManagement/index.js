@@ -7,11 +7,21 @@ import {definition as groupsOwners} from '../../store/reducers/groupsOwners.redu
 
 const GRAPH_ADMIN_ROLE_CODE = 'SINGULARITY_GRAPH_ADMIN_ROLE';
 
+const isUserListedAsOwner = (owners, user)=>{
+  const userDisplayName = user && user.displayName;
+  if (!userDisplayName || !Array.isArray(owners)) {
+    return false;
+  }
+  return owners.some((owner)=>{
+    return owner.username === userDisplayName;
+  });
+};
+
 // Wraps group detail view: hides Owners/Members tabs unless the API allows
 // management, and locks down the built-in graph-admin group.
 const GroupManagement = ({readonly, ...props})=>{
   const masterDetailContext = useContext(MasterDetailContext);
-  const {accessToken} = useContext(SingularityContext);
+  const {accessToken, user} = useContext(SingularityContext);
   const {entity, entityDefinition} = masterDetailContext;
   const isGraphAdminGroup = entity?.code === GRAPH_ADMIN_ROLE_CODE;
   // null = still checking; true = owners list loaded; false = no access
@@ -24,7 +34,7 @@ const GroupManagement = ({readonly, ...props})=>{
     }
 
     // Same request as the Owners tab: GET .../groups/:id/users?type=owners.
-    // If it succeeds, the user may manage this group; if not, hide child tabs.
+    // Show child tabs only if the current user appears in that owners list.
     const retrieveAll = groupsOwners.operations && groupsOwners.operations.RETRIEVE_ENTITIES;
     if (!retrieveAll) {
       setCanManageGroup(false);
@@ -33,14 +43,14 @@ const GroupManagement = ({readonly, ...props})=>{
 
     // RETRIEVE_ENTITIES returns a Redux thunk (dispatch) => void. We only need
     // the HTTP result here, so invoke it with a no-op dispatch (no store update).
-    const thunk = retrieveAll((err)=>{
-      setCanManageGroup(!err);
+    const thunk = retrieveAll((err, owners)=>{
+      setCanManageGroup(!err && isUserListedAsOwner(owners, user));
     }, {
       accessToken,
       params : groupsOwners.getRetrieveAllParams(entityDefinition, entity)
     });
     thunk(()=>{});
-  }, [entity, entityDefinition, accessToken, isGraphAdminGroup]);
+  }, [entity, entityDefinition, accessToken, isGraphAdminGroup, user]);
 
   // DetailContent builds tabs from entityDefinition.children. Omit children to
   // show only "Group Details"; keep full definition when management is allowed.
