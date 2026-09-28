@@ -103,8 +103,9 @@ const definition = createModel({
       type: 'members'
     };
   },
-  getUpdateParams : (getState, parentMasterDetailContext)=>({
-    roleID : parentMasterDetailContext.parentContext.entityID,
+  getUpdateParams : (getState, masterDetailContext)=>({
+    // The immediate parent is the members list; its parent is the role.
+    roleID : masterDetailContext.parentContext.parentContext.entityID,
     type : 'members'
   }),
   ...Actions

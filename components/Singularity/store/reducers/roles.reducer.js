@@ -4,17 +4,20 @@ import { createModel, generateReducer } from '../../../../utilities';
 import { definition as roleMembers } from './roleMembers.reducer';
 import { definition as roleOwners } from './roleOwners.reducer';
 import ResourceSharingButton from '../../../Buttons/ResourceSharingButton';
+import RoleDetails from '../../components/RoleDetails';
 
 const definition = createModel({
   name: 'role',
   icon: 'fa users',
   resourceName : 'role',
   updateMethod:'patch',
+  detailComponent: RoleDetails,
   auth: {
     retrieveAll : 'admin',
     // create : 'admin',
     retrieve : 'admin',
-    update : 'admin',
+    // RoleDetails enables updates only after checking ownership of this role.
+    update : false,
     // delete : 'admin',
     route : 'admin'
   },
@@ -84,7 +87,7 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // update : 'roleManager',
+        update : 'roleManager',
         delete : 'roleManager'
       })
     },{
@@ -93,7 +96,7 @@ const definition = createModel({
         retrieveAll : 'roleManager',
         create : 'roleManager',
         retrieve : 'roleManager',
-        // update : 'roleManager',
+        update : 'roleManager',
         delete : 'roleManager'
       })
     }

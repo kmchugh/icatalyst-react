@@ -13,6 +13,7 @@ const definition = createModel({
   name: 'roleOwner',
   icon: 'fa users-cog',
   addInline : true,
+  updateMethod: 'patch',
   forceRefreshOnDelete : true,
   description: 'An owner is allowed to manage, modify, and delete the resource they own',
   auth: {
@@ -20,7 +21,6 @@ const definition = createModel({
     create : 'admin',
     retrieve : 'admin',
     update : 'admin',
-    // An edge cannot be updated, just deleted and recreated
     delete : 'admin'
   },
   fields : [
@@ -98,6 +98,10 @@ const definition = createModel({
       type: 'owners'
     };
   },
+  getUpdateParams : (getState, masterDetailContext)=>({
+    roleID : masterDetailContext.parentContext.parentContext.entityID,
+    type : 'owners'
+  }),
   ...Actions
 });
 
