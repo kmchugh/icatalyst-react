@@ -57,12 +57,11 @@ class SingularityService {
     authorize : 'authorize',
     authProviders: 'v2/api/authProviders',
     changePassword : 'changePassword',
-    fileUpload : 'api/fileUpload',
     organisationRoles : 'v2/api/organisations/:organisationID/roles',
     organisationStats : 'v2/api/organisations/:organisationID/stats',
     organisationUsers : 'v2/api/organisations/:organisationID/users',
     organisationEntitySettings : 'v2/api/platform/organisations/:organisationID/entity-settings',
-    profile : 'api/profile',
+    // profile : 'api/profile',
     roleMembers: 'v2/api/roles/:roleID/relationships',
     roleMemberRelationships: 'v2/api/roles/:roleID/relationships/:resourceID',
     roleMemberUserRelationships: 'v2/api/roles/:roleID/relationships/:action',
@@ -435,17 +434,17 @@ class SingularityService {
    * @param  {[string]}       accessToken the access token issued
    * @return {[Promise]}                  a promise resolving to the user session
    */
-  retrieveProfile(accessToken) {
-    return axios.get(this.uris.profile, {
-      headers : {
-        'Authorization' : `Bearer ${accessToken}`
-      }
-    }).then((response)=>{
-      return response.data;
-    }).catch((error)=>{
-      throw error.response.data;
-    });
-  }
+  // retrieveProfile(accessToken) {
+  //   return axios.get(this.uris.profile, {
+  //     headers : {
+  //       'Authorization' : `Bearer ${accessToken}`
+  //     }
+  //   }).then((response)=>{
+  //     return response.data;
+  //   }).catch((error)=>{
+  //     throw error.response.data;
+  //   });
+  // }
 
   updateProfile(profile, accessToken) {
     return axios.patch(this.uris.profileUpdate, profile, {
